@@ -80,51 +80,6 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
 with tab1:
     st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
     
-    # Overall Progress
-    st.markdown('<h3>Overall Progress</h3>', unsafe_allow_html=True)
-    
-    # Stats summary row
-    stats_col1, stats_col2, stats_col3 = st.columns([1, 1, 1])
-    
-    with stats_col1:
-        st.markdown(
-            f'<div style="text-align: center;">'
-            f'<span style="font-size: 32px; font-weight: bold;">312</span>'
-            f'<span style="color: #666; font-size: 18px;"> Total</span>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-    
-    with stats_col2:
-        st.markdown(
-            f'<div style="text-align: center;">'
-            f'<span style="font-size: 32px; font-weight: bold;">97</span>'
-            f'<span style="color: #666; font-size: 18px;"> Done</span>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-    
-    with stats_col3:
-        st.markdown(
-            f'<div style="text-align: center;">'
-            f'<span style="font-size: 32px; font-weight: bold;">62</span>'
-            f'<span style="color: #666; font-size: 18px;"> In Progress</span>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-    
-    # Progress bar
-    progress_value = 41
-    st.markdown(
-        f"""
-        <div style="margin-top: 10px; margin-bottom: 5px; width: 100%; background-color: #f0f2f5; height: 24px; border-radius: 12px;">
-            <div style="width: {progress_value}%; height: 100%; background-color: {primary_blue}; border-radius: 12px;"></div>
-        </div>
-        <div style="text-align: right; font-size: 16px; font-weight: bold;">{progress_value}%</div>
-        """,
-        unsafe_allow_html=True
-    )
-    
     # Progress by Agency
     st.markdown('<h3>Progress by Agency</h3>', unsafe_allow_html=True)
     
