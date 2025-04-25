@@ -79,35 +79,7 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
 
 with tab1:
     st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
-    
-    # Progress by Agency
-    st.markdown('<h3>Progress by Agency</h3>', unsafe_allow_html=True)
-    
-    # Define agencies data
-    agencies_data = [
-        {"name": "CFTC - Commodity Futures Trading Commission", "objectives": "1 objective", "progress": 100},
-        {"name": "USAID", "objectives": "6 objectives", "progress": 100},
-        {"name": "White House", "objectives": "12 objectives", "progress": 88},
-        {"name": "Personnel", "objectives": "6 objectives", "progress": 67},
-        {"name": "USAGM - U.S. Agency for Global Media", "objectives": "3 objectives", "progress": 67}
-    ]
-    
-    # Display agency progress
-    for agency in agencies_data:
-        st.markdown(
-            f"""
-            <div style="margin-bottom: 15px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <div><strong>{agency["name"]}</strong> <span style="color: #666;">{agency["objectives"]}</span></div>
-                    <div><strong>{agency["progress"]}%</strong></div>
-                </div>
-                <div style="width: 100%; background-color: #f0f2f5; height: 10px; border-radius: 5px;">
-                    <div style="width: {agency["progress"]}%; height: 100%; background-color: {primary_blue}; border-radius: 5px;"></div>
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+
     
     # Key metrics
     st.markdown("<h3>Key Metrics</h3>", unsafe_allow_html=True)
