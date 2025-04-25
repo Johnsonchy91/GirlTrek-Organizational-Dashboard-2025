@@ -200,6 +200,15 @@ def status_badge(status):
     else:
         return f'<span style="background-color: #F44336; color: white; padding: 3px 8px; border-radius: 4px;">Off Track</span>'
 
+# Helper function for status badges
+def status_badge(status):
+    if status == "On Track":
+        return f'<span style="background-color: #4CAF50; color: white; padding: 3px 8px; border-radius: 4px;">On Track</span>'
+    elif status == "At Risk":
+        return f'<span style="background-color: #FF9800; color: white; padding: 3px 8px; border-radius: 4px;">At Risk</span>'
+    else:
+        return f'<span style="background-color: #F44336; color: white; padding: 3px 8px; border-radius: 4px;">Off Track</span>'
+
 # Add CSS for styling
 st.markdown(
     """
