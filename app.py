@@ -1,3 +1,162 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+from datetime import datetime
+
+# Define color scheme
+primary_blue = "#1E3C72"
+primary_orange = "#FF7043"
+primary_yellow = "#FFC107"
+secondary_blue = "#4A6FD4"
+secondary_orange = "#FF9E80"
+secondary_teal = "#26A69A"
+secondary_beige = "#F5F5DC"
+secondary_gold = "#FFD700"
+secondary_white = "#FFFFFF"
+secondary_gray = "#333333"
+
+# Helper function for status badges
+def status_badge(status):
+    if status == "On Track":
+        return f'<span style="background-color: #4CAF50; color: white; padding: 3px 8px; border-radius: 4px;">On Track</span>'
+    elif status == "At Risk":
+        return f'<span style="background-color: #FF9800; color: white; padding: 3px 8px; border-radius: 4px;">At Risk</span>'
+    else:
+        return f'<span style="background-color: #F44336; color: white; padding: 3px 8px; border-radius: 4px;">Off Track</span>'
+
+# Add CSS for styling
+st.markdown(
+    """
+    <style>
+    .section-title {
+        color: #1E3C72;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #FF7043;
+    }
+    .metric-card {
+        background-color: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+    }
+    .metric-title {
+        font-size: 14px;
+        font-weight: bold;
+        color: #666;
+        margin-bottom: 5px;
+    }
+    .metric-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #1E3C72;
+        margin: 10px 0;
+    }
+    </style>
+    """, 
+    unsafe_allow_html=True
+)
+
+# App title
+st.title("GirlTREK Organizational Dashboard")
+st.markdown("### Q2 2025 Metrics Overview")
+
+# Create tabs
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "Executive Summary", 
+    "Recruitment & Engagement", 
+    "Development", 
+    "Marketing", 
+    "Impact & Member Care"
+])
+
+with tab1:
+    st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
+    
+    # Key metrics
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL MEMBERS</p>'
+            f'<p class="metric-value">11,356</p>'
+            f'<p>Goal: 30,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL FUNDING</p>'
+            f'<p class="metric-value">$2,444,049</p>'
+            f'<p>Goal: $8,000,000</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">MEMBER SATISFACTION</p>'
+            f'<p class="metric-value">95%</p>'
+            f'<p>Goal: 90%</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Q2 highlights
+    st.markdown("### Q2 2025 Highlights")
+    
+    highlights_col1, highlights_col2 = st.columns(2)
+    
+    with highlights_col1:
+        st.markdown(
+            """
+            #### Achievements
+            - Successfully launched the Self-Care Schools campaign with 7,500 registrants
+            - Increased social media following by 25% since Q1
+            - Secured new corporate sponsorship with Health Horizons ($350,000)
+            - Launched 15 new local crews in underserved communities
+            """
+        )
+    
+    with highlights_col2:
+        st.markdown(
+            """
+            #### Challenges
+            - Donations tracking below target (trending at 13.7% of annual goal)
+            - Health worker training program behind schedule
+            - Cyber security audit revealed compliance gaps that need addressing
+            - App user retention lower than expected for new members
+            """
+        )
+    
+    # Brief chart showing member growth
+    member_data = {
+        'Quarter': ['Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025'],
+        'Members': [2500, 4500, 6800, 9200, 11356]
+    }
+    df_members = pd.DataFrame(member_data)
+    
+    fig_exec = px.line(df_members, x='Quarter', y='Members', 
+                    title='GirlTREK Membership Growth',
+                    markers=True)
+    
+    fig_exec.update_traces(
+        line=dict(color=primary_blue, width=3),
+        marker=dict(color=primary_orange, size=10)
+    )
+    
+    fig_exec.update_layout(title_font=dict(color=primary_blue))
+    
+    st.plotly_chart(fig_exec, use_container_width=True)
+
 with tab2:
     st.markdown('<h3 class="section-title">Recruitment & Engagement Metrics</h3>', unsafe_allow_html=True)
     
