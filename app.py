@@ -5,20 +5,26 @@ with tab5:
     care_col1, care_col2 = st.columns(2)
     
     with care_col1:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">CARE VILLAGE: POPULATION REACHED</p>'
-                    f'<p class="metric-value">2,869</p>'
-                    f'<p>Goal: 20,000</p>'
-                    f'<p>{status_badge("On Track")}</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">CARE VILLAGE: POPULATION REACHED</p>'
+            f'<p class="metric-value">2,869</p>'
+            f'<p>Goal: 20,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     with care_col2:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">HEALTH WORKER TRAINING</p>'
-                    f'<p class="metric-value">450</p>'
-                    f'<p>Goal: 4,000</p>'
-                    f'<p>{status_badge("At Risk")}</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">HEALTH WORKER TRAINING</p>'
+            f'<p class="metric-value">450</p>'
+            f'<p>Goal: 4,000</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     # Member satisfaction metrics
     member_col1, member_col2 = st.columns(2)
@@ -109,28 +115,37 @@ with tab5:
     ops_col1, ops_col2, ops_col3 = st.columns(3)
     
     with ops_col1:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">STORE SALES</p>'
-                    f'<p class="metric-value">$25,000</p>'
-                    f'<p>Goal: $50,000</p>'
-                    f'<p>{status_badge("On Track")}</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">STORE SALES</p>'
+            f'<p class="metric-value">$25,000</p>'
+            f'<p>Goal: $50,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     with ops_col2:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">AUDIT COMPLIANCE</p>'
-                    f'<p class="metric-value">90%</p>'
-                    f'<p>Goal: 100%</p>'
-                    f'<p>{status_badge("On Track")}</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">AUDIT COMPLIANCE</p>'
+            f'<p class="metric-value">90%</p>'
+            f'<p>Goal: 100%</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     with ops_col3:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">CYBER SECURITY COMPLIANCE</p>'
-                    f'<p class="metric-value">60%</p>'
-                    f'<p>Goal: 90%</p>'
-                    f'<p>{status_badge("At Risk")}</p>'
-                    f'</div>', unsafe_allow_html=True)import streamlit as st
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">CYBER SECURITY COMPLIANCE</p>'
+            f'<p class="metric-value">60%</p>'
+            f'<p>Goal: 90%</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -187,122 +202,128 @@ def add_logo():
     )
 
 # Custom CSS for styling with updated brand colors
-st.markdown(f"""
-<style>
-    .main {{
-        padding: 20px;
-    }}
-    .reportcard {{
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        background-color: {secondary_white};
-        border-left: 5px solid {primary_orange};
-    }}
-    .header-container {{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        color: {primary_blue};
-    }}
-    .metric-card {{
-        background-color: {secondary_white};
-        border-radius: 10px;
-        padding: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 15px;
-        border-top: 4px solid {primary_orange};
-    }}
-    .status-green {{
-        color: white;
-        background-color: #28a745;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-weight: bold;
-    }}
-    .status-yellow {{
-        color: black;
-        background-color: {primary_yellow};
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-weight: bold;
-    }}
-    .status-red {{
-        color: white;
-        background-color: {secondary_orange};
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-weight: bold;
-    }}
-    .status-bright-green {{
-        color: white;
-        background-color: #00cc44;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-weight: bold;
-    }}
-    .metric-value {{
-        font-size: 24px;
-        font-weight: bold;
-        color: {primary_blue};
-    }}
-    .metric-title {{
-        color: {secondary_gray};
-        font-size: 14px;
-        font-weight: bold;
-    }}
-    .section-title {{
-        font-size: 20px;
-        font-weight: bold;
-        margin-top: 30px;
-        margin-bottom: 20px;
-        color: {primary_blue};
-        border-bottom: 2px solid {primary_orange};
-        padding-bottom: 10px;
-    }}
-    .stTabs [data-baseweb="tab-list"] {{
-        gap: 24px;
-    }}
-    .stTabs [data-baseweb="tab"] {{
-        height: 50px;
-        white-space: pre-wrap;
-        background-color: {secondary_white};
-        border-radius: 4px 4px 0px 0px;
-        gap: 1px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        color: {secondary_gray};
-    }}
-    .stTabs [aria-selected="true"] {{
-        background-color: {primary_blue};
-        color: white;
-    }}
-    button[kind="secondary"] {{
-        background-color: {primary_orange};
-        color: white;
-    }}
-    .stSidebar {{
-        background-color: {secondary_beige};
-    }}
-    .stSidebar [data-testid="stMarkdownContainer"] h1, 
-    .stSidebar [data-testid="stMarkdownContainer"] h2, 
-    .stSidebar [data-testid="stMarkdownContainer"] h3 {{
-        color: {primary_blue};
-    }}
-</style>
-""", unsafe_allow_html=True)
+st.markdown(
+    f"""
+    <style>
+        .main {{
+            padding: 20px;
+        }}
+        .reportcard {{
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background-color: {secondary_white};
+            border-left: 5px solid {primary_orange};
+        }}
+        .header-container {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            color: {primary_blue};
+        }}
+        .metric-card {{
+            background-color: {secondary_white};
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            border-top: 4px solid {primary_orange};
+        }}
+        .status-green {{
+            color: white;
+            background-color: #28a745;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }}
+        .status-yellow {{
+            color: black;
+            background-color: {primary_yellow};
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }}
+        .status-red {{
+            color: white;
+            background-color: {secondary_orange};
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }}
+        .status-bright-green {{
+            color: white;
+            background-color: #00cc44;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }}
+        .metric-value {{
+            font-size: 24px;
+            font-weight: bold;
+            color: {primary_blue};
+        }}
+        .metric-title {{
+            color: {secondary_gray};
+            font-size: 14px;
+            font-weight: bold;
+        }}
+        .section-title {{
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            color: {primary_blue};
+            border-bottom: 2px solid {primary_orange};
+            padding-bottom: 10px;
+        }}
+        .stTabs [data-baseweb="tab-list"] {{
+            gap: 24px;
+        }}
+        .stTabs [data-baseweb="tab"] {{
+            height: 50px;
+            white-space: pre-wrap;
+            background-color: {secondary_white};
+            border-radius: 4px 4px 0px 0px;
+            gap: 1px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            color: {secondary_gray};
+        }}
+        .stTabs [aria-selected="true"] {{
+            background-color: {primary_blue};
+            color: white;
+        }}
+        button[kind="secondary"] {{
+            background-color: {primary_orange};
+            color: white;
+        }}
+        .stSidebar {{
+            background-color: {secondary_beige};
+        }}
+        .stSidebar [data-testid="stMarkdownContainer"] h1, 
+        .stSidebar [data-testid="stMarkdownContainer"] h2, 
+        .stSidebar [data-testid="stMarkdownContainer"] h3 {{
+            color: {primary_blue};
+        }}
+    </style>
+    """, 
+    unsafe_allow_html=True
+)
 
 # Add logo
 add_logo()
 
 # Create header
-st.markdown(f"""
-<div class="header-container">
-    <h1>GirlTREK Organizational Dashboard</h1>
-    <p>Last Updated: April 25, 2025</p>
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    f"""
+    <div class="header-container">
+        <h1>GirlTREK Organizational Dashboard</h1>
+        <p>Last Updated: April 25, 2025</p>
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
 
 # Function to display status badges
 def status_badge(status):
@@ -321,51 +342,69 @@ def status_badge(status):
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown(f'<div class="metric-card">'
-                f'<p class="metric-title">TOTAL MEMBERSHIP (*)</p>'
-                f'<p class="metric-value">1,240,394</p>'
-                f'<p>Goal: 2,000,000</p>'
-                f'</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="metric-card">'
+        f'<p class="metric-title">TOTAL MEMBERSHIP (*)</p>'
+        f'<p class="metric-value">1,240,394</p>'
+        f'<p>Goal: 2,000,000</p>'
+        f'</div>', 
+        unsafe_allow_html=True
+    )
 
 with col2:
-    st.markdown(f'<div class="metric-card">'
-                f'<p class="metric-title">TOTAL NEW MEMBERS (*)</p>'
-                f'<p class="metric-value">11,356</p>'
-                f'<p>Goal: 100,000</p>'
-                f'</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="metric-card">'
+        f'<p class="metric-title">TOTAL NEW MEMBERS (*)</p>'
+        f'<p class="metric-value">11,356</p>'
+        f'<p>Goal: 100,000</p>'
+        f'</div>', 
+        unsafe_allow_html=True
+    )
 
 with col3:
-    st.markdown(f'<div class="metric-card">'
-                f'<p class="metric-title">TOTAL DONATIONS (*)</p>'
-                f'<p class="metric-value">$1,094,048.68</p>'
-                f'<p>Goal: $8,000,000</p>'
-                f'<p>{status_badge("At Risk")}</p>'
-                f'</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="metric-card">'
+        f'<p class="metric-title">TOTAL DONATIONS (*)</p>'
+        f'<p class="metric-value">$1,094,048.68</p>'
+        f'<p>Goal: $8,000,000</p>'
+        f'<p>{status_badge("At Risk")}</p>'
+        f'</div>', 
+        unsafe_allow_html=True
+    )
 
 col4, col5, col6 = st.columns(3)
 
 with col4:
-    st.markdown(f'<div class="metric-card">'
-                f'<p class="metric-title">TOTAL REVENUE (*)</p>'
-                f'<p class="metric-value">$1,500,000</p>'
-                f'<p>Goal: $400,000</p>'
-                f'<p>{status_badge("On Track")}</p>'
-                f'</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="metric-card">'
+        f'<p class="metric-title">TOTAL REVENUE (*)</p>'
+        f'<p class="metric-value">$1,500,000</p>'
+        f'<p>Goal: $400,000</p>'
+        f'<p>{status_badge("On Track")}</p>'
+        f'</div>', 
+        unsafe_allow_html=True
+    )
 
 with col5:
-    st.markdown(f'<div class="metric-card">'
-                f'<p class="metric-title">TOTAL EXPENSES (*)</p>'
-                f'<p class="metric-value">$1,200,000</p>'
-                f'<p>Goal: N/A</p>'
-                f'<p>{status_badge("On Track")}</p>'
-                f'</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="metric-card">'
+        f'<p class="metric-title">TOTAL EXPENSES (*)</p>'
+        f'<p class="metric-value">$1,200,000</p>'
+        f'<p>Goal: N/A</p>'
+        f'<p>{status_badge("On Track")}</p>'
+        f'</div>', 
+        unsafe_allow_html=True
+    )
 
 with col6:
-    st.markdown(f'<div class="metric-card">'
-                f'<p class="metric-title">ACTIVE VOLUNTEERS</p>'
-                f'<p class="metric-value">3,348</p>'
-                f'<p>{status_badge("On Track")}</p>'
-                f'</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="metric-card">'
+        f'<p class="metric-title">ACTIVE VOLUNTEERS</p>'
+        f'<p class="metric-value">3,348</p>'
+        f'<p>{status_badge("On Track")}</p>'
+        f'</div>', 
+        unsafe_allow_html=True
+    )
 
 # Report Card Progress
 st.markdown('<h2 class="section-title">Report Card Progress</h2>', unsafe_allow_html=True)
@@ -582,18 +621,24 @@ with tab2:
     campaign_col1, campaign_col2 = st.columns(2)
     
     with campaign_col1:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">TOTAL REGISTRANTS</p>'
-                    f'<p class="metric-value">7,500</p>'
-                    f'<p>Goal: 10,000</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL REGISTRANTS</p>'
+            f'<p class="metric-value">7,500</p>'
+            f'<p>Goal: 10,000</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     with campaign_col2:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">TOTAL DOWNLOADS</p>'
-                    f'<p class="metric-value">32,000</p>'
-                    f'<p>Goal: 50,000</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL DOWNLOADS</p>'
+            f'<p class="metric-value">32,000</p>'
+            f'<p>Goal: 50,000</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     # Badges claimed
     badges_data = {
@@ -616,46 +661,61 @@ with tab3:
     financial_col1, financial_col2, financial_col3 = st.columns(3)
     
     with financial_col1:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">TOTAL DONATIONS</p>'
-                    f'<p class="metric-value">$1,094,048.68</p>'
-                    f'<p>Goal: $8,000,000</p>'
-                    f'<p>{status_badge("At Risk")}</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL DONATIONS</p>'
+            f'<p class="metric-value">$1,094,048.68</p>'
+            f'<p>Goal: $8,000,000</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     with financial_col2:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">TOTAL REVENUE</p>'
-                    f'<p class="metric-value">$1,500,000</p>'
-                    f'<p>Goal: $400,000</p>'
-                    f'<p>{status_badge("On Track")}</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL REVENUE</p>'
+            f'<p class="metric-value">$1,500,000</p>'
+            f'<p>Goal: $400,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     with financial_col3:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">TOTAL EXPENSES</p>'
-                    f'<p class="metric-value">$1,200,000</p>'
-                    f'<p>{status_badge("On Track")}</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL EXPENSES</p>'
+            f'<p class="metric-value">$1,200,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     # Grants and fundraising
     grants_col1, grants_col2 = st.columns(2)
     
     with grants_col1:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">TOTAL GRANTS</p>'
-                    f'<p class="metric-value">$600,000</p>'
-                    f'<p>Goal: $1,000,000</p>'
-                    f'<p>{status_badge("On Track")}</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL GRANTS</p>'
+            f'<p class="metric-value">$600,000</p>'
+            f'<p>Goal: $1,000,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     with grants_col2:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">CORPORATE SPONSORSHIPS</p>'
-                    f'<p class="metric-value">$750,000</p>'
-                    f'<p>Goal: $1,500,000</p>'
-                    f'<p>{status_badge("On Track")}</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">CORPORATE SPONSORSHIPS</p>'
+            f'<p class="metric-value">$750,000</p>'
+            f'<p>Goal: $1,500,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     # Financial breakdown chart
     finance_data = {
@@ -732,18 +792,24 @@ with tab4:
     sub_col1, sub_col2 = st.columns(2)
     
     with sub_col1:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">TOTAL SUBSCRIBERS</p>'
-                    f'<p class="metric-value">931,141</p>'
-                    f'<p>Goal: 1,300,000</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL SUBSCRIBERS</p>'
+            f'<p class="metric-value">931,141</p>'
+            f'<p>Goal: 1,300,000</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     with sub_col2:
-        st.markdown(f'<div class="metric-card">'
-                    f'<p class="metric-title">ACTIVE SUBSCRIBERS</p>'
-                    f'<p class="metric-value">297,283</p>'
-                    f'<p>31.9% of Total Subscribers</p>'
-                    f'</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">ACTIVE SUBSCRIBERS</p>'
+            f'<p class="metric-value">297,283</p>'
+            f'<p>31.9% of Total Subscribers</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     # Subscriber activity
     activity_data = {
