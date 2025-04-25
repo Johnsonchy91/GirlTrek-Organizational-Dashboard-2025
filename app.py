@@ -79,6 +79,79 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
 with tab1:
     st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
     
+    # Overall Progress
+    st.markdown('<h3>Overall Progress</h3>', unsafe_allow_html=True)
+    
+    # Stats summary row
+    stats_col1, stats_col2, stats_col3 = st.columns([1, 1, 1])
+    
+    with stats_col1:
+        st.markdown(
+            f'<div style="text-align: center;">'
+            f'<span style="font-size: 32px; font-weight: bold;">312</span>'
+            f'<span style="color: #666; font-size: 18px;"> Total</span>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with stats_col2:
+        st.markdown(
+            f'<div style="text-align: center;">'
+            f'<span style="font-size: 32px; font-weight: bold;">97</span>'
+            f'<span style="color: #666; font-size: 18px;"> Done</span>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with stats_col3:
+        st.markdown(
+            f'<div style="text-align: center;">'
+            f'<span style="font-size: 32px; font-weight: bold;">62</span>'
+            f'<span style="color: #666; font-size: 18px;"> In Progress</span>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    # Progress bar
+    progress_value = 41
+    st.markdown(
+        f"""
+        <div style="margin-top: 10px; margin-bottom: 5px; width: 100%; background-color: #f0f2f5; height: 24px; border-radius: 12px;">
+            <div style="width: {progress_value}%; height: 100%; background-color: {primary_blue}; border-radius: 12px;"></div>
+        </div>
+        <div style="text-align: right; font-size: 16px; font-weight: bold;">{progress_value}%</div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    # Time Until End of Term
+    st.markdown(
+        f"""
+        <div style="margin-top: 20px; margin-bottom: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+            <h4 style="text-align: center; color: #666;">Time Until End of Term</h4>
+            <div style="display: flex; justify-content: space-around; text-align: center;">
+                <div>
+                    <div style="font-size: 36px; font-weight: bold;">1365</div>
+                    <div style="color: #666;">Days</div>
+                </div>
+                <div>
+                    <div style="font-size: 36px; font-weight: bold;">23</div>
+                    <div style="color: #666;">Hours</div>
+                </div>
+                <div>
+                    <div style="font-size: 36px; font-weight: bold;">27</div>
+                    <div style="color: #666;">Minutes</div>
+                </div>
+                <div>
+                    <div style="font-size: 36px; font-weight: bold;">0</div>
+                    <div style="color: #666;">Seconds</div>
+                </div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
     # Key metrics
     col1, col2, col3, col4 = st.columns(4)
     
@@ -125,19 +198,49 @@ with tab1:
         )
     
     # Report Card Progress
-    st.markdown("### Report Card Progress")
+    st.markdown('<h3>Report Card Progress</h3>', unsafe_allow_html=True)
     
-    # Create a data table for report card
+    # Create a data table for report card with more specific goals as in the screenshot
     report_data = {
-        "Goal": ["Total Membership", "Total New Members", "Total Revenue", "Self-Care Schools Campaign", "Health Worker Training", "Store Sales"],
-        "Current Total": ["1,240,394", "11,356", "$9,999", "7,500 registrants", "450 trained", "$25,000"],
-        "Target": ["2,000,000", "100,000", "$400,000", "10,000 registrants", "4,000 trained", "$50,000"],
-        "Percent Progress": ["62%", "11.4%", "2.5%", "75%", "11.3%", "50%"],
-        "Status": [status_badge("On Track"), status_badge("At Risk"), status_badge("On Track"), 
-                  status_badge("On Track"), status_badge("At Risk"), status_badge("On Track")]
+        "Goal": [
+            "Goal 1: Recruit 100,000 new members", 
+            "Goal 2: Engage 250,000 members", 
+            "Goal 3: Support 65,000 members walking at life-saving level",
+            "Goal 4: Unite 20 national and local advocacy partners",
+            "Goal 5: Raise $10M in donations, sales & sponsorships",
+            "Goal 6: Establish Care Village (reach 40,000)",
+            "Goal 7: Achieve 85% on org health"
+        ],
+        "Current Total": [
+            "11,356", 
+            "11,769", 
+            "1,983",
+            "2",
+            "1,094,048.68",
+            "2,869",
+            "70%"
+        ],
+        "Percent Progress": [
+            "11.356%", 
+            "4.7076%", 
+            "3.05%",
+            "10%",
+            "10.94%",
+            "7.17%",
+            "70%"
+        ],
+        "Status": [
+            "On Track", 
+            "On Track", 
+            "At Risk",
+            "At Risk",
+            "On Track",
+            "On Track",
+            "On Track"
+        ]
     }
     
-    # Display the report card as a styled table
+    # Display the report card as a styled table (similar to the screenshot)
     st.markdown(
         """
         <style>
@@ -148,14 +251,14 @@ with tab1:
         }
         .report-card th {
             background-color: #F5F5F5;
-            padding: 10px;
+            padding: 12px 10px;
             text-align: left;
             font-weight: bold;
-            border-bottom: 2px solid #DDD;
+            border: 1px solid #ddd;
         }
         .report-card td {
             padding: 12px 10px;
-            border-bottom: 1px solid #EEE;
+            border: 1px solid #ddd;
         }
         </style>
         """, 
@@ -173,7 +276,13 @@ with tab1:
     for i in range(len(report_data["Goal"])):
         report_html += '<tr>'
         for col in report_data.keys():
-            report_html += f'<td>{report_data[col][i]}</td>'
+            if col == "Status":
+                if report_data[col][i] == "On Track":
+                    report_html += f'<td>On Track</td>'
+                else:
+                    report_html += f'<td>At Risk</td>'
+            else:
+                report_html += f'<td>{report_data[col][i]}</td>'
         report_html += '</tr>'
     
     report_html += '</table>'
