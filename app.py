@@ -80,35 +80,6 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
 with tab1:
     st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
     
-    # Progress by Agency
-    st.markdown('<h3>Progress by Agency</h3>', unsafe_allow_html=True)
-    
-    # Define agencies data
-    agencies_data = [
-        {"name": "CFTC - Commodity Futures Trading Commission", "objectives": "1 objective", "progress": 100},
-        {"name": "USAID", "objectives": "6 objectives", "progress": 100},
-        {"name": "White House", "objectives": "12 objectives", "progress": 88},
-        {"name": "Personnel", "objectives": "6 objectives", "progress": 67},
-        {"name": "USAGM - U.S. Agency for Global Media", "objectives": "3 objectives", "progress": 67}
-    ]
-    
-    # Display agency progress
-    for agency in agencies_data:
-        st.markdown(
-            f"""
-            <div style="margin-bottom: 15px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <div><strong>{agency["name"]}</strong> <span style="color: #666;">{agency["objectives"]}</span></div>
-                    <div><strong>{agency["progress"]}%</strong></div>
-                </div>
-                <div style="width: 100%; background-color: #f0f2f5; height: 10px; border-radius: 5px;">
-                    <div style="width: {agency["progress"]}%; height: 100%; background-color: {primary_blue}; border-radius: 5px;"></div>
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
     # Key metrics
     st.markdown("<h3>Key Metrics</h3>", unsafe_allow_html=True)
     col1, col2, col3, col4 = st.columns(4)
@@ -238,6 +209,33 @@ with tab1:
             </div>
             """,
             unsafe_allow_html=True
+        )
+
+    # Q2 highlights
+    st.markdown("### Q2 2025 Highlights")
+    
+    highlights_col1, highlights_col2 = st.columns(2)
+    
+    with highlights_col1:
+        st.markdown(
+            """
+            #### Achievements
+            - Successfully launched the Self-Care Schools campaign with 7,500 registrants
+            - Increased social media following by 25% since Q1
+            - Secured new corporate sponsorship with Health Horizons ($350,000)
+            - Launched 15 new local crews in underserved communities
+            """
+        )
+    
+    with highlights_col2:
+        st.markdown(
+            """
+            #### Challenges
+            - Donations tracking below target (trending at 13.7% of annual goal)
+            - Health worker training program behind schedule
+            - Cyber security audit revealed compliance gaps that need addressing
+            - App user retention lower than expected for new members
+            """
         )
 
 with tab2:
@@ -575,33 +573,6 @@ with tab4:
     fig_advocacy_growth.update_layout(title_font=dict(color=primary_blue))
     
     st.plotly_chart(fig_advocacy_growth, use_container_width=True)
-    
-    # Q2 highlights
-    st.markdown("### Q2 2025 Highlights")
-    
-    highlights_col1, highlights_col2 = st.columns(2)
-    
-    with highlights_col1:
-        st.markdown(
-            """
-            #### Achievements
-            - Successfully launched the Self-Care Schools campaign with 7,500 registrants
-            - Increased social media following by 25% since Q1
-            - Secured new corporate sponsorship with Health Horizons ($350,000)
-            - Launched 15 new local crews in underserved communities
-            """
-        )
-    
-    with highlights_col2:
-        st.markdown(
-            """
-            #### Challenges
-            - Donations tracking below target (trending at 13.7% of annual goal)
-            - Health worker training program behind schedule
-            - Cyber security audit revealed compliance gaps that need addressing
-            - App user retention lower than expected for new members
-            """
-        )
 
 with tab5:
     st.markdown('<h3 class="section-title">Marketing Metrics</h3>', unsafe_allow_html=True)
