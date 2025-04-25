@@ -4,17 +4,20 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
 
-# Define color scheme
-primary_blue = "#1E3C72"
-primary_orange = "#FF7043"
-primary_yellow = "#FFC107"
-secondary_blue = "#4A6FD4"
-secondary_orange = "#FF9E80"
-secondary_teal = "#26A69A"
-secondary_beige = "#F5F5DC"
-secondary_gold = "#FFD700"
-secondary_white = "#FFFFFF"
-secondary_gray = "#333333"
+# Define color scheme - brighter and more fun colors
+primary_blue = "#0088FF"    # Bright blue
+primary_orange = "#FF5722"  # Vibrant orange
+primary_yellow = "#FFEB3B"  # Bright yellow
+secondary_blue = "#00C8FF"  # Light bright blue
+secondary_orange = "#FF9100" # Bright amber
+secondary_teal = "#00E5FF"  # Bright cyan
+secondary_beige = "#FFECB3" # Light amber
+secondary_gold = "#FFC400"  # Amber accent
+secondary_white = "#FFFFFF" # White
+secondary_gray = "#424242"  # Dark gray
+secondary_pink = "#FF4081"  # Pink accent
+secondary_purple = "#AA00FF" # Purple
+secondary_green = "#00E676" # Bright green
 
 # Helper function for status badges
 def status_badge(status):
@@ -61,11 +64,13 @@ st.markdown(
 # App title
 st.title("GirlTREK Organizational Dashboard")
 st.markdown("### Q2 2025 Metrics Overview")
+st.markdown("*Data dashboard was published on April 25, 2025*")
 
 # Create tabs
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "Executive Summary", 
-    "Recruitment & Engagement", 
+    "Recruitment", 
+    "Engagement",
     "Development", 
     "Marketing", 
     "Impact & Member Care"
@@ -75,14 +80,14 @@ with tab1:
     st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
     
     # Key metrics
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         st.markdown(
             f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL MEMBERS</p>'
-            f'<p class="metric-value">11,356</p>'
-            f'<p>Goal: 30,000</p>'
+            f'<p class="metric-title">TOTAL MEMBERSHIP</p>'
+            f'<p class="metric-value">1,240,394</p>'
+            f'<p>Goal: 2,000,000</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>', 
             unsafe_allow_html=True
@@ -91,9 +96,9 @@ with tab1:
     with col2:
         st.markdown(
             f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL FUNDING</p>'
-            f'<p class="metric-value">$2,444,049</p>'
-            f'<p>Goal: $8,000,000</p>'
+            f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
+            f'<p class="metric-value">11,356</p>'
+            f'<p>Goal: 100,000</p>'
             f'<p>{status_badge("At Risk")}</p>'
             f'</div>', 
             unsafe_allow_html=True
@@ -102,13 +107,78 @@ with tab1:
     with col3:
         st.markdown(
             f'<div class="metric-card">'
-            f'<p class="metric-title">MEMBER SATISFACTION</p>'
-            f'<p class="metric-value">95%</p>'
-            f'<p>Goal: 90%</p>'
+            f'<p class="metric-title">TOTAL REVENUE</p>'
+            f'<p class="metric-value">$9,999</p>'
+            f'<p>Goal: $400,000</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>', 
             unsafe_allow_html=True
         )
+        
+    with col4:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL EXPENSES</p>'
+            f'<p class="metric-value">$40,000</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Report Card Progress
+    st.markdown("### Report Card Progress")
+    
+    # Create a data table for report card
+    report_data = {
+        "Goal": ["Total Membership", "Total New Members", "Total Revenue", "Self-Care Schools Campaign", "Health Worker Training", "Store Sales"],
+        "Current Total": ["1,240,394", "11,356", "$9,999", "7,500 registrants", "450 trained", "$25,000"],
+        "Target": ["2,000,000", "100,000", "$400,000", "10,000 registrants", "4,000 trained", "$50,000"],
+        "Percent Progress": ["62%", "11.4%", "2.5%", "75%", "11.3%", "50%"],
+        "Status": [status_badge("On Track"), status_badge("At Risk"), status_badge("On Track"), 
+                  status_badge("On Track"), status_badge("At Risk"), status_badge("On Track")]
+    }
+    
+    # Display the report card as a styled table
+    st.markdown(
+        """
+        <style>
+        .report-card {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .report-card th {
+            background-color: #F5F5F5;
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #DDD;
+        }
+        .report-card td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #EEE;
+        }
+        </style>
+        """, 
+        unsafe_allow_html=True
+    )
+    
+    report_html = '<table class="report-card"><tr>'
+    
+    # Add headers
+    for col in report_data.keys():
+        report_html += f'<th>{col}</th>'
+    report_html += '</tr>'
+    
+    # Add rows
+    for i in range(len(report_data["Goal"])):
+        report_html += '<tr>'
+        for col in report_data.keys():
+            report_html += f'<td>{report_data[col][i]}</td>'
+        report_html += '</tr>'
+    
+    report_html += '</table>'
+    
+    st.markdown(report_html, unsafe_allow_html=True)
     
     # Q2 highlights
     st.markdown("### Q2 2025 Highlights")
@@ -158,7 +228,43 @@ with tab1:
     st.plotly_chart(fig_exec, use_container_width=True)
 
 with tab2:
-    st.markdown('<h3 class="section-title">Recruitment & Engagement Metrics</h3>', unsafe_allow_html=True)
+    st.markdown('<h3 class="section-title">Recruitment Metrics</h3>', unsafe_allow_html=True)
+    
+    # Recruitment metrics
+    recruitment_col1, recruitment_col2, recruitment_col3 = st.columns(3)
+    
+    with recruitment_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
+            f'<p class="metric-value">11,356</p>'
+            f'<p>Goal: 100,000</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with recruitment_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">CONVERSION RATE</p>'
+            f'<p class="metric-value">15.2%</p>'
+            f'<p>Goal: 20%</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with recruitment_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">COST PER ACQUISITION</p>'
+            f'<p class="metric-value">$3.75</p>'
+            f'<p>Goal: $5.00</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
     
     col1, col2 = st.columns(2)
     
@@ -191,14 +297,31 @@ with tab2:
         fig_new_age = px.pie(df_new_age, values='New Members', names='Age Group', 
                          title='New Members by Age Group',
                          color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
-                                                secondary_blue, secondary_orange, secondary_teal])
+                                                secondary_pink, secondary_purple, secondary_green])
         fig_new_age.update_traces(textposition='inside', textinfo='percent+label')
         fig_new_age.update_layout(title_font=dict(color=primary_blue))
         st.plotly_chart(fig_new_age, use_container_width=True)
     
-    # Engagement metrics
-    st.markdown('<h4>Engagement Stats</h4>', unsafe_allow_html=True)
+    # Recruitment sources
+    st.markdown('<h4>Recruitment Sources</h4>', unsafe_allow_html=True)
     
+    source_data = {
+        'Source': ['Social Media', 'Word of Mouth', 'Events', 'Website', 'Email Campaigns', 'Partner Organizations'],
+        'New Members': [3654, 2870, 1985, 1254, 857, 736]
+    }
+    df_source = pd.DataFrame(source_data)
+    
+    fig_source = px.bar(df_source, x='Source', y='New Members', 
+                      title='New Members by Recruitment Source',
+                      color='New Members',
+                      color_continuous_scale=[secondary_blue, primary_blue, secondary_purple])
+    fig_source.update_layout(title_font=dict(color=primary_blue))
+    st.plotly_chart(fig_source, use_container_width=True)
+    
+with tab3:
+    st.markdown('<h3 class="section-title">Engagement Metrics</h3>', unsafe_allow_html=True)
+    
+    # Engagement metrics
     engagement_col1, engagement_col2, engagement_col3 = st.columns(3)
     
     with engagement_col1:
@@ -265,9 +388,29 @@ with tab2:
     fig_badges = px.bar(df_badges, x='Week', y='Badges Claimed', 
                       title='Badges Claimed by Week',
                       color='Badges Claimed',
-                      color_continuous_scale=[primary_yellow, primary_orange, secondary_orange])
+                      color_continuous_scale=[secondary_green, primary_blue, secondary_purple])
     fig_badges.update_layout(title_font=dict(color=primary_blue))
     st.plotly_chart(fig_badges, use_container_width=True)
+    
+    # Member engagement chart
+    engagement_metrics = {
+        'Metric': ['App Opens', 'Event Attendance', 'Resource Downloads', 'Forum Participation', 'Challenge Completion'],
+        'Percentage': [86, 45, 72, 31, 58]
+    }
+    df_engagement = pd.DataFrame(engagement_metrics)
+    
+    fig_engagement = px.bar(df_engagement, x='Metric', y='Percentage',
+                         title='Member Engagement Metrics (%)',
+                         color='Percentage',
+                         color_continuous_scale=[secondary_teal, primary_orange, secondary_pink])
+    
+    fig_engagement.update_layout(
+        xaxis_title='Engagement Type',
+        yaxis_title='Percentage of Active Members (%)',
+        title_font=dict(color=primary_blue)
+    )
+    
+    st.plotly_chart(fig_engagement, use_container_width=True)
 
 with tab3:
     st.markdown('<h3 class="section-title">Development Metrics</h3>', unsafe_allow_html=True)
@@ -706,62 +849,3 @@ st.markdown(
     """, 
     unsafe_allow_html=True
 )
-
-# Add documentation for how to deploy this dashboard to GitHub
-st.sidebar.markdown("---")
-st.sidebar.markdown("### Deployment Instructions")
-with st.sidebar.expander("How to deploy this dashboard on GitHub"):
-    st.markdown(
-        f"""
-        ### Deploying to GitHub
-        
-        1. Create a new GitHub repository
-        2. Add the following files to your repository:
-            - `app.py` (this Streamlit app)
-            - `requirements.txt` (with dependencies: streamlit, pandas, plotly)
-            - `README.md` (basic documentation)
-        3. Connect your repository to Streamlit Cloud:
-            - Go to [Streamlit Cloud](https://streamlit.io/cloud)
-            - Sign in with your GitHub account
-            - Click "New app"
-            - Select your repository, branch, and main file path
-            - Click "Deploy"
-        
-        Your dashboard will be available at a public URL provided by Streamlit Cloud.
-        """
-    )
-
-# Add GitHub repo structure
-with st.sidebar.expander("GitHub Repository Structure"):
-    st.code("""
-├── app.py             # Main Streamlit application (this code)
-├── requirements.txt   # Dependencies
-│   ├── streamlit>=1.10.0
-│   ├── pandas>=1.3.0
-│   ├── plotly>=5.5.0
-├── .streamlit/        # Configuration folder
-│   ├── config.toml    # Streamlit configuration
-├── README.md          # Documentation
-├── LICENSE            # License information
-    """)
-
-# Sample requirements.txt
-with st.sidebar.expander("Sample requirements.txt"):
-    st.code("""
-streamlit>=1.10.0
-pandas>=1.3.0
-plotly>=5.5.0
-    """)
-
-# Sample config.toml with GirlTREK colors
-with st.sidebar.expander("Sample .streamlit/config.toml"):
-    st.code(
-        f"""
-        [theme]
-        primaryColor = "{primary_orange}"
-        backgroundColor = "{secondary_white}"
-        secondaryBackgroundColor = "{secondary_beige}"
-        textColor = "{secondary_gray}"
-        font = "sans serif"
-        """
-    )
