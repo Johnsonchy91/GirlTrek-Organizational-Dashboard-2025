@@ -1,176 +1,4 @@
-with tab4:
-    st.markdown('<h3 class="section-title">Development Metrics</h3>', unsafe_allow_html=True)
-    
-    # Financial summary
-    financial_col1, financial_col2, financial_col3 = st.columns(3)
-    
-    with financial_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL DONATIONS</p>'
-            f'<p class="metric-value">$1,094,048.68</p>'
-            f'<p>Goal: $8,000,000</p>'
-            f'<p>{status_badge("At Risk")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with financial_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL REVENUE</p>'
-            f'<p class="metric-value">$1,500,000</p>'
-            f'<p>Goal: $400,000</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with financial_col3:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL EXPENSES</p>'
-            f'<p class="metric-value">$1,200,000</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Grants and fundraising
-    grants_col1, grants_col2 = st.columns(2)
-    
-    with grants_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL GRANTS</p>'
-            f'<p class="metric-value">$600,000</p>'
-            f'<p>Goal: $1,000,000</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with grants_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">CORPORATE SPONSORSHIPS</p>'
-            f'<p class="metric-value">$750,000</p>'
-            f'<p>Goal: $1,500,000</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Financial breakdown chart
-    finance_data = {
-        'Category': ['Donations', 'Grants', 'Corporate Sponsorships', 'Store Sales', 'Other Revenue'],
-        'Amount': [1094048.68, 600000, 750000, 25000, 125000]
-    }
-    df_finance = pd.DataFrame(finance_data)
-    
-    fig_finance = px.pie(df_finance, values='Amount', names='Category', 
-                       title='Revenue Breakdown',
-                       color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
-                                              secondary_blue, secondary_pink])
-    fig_finance.update_traces(textposition='inside', textinfo='percent+label')
-    fig_finance.update_layout(title_font=dict(color=primary_blue))
-    st.plotly_chart(fig_finance, use_container_width=True)
-    
-    # Dummy data for financial trends
-    months = ['January', 'February', 'March', 'April']
-    revenue = [250000, 310000, 450000, 490000]
-    expenses = [220000, 280000, 350000, 350000]
-    donations = [180000, 240000, 300000, 374048.68]
-    
-    finance_trend_data = pd.DataFrame({
-        'Month': months,
-        'Revenue': revenue,
-        'Expenses': expenses,
-        'Donations': donations
-    })
-    
-    fig_trend = go.Figure()
-    
-    fig_trend.add_trace(go.Scatter(
-        x=finance_trend_data['Month'],
-        y=finance_trend_data['Revenue'],
-        mode='lines+markers',
-        name='Revenue',
-        line=dict(color=primary_blue, width=3),
-        marker=dict(color=primary_blue, size=8)
-    ))
-    
-    fig_trend.add_trace(go.Scatter(
-        x=finance_trend_data['Month'],
-        y=finance_trend_data['Expenses'],
-        mode='lines+markers',
-        name='Expenses',
-        line=dict(color=primary_orange, width=3),
-        marker=dict(color=primary_orange, size=8)
-    ))
-    
-    fig_trend.add_trace(go.Scatter(
-        x=finance_trend_data['Month'],
-        y=finance_trend_data['Donations'],
-        mode='lines+markers',
-        name='Donations',
-        line=dict(color=primary_yellow, width=3),
-        marker=dict(color=primary_yellow, size=8)
-    ))
-    
-    fig_trend.update_layout(
-        title='Financial Trends by Month',
-        xaxis_title='Month',
-        yaxis_title='Amount ($)',
-        legend_title='Category',
-        height=500,
-        title_font=dict(color=primary_blue)
-    )
-    
-    st.plotly_chart(fig_trend, use_container_width=True)    # Brief chart showing member growth
-    member_data = {
-        'Quarter': ['Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025'],
-        'Members': [2500, 4500, 6800, 9200, 11356]
-    }
-    df_members = pd.DataFrame(member_data)
-    
-    fig_exec = px.line(df_members, x='Quarter', y='Members', 
-                    title='GirlTREK Membership Growth',
-                    markers=True)
-    
-    fig_exec.update_traces(
-        line=dict(color=primary_blue, width=3),
-        marker=dict(color=primary_orange, size=10)
-    )
-    
-    fig_exec.update_layout(title_font=dict(color=primary_blue))
-    
-    st.plotly_chart(fig_exec, use_container_width=True)    # Q2 highlights
-    st.markdown("### Q2 2025 Highlights")
-    
-    highlights_col1, highlights_col2 = st.columns(2)
-    
-    with highlights_col1:
-        st.markdown(
-            """
-            #### Achievements
-            - Successfully launched the Self-Care Schools campaign with 7,500 registrants
-            - Increased social media following by 25% since Q1
-            - Secured new corporate sponsorship with Health Horizons ($350,000)
-            - Launched 15 new local crews in underserved communities
-            """
-        )
-    
-    with highlights_col2:
-        st.markdown(
-            """
-            #### Challenges
-            - Donations tracking below target (trending at 13.7% of annual goal)
-            - Health worker training program behind schedule
-            - Cyber security audit revealed compliance gaps that need addressing
-            - App user retention lower than expected for new members
-            """
-        )import streamlit as st
+import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -190,15 +18,6 @@ secondary_gray = "#424242"  # Dark gray
 secondary_pink = "#FF4081"  # Pink accent
 secondary_purple = "#AA00FF" # Purple
 secondary_green = "#00E676" # Bright green
-
-# Helper function for status badges
-def status_badge(status):
-    if status == "On Track":
-        return f'<span style="background-color: #4CAF50; color: white; padding: 3px 8px; border-radius: 4px;">On Track</span>'
-    elif status == "At Risk":
-        return f'<span style="background-color: #FF9800; color: white; padding: 3px 8px; border-radius: 4px;">At Risk</span>'
-    else:
-        return f'<span style="background-color: #F44336; color: white; padding: 3px 8px; border-radius: 4px;">Off Track</span>'
 
 # Helper function for status badges
 def status_badge(status):
@@ -465,202 +284,6 @@ with tab1:
             """,
             unsafe_allow_html=True
         )
-    
-    # Key metrics
-    st.markdown("<h3>Key Metrics</h3>", unsafe_allow_html=True)
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL MEMBERSHIP</p>'
-            f'<p class="metric-value">1,240,394</p>'
-            f'<p>Goal: 2,000,000</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
-            f'<p class="metric-value">11,356</p>'
-            f'<p>Goal: 100,000</p>'
-            f'<p>{status_badge("At Risk")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with col3:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL REVENUE</p>'
-            f'<p class="metric-value">$9,999</p>'
-            f'<p>Goal: $400,000</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-        
-    with col4:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL EXPENSES</p>'
-            f'<p class="metric-value">$40,000</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-with tab7:
-    st.markdown('<h3 class="section-title">Advocacy</h3>', unsafe_allow_html=True)
-    
-    # Create a styled table for Advocacy metrics
-    st.markdown(
-        """
-        <style>
-        .advocacy-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
-        .advocacy-table th {
-            background-color: #f8f8f8;
-            padding: 12px 10px;
-            text-align: left;
-            font-weight: bold;
-            border: 1px solid #ddd;
-        }
-        .advocacy-table td {
-            padding: 12px 10px;
-            border: 1px solid #ddd;
-            vertical-align: top;
-        }
-        .highlight {
-            background-color: #ffdddd;
-        }
-        </style>
-        """, 
-        unsafe_allow_html=True
-    )
-    
-    # Define advocacy metrics data
-    advocacy_data = [
-        {
-            "metric": "# of Advocacy briefs produced establishing research basis for why each J&J agenda item leads to increase in Black women's life expectancy and uplifting best in class organizations",
-            "goal": "10",
-            "current": "4",
-            "status": "On Track"
-        },
-        {
-            "metric": "Secure at least 20 advocacy partners that align with GirlTREK's Joy & Justice Agenda through signed MOUs.",
-            "goal": "20",
-            "current": "2",
-            "status": "On Track"
-        }
-    ]
-    
-    # Build the table HTML
-    advocacy_html = """
-    <table class="advocacy-table">
-        <tr>
-            <th>Metric</th>
-            <th>Goal</th>
-            <th>Current Total</th>
-            <th>Status</th>
-        </tr>
-    """
-    
-    # Add rows
-    for item in advocacy_data:
-        # Adding highlighting to specific text as in the screenshot
-        metric_text = item["metric"]
-        if "life expectancy and uplifting best" in metric_text:
-            parts = metric_text.split("life expectancy and uplifting best")
-            metric_display = f"{parts[0]}<span class='highlight'>life expectancy and uplifting best</span>{parts[1]}"
-        else:
-            metric_display = metric_text
-            
-        advocacy_html += f"""
-        <tr>
-            <td>{metric_display}</td>
-            <td>{item["goal"]}</td>
-            <td>{item["current"]}</td>
-            <td>{item["status"]}</td>
-        </tr>
-        """
-    
-    advocacy_html += "</table>"
-    
-    st.markdown(advocacy_html, unsafe_allow_html=True)
-    
-    # Additional advocacy metrics
-    st.markdown("### Advocacy Partner Organizations")
-    
-    advocacy_partners = {
-        "Current Partners": ["National Urban League", "Black Women's Health Imperative"],
-        "Pending Partners": ["NAACP", "Color of Change", "African American Policy Forum"]
-    }
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.subheader("Current Partners")
-        for partner in advocacy_partners["Current Partners"]:
-            st.markdown(f"- {partner}")
-    
-    with col2:
-        st.subheader("Pending Partners")
-        for partner in advocacy_partners["Pending Partners"]:
-            st.markdown(f"- {partner}")
-            
-    # Advocacy impact metrics
-    st.markdown("### Advocacy Impact")
-    
-    impact_col1, impact_col2 = st.columns(2)
-    
-    with impact_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">MEDIA MENTIONS</p>'
-            f'<p class="metric-value">28</p>'
-            f'<p>Goal: 50</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with impact_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">POLICY MEETINGS</p>'
-            f'<p class="metric-value">6</p>'
-            f'<p>Goal: 15</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Brief chart showing member growth
-    member_data = {
-        'Quarter': ['Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025'],
-        'Members': [2500, 4500, 6800, 9200, 11356]
-    }
-    df_members = pd.DataFrame(member_data)
-    
-    fig_exec = px.line(df_members, x='Quarter', y='Members', 
-                    title='GirlTREK Membership Growth',
-                    markers=True)
-    
-    fig_exec.update_traces(
-        line=dict(color=primary_blue, width=3),
-        marker=dict(color=primary_orange, size=10)
-    )
-    
-    fig_exec.update_layout(title_font=dict(color=primary_blue))
-    
-    st.plotly_chart(fig_exec, use_container_width=True)
 
 with tab2:
     st.markdown('<h3 class="section-title">Recruitment Metrics</h3>', unsafe_allow_html=True)
@@ -847,7 +470,7 @@ with tab3:
     
     st.plotly_chart(fig_engagement, use_container_width=True)
 
-with tab3:
+with tab4:
     st.markdown('<h3 class="section-title">Development Metrics</h3>', unsafe_allow_html=True)
     
     # Financial summary
@@ -977,8 +600,55 @@ with tab3:
     )
     
     st.plotly_chart(fig_trend, use_container_width=True)
+    
+    # Brief chart showing member growth
+    member_data = {
+        'Quarter': ['Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025'],
+        'Members': [2500, 4500, 6800, 9200, 11356]
+    }
+    df_members = pd.DataFrame(member_data)
+    
+    fig_exec = px.line(df_members, x='Quarter', y='Members', 
+                    title='GirlTREK Membership Growth',
+                    markers=True)
+    
+    fig_exec.update_traces(
+        line=dict(color=primary_blue, width=3),
+        marker=dict(color=primary_orange, size=10)
+    )
+    
+    fig_exec.update_layout(title_font=dict(color=primary_blue))
+    
+    st.plotly_chart(fig_exec, use_container_width=True)
+    
+    # Q2 highlights
+    st.markdown("### Q2 2025 Highlights")
+    
+    highlights_col1, highlights_col2 = st.columns(2)
+    
+    with highlights_col1:
+        st.markdown(
+            """
+            #### Achievements
+            - Successfully launched the Self-Care Schools campaign with 7,500 registrants
+            - Increased social media following by 25% since Q1
+            - Secured new corporate sponsorship with Health Horizons ($350,000)
+            - Launched 15 new local crews in underserved communities
+            """
+        )
+    
+    with highlights_col2:
+        st.markdown(
+            """
+            #### Challenges
+            - Donations tracking below target (trending at 13.7% of annual goal)
+            - Health worker training program behind schedule
+            - Cyber security audit revealed compliance gaps that need addressing
+            - App user retention lower than expected for new members
+            """
+        )
 
-with tab4:
+with tab5:
     st.markdown('<h3 class="section-title">Marketing Metrics</h3>', unsafe_allow_html=True)
     
     # Subscriber metrics
@@ -1103,7 +773,7 @@ with tab4:
             unsafe_allow_html=True
         )
 
-with tab5:
+with tab6:
     st.markdown('<h3 class="section-title">Impact & Member Care Metrics</h3>', unsafe_allow_html=True)
     
     # Care Village metrics
@@ -1254,6 +924,156 @@ with tab5:
             f'</div>', 
             unsafe_allow_html=True
         )
+
+with tab7:
+    st.markdown('<h3 class="section-title">Advocacy</h3>', unsafe_allow_html=True)
+    
+    # Create a styled table for Advocacy metrics
+    st.markdown(
+        """
+        <style>
+        .advocacy-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .advocacy-table th {
+            background-color: #f8f8f8;
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid #ddd;
+        }
+        .advocacy-table td {
+            padding: 12px 10px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        .highlight {
+            background-color: #ffdddd;
+        }
+        </style>
+        """, 
+        unsafe_allow_html=True
+    )
+    
+    # Define advocacy metrics data
+    advocacy_data = [
+        {
+            "metric": "# of Advocacy briefs produced establishing research basis for why each J&J agenda item leads to increase in Black women's life expectancy and uplifting best in class organizations",
+            "goal": "10",
+            "current": "4",
+            "status": "On Track"
+        },
+        {
+            "metric": "Secure at least 20 advocacy partners that align with GirlTREK's Joy & Justice Agenda through signed MOUs.",
+            "goal": "20",
+            "current": "2",
+            "status": "On Track"
+        }
+    ]
+    
+    # Build the table HTML
+    advocacy_html = """
+    <table class="advocacy-table">
+        <tr>
+            <th>Metric</th>
+            <th>Goal</th>
+            <th>Current Total</th>
+            <th>Status</th>
+        </tr>
+    """
+    
+    # Add rows
+    for item in advocacy_data:
+        # Adding highlighting to specific text as in the screenshot
+        metric_text = item["metric"]
+        if "life expectancy and uplifting best" in metric_text:
+            parts = metric_text.split("life expectancy and uplifting best")
+            metric_display = f"{parts[0]}<span class='highlight'>life expectancy and uplifting best</span>{parts[1]}"
+        else:
+            metric_display = metric_text
+            
+        advocacy_html += f"""
+        <tr>
+            <td>{metric_display}</td>
+            <td>{item["goal"]}</td>
+            <td>{item["current"]}</td>
+            <td>{item["status"]}</td>
+        </tr>
+        """
+    
+    advocacy_html += "</table>"
+    
+    st.markdown(advocacy_html, unsafe_allow_html=True)
+    
+    # Additional advocacy metrics
+    st.markdown("### Advocacy Partner Organizations")
+    
+    advocacy_partners = {
+        "Current Partners": ["National Urban League", "Black Women's Health Imperative"],
+        "Pending Partners": ["NAACP", "Color of Change", "African American Policy Forum"]
+    }
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.subheader("Current Partners")
+        for partner in advocacy_partners["Current Partners"]:
+            st.markdown(f"- {partner}")
+    
+    with col2:
+        st.subheader("Pending Partners")
+        for partner in advocacy_partners["Pending Partners"]:
+            st.markdown(f"- {partner}")
+            
+    # Advocacy impact metrics
+    st.markdown("### Advocacy Impact")
+    
+    impact_col1, impact_col2 = st.columns(2)
+    
+    with impact_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">MEDIA MENTIONS</p>'
+            f'<p class="metric-value">28</p>'
+            f'<p>Goal: 50</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with impact_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">POLICY MEETINGS</p>'
+            f'<p class="metric-value">6</p>'
+            f'<p>Goal: 15</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Brief chart showing member growth
+    member_data = {
+        'Quarter': ['Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025'],
+        'Members': [2500, 4500, 6800, 9200, 11356]
+    }
+    df_members = pd.DataFrame(member_data)
+    
+    fig_exec = px.line(df_members, x='Quarter', y='Members', 
+                    title='GirlTREK Membership Growth',
+                    markers=True)
+    
+    fig_exec.update_traces(
+        line=dict(color=primary_blue, width=3),
+        marker=dict(color=primary_orange, size=10)
+    )
+    
+    fig_exec.update_layout(title_font=dict(color=primary_blue))
+    
+    st.plotly_chart(fig_exec, use_container_width=True)
 
 # Sidebar for filters
 st.sidebar.markdown("# Filters")
