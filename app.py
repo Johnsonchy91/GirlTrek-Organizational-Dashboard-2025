@@ -1,8 +1,114 @@
-fig_badges = px.bar(df_badges, x='Week', y='Badges Claimed', 
+with tab2:
+    st.markdown('<h3 class="section-title">Recruitment & Engagement Metrics</h3>', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # New members by month
+        month_data = {
+            'Month': ['January', 'February', 'March', 'April'],
+            'New Members': [591, 1574, 4382, 4809]
+        }
+        df_months = pd.DataFrame(month_data)
+        
+        fig_months = px.line(df_months, x='Month', y='New Members', 
+                          title='New Members by Month',
+                          markers=True)
+        fig_months.update_traces(
+            line=dict(color=primary_blue, width=3),
+            marker=dict(color=primary_orange, size=10)
+        )
+        fig_months.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(fig_months, use_container_width=True)
+    
+    with col2:
+        # New members by age
+        new_age_data = {
+            'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown'],
+            'New Members': [86, 477, 1771, 2163, 1898, 4961]
+        }
+        df_new_age = pd.DataFrame(new_age_data)
+        
+        fig_new_age = px.pie(df_new_age, values='New Members', names='Age Group', 
+                         title='New Members by Age Group',
+                         color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
+                                                secondary_blue, secondary_orange, secondary_teal])
+        fig_new_age.update_traces(textposition='inside', textinfo='percent+label')
+        fig_new_age.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(fig_new_age, use_container_width=True)
+    
+    # Engagement metrics
+    st.markdown('<h4>Engagement Stats</h4>', unsafe_allow_html=True)
+    
+    engagement_col1, engagement_col2, engagement_col3 = st.columns(3)
+    
+    with engagement_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">ACTIVE VOLUNTEERS</p>'
+            f'<p class="metric-value">3,348</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with engagement_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">DOCUMENTED CREW LEADERS</p>'
+            f'<p class="metric-value">3,732</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with engagement_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">ACTIVE CREW LEADERS</p>'
+            f'<p class="metric-value">1,846</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Campaign metrics
+    st.markdown('<h4>Current Campaign: Self-Care Schools</h4>', unsafe_allow_html=True)
+    
+    campaign_col1, campaign_col2 = st.columns(2)
+    
+    with campaign_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL REGISTRANTS</p>'
+            f'<p class="metric-value">7,500</p>'
+            f'<p>Goal: 10,000</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with campaign_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL DOWNLOADS</p>'
+            f'<p class="metric-value">32,000</p>'
+            f'<p>Goal: 50,000</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Badges claimed
+    badges_data = {
+        'Week': ['Week 0', 'Week 1', 'Week 2'],
+        'Badges Claimed': [3000, 2000, 1500]
+    }
+    df_badges = pd.DataFrame(badges_data)
+    
+    fig_badges = px.bar(df_badges, x='Week', y='Badges Claimed', 
                       title='Badges Claimed by Week',
                       color='Badges Claimed',
                       color_continuous_scale=[primary_yellow, primary_orange, secondary_orange])
     fig_badges.update_layout(title_font=dict(color=primary_blue))
+    st.plotly_chart(fig_badges, use_container_width=True)(color=primary_blue))
     st.plotly_chart(fig_badges, use_container_width=True)
 
 with tab3:
