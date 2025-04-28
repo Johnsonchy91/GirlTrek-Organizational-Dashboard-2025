@@ -5,7 +5,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
 import base64
-import io
 import re
 
 # Define color scheme - brighter and more fun colors
@@ -116,41 +115,6 @@ def format_number(value):
     
     return f"{value:,.0f}"
 
-def filter_data(df, date_col=None, start_date=None, end_date=None, region_col=None, selected_region=None, 
-                age_col=None, selected_age=None):
-    """
-    Filter a dataframe based on selected criteria.
-    
-    Parameters:
-    df (pandas.DataFrame): DataFrame to filter
-    date_col (str): Name of the date column
-    start_date (datetime): Start date for filtering
-    end_date (datetime): End date for filtering
-    region_col (str): Name of the region column
-    selected_region (str): Selected region for filtering
-    age_col (str): Name of the age column
-    selected_age (list): Selected age groups for filtering
-    
-    Returns:
-    pandas.DataFrame: Filtered DataFrame
-    """
-    filtered_df = df.copy()
-    
-    # Apply date filter if applicable
-    if date_col and date_col in df.columns and start_date and end_date:
-        filtered_df = filtered_df[(filtered_df[date_col] >= start_date) & 
-                                 (filtered_df[date_col] <= end_date)]
-    
-    # Apply region filter if applicable
-    if region_col and region_col in df.columns and selected_region and selected_region != 'All':
-        filtered_df = filtered_df[filtered_df[region_col] == selected_region]
-    
-    # Apply age filter if applicable
-    if age_col and age_col in df.columns and selected_age and 'All' not in selected_age:
-        filtered_df = filtered_df[filtered_df[age_col].isin(selected_age)]
-    
-    return filtered_df
-
 def apply_dark_mode(dark_mode_enabled):
     """
     Apply dark mode styling if enabled.
@@ -249,21 +213,7 @@ if 'total_membership' not in st.session_state:
     # Set data_loaded to True
     st.session_state.data_loaded = True
 
-# Sidebar for filters
-st.sidebar.markdown("# Filters")
-st.sidebar.markdown("### Date Range")
-start_date = st.sidebar.date_input("Start Date", datetime(2025, 1, 1))
-end_date = st.sidebar.date_input("End Date", datetime(2025, 4, 25))
-
-st.sidebar.markdown("### Regions")
-regions = ['All', 'Northeast', 'Southeast', 'Midwest', 'Southwest', 'West']
-selected_region = st.sidebar.selectbox("Select Region", regions)
-
-st.sidebar.markdown("### Age Groups")
-age_groups = ['All', '18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+']
-selected_age = st.sidebar.multiselect("Select Age Groups", age_groups, default=['All'])
-
-# Dashboard download section
+# Sidebar - Dashboard download section only 
 st.sidebar.markdown("### Download Dashboard")
 download_options = [
     "Executive Summary", 
@@ -370,14 +320,6 @@ badges_data = {
     'Badges Claimed': [3089, 2061, 2197]
 }
 df_badges = pd.DataFrame(badges_data)
-
-# Apply filters to data based on user selections
-df_months_filtered = filter_data(df_months, 'Date', start_date, end_date)
-df_states_filtered = filter_data(df_states, region_col='Region', selected_region=selected_region)
-df_cities_filtered = filter_data(df_cities, region_col='Region', selected_region=selected_region)
-df_total_age_filtered = filter_data(df_total_age, age_col='Age Group', selected_age=selected_age)
-df_finance_trend_filtered = filter_data(finance_trend_data, 'Date', start_date, end_date)
-df_member_growth_filtered = filter_data(df_member_growth, 'Date', start_date, end_date)
 
 # Create tabs
 tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
@@ -530,7 +472,7 @@ with tab1:
         )
     
     # Member growth chart
-    fig_growth = px.line(df_member_growth_filtered, x='Quarter', y='Members', 
+    fig_growth = px.line(df_member_growth, x='Quarter', y='Members', 
                        title='GirlTREK Membership Growth',
                        markers=True)
     fig_growth.update_traces(
@@ -568,7 +510,7 @@ with tab2:
         )
     
     with recruitment_col2:
-        # Calculate value based on filtered data
+        # Calculate value from data
         new_members_18_30 = df_new_age.loc[df_new_age['Age Group'].isin(['18 to 24', '25 to 34']), 'New Members'].sum()
         
         st.markdown(
@@ -596,8 +538,8 @@ with tab2:
     col1, col2 = st.columns(2)
     
     with col1:
-        # New members by month (use filtered data)
-        fig_months = px.line(df_months_filtered, x='Month', y='New Members', 
+        # New members by month
+        fig_months = px.line(df_months, x='Month', y='New Members', 
                           title='New Members by Month',
                           markers=True)
         fig_months.update_traces(
@@ -608,13 +550,8 @@ with tab2:
         st.plotly_chart(fig_months, use_container_width=True)
     
     with col2:
-        # New members by age (use filtered data if age filter is applied)
-        if 'All' not in selected_age:
-            filtered_age_data = df_new_age[df_new_age['Age Group'].isin(selected_age)]
-        else:
-            filtered_age_data = df_new_age
-            
-        fig_new_age = px.pie(filtered_age_data, values='New Members', names='Age Group', 
+        # New members by age
+        fig_new_age = px.pie(df_new_age, values='New Members', names='Age Group', 
                          title='New Members by Age Group',
                          color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
                                                 secondary_pink, secondary_purple, secondary_green])
@@ -630,7 +567,7 @@ with tab2:
     with dist_col1:
         st.markdown("<h5>Top 5 States</h5>", unsafe_allow_html=True)
         
-        fig_states = px.bar(df_states_filtered, x='State', y='Members',
+        fig_states = px.bar(df_states, x='State', y='Members',
                          title='Membership by Top 5 States',
                          color='Members',
                          color_continuous_scale=[secondary_blue, primary_blue])
@@ -640,7 +577,7 @@ with tab2:
     with dist_col2:
         st.markdown("<h5>Top 5 Cities</h5>", unsafe_allow_html=True)
         
-        fig_cities = px.bar(df_cities_filtered, x='City', y='Members',
+        fig_cities = px.bar(df_cities, x='City', y='Members',
                          title='Membership by Top 5 Cities',
                          color='Members',
                          color_continuous_scale=[secondary_teal, primary_orange])
@@ -650,7 +587,7 @@ with tab2:
     # Total membership by age
     st.markdown('<h4>Total Membership by Age</h4>', unsafe_allow_html=True)
     
-    fig_total_age = px.bar(df_total_age_filtered, x='Age Group', y='Members',
+    fig_total_age = px.bar(df_total_age, x='Age Group', y='Members',
                        title='Total Membership by Age Group',
                        color='Members',
                        color_continuous_scale=[secondary_purple, primary_blue, secondary_pink])
@@ -662,11 +599,11 @@ with tab2:
     
     # Combine dataframes for download
     recruitment_data = {
-        "Monthly New Members": df_months_filtered,
+        "Monthly New Members": df_months,
         "New Members by Age": df_new_age,
-        "Members by State": df_states_filtered,
-        "Members by City": df_cities_filtered,
-        "Total Members by Age": df_total_age_filtered
+        "Members by State": df_states,
+        "Members by City": df_cities,
+        "Total Members by Age": df_total_age
     }
     
     selected_data = st.selectbox("Select data to download:", list(recruitment_data.keys()))
@@ -977,12 +914,12 @@ with tab4:
     fig_finance.update_layout(title_font=dict(color=primary_blue))
     st.plotly_chart(fig_finance, use_container_width=True)
     
-    # Financial trends using filtered data
+    # Financial trends chart
     fig_trend = go.Figure()
     
     fig_trend.add_trace(go.Scatter(
-        x=df_finance_trend_filtered['Month'],
-        y=df_finance_trend_filtered['Revenue'],
+        x=finance_trend_data['Month'],
+        y=finance_trend_data['Revenue'],
         mode='lines+markers',
         name='Revenue',
         line=dict(color=primary_blue, width=3),
@@ -990,8 +927,8 @@ with tab4:
     ))
     
     fig_trend.add_trace(go.Scatter(
-        x=df_finance_trend_filtered['Month'],
-        y=df_finance_trend_filtered['Expenses'],
+        x=finance_trend_data['Month'],
+        y=finance_trend_data['Expenses'],
         mode='lines+markers',
         name='Expenses',
         line=dict(color=primary_orange, width=3),
@@ -999,8 +936,8 @@ with tab4:
     ))
     
     fig_trend.add_trace(go.Scatter(
-        x=df_finance_trend_filtered['Month'],
-        y=df_finance_trend_filtered['Donations'],
+        x=finance_trend_data['Month'],
+        y=finance_trend_data['Donations'],
         mode='lines+markers',
         name='Donations',
         line=dict(color=primary_yellow, width=3),
@@ -1497,7 +1434,7 @@ with tab8:
             unsafe_allow_html=True
         )
     
-    with st.expander("Story 2: Amazing TedTalk used in class"):
+   with st.expander("Story 2: Amazing TedTalk used in class"):
         st.markdown(
             f"""
             <div class="metric-card">
