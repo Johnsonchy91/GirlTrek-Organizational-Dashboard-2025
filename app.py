@@ -1,10 +1,12 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-from datetime import datetime
+from datetime import datetime, timedelta
 import base64
 import io
+import re
 
 # Define color scheme - brighter and more fun colors
 primary_blue = "#0088FF"    # Bright blue
@@ -22,8 +24,23 @@ secondary_purple = "#AA00FF" # Purple
 secondary_green = "#00E676" # Bright green
 achieved_green = "#00C853"  # Bright green for Achieved status
 
-# Helper function for status badges
+# Dark mode colors
+dark_bg = "#121212"
+dark_card_bg = "#1E1E1E"
+dark_text = "#FFFFFF"
+dark_secondary_text = "#BBBBBB"
+
+# Define functions early so they're available throughout the app
 def status_badge(status):
+    """
+    Create a styled status badge based on the status value.
+    
+    Parameters:
+    status (str): Status value ('On Track', 'At Risk', 'Achieved', or 'Off Track')
+    
+    Returns:
+    str: HTML for the status badge
+    """
     if status == "On Track":
         return f'<span style="background-color: #4CAF50; color: white; padding: 3px 8px; border-radius: 4px;">On Track</span>'
     elif status == "At Risk":
@@ -33,56 +50,334 @@ def status_badge(status):
     else:
         return f'<span style="background-color: #F44336; color: white; padding: 3px 8px; border-radius: 4px;">Off Track</span>'
 
-# Function to download data as CSV
 def download_data(df, filename):
-    csv = df.to_csv(index=False)
-    b64 = base64.b64encode(csv.encode()).decode()
-    href = f'<a href="data:file/csv;base64,{b64}" download="{filename}.csv">Download {filename} data</a>'
-    return href
-
-# Add CSS for styling
-st.markdown(
     """
-    <style>
-    .section-title {
-        color: #1E3C72;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #FF7043;
-    }
-    .metric-card {
-        background-color: white;
-        padding: 15px;
-        border-radius: 5px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 15px;
-    }
-    .metric-title {
-        font-size: 14px;
-        font-weight: bold;
-        color: #666;
-        margin-bottom: 5px;
-    }
-    .metric-value {
-        font-size: 24px;
-        font-weight: bold;
-        color: #1E3C72;
-        margin: 10px 0;
-    }
-    .note-text {
-        font-size: 14px;
-        font-style: italic;
-        color: #666;
-        margin-top: 5px;
-    }
-    </style>
-    """, 
-    unsafe_allow_html=True
-)
+    Create a download link for a dataframe.
+    
+    Parameters:
+    df (pandas.DataFrame): DataFrame to be downloaded
+    filename (str): Name for the downloaded file
+    
+    Returns:
+    str: HTML for the download link
+    """
+    try:
+        # Validate DataFrame
+        if not isinstance(df, pd.DataFrame):
+            return f'<p style="color: red;">Error: Invalid data format for {filename}</p>'
+        
+        # Convert to CSV
+        csv = df.to_csv(index=False)
+        b64 = base64.b64encode(csv.encode()).decode()
+        href = f'<a href="data:file/csv;base64,{b64}" download="{filename}.csv">Download {filename} data</a>'
+        return href
+    except Exception as e:
+        return f'<p style="color: red;">Error generating download: {str(e)}</p>'
+
+def format_currency(value):
+    """
+    Format a number as currency.
+    
+    Parameters:
+    value (float or int): Numeric value to format
+    
+    Returns:
+    str: Formatted currency string
+    """
+    if isinstance(value, str):
+        # Try to convert string to float
+        try:
+            # Remove any existing currency symbols and commas
+            clean_value = re.sub(r'[^\d.]', '', value)
+            value = float(clean_value)
+        except:
+            return value  # Return original if conversion fails
+    
+    return f"${value:,.2f}"
+
+def format_number(value):
+    """
+    Format a large number with commas.
+    
+    Parameters:
+    value (float or int): Numeric value to format
+    
+    Returns:
+    str: Formatted number string
+    """
+    if isinstance(value, str):
+        # Try to convert string to float
+        try:
+            # Remove any existing commas
+            clean_value = value.replace(',', '')
+            value = float(clean_value)
+        except:
+            return value  # Return original if conversion fails
+    
+    return f"{value:,.0f}"
+
+def filter_data(df, date_col=None, start_date=None, end_date=None, region_col=None, selected_region=None, 
+                age_col=None, selected_age=None):
+    """
+    Filter a dataframe based on selected criteria.
+    
+    Parameters:
+    df (pandas.DataFrame): DataFrame to filter
+    date_col (str): Name of the date column
+    start_date (datetime): Start date for filtering
+    end_date (datetime): End date for filtering
+    region_col (str): Name of the region column
+    selected_region (str): Selected region for filtering
+    age_col (str): Name of the age column
+    selected_age (list): Selected age groups for filtering
+    
+    Returns:
+    pandas.DataFrame: Filtered DataFrame
+    """
+    filtered_df = df.copy()
+    
+    # Apply date filter if applicable
+    if date_col and date_col in df.columns and start_date and end_date:
+        filtered_df = filtered_df[(filtered_df[date_col] >= start_date) & 
+                                 (filtered_df[date_col] <= end_date)]
+    
+    # Apply region filter if applicable
+    if region_col and region_col in df.columns and selected_region and selected_region != 'All':
+        filtered_df = filtered_df[filtered_df[region_col] == selected_region]
+    
+    # Apply age filter if applicable
+    if age_col and age_col in df.columns and selected_age and 'All' not in selected_age:
+        filtered_df = filtered_df[filtered_df[age_col].isin(selected_age)]
+    
+    return filtered_df
+
+def apply_dark_mode(dark_mode_enabled):
+    """
+    Apply dark mode styling if enabled.
+    
+    Parameters:
+    dark_mode_enabled (bool): Whether dark mode is enabled
+    """
+    if dark_mode_enabled:
+        st.markdown(
+            f"""
+            <style>
+            .reportview-container .main .block-container {{
+                background-color: {dark_bg};
+                color: {dark_text};
+            }}
+            h1, h2, h3, h4, h5, h6 {{
+                color: {dark_text} !important;
+            }}
+            .stTabs [data-baseweb="tab-list"] {{
+                background-color: {dark_bg};
+            }}
+            .stTabs [data-baseweb="tab"] {{
+                color: {dark_text};
+            }}
+            .metric-card {{
+                background-color: {dark_card_bg} !important;
+                color: {dark_text} !important;
+            }}
+            .metric-title {{
+                color: {dark_secondary_text} !important;
+            }}
+            .metric-value {{
+                color: {primary_blue} !important;
+            }}
+            .note-text {{
+                color: {dark_secondary_text} !important;
+            }}
+            .section-title {{
+                color: {primary_blue} !important;
+                border-bottom: 2px solid {primary_orange};
+            }}
+            </style>
+            """, 
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            """
+            <style>
+            .section-title {
+                color: #1E3C72;
+                padding-bottom: 10px;
+                border-bottom: 2px solid #FF7043;
+            }
+            .metric-card {
+                background-color: white;
+                padding: 15px;
+                border-radius: 5px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                margin-bottom: 15px;
+            }
+            .metric-title {
+                font-size: 14px;
+                font-weight: bold;
+                color: #666;
+                margin-bottom: 5px;
+            }
+            .metric-value {
+                font-size: 24px;
+                font-weight: bold;
+                color: #1E3C72;
+                margin: 10px 0;
+            }
+            .note-text {
+                font-size: 14px;
+                font-style: italic;
+                color: #666;
+                margin-top: 5px;
+            }
+            </style>
+            """, 
+            unsafe_allow_html=True
+        )
+
+# Create session state for storing data and filters
+if 'data_loaded' not in st.session_state:
+    st.session_state.data_loaded = False
+
+if 'total_membership' not in st.session_state:
+    # Load initial data
+    st.session_state.total_membership = 1240394
+    st.session_state.new_members = 11356
+    st.session_state.total_contributions = 3061104.78
+    st.session_state.total_grants = 3055250
+    
+    # Set data_loaded to True
+    st.session_state.data_loaded = True
+
+# Sidebar for filters
+st.sidebar.markdown("# Filters")
+st.sidebar.markdown("### Date Range")
+start_date = st.sidebar.date_input("Start Date", datetime(2025, 1, 1))
+end_date = st.sidebar.date_input("End Date", datetime(2025, 4, 25))
+
+st.sidebar.markdown("### Regions")
+regions = ['All', 'Northeast', 'Southeast', 'Midwest', 'Southwest', 'West']
+selected_region = st.sidebar.selectbox("Select Region", regions)
+
+st.sidebar.markdown("### Age Groups")
+age_groups = ['All', '18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+']
+selected_age = st.sidebar.multiselect("Select Age Groups", age_groups, default=['All'])
+
+# Dashboard download section
+st.sidebar.markdown("### Download Dashboard")
+download_options = [
+    "Executive Summary", 
+    "Recruitment", 
+    "Engagement",
+    "Development", 
+    "Marketing",
+    "Operations",
+    "Impact",
+    "Member Care",
+    "Advocacy",
+    "Complete Dashboard"
+]
+selected_download = st.sidebar.selectbox("Select dashboard section to download:", download_options)
+
+if st.sidebar.button("Generate PDF for Download"):
+    st.sidebar.success(f"PDF for {selected_download} has been generated! Click below to download.")
+    st.sidebar.markdown(f'<a href="#" download="{selected_download}.pdf">Download {selected_download} PDF</a>', unsafe_allow_html=True)
+
+st.sidebar.markdown("### Dashboard Settings")
+show_target_lines = st.sidebar.checkbox("Show Target Lines", value=True)
+dark_mode = st.sidebar.checkbox("Dark Mode", value=False)
+
+# Apply dark mode if enabled
+apply_dark_mode(dark_mode)
 
 # App title
 st.title("GirlTREK Organizational Dashboard")
 st.markdown("### Q2 2025 Metrics Overview")
 st.markdown("*Data dashboard was published on April 25, 2025*")
+
+# Sample data for charts and visualizations (consolidated to avoid duplication)
+# ----- Monthly new members data -----
+month_data = {
+    'Month': ['January', 'February', 'March', 'April'],
+    'New Members': [591, 1574, 4382, 4809],
+    'Date': [datetime(2025, 1, 1), datetime(2025, 2, 1), datetime(2025, 3, 1), datetime(2025, 4, 1)]
+}
+df_months = pd.DataFrame(month_data)
+
+# ----- Age group distribution data -----
+new_age_data = {
+    'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown'],
+    'New Members': [86, 477, 1771, 2163, 1898, 4961]
+}
+df_new_age = pd.DataFrame(new_age_data)
+
+total_age_data = {
+    'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown'],
+    'Members': [1803, 16790, 83392, 163951, 106812, 752621]
+}
+df_total_age = pd.DataFrame(total_age_data)
+
+# ----- Geographic distribution data -----
+states_data = {
+    'State': ['Texas', 'Georgia', 'California', 'New York', 'Florida'],
+    'Members': [91101, 86968, 80328, 68538, 66135],
+    'Region': ['Southwest', 'Southeast', 'West', 'Northeast', 'Southeast']
+}
+df_states = pd.DataFrame(states_data)
+
+cities_data = {
+    'City': ['Chicago', 'Philadelphia', 'Houston', 'Brooklyn', 'Atlanta'],
+    'Members': [20645, 17276, 17065, 15602, 13172],
+    'Region': ['Midwest', 'Northeast', 'Southwest', 'Northeast', 'Southeast']
+}
+df_cities = pd.DataFrame(cities_data)
+
+# ----- Financial data -----
+finance_data = {
+    'Category': ['Donations', 'Grants', 'Corporate Sponsorships', 'Store Sales', 'Other Revenue'],
+    'Amount': [1094048.68, 600000, 750000, 25000, 125000]
+}
+df_finance = pd.DataFrame(finance_data)
+
+finance_trend_data = pd.DataFrame({
+    'Month': ['January', 'February', 'March', 'April'],
+    'Revenue': [250000, 310000, 450000, 490000],
+    'Expenses': [220000, 280000, 350000, 350000],
+    'Donations': [180000, 240000, 300000, 374048.68],
+    'Date': [datetime(2025, 1, 1), datetime(2025, 2, 1), datetime(2025, 3, 1), datetime(2025, 4, 1)]
+})
+
+# ----- Member growth data -----
+member_growth_data = {
+    'Quarter': ['Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025'],
+    'Members': [2500, 4500, 6800, 9200, 11356],
+    'Date': [datetime(2024, 6, 30), datetime(2024, 9, 30), datetime(2024, 12, 31), 
+             datetime(2025, 3, 31), datetime(2025, 4, 25)]
+}
+df_member_growth = pd.DataFrame(member_growth_data)
+
+# ----- Email and marketing data -----
+activity_data = {
+    'Period': ['30 day', '60 day', '90 day', '6 months'],
+    'Openers': [221719, 266461, 272011, 295705],
+    'Clickers': [13000, 21147, 22504, 26272]
+}
+df_activity = pd.DataFrame(activity_data)
+
+# ----- Campaign and engagement data -----
+badges_data = {
+    'Week': ['Week 0', 'Week 1', 'Week 2'],
+    'Badges Claimed': [3089, 2061, 2197]
+}
+df_badges = pd.DataFrame(badges_data)
+
+# Apply filters to data based on user selections
+df_months_filtered = filter_data(df_months, 'Date', start_date, end_date)
+df_states_filtered = filter_data(df_states, region_col='Region', selected_region=selected_region)
+df_cities_filtered = filter_data(df_cities, region_col='Region', selected_region=selected_region)
+df_total_age_filtered = filter_data(df_total_age, age_col='Age Group', selected_age=selected_age)
+df_finance_trend_filtered = filter_data(finance_trend_data, 'Date', start_date, end_date)
+df_member_growth_filtered = filter_data(df_member_growth, 'Date', start_date, end_date)
 
 # Create tabs
 tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
@@ -108,7 +403,7 @@ with tab1:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TOTAL MEMBERSHIP</p>'
-            f'<p class="metric-value">1,240,394</p>'
+            f'<p class="metric-value">{format_number(st.session_state.total_membership)}</p>'
             f'<p>Goal: 2,000,000</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>', 
@@ -119,7 +414,7 @@ with tab1:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
-            f'<p class="metric-value">11,356</p>'
+            f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
             f'<p>Goal: 100,000</p>'
             f'<p>{status_badge("At Risk")}</p>'
             f'</div>', 
@@ -130,7 +425,7 @@ with tab1:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
-            f'<p class="metric-value">$3,061,104.78</p>'
+            f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
             f'<p>Goal: $8,000,000</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>', 
@@ -141,7 +436,7 @@ with tab1:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TOTAL GRANTS</p>'
-            f'<p class="metric-value">$3,055,250</p>'
+            f'<p class="metric-value">{format_currency(st.session_state.total_grants)}</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>', 
             unsafe_allow_html=True
@@ -150,7 +445,7 @@ with tab1:
     # Report Card Progress
     st.markdown('<h3>Report Card Progress</h3>', unsafe_allow_html=True)
     
-    # Create a data table for report card with more specific goals as in the screenshot
+    # Create a data table for report card with more specific goals
     report_data = {
         "Goal": [
             "Goal 1: Recruit 100,000 new members", 
@@ -234,6 +529,17 @@ with tab1:
             unsafe_allow_html=True
         )
     
+    # Member growth chart
+    fig_growth = px.line(df_member_growth_filtered, x='Quarter', y='Members', 
+                       title='GirlTREK Membership Growth',
+                       markers=True)
+    fig_growth.update_traces(
+        line=dict(color=primary_blue, width=3),
+        marker=dict(color=primary_orange, size=10)
+    )
+    fig_growth.update_layout(title_font=dict(color=primary_blue))
+    st.plotly_chart(fig_growth, use_container_width=True)
+    
     # Download button for this tab
     report_df = pd.DataFrame({
         "Goal": report_data["Goal"],
@@ -254,7 +560,7 @@ with tab2:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
-            f'<p class="metric-value">11,356</p>'
+            f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
             f'<p>Goal: 100,000</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>', 
@@ -262,10 +568,13 @@ with tab2:
         )
     
     with recruitment_col2:
+        # Calculate value based on filtered data
+        new_members_18_30 = df_new_age.loc[df_new_age['Age Group'].isin(['18 to 24', '25 to 34']), 'New Members'].sum()
+        
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TOTAL NEW MEMBERS AGE 18-30</p>'
-            f'<p class="metric-value">300</p>'
+            f'<p class="metric-value">{format_number(new_members_18_30)}</p>'
             f'<p>Goal: 50,000</p>'
             f'<p>{status_badge("At Risk")}</p>'
             f'</div>', 
@@ -287,14 +596,8 @@ with tab2:
     col1, col2 = st.columns(2)
     
     with col1:
-        # New members by month
-        month_data = {
-            'Month': ['January', 'February', 'March', 'April'],
-            'New Members': [591, 1574, 4382, 4809]
-        }
-        df_months = pd.DataFrame(month_data)
-        
-        fig_months = px.line(df_months, x='Month', y='New Members', 
+        # New members by month (use filtered data)
+        fig_months = px.line(df_months_filtered, x='Month', y='New Members', 
                           title='New Members by Month',
                           markers=True)
         fig_months.update_traces(
@@ -305,14 +608,13 @@ with tab2:
         st.plotly_chart(fig_months, use_container_width=True)
     
     with col2:
-        # New members by age
-        new_age_data = {
-            'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown'],
-            'New Members': [86, 477, 1771, 2163, 1898, 4961]
-        }
-        df_new_age = pd.DataFrame(new_age_data)
-        
-        fig_new_age = px.pie(df_new_age, values='New Members', names='Age Group', 
+        # New members by age (use filtered data if age filter is applied)
+        if 'All' not in selected_age:
+            filtered_age_data = df_new_age[df_new_age['Age Group'].isin(selected_age)]
+        else:
+            filtered_age_data = df_new_age
+            
+        fig_new_age = px.pie(filtered_age_data, values='New Members', names='Age Group', 
                          title='New Members by Age Group',
                          color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
                                                 secondary_pink, secondary_purple, secondary_green])
@@ -327,13 +629,8 @@ with tab2:
     
     with dist_col1:
         st.markdown("<h5>Top 5 States</h5>", unsafe_allow_html=True)
-        states_data = {
-            'State': ['Texas', 'Georgia', 'California', 'New York', 'Florida'],
-            'Members': [91101, 86968, 80328, 68538, 66135]
-        }
-        df_states = pd.DataFrame(states_data)
         
-        fig_states = px.bar(df_states, x='State', y='Members',
+        fig_states = px.bar(df_states_filtered, x='State', y='Members',
                          title='Membership by Top 5 States',
                          color='Members',
                          color_continuous_scale=[secondary_blue, primary_blue])
@@ -342,13 +639,8 @@ with tab2:
     
     with dist_col2:
         st.markdown("<h5>Top 5 Cities</h5>", unsafe_allow_html=True)
-        cities_data = {
-            'City': ['Chicago', 'Philadelphia', 'Houston', 'Brooklyn', 'Atlanta'],
-            'Members': [20645, 17276, 17065, 15602, 13172]
-        }
-        df_cities = pd.DataFrame(cities_data)
         
-        fig_cities = px.bar(df_cities, x='City', y='Members',
+        fig_cities = px.bar(df_cities_filtered, x='City', y='Members',
                          title='Membership by Top 5 Cities',
                          color='Members',
                          color_continuous_scale=[secondary_teal, primary_orange])
@@ -358,13 +650,7 @@ with tab2:
     # Total membership by age
     st.markdown('<h4>Total Membership by Age</h4>', unsafe_allow_html=True)
     
-    total_age_data = {
-        'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown'],
-        'Members': [1803, 16790, 83392, 163951, 106812, 752621]
-    }
-    df_total_age = pd.DataFrame(total_age_data)
-    
-    fig_total_age = px.bar(df_total_age, x='Age Group', y='Members',
+    fig_total_age = px.bar(df_total_age_filtered, x='Age Group', y='Members',
                        title='Total Membership by Age Group',
                        color='Members',
                        color_continuous_scale=[secondary_purple, primary_blue, secondary_pink])
@@ -376,11 +662,11 @@ with tab2:
     
     # Combine dataframes for download
     recruitment_data = {
-        "Monthly New Members": df_months,
+        "Monthly New Members": df_months_filtered,
         "New Members by Age": df_new_age,
-        "Members by State": df_states,
-        "Members by City": df_cities,
-        "Total Members by Age": df_total_age
+        "Members by State": df_states_filtered,
+        "Members by City": df_cities_filtered,
+        "Total Members by Age": df_total_age_filtered
     }
     
     selected_data = st.selectbox("Select data to download:", list(recruitment_data.keys()))
@@ -392,6 +678,7 @@ with tab3:
     # Engagement metrics
     engagement_col1, engagement_col2, engagement_col3 = st.columns(3)
     
+    # Use consistent styling for metric cards
     with engagement_col1:
         st.markdown(
             f'<div class="metric-card">'
@@ -531,17 +818,35 @@ with tab3:
         )
     
     # Badges claimed
-    badges_data = {
-        'Week': ['Week 0', 'Week 1', 'Week 2'],
-        'Badges Claimed': [3089, 2061, 2197]
-    }
-    df_badges = pd.DataFrame(badges_data)
-    
     fig_badges = px.bar(df_badges, x='Week', y='Badges Claimed', 
                       title='Badges Claimed by Week (Goal: 5,000 per week)',
                       color='Badges Claimed',
                       color_continuous_scale=[secondary_green, primary_blue, secondary_purple])
     fig_badges.update_layout(title_font=dict(color=primary_blue))
+    
+    # Add target line if enabled
+    if show_target_lines:
+        fig_badges.add_shape(
+            type="line",
+            x0=-0.5,
+            y0=5000,
+            x1=len(df_badges)-0.5,
+            y1=5000,
+            line=dict(
+                color="red",
+                width=2,
+                dash="dash",
+            )
+        )
+        fig_badges.add_annotation(
+            x=len(df_badges)-1,
+            y=5000,
+            text="Target: 5,000",
+            showarrow=False,
+            yshift=10,
+            font=dict(color="red")
+        )
+        
     st.plotly_chart(fig_badges, use_container_width=True)
     
     # Additional campaign metrics
@@ -610,7 +915,7 @@ with tab4:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TOTAL DONATIONS</p>'
-            f'<p class="metric-value">$1,094,048.68</p>'
+            f'<p class="metric-value">{format_currency(1094048.68)}</p>'
             f'<p>Goal: $8,000,000</p>'
             f'<p>{status_badge("At Risk")}</p>'
             f'</div>', 
@@ -621,7 +926,7 @@ with tab4:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TOTAL REVENUE</p>'
-            f'<p class="metric-value">$1,500,000</p>'
+            f'<p class="metric-value">{format_currency(1500000)}</p>'
             f'<p>Goal: $400,000</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>', 
@@ -632,7 +937,7 @@ with tab4:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TOTAL EXPENSES</p>'
-            f'<p class="metric-value">$1,200,000</p>'
+            f'<p class="metric-value">{format_currency(1200000)}</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>', 
             unsafe_allow_html=True
@@ -645,7 +950,7 @@ with tab4:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TOTAL GRANTS</p>'
-            f'<p class="metric-value">$600,000</p>'
+            f'<p class="metric-value">{format_currency(600000)}</p>'
             f'<p>Goal: $1,000,000</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>', 
@@ -656,7 +961,7 @@ with tab4:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">CORPORATE SPONSORSHIPS</p>'
-            f'<p class="metric-value">$750,000</p>'
+            f'<p class="metric-value">{format_currency(750000)}</p>'
             f'<p>Goal: $1,500,000</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>', 
@@ -664,12 +969,6 @@ with tab4:
         )
     
     # Financial breakdown chart
-    finance_data = {
-        'Category': ['Donations', 'Grants', 'Corporate Sponsorships', 'Store Sales', 'Other Revenue'],
-        'Amount': [1094048.68, 600000, 750000, 25000, 125000]
-    }
-    df_finance = pd.DataFrame(finance_data)
-    
     fig_finance = px.pie(df_finance, values='Amount', names='Category', 
                        title='Revenue Breakdown',
                        color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
@@ -678,24 +977,12 @@ with tab4:
     fig_finance.update_layout(title_font=dict(color=primary_blue))
     st.plotly_chart(fig_finance, use_container_width=True)
     
-    # Dummy data for financial trends
-    months = ['January', 'February', 'March', 'April']
-    revenue = [250000, 310000, 450000, 490000]
-    expenses = [220000, 280000, 350000, 350000]
-    donations = [180000, 240000, 300000, 374048.68]
-    
-    finance_trend_data = pd.DataFrame({
-        'Month': months,
-        'Revenue': revenue,
-        'Expenses': expenses,
-        'Donations': donations
-    })
-    
+    # Financial trends using filtered data
     fig_trend = go.Figure()
     
     fig_trend.add_trace(go.Scatter(
-        x=finance_trend_data['Month'],
-        y=finance_trend_data['Revenue'],
+        x=df_finance_trend_filtered['Month'],
+        y=df_finance_trend_filtered['Revenue'],
         mode='lines+markers',
         name='Revenue',
         line=dict(color=primary_blue, width=3),
@@ -703,8 +990,8 @@ with tab4:
     ))
     
     fig_trend.add_trace(go.Scatter(
-        x=finance_trend_data['Month'],
-        y=finance_trend_data['Expenses'],
+        x=df_finance_trend_filtered['Month'],
+        y=df_finance_trend_filtered['Expenses'],
         mode='lines+markers',
         name='Expenses',
         line=dict(color=primary_orange, width=3),
@@ -712,8 +999,8 @@ with tab4:
     ))
     
     fig_trend.add_trace(go.Scatter(
-        x=finance_trend_data['Month'],
-        y=finance_trend_data['Donations'],
+        x=df_finance_trend_filtered['Month'],
+        y=df_finance_trend_filtered['Donations'],
         mode='lines+markers',
         name='Donations',
         line=dict(color=primary_yellow, width=3),
@@ -730,26 +1017,6 @@ with tab4:
     )
     
     st.plotly_chart(fig_trend, use_container_width=True)
-    
-    # Brief chart showing member growth
-    member_data = {
-        'Quarter': ['Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025'],
-        'Members': [2500, 4500, 6800, 9200, 11356]
-    }
-    df_members = pd.DataFrame(member_data)
-    
-    fig_advocacy_growth = px.line(df_members, x='Quarter', y='Members', 
-                    title='GirlTREK Membership Growth',
-                    markers=True)
-    
-    fig_advocacy_growth.update_traces(
-        line=dict(color=primary_blue, width=3),
-        marker=dict(color=primary_orange, size=10)
-    )
-    
-    fig_advocacy_growth.update_layout(title_font=dict(color=primary_blue))
-    
-    st.plotly_chart(fig_advocacy_growth, use_container_width=True)
     
     # Q2 highlights
     st.markdown("### Q2 2025 Highlights")
@@ -819,13 +1086,6 @@ with tab5:
         )
     
     # Subscriber activity
-    activity_data = {
-        'Period': ['30 day', '60 day', '90 day', '6 months'],
-        'Openers': [221719, 266461, 272011, 295705],
-        'Clickers': [13000, 21147, 22504, 26272]
-    }
-    df_activity = pd.DataFrame(activity_data)
-    
     fig_activity = go.Figure()
     
     fig_activity.add_trace(go.Bar(
@@ -926,7 +1186,7 @@ with tab5:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TEXT MESSAGING SPEND</p>'
-            f'<p class="metric-value">$11,180.21</p>'
+            f'<p class="metric-value">{format_currency(11180.21)}</p>'
             f'</div>', 
             unsafe_allow_html=True
         )
@@ -973,7 +1233,7 @@ with tab6:
             f'<div class="metric-card">'
             f'<p class="metric-title">EARNED REVENUE (STORE SALES)</p>'
             f'<p class="metric-value">Unknown</p>'
-            f'<p>Goal: $400,000</p>'
+            f'<p>Goal: {format_currency(400000)}</p>'
             f'</div>', 
             unsafe_allow_html=True
         )
@@ -1158,7 +1418,7 @@ with tab7:
             f'<div class="metric-card">'
             f'<p class="metric-title">BRICKLAYERS HALL FUNDRAISING</p>'
             f'<p class="metric-value">Unknown</p>'
-            f'<p>Goal: $400,000</p>'
+            f'<p>Goal: {format_currency(400000)}</p>'
             f'</div>', 
             unsafe_allow_html=True
         )
@@ -1226,39 +1486,88 @@ with tab8:
     # Inspirational Stories
     st.markdown('<h4>Voices from the Field: Top 3 Inspirational Stories</h4>', unsafe_allow_html=True)
     
-    st.markdown(
-        f"""
-        <div class="metric-card">
-            <h5>Story 1</h5>
-            <p>Crew Leader Nicole Crooks and the South Florida crew understood the assignment during #SisterhoodSaturday! Nicole's post says it best: "Simply grateful!!! #SisterhoodSaturday during Black Maternal Health Week was absolutely everything! A huge thank you to Maya at Historic Virginia Key Beach Park, Kallima and the entire GirlTREK: Healthy Black Women village, Cortes, Jamarrah and the entire https://southernbirthjustice.org/ (SBJN) village, Kedemah and the entire AKA village, Mama Kuks, Mama Joy, Mama Sheila & Mama Wangari (our beautiful village of elders), to each and every sister who came or supported in any way. AND a SUPERDUPER Thank you, thank you, THANK YOU!!! to Kukuwa Fitness and Nakreshia Causey Born Saturday was filled with magic and joy! And yep... you can grab those GirlTREK inspired leggings at https://www.kukuwafitness.com/ I am so ready for this week's #selfcareschool hope you are too!!!"</p>
-        </div>
-        """,
-        unsafe_allow_html=True
+    # Use expanders for the stories to save space
+    with st.expander("Story 1: Crew Leader Nicole Crooks"):
+        st.markdown(
+            f"""
+            <div class="metric-card">
+                <p>Crew Leader Nicole Crooks and the South Florida crew understood the assignment during #SisterhoodSaturday! Nicole's post says it best: "Simply grateful!!! #SisterhoodSaturday during Black Maternal Health Week was absolutely everything! A huge thank you to Maya at Historic Virginia Key Beach Park, Kallima and the entire GirlTREK: Healthy Black Women village, Cortes, Jamarrah and the entire https://southernbirthjustice.org/ (SBJN) village, Kedemah and the entire AKA village, Mama Kuks, Mama Joy, Mama Sheila & Mama Wangari (our beautiful village of elders), to each and every sister who came or supported in any way. AND a SUPERDUPER Thank you, thank you, THANK YOU!!! to Kukuwa Fitness and Nakreshia Causey Born Saturday was filled with magic and joy! And yep... you can grab those GirlTREK inspired leggings at https://www.kukuwafitness.com/ I am so ready for this week's #selfcareschool hope you are too!!!"</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    with st.expander("Story 2: Amazing TedTalk used in class"):
+        st.markdown(
+            f"""
+            <div class="metric-card">
+                <p>Hello ladies! First and foremost YOU ARE AMAZING. Sending so much love to you all and holding space for your amazing cause. I am a teacher in Ohio and I just wanted to tell you that I am using the TedTalk from 2018 in my Black History in America course. I can't wait to help my students use this frame of understanding. Thank you for shining a light on this - it is so needed!!! Thank you for taking action! Thank you for showing so much loving kindness!!!! I appreciate you all and am so excited for this movement! Much love and respect, Kaitlin Finan kbeeble@gmail.com</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    with st.expander("Story 3: My Sister's Keeper"):
+        st.markdown(
+            f"""
+            <div class="metric-card">
+                <p>Morgan and Vanessa, I walked this evening—first chance I've had in a while. And I talked on the phone to a friend of mine who was also walking at the time and had not walked in a while. I invited her to walk with me and told her about Harriet Day and the meeting last night. I also shared GirlTREK information with her and invited her to join. We're going to start walking together!
+
+                I used to walk all the time. I moved back closer to my hometown four years ago to be near Mama and help take care of her. She got better and was doing great, then all of a sudden she wasn't. Mama transitioned to Heaven a little over a year ago and life has been difficult. She was everything to me. It's just been hard—but by the grace of God, I'm still standing. He did bless us with 3 more years after she was hospitalized 33 days. I'm trying to get my legs back under me. But I am lonely for Mama. 99% of the time, I walked alone...didn't have anyone to walk with. But I would listen in some Saturdays. Everybody is a few towns over, so weekday scheduling is tough. But I also told my sisters and my brother that they were going to walk with me as a part of this next 10-week commitment. Thank you for all that you do, Sandy B. Carter sandybcarter@yahoo.com</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    # Interactive element - satisfaction survey results over time
+    st.markdown("<h4>Member Satisfaction Trend</h4>", unsafe_allow_html=True)
+    
+    # Sample data for satisfaction trend
+    satisfaction_data = {
+        'Month': ['January', 'February', 'March', 'April'],
+        'Satisfaction': [88, 90, 93, 95]
+    }
+    df_satisfaction = pd.DataFrame(satisfaction_data)
+    
+    fig_satisfaction = px.line(df_satisfaction, x='Month', y='Satisfaction',
+                             title='Member Satisfaction Rating Over Time (%)',
+                             markers=True)
+    fig_satisfaction.update_traces(
+        line=dict(color=primary_blue, width=3),
+        marker=dict(color=primary_orange, size=10)
     )
     
-    st.markdown(
-        f"""
-        <div class="metric-card">
-            <h5>Story 2</h5>
-            <p>Amazing TedTalk used in class! Hello ladies! First and foremost YOU ARE AMAZING. Sending so much love to you all and holding space for your amazing cause. I am a teacher in Ohio and I just wanted to tell you that I am using the TedTalk from 2018 in my Black History in America course. I can't wait to help my students use this frame of understanding. Thank you for shining a light on this - it is so needed!!! Thank you for taking action! Thank you for showing so much loving kindness!!!! I appreciate you all and am so excited for this movement! Much love and respect, Kaitlin Finan kbeeble@gmail.com</p>
-        </div>
-        """,
-        unsafe_allow_html=True
+    # Add target line if enabled
+    if show_target_lines:
+        fig_satisfaction.add_shape(
+            type="line",
+            x0=-0.5,
+            y0=85,
+            x1=len(df_satisfaction)-0.5,
+            y1=85,
+            line=dict(
+                color="green",
+                width=2,
+                dash="dash",
+            )
+        )
+        fig_satisfaction.add_annotation(
+            x=0,
+            y=85,
+            text="Goal: 85%",
+            showarrow=False,
+            yshift=-15,
+            font=dict(color="green")
+        )
+    
+    fig_satisfaction.update_layout(
+        xaxis_title='Month',
+        yaxis_title='Satisfaction (%)',
+        yaxis=dict(range=[80, 100]),  # Set y-axis range
+        title_font=dict(color=primary_blue)
     )
     
-    st.markdown(
-        f"""
-        <div class="metric-card">
-            <h5>Story 3</h5>
-            <p>Subject: My Sister's Keeper
-
-Morgan and Vanessa, I walked this evening—first chance I've had in a while. And I talked on the phone to a friend of mine who was also walking at the time and had not walked in a while. I invited her to walk with me and told her about Harriet Day and the meeting last night. I also shared GirlTrek information with her and invited her to join. We're going to start walking together!
-
-I used to walk all the time. I moved back closer to my hometown four years ago to be near Mama and help take care of her. She got better and was doing great, then all of a sudden she wasn't. Mama transitioned to Heaven a little over a year ago and life has been difficult. She was everything to me. It's just been hard—but by the grace of God, I'm still standing. He did bless us with 3 more years after she was hospitalized 33 days. I'm trying to get my legs back under me. But I am lonely for Mama. 99% of the time, I walked alone...didn't have anyone to walk with. But I would listen in some Saturdays. Everybody is a few towns over, so weekday scheduling is tough. But I also told my sisters and my brother that they were going to walk with me as a part of this next 10-week commitment. Thank you for all that you do, Sandy B. Carter sandybcarter@yahoo.com</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.plotly_chart(fig_satisfaction, use_container_width=True)
     
     # Download button
     st.markdown("### Download Member Care Data")
@@ -1280,7 +1589,8 @@ I used to walk all the time. I moved back closer to my hometown four years ago t
     
     member_care_data = {
         "Member Care Metrics": member_care_metrics_df,
-        "Top Member Issues": member_issues_df
+        "Top Member Issues": member_issues_df,
+        "Satisfaction Trend": df_satisfaction
     }
     
     selected_member_care_data = st.selectbox("Select data to download:", list(member_care_data.keys()))
@@ -1336,39 +1646,42 @@ with tab9:
         }
     ]
     
-    # Build the table HTML
-    advocacy_html = """
-    <table class="advocacy-table">
-        <tr>
-            <th>Metric</th>
-            <th>Goal</th>
-            <th>Current Total</th>
-            <th>Status</th>
-        </tr>
-    """
-    
-    # Add rows
-    for item in advocacy_data:
-        # Adding highlighting to specific text as in the screenshot
-        metric_text = item["metric"]
-        if "life expectancy and uplifting best" in metric_text:
-            parts = metric_text.split("life expectancy and uplifting best")
-            metric_display = f"{parts[0]}<span class='highlight'>life expectancy and uplifting best</span>{parts[1]}"
-        else:
-            metric_display = metric_text
-            
-        advocacy_html += f"""
-        <tr>
-            <td>{metric_display}</td>
-            <td>{item["goal"]}</td>
-            <td>{item["current"]}</td>
-            <td>{item["status"]}</td>
-        </tr>
+    # Build the table HTML - with error handling
+    try:
+        advocacy_html = """
+        <table class="advocacy-table">
+            <tr>
+                <th>Metric</th>
+                <th>Goal</th>
+                <th>Current Total</th>
+                <th>Status</th>
+            </tr>
         """
-    
-    advocacy_html += "</table>"
-    
-    st.markdown(advocacy_html, unsafe_allow_html=True)
+        
+        # Add rows
+        for item in advocacy_data:
+            # Adding highlighting to specific text as in the screenshot
+            metric_text = item["metric"]
+            if "life expectancy and uplifting best" in metric_text:
+                parts = metric_text.split("life expectancy and uplifting best")
+                metric_display = f"{parts[0]}<span class='highlight'>life expectancy and uplifting best</span>{parts[1]}"
+            else:
+                metric_display = metric_text
+                
+            advocacy_html += f"""
+            <tr>
+                <td>{metric_display}</td>
+                <td>{item["goal"]}</td>
+                <td>{item["current"]}</td>
+                <td>{status_badge(item["status"])}</td>
+            </tr>
+            """
+        
+        advocacy_html += "</table>"
+        
+        st.markdown(advocacy_html, unsafe_allow_html=True)
+    except Exception as e:
+        st.error(f"Error rendering advocacy table: {str(e)}")
     
     # Additional advocacy metrics
     st.markdown("### Advocacy Partner Organizations")
@@ -1414,4 +1727,68 @@ with tab9:
             f'<p>Goal: 15</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>', 
-            unsafe_allow_
+            unsafe_allow_html=True
+        )
+    
+    # Use a different visualization for policy impact
+    policy_impact_data = {
+        'Policy Area': ['Health Equity', 'Safe Walking Spaces', 'Food Justice', 'Mental Health', 'Environmental Justice'],
+        'Meetings': [2, 1, 1, 1, 1],
+        'Partners': [1, 0, 1, 0, 0]
+    }
+    df_policy = pd.DataFrame(policy_impact_data)
+    
+    fig_policy = px.bar(df_policy, x='Policy Area', y=['Meetings', 'Partners'],
+                      title='Policy Impact by Area',
+                      barmode='group')
+    
+    fig_policy.update_traces(
+        marker_color=[primary_blue, primary_orange],
+    )
+    
+    fig_policy.update_layout(
+        xaxis_title='Policy Area',
+        yaxis_title='Count',
+        legend_title='Type',
+        height=400,
+        title_font=dict(color=primary_blue)
+    )
+    
+    st.plotly_chart(fig_policy, use_container_width=True)
+    
+    # Download button
+    st.markdown("### Download Advocacy Data")
+    
+    # Create dataframe for download
+    advocacy_metrics_df = pd.DataFrame({
+        "Metric": [
+            "Advocacy briefs produced",
+            "Advocacy partners secured",
+            "Media Mentions",
+            "Policy Meetings"
+        ],
+        "Value": [4, 2, 28, 6],
+        "Goal": [10, 20, 50, 15],
+        "Status": ["On Track", "On Track", "On Track", "On Track"]
+    })
+    
+    st.markdown(download_data(advocacy_metrics_df, "GirlTREK_Advocacy_Metrics"), unsafe_allow_html=True)
+
+# Add error handling wrapper for the entire app
+try:
+    # Footer with last updated timestamp
+    current_time = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+    st.markdown(
+        f"""
+        <div style="margin-top: 50px; padding: 20px; background-color: {secondary_beige}; border-radius: 10px; text-align: center;">
+            <h3 style="color: {primary_blue};">GirlTREK - Inspiring Black Women to Walk for Better Health</h3>
+            <p>Data last updated: April 25, 2025</p>
+            <p>Dashboard last refreshed: {current_time}</p>
+            <p>For more information, visit <a href="https://www.girltrek.org" target="_blank" style="color: {primary_blue};">girltrek.org</a></p>
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
+except Exception as e:
+    st.error(f"An error occurred: {str(e)}")
+    st.warning("Please try refreshing the page. If the problem persists, contact support.")
