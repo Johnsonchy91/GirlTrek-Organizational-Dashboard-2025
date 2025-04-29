@@ -237,7 +237,7 @@ if 'data_loaded' not in st.session_state:
 if 'total_membership' not in st.session_state:
     st.session_state.total_membership = 1240394
     st.session_state.new_members = 11356
-    st.session_state.total_contributions = 1094048.68
+    st.session_state.total_contributions = 3061104
     st.session_state.total_grants = 3055250
     st.session_state.data_loaded = True
 
