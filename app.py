@@ -713,17 +713,20 @@ with tab6:
 
     ops_col1, ops_col2 = st.columns(2)
 
-    with ops_col1:
-        budget_fig = px.bar(
-            budget_data,
-            x='Category',
-            y=['Budget', 'Actual'],
-            barmode='group',
-            title='Budget vs Actual Spending',
-            color_discrete_sequence=[primary_blue, primary_orange]
-        )
-        budget_fig.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(budget_fig, use_container_width=True, key="budget_fig")
+# --- Budget Performance Chart (Full Width) ---
+st.markdown('<h4>Budget Performance</h4>', unsafe_allow_html=True)
+
+budget_fig = px.bar(
+    budget_data,
+    x='Category',
+    y=['Budget', 'Actual'],
+    barmode='group',
+    title='Budget vs Actual Spending',
+    color_discrete_sequence=[primary_blue, primary_orange]
+)
+budget_fig.update_layout(title_font=dict(color=primary_blue))
+
+st.plotly_chart(budget_fig, use_container_width=True, key="budget_fig")
 
     with ops_col2:
         for i, row in budget_data.iterrows():
