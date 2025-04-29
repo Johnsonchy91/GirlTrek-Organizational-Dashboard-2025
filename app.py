@@ -708,11 +708,6 @@ with tab5:
 with tab6:
     st.markdown('<h3 class="section-title">Operations Metrics</h3>', unsafe_allow_html=True)
 
-    # --- Budget Breakdown ---
-    st.markdown('<h4>Budget Performance</h4>', unsafe_allow_html=True)
-
-    ops_col1, ops_col2 = st.columns(2)
-
     # --- Budget Performance Chart (Full Width) ---
     st.markdown('<h4>Budget Performance</h4>', unsafe_allow_html=True)
     
