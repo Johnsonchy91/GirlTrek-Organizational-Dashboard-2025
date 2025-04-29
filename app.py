@@ -1,4 +1,31 @@
+import sys
+import subprocess
+
+# Check if reportlab is installed, if not install it
+try:
+    import reportlab
+except ImportError:
+    print("ReportLab not found. Installing...")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "reportlab"])
+    print("ReportLab installed successfully!")
+    import reportlab
+
+# Now continue with the rest of your imports
 import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+from datetime import datetime
+import base64
+import re
+import uuid
+import io
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
+from reportlab.lib.units import inchimport streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
