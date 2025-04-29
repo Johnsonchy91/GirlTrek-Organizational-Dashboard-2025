@@ -247,12 +247,21 @@ st.markdown("*Data dashboard was published on April 25, 2025*")
 
 # Sample data for charts and visualizations (consolidated to avoid duplication)
 # ----- Monthly new members data -----
-month_data = {
-    'Month': ['January', 'February', 'March', 'April'],
-    'New Members': [591, 1574, 4382, 4809],
-    'Date': [datetime(2025, 1, 1), datetime(2025, 2, 1), datetime(2025, 3, 1), datetime(2025, 4, 1)]
-}
-df_months = pd.DataFrame(month_data)
+extended_month_data = {
+    'Month': ['Jan-Sep 2024', 'Oct 2024', 'Nov 2024', 'Dec 2024', 'Jan 2025', 'Feb 2025', 'Mar 2025', 'Apr 2025'],
+    'New Members': [20008, 1365, 1419, 182, 591, 1588, 4382, 6073],
+    'Date': [
+        datetime(2024, 9, 30),  # Representing the Jan-Sep period
+        datetime(2024, 10, 1), 
+        datetime(2024, 11, 1), 
+        datetime(2024, 12, 1), 
+        datetime(2025, 1, 1), 
+        datetime(2025, 2, 1), 
+        datetime(2025, 3, 1), 
+        datetime(2025, 4, 1)
+    ]
+ }
+df_extended = pd.DataFrame(extended_month_data)
 
 # ----- Age group distribution data -----
 new_age_data = {
@@ -461,16 +470,52 @@ with tab1:
             unsafe_allow_html=True
         )
     
-    # Member growth chart
-    fig_growth = px.line(df_member_growth, x='Quarter', y='Members', 
-                       title='GirlTREK Membership Growth',
-                       markers=True)
-    fig_growth.update_traces(
-        line=dict(color=primary_blue, width=3),
-        marker=dict(color=primary_orange, size=10)
+    # Create bar chart instead of line chart for Membership Growth
+    fig_months = px.bar(df_extended, x='Month', y='New Members', 
+                      title='New Member Contacts (2024-2025)',
+                      color='New Members',
+                      color_continuous_scale=[secondary_blue, primary_blue, primary_orange])
+    
+    # Add annotations for 2024 Jan-Sep total
+    fig_months.add_annotation(
+        x='Jan-Sep 2024',
+        y=20008,
+        text='20,008 total contacts',
+        showarrow=True,
+        arrowhead=1,
+        ax=0,
+        ay=-40
     )
-    fig_growth.update_layout(title_font=dict(color=primary_blue))
-    st.plotly_chart(fig_growth, use_container_width=True)
+    
+    # Add annotations for significant growth in recent months
+    fig_months.add_annotation(
+        x='Mar 2025',
+        y=4382,
+        text='177% increase',
+        showarrow=True,
+        arrowhead=1,
+        ax=40,
+        ay=-40
+    )
+    
+    fig_months.add_annotation(
+        x='Apr 2025',
+        y=6073,
+        text='39% increase',
+        showarrow=True,
+        arrowhead=1,
+        ax=40,
+        ay=-40
+    )
+    
+    fig_months.update_layout(
+        title_font=dict(color=primary_blue),
+        yaxis_title='Number of New Contacts',
+        xaxis_title='Month',
+        height=500  # Make the chart a bit taller to accommodate the large first bar
+    )
+    
+    st.plotly_chart(fig_months, use_container_width=True)
     
     # Download button for this tab
     report_df = pd.DataFrame({
