@@ -889,10 +889,7 @@ with tab3:
     
     # Age demographics and Badges claimed  
     st.markdown('<h4>Campaign Metrics</h4>', unsafe_allow_html=True)
-    
-    age_col1, age_col2 = st.columns([1, 3])
-    
-    with age_col1:
+        
         st.markdown(
             f"""
             <div style="background-color: #FFEBEE; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
@@ -903,46 +900,6 @@ with tab3:
             """,
             unsafe_allow_html=True
         )
-    
-    with age_col2:
-        # Badges claimed by week
-        badges_col1, badges_col2, badges_col3 = st.columns(3)
-        
-        with badges_col1:
-            st.markdown(
-                f"""
-                <div style="background-color: #E0F7FA; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <h4 style="color: #00838F; margin-top: 0;">WEEK 0 BADGES</h4>
-                    <div style="font-size: 28px; font-weight: bold; color: #00838F; margin: 5px 0;">3,089</div>
-                    <p style="color: #00838F; font-size: 14px;">Goal: 5,000/week</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        
-        with badges_col2:
-            st.markdown(
-                f"""
-                <div style="background-color: #E0F7FA; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <h4 style="color: #00838F; margin-top: 0;">WEEK 1 BADGES</h4>
-                    <div style="font-size: 28px; font-weight: bold; color: #00838F; margin: 5px 0;">2,061</div>
-                    <p style="color: #00838F; font-size: 14px;">Goal: 5,000/week</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        
-        with badges_col3:
-            st.markdown(
-                f"""
-                <div style="background-color: #E0F7FA; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <h4 style="color: #00838F; margin-top: 0;">WEEK 2 BADGES</h4>
-                    <div style="font-size: 28px; font-weight: bold; color: #00838F; margin: 5px 0;">2,197</div>
-                    <p style="color: #00838F; font-size: 14px;">Goal: 5,000/week</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
     
     # Badges Claimed Chart
     engage_badges_fig = px.bar(
