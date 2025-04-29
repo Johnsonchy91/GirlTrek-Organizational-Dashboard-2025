@@ -1444,14 +1444,12 @@ with tab7:
     create_notes_section("Member Care")
     
     with st.expander("Story 2: Amazing Ted Talk used in class!"):
-        st.markdown(
-            """
-            Hello ladies! First and foremost YOU ARE AMAZING. Sending so much love to you all and holding space for your amazing cause. 
-            I am a teacher in Ohio and I just wanted to tell you that I am using the TedTalk from 2018 in my Black History in America course. 
-            I can't wait to help my students use this frame of understanding. Thank you for shining a light on this - it is so needed! 
-            Thank you for taking action! Thank you for showing so much loving kindness! I appreciate you all and am so excited for this movement! 
-            Much love and respect, Kaitlin Finan
-            """
+        st.write(
+            "Hello ladies! First and foremost YOU ARE AMAZING. Sending so much love to you all and holding space for your amazing cause. "
+            "I am a teacher in Ohio and I just wanted to tell you that I am using the TedTalk from 2018 in my Black History in America course. "
+            "I can't wait to help my students use this frame of understanding. Thank you for shining a light on this - it is so needed! "
+            "Thank you for taking action! Thank you for showing so much loving kindness! I appreciate you all and am so excited for this movement! "
+            "Much love and respect, Kaitlin Finan"
         )
     
     with st.expander("Story 3: My Sister's Keeper"):
