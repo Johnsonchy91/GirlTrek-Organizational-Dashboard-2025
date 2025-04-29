@@ -1128,7 +1128,9 @@ with tab5:
         )
     
     # Recruitment Metrics that need updates
-    
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
     recruit_col1, recruit_col2 = st.columns(2)
     
     with recruit_col1:
