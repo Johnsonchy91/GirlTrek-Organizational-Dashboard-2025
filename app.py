@@ -882,7 +882,7 @@ with tab3:
             f"""
             <div style="background-color: #E1F5FE; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                 <h4 style="color: #0277BD; margin-top: 0;">STORIES SUBMITTED</h4>
-                <div style="font-size: 36px; font-weight: bold; color: #0277BD; margin: 10px 0;">234</div>
+                <div style="font-size: 36px; font-weight: bold; color: #0277BD; margin: 8px 0;">234</div>
                 <p style="color: #0277BD;">Goal: 100</p>
                 <p>{status_badge("Achieved")}</p>
             </div>
