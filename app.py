@@ -1399,28 +1399,30 @@ with tab7:
             "Much love and respect, Kaitlin Finan"
         )
     
-    with st.expander("Story 3: My Sister's Keeper"):
-        st.markdown(
-            """
-            Morgan and Vanessa, I walked this evening. First chance I've had in a while.
-            And I talked on the phone to a friend of mine who was also walking at the time and had not walked in a while. 
-            I invited her to walk with me and told her about Harriet Day and the meeting last night. 
-            I also shared GirlTREK information with her and invited her to join. We're going to start walking together!
-    
-            I used to walk all the time. I moved back closer to my hometown four years ago to be near Mama and help take care of her. 
-            She got better and was doing great, then all of a sudden she wasn't. Mama transitioned to Heaven a little over a year ago 
-            and life has been difficult. She was everything to me. It's just been hard — but by the grace of God, I'm still standing. 
-            He did bless us with 3 more years after she was hospitalized 33 days. I'm trying to get my legs back under me. 
-            But I am lonely for Mama.
-    
-            99% of the time, I walked alone…didn't have anyone to walk with. But I would listen in some Saturdays. 
-            Everybody is a few towns over, so weekday scheduling is tough. But I also told my sisters and my brother 
-            that they were going to walk with me as a part of this next 10-week commitment.
-    
-            Thank you for all that you do,  
-            Sandy B. Carter
-            """
-        )
+with st.expander("Story 3: My Sister's Keeper"):
+    st.markdown(
+        ""Morgan and Vanessa, I walked this evening. First chance I've had in a while.
+        And I talked on the phone to a friend of mine who was also walking at the time and had not walked in a while. 
+        I invited her to walk with me and told her about Harriet Day and the meeting last night. 
+        I also shared GirlTREK information with her and invited her to join. We're going to start walking together!
+
+        I used to walk all the time. I moved back closer to my hometown four years ago to be near Mama and help take care of her. 
+        She got better and was doing great, then all of a sudden she wasn't. Mama transitioned to Heaven a little over a year ago 
+        and life has been difficult. She was everything to me. It's just been hard — but by the grace of God, I'm still standing. 
+        He did bless us with 3 more years after she was hospitalized 33 days. I'm trying to get my legs back under me. 
+        But I am lonely for Mama.
+
+        99% of the time, I walked alone…didn't have anyone to walk with. But I would listen in some Saturdays. 
+        Everybody is a few towns over, so weekday scheduling is tough. But I also told my sisters and my brother 
+        that they were going to walk with me as a part of this next 10-week commitment.
+
+        Thank you for all that you do,  
+        Sandy B. Carter
+        ""
+    )
+
+
+
 
 
 
