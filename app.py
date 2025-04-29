@@ -723,7 +723,7 @@ with tab6:
     
     st.plotly_chart(budget_fig, use_container_width=True, key="budget_fig")
 
-    with ops_col2:
+    with ops_col1:
         for i, row in budget_data.iterrows():
             percent = row['Percent']
             category = row['Category']
