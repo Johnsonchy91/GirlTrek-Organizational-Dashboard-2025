@@ -1359,6 +1359,1034 @@ with tab5:
                 </div>
             </div>
             
+            <div style="font-size: 14px; color: #666; margin-top: 15px; padding: 10px; background-color: #f9f9f9; border-radius: 5px;">
+                <strong>Industry Context:</strong> SMS messages typically have click-through rates of 6.3% for fundraising messages and 10% for advocacy messages.
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    # Email engagement over time visualization
+    st.markdown("<h3>Email Engagement Over Time</h3>", unsafe_allow_html=True)
+    
+    # Sample email engagement data
+    email_trend_data = pd.DataFrame({
+        'Month': ['January', 'February', 'March', 'April'],
+        'Open Rate': [33.8, 34.2, 34.6, 34.95],
+        'Click Rate': [2.9, 3.4, 4.1, 5.9],
+        'Date': [datetime(2025, 1, 1), datetime(2025, 2, 1), datetime(2025, 3, 1), datetime(2025, 4, 1)]
+    })
+    
+    # Create a line chart for email engagement trends
+    email_trend_fig = go.Figure()
+    
+    email_trend_fig.add_trace(go.Scatter(
+        x=email_trend_data['Month'],
+        y=email_trend_data['Open Rate'],
+        mode='lines+markers',
+        name='Open Rate (%)',
+        line=dict(color=primary_blue, width=3),
+        marker=dict(color=primary_blue, size=8)
+    ))
+    
+    email_trend_fig.add_trace(go.Scatter(
+        x=email_trend_data['Month'],
+        y=email_trend_data['Click Rate'],
+        mode='lines+markers',
+        name='Click Rate (%)',
+        line=dict(color=primary_orange, width=3),
+        marker=dict(color=primary_orange, size=8)
+    ))
+    
+    # Add target line for open rate if target lines are enabled
+    if show_target_lines:
+        email_trend_fig.add_shape(
+            type="line",
+            x0='January',
+            y0=35,
+            x1='April',
+            y1=35,
+            line=dict(
+                color="green",
+                width=2,
+                dash="dash",
+            )
+        )
+        email_trend_fig.add_annotation(
+            x='April',
+            y=35,
+            text="Target Open Rate: 35%",
+            showarrow=False,
+            yshift=10,
+            font=dict(color="green")
+        )
+    
+    email_trend_fig.update_layout(
+        title='Email Engagement Trends',
+        xaxis_title='Month',
+        yaxis_title='Rate (%)',
+        legend_title='Metric',
+        height=400,
+        title_font=dict(color=primary_blue)
+    )
+    
+    st.plotly_chart(email_trend_fig, use_container_width=True, key=f"marketing_line_email_{generate_unique_id()}")
+    
+    # Social media metrics
+    st.markdown("<h3>Social Media Metrics</h3>", unsafe_allow_html=True)
+    
+    social_col1, social_col2, social_col3, social_col4 = st.columns(4)
+    
+    with social_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">INSTAGRAM FOLLOWERS</p>'
+            f'<p class="metric-value">127,450</p>'
+            f'<p>+2.5% from Q1</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with social_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">FACEBOOK FOLLOWERS</p>'
+            f'<p class="metric-value">98,265</p>'
+            f'<p>+1.2% from Q1</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with social_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TWITTER FOLLOWERS</p>'
+            f'<p class="metric-value">42,871</p>'
+            f'<p>+3.1% from Q1</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with social_col4:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">YOUTUBE SUBSCRIBERS</p>'
+            f'<p class="metric-value">18,539</p>'
+            f'<p>+5.4% from Q1</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Social engagement metrics
+    social2_col1, social2_col2 = st.columns(2)
+    
+    with social2_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">AVERAGE INSTAGRAM ENGAGEMENT RATE</p>'
+            f'<p class="metric-value">3.8%</p>'
+            f'<p>Benchmark: 2%</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with social2_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">AVERAGE FACEBOOK ENGAGEMENT RATE</p>'
+            f'<p class="metric-value">2.1%</p>'
+            f'<p>Benchmark: 1%</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Top performing posts
+    st.markdown("<h3>Top Performing Content</h3>", unsafe_allow_html=True)
+    
+    # Sample top posts data
+    top_posts_data = [
+        {"Platform": "Instagram", "Content": "Self-Care Schools Launch", "Engagement": "12,450 likes, 1,835 comments", "Notes": "Strong engagement from target demographic 35-49"},
+        {"Platform": "Facebook", "Content": "Crew Leader Feature: Atlanta", "Engagement": "8,245 reactions, 543 shares", "Notes": "Successful geographic targeting"},
+        {"Platform": "Twitter", "Content": "National Walking Day Event", "Engagement": "2,160 retweets, 167 replies", "Notes": "High sharing rate and conversion to website clicks"},
+        {"Platform": "YouTube", "Content": "Morning Walk Routine Tutorial", "Engagement": "24,815 views, 1,250 likes", "Notes": "8.5 minute average watch time"}
+    ]
+    
+    # Display top posts in a clean table format
+    for post in top_posts_data:
+        st.markdown(
+            f"""
+            <div style="background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 10px;">
+                <div style="display: flex; align-items: center;">
+                    <div style="font-weight: bold; color: #0088FF; width: 100px;">{post['Platform']}</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold;">{post['Content']}</div>
+                        <div style="font-size: 14px; color: #666;">{post['Engagement']}</div>
+                        <div style="font-size: 12px; color: #888; font-style: italic; margin-top: 5px;">{post['Notes']}</div>
+                    </div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    # Download button for marketing data
+    st.markdown("### Download Marketing Data")
+    
+    # Create marketing metrics dataframe for download
+    marketing_metrics_list = [
+        {"Metric": "Total Subscribers", "Value": "931,141", "Goal": "1,300,000", "Status": "On Track"},
+        {"Metric": "Active Subscribers", "Value": "297,283", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "Average Email Open Rate", "Value": "34.95%", "Goal": "35%", "Status": "On Track"},
+        {"Metric": "30-Day Email Opens", "Value": "221,719", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "30-Day Email Clicks", "Value": "13,000", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "Instagram Followers", "Value": "127,450", "Goal": "150,000", "Status": "On Track"},
+        {"Metric": "Facebook Followers", "Value": "98,265", "Goal": "120,000", "Status": "At Risk"},
+        {"Metric": "Twitter Followers", "Value": "42,871", "Goal": "50,000", "Status": "On Track"},
+        {"Metric": "YouTube Subscribers", "Value": "18,539", "Goal": "25,000", "Status": "On Track"}
+    ]
+    marketing_metrics_df = pd.DataFrame(marketing_metrics_list)
+    
+    st.markdown(download_data(marketing_metrics_df, "GirlTREK_Marketing_Metrics"), unsafe_allow_html=True)
+
+with tab6:
+    st.markdown('<h3 class="section-title">Operations Metrics</h3>', unsafe_allow_html=True)
+    
+    # Operations metrics
+    st.markdown("<h3>Staff & Team Metrics</h3>", unsafe_allow_html=True)
+    
+    ops_col1, ops_col2, ops_col3 = st.columns(3)
+    
+    with ops_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL TEAM MEMBERS</p>'
+            f'<p class="metric-value">48</p>'
+            f'<p>Goal: 65</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with ops_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">OPEN POSITIONS</p>'
+            f'<p class="metric-value">7</p>'
+            f'<p>In active recruitment</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with ops_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">STAFF RETENTION RATE</p>'
+            f'<p class="metric-value">93%</p>'
+            f'<p>Goal: >90%</p>'
+            f'<p>{status_badge("Achieved")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Technology systems metrics
+    st.markdown("<h3>Technology Systems</h3>", unsafe_allow_html=True)
+    
+    tech_col1, tech_col2 = st.columns(2)
+    
+    with tech_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">APP DOWNLOADS</p>'
+            f'<p class="metric-value">32,450</p>'
+            f'<p>Goal: 100,000</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with tech_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">ACTIVE APP USERS</p>'
+            f'<p class="metric-value">18,736</p>'
+            f'<p>57.7% of downloads</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Website metrics
+    st.markdown("<h3>Website Performance</h3>", unsafe_allow_html=True)
+    
+    web_col1, web_col2, web_col3 = st.columns(3)
+    
+    with web_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">MONTHLY WEBSITE VISITORS</p>'
+            f'<p class="metric-value">124,856</p>'
+            f'<p>+18% from Q1</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with web_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">AVERAGE SESSION DURATION</p>'
+            f'<p class="metric-value">3:42</p>'
+            f'<p>+0:15 from Q1</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with web_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">CONVERSION RATE</p>'
+            f'<p class="metric-value">4.8%</p>'
+            f'<p>Goal: 5%</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # IT efficiency metrics
+    st.markdown("<h3>IT & Operations Efficiency</h3>", unsafe_allow_html=True)
+    
+    it_col1, it_col2 = st.columns(2)
+    
+    with it_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">AVERAGE SUPPORT TICKET RESOLUTION TIME</p>'
+            f'<p class="metric-value">16.4 hours</p>'
+            f'<p>Goal: <24 hours</p>'
+            f'<p>{status_badge("Achieved")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with it_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">SYSTEM UPTIME</p>'
+            f'<p class="metric-value">99.7%</p>'
+            f'<p>Goal: >99.5%</p>'
+            f'<p>{status_badge("Achieved")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Operational budget performance
+    st.markdown("<h3>Operational Budget Performance</h3>", unsafe_allow_html=True)
+    
+    # Sample budget data
+    budget_data = pd.DataFrame({
+        'Category': ['Personnel', 'Technology', 'Facilities', 'Marketing', 'Programs', 'Admin'],
+        'Budget': [2100000, 850000, 320000, 750000, 1200000, 280000],
+        'Actual': [1950000, 790000, 295000, 710000, 1050000, 265000],
+        'Percent': [92.9, 92.9, 92.2, 94.7, 87.5, 94.6]
+    })
+    
+    # Create budget performance visualization
+    budget_fig = go.Figure()
+    
+    budget_fig.add_trace(go.Bar(
+        x=budget_data['Category'],
+        y=budget_data['Budget'],
+        name='Budget',
+        marker_color=primary_blue
+    ))
+    
+    budget_fig.add_trace(go.Bar(
+        x=budget_data['Category'],
+        y=budget_data['Actual'],
+        name='Actual',
+        marker_color=primary_orange
+    ))
+    
+    budget_fig.update_layout(
+        title='Budget vs. Actual Spending by Category',
+        xaxis_title='Category',
+        yaxis_title='Amount ($)',
+        barmode='group',
+        height=400,
+        title_font=dict(color=primary_blue)
+    )
+    
+    st.plotly_chart(budget_fig, use_container_width=True, key=f"ops_bar_budget_{generate_unique_id()}")
+    
+    # Download button for operations data
+    st.markdown("### Download Operations Data")
+    
+    # Create operations metrics dataframe for download
+    operations_metrics_list = [
+        {"Metric": "Total Team Members", "Value": "48", "Goal": "65", "Status": "On Track"},
+        {"Metric": "Open Positions", "Value": "7", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "Staff Retention Rate", "Value": "93%", "Goal": ">90%", "Status": "Achieved"},
+        {"Metric": "App Downloads", "Value": "32,450", "Goal": "100,000", "Status": "At Risk"},
+        {"Metric": "Active App Users", "Value": "18,736", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "Monthly Website Visitors", "Value": "124,856", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "Average Session Duration", "Value": "3:42", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "Conversion Rate", "Value": "4.8%", "Goal": "5%", "Status": "On Track"},
+        {"Metric": "Average Support Ticket Resolution Time", "Value": "16.4 hours", "Goal": "<24 hours", "Status": "Achieved"},
+        {"Metric": "System Uptime", "Value": "99.7%", "Goal": ">99.5%", "Status": "Achieved"}
+    ]
+    operations_metrics_df = pd.DataFrame(operations_metrics_list)
+    
+    st.markdown(download_data(operations_metrics_df, "GirlTREK_Operations_Metrics"), unsafe_allow_html=True)
+
+with tab7:
+    st.markdown('<h3 class="section-title">Member Care Metrics</h3>', unsafe_allow_html=True)
+    
+    # Member care metrics
+    st.markdown("<h3>Support & Satisfaction</h3>", unsafe_allow_html=True)
+    
+    care_col1, care_col2, care_col3 = st.columns(3)
+    
+    with care_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">MEMBER SATISFACTION SCORE</p>'
+            f'<p class="metric-value">4.7/5.0</p>'
+            f'<p>Goal: >4.5</p>'
+            f'<p>{status_badge("Achieved")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with care_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">SUPPORT TICKETS SUBMITTED</p>'
+            f'<p class="metric-value">2,487</p>'
+            f'<p>-12% from Q1</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with care_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">AVERAGE FIRST RESPONSE TIME</p>'
+            f'<p class="metric-value">3.2 hours</p>'
+            f'<p>Goal: <4 hours</p>'
+            f'<p>{status_badge("Achieved")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Support ticket breakdown
+    st.markdown("<h3>Support Ticket Categories</h3>", unsafe_allow_html=True)
+    
+    # Sample support ticket data
+    ticket_data = pd.DataFrame({
+        'Category': ['Account Issues', 'App/Tech Support', 'Membership Questions', 'Event Support', 'Resources Access', 'Other'],
+        'Count': [872, 654, 421, 245, 186, 109]
+    })
+    
+    # Create support ticket visualization
+    ticket_fig = px.pie(ticket_data, values='Count', names='Category', 
+                  title='Support Ticket Distribution by Category',
+                  color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
+                                         secondary_blue, secondary_orange, secondary_teal])
+    ticket_fig.update_traces(textposition='inside', textinfo='percent+label')
+    ticket_fig.update_layout(title_font=dict(color=primary_blue))
+    
+    st.plotly_chart(ticket_fig, use_container_width=True, key=f"care_pie_tickets_{generate_unique_id()}")
+    
+    # Member care program metrics
+    st.markdown("<h3>Member Care Programs</h3>", unsafe_allow_html=True)
+    
+    program_col1, program_col2 = st.columns(2)
+    
+    with program_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">MENTORSHIP PROGRAM PARTICIPANTS</p>'
+            f'<p class="metric-value">325</p>'
+            f'<p>Goal: 500</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with program_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">NEW MEMBER WELCOME CALLS COMPLETED</p>'
+            f'<p class="metric-value">1,875</p>'
+            f'<p>Goal: 5,000</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Member retention metrics
+    st.markdown("<h3>Retention Metrics</h3>", unsafe_allow_html=True)
+    
+    retention_col1, retention_col2 = st.columns(2)
+    
+    with retention_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">30-DAY ACTIVE MEMBER RATE</p>'
+            f'<p class="metric-value">42%</p>'
+            f'<p>Goal: 50%</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with retention_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">LAPSED MEMBER REACTIVATION RATE</p>'
+            f'<p class="metric-value">8.5%</p>'
+            f'<p>Goal: 10%</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Member retention over time visualization
+    st.markdown("<h3>Member Retention Over Time</h3>", unsafe_allow_html=True)
+    
+    # Sample retention data
+    retention_data = pd.DataFrame({
+        'Month': ['January', 'February', 'March', 'April'],
+        'New Member Retention': [78, 76, 82, 85],
+        'Overall Retention': [91, 92, 93, 94],
+        'Date': [datetime(2025, 1, 1), datetime(2025, 2, 1), datetime(2025, 3, 1), datetime(2025, 4, 1)]
+    })
+    
+    # Create retention visualization
+    retention_fig = go.Figure()
+    
+    retention_fig.add_trace(go.Scatter(
+        x=retention_data['Month'],
+        y=retention_data['New Member Retention'],
+        mode='lines+markers',
+        name='New Member Retention (%)',
+        line=dict(color=primary_blue, width=3),
+        marker=dict(color=primary_blue, size=8)
+    ))
+    
+    retention_fig.add_trace(go.Scatter(
+        x=retention_data['Month'],
+        y=retention_data['Overall Retention'],
+        mode='lines+markers',
+        name='Overall Retention (%)',
+        line=dict(color=primary_orange, width=3),
+        marker=dict(color=primary_orange, size=8)
+    ))
+    
+    retention_fig.update_layout(
+        title='Monthly Retention Rates',
+        xaxis_title='Month',
+        yaxis_title='Retention Rate (%)',
+        legend_title='Metric',
+        height=400,
+        title_font=dict(color=primary_blue)
+    )
+    
+    st.plotly_chart(retention_fig, use_container_width=True, key=f"care_line_retention_{generate_unique_id()}")
+    
+    # Member journey progress
+    st.markdown("<h3>Member Journey Progress</h3>", unsafe_allow_html=True)
+    
+    # Sample journey data
+    journey_data = pd.DataFrame({
+        'Stage': ['Sign Up', 'Profile Creation', 'First Walk Logged', 'Join a Group', 'Host an Event', 'Complete Challenge'],
+        'Percentage': [100, 82, 64, 43, 18, 12]
+    })
+    
+    # Create journey funnel visualization
+    journey_fig = go.Figure(go.Funnel(
+        y=journey_data['Stage'],
+        x=journey_data['Percentage'],
+        textinfo="value+percent initial",
+        marker={"color": [primary_blue, secondary_blue, primary_orange, secondary_orange, primary_yellow, secondary_gold]}
+    ))
+    
+    journey_fig.update_layout(
+        title='Member Journey Funnel',
+        height=500,
+        title_font=dict(color=primary_blue)
+    )
+    
+    st.plotly_chart(journey_fig, use_container_width=True, key=f"care_funnel_journey_{generate_unique_id()}")
+    
+    # Download button for member care data
+    st.markdown("### Download Member Care Data")
+    
+    # Create member care metrics dataframe for download
+    member_care_metrics_list = [
+        {"Metric": "Member Satisfaction Score", "Value": "4.7/5.0", "Goal": ">4.5", "Status": "Achieved"},
+        {"Metric": "Support Tickets Submitted", "Value": "2,487", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "Average First Response Time", "Value": "3.2 hours", "Goal": "<4 hours", "Status": "Achieved"},
+        {"Metric": "Mentorship Program Participants", "Value": "325", "Goal": "500", "Status": "On Track"},
+        {"Metric": "New Member Welcome Calls Completed", "Value": "1,875", "Goal": "5,000", "Status": "At Risk"},
+        {"Metric": "30-Day Active Member Rate", "Value": "42%", "Goal": "50%", "Status": "At Risk"},
+        {"Metric": "Lapsed Member Reactivation Rate", "Value": "8.5%", "Goal": "10%", "Status": "On Track"}
+    ]
+    member_care_metrics_df = pd.DataFrame(member_care_metrics_list)
+    
+    st.markdown(download_data(member_care_metrics_df, "GirlTREK_Member_Care_Metrics"), unsafe_allow_html=True)
+
+with tab8:
+    st.markdown('<h3 class="section-title">Advocacy Metrics</h3>', unsafe_allow_html=True)
+    
+    # Advocacy metrics
+    st.markdown("<h3>Partnership & Engagement</h3>", unsafe_allow_html=True)
+    
+    adv_col1, adv_col2, adv_col3 = st.columns(3)
+    
+    with adv_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL ADVOCACY PARTNERS</p>'
+            f'<p class="metric-value">12</p>'
+            f'<p>Goal: 20</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with adv_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">POLICY ENGAGEMENT CAMPAIGNS</p>'
+            f'<p class="metric-value">3</p>'
+            f'<p>Goal: 10</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with adv_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">ACTIVE ADVOCACY VOLUNTEERS</p>'
+            f'<p class="metric-value">458</p>'
+            f'<p>Goal: 1,000</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Community involvement metrics
+    st.markdown("<h3>Community Involvement</h3>", unsafe_allow_html=True)
+    
+    community_col1, community_col2 = st.columns(2)
+    
+    with community_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">COMMUNITY LISTENING SESSIONS</p>'
+            f'<p class="metric-value">28</p>'
+            f'<p>Goal: 100</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with community_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL LISTENING SESSION PARTICIPANTS</p>'
+            f'<p class="metric-value">845</p>'
+            f'<p>Goal: 2,500</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Policy engagement metrics
+    st.markdown("<h3>Policy Engagement</h3>", unsafe_allow_html=True)
+    
+    # Sample policy data
+    policy_data = pd.DataFrame({
+        'Category': ['Transportation', 'Parks & Recreation', 'Public Safety', 'Food Access', 'Healthcare'],
+        'Engagement Level': [85, 62, 45, 30, 25]
+    })
+    
+    # Create policy engagement visualization
+    policy_fig = px.bar(policy_data, x='Category', y='Engagement Level',
+                  title='Policy Engagement by Category',
+                  color='Engagement Level',
+                  color_continuous_scale=[secondary_teal, primary_blue, primary_orange])
+    policy_fig.update_layout(title_font=dict(color=primary_blue))
+    
+    st.plotly_chart(policy_fig, use_container_width=True, key=f"adv_bar_policy_{generate_unique_id()}")
+    
+    # Pending legislation tracking
+    st.markdown("<h3>Pending Legislation Tracking</h3>", unsafe_allow_html=True)
+    
+    # Sample legislation data - display in a table format
+    legislation_data = [
+        {"Bill": "H.R. 1234 - Walkable Communities Act", "Level": "Federal", "Status": "Committee Review", "Priority": "High", "Partner": "Active Transportation Alliance"},
+        {"Bill": "S.B. 567 - Urban Green Space Funding", "Level": "State", "Status": "Passed Senate", "Priority": "Medium", "Partner": "Parks Alliance"},
+        {"Bill": "C.O. 89 - Safe Routes to School", "Level": "Local", "Status": "Public Comment", "Priority": "High", "Partner": "School Health Coalition"},
+        {"Bill": "H.R. 2045 - Physical Activity in Healthcare", "Level": "Federal", "Status": "Introduced", "Priority": "Medium", "Partner": "None"}
+    ]
+    
+    # Display legislation data in a clean table format
+    for bill in legislation_data:
+        # Determine priority color
+        if bill["Priority"] == "High":
+            priority_color = "#F44336"  # Red
+        elif bill["Priority"] == "Medium":
+            priority_color = "#FF9800"  # Orange
+        else:
+            priority_color = "#4CAF50"  # Green
+        
+        st.markdown(
+            f"""
+            <div style="background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 10px;">
+                <div style="display: flex; align-items: center;">
+                    <div style="flex: 3;">
+                        <div style="font-weight: bold;">{bill['Bill']}</div>
+                        <div style="font-size: 14px; color: #666;">Level: {bill['Level']} | Status: {bill['Status']}</div>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <div style="display: inline-block; padding: 3px 10px; background-color: {priority_color}; color: white; border-radius: 4px;">{bill['Priority']}</div>
+                    </div>
+                    <div style="flex: 1; text-align: right; font-size: 14px;">
+                        <div>Partner: {bill['Partner']}</div>
+                    </div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    # Impact of advocacy efforts
+    st.markdown("<h3>Impact of Advocacy Efforts</h3>", unsafe_allow_html=True)
+    
+    impact_col1, impact_col2 = st.columns(2)
+    
+    with impact_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">POLICY CHANGES INFLUENCED</p>'
+            f'<p class="metric-value">2</p>'
+            f'<p>Goal: 5</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with impact_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">COMMUNITY MEMBERS MOBILIZED</p>'
+            f'<p class="metric-value">1,245</p>'
+            f'<p>Goal: 5,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Recent advocacy actions
+    st.markdown("<h3>Recent Advocacy Actions</h3>", unsafe_allow_html=True)
+    
+    # Display recent actions in a timeline format
+    st.markdown(
+        """
+        <div style="position: relative; padding-left: 30px; margin-bottom: 30px;">
+            <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background-color: #0088FF;"></div>
+            
+            <div style="position: absolute; left: -8px; top: 0; width: 20px; height: 20px; border-radius: 50%; background-color: #0088FF;"></div>
+            <div style="margin-bottom: 25px;">
+                <div style="font-weight: bold;">April 18, 2025 - Parks Access Coalition Meeting</div>
+                <div style="font-size: 14px; color: #666;">Participated in coalition planning meeting to draft recommendations for increasing safe access to parks in underserved communities.</div>
+            </div>
+            
+            <div style="position: absolute; left: -8px; top: 80px; width: 20px; height: 20px; border-radius: 50%; background-color: #0088FF;"></div>
+            <div style="margin-bottom: 25px;">
+                <div style="font-weight: bold;">April 10, 2025 - Transportation Committee Public Comment</div>
+                <div style="font-size: 14px; color: #666;">Organized 35 members to provide public comments at city transportation committee meeting regarding pedestrian safety improvements.</div>
+            </div>
+            
+            <div style="position: absolute; left: -8px; top: 160px; width: 20px; height: 20px; border-radius: 50%; background-color: #0088FF;"></div>
+            <div style="margin-bottom: 25px;">
+                <div style="font-weight: bold;">March 28, 2025 - Community Health Roundtable</div>
+                <div style="font-size: 14px; color: #666;">Co-hosted community health roundtable with local healthcare providers to discuss barriers to physical activity in three target neighborhoods.</div>
+            </div>
+            
+            <div style="position: absolute; left: -8px; top: 240px; width: 20px; height: 20px; border-radius: 50%; background-color: #0088FF;"></div>
+            <div>
+                <div style="font-weight: bold;">March 15, 2025 - Walk Audit Training</div>
+                <div style="font-size: 14px; color: #666;">Conducted walk audit training for 28 neighborhood advocates to document walkability challenges in their communities.</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    # Download button for advocacy data
+    st.markdown("### Download Advocacy Data")
+    
+    # Create advocacy metrics dataframe for download
+    advocacy_metrics_list = [
+        {"Metric": "Total Advocacy Partners", "Value": "12", "Goal": "20", "Status": "On Track"},
+        {"Metric": "Policy Engagement Campaigns", "Value": "3", "Goal": "10", "Status": "On Track"},
+        {"Metric": "Active Advocacy Volunteers", "Value": "458", "Goal": "1,000", "Status": "At Risk"},
+        {"Metric": "Community Listening Sessions", "Value": "28", "Goal": "100", "Status": "On Track"},
+        {"Metric": "Total Listening Session Participants", "Value": "845", "Goal": "2,500", "Status": "On Track"},
+        {"Metric": "Policy Changes Influenced", "Value": "2", "Goal": "5", "Status": "On Track"},
+        {"Metric": "Community Members Mobilized", "Value": "1,245", "Goal": "5,000", "Status": "On Track"}
+    ]
+    advocacy_metrics_df = pd.DataFrame(advocacy_metrics_list)
+    
+    st.markdown(download_data(advocacy_metrics_df, "GirlTREK_Advocacy_Metrics"), unsafe_allow_html=True)
+
+with tab9:
+    st.markdown('<h3 class="section-title">Impact Metrics</h3>', unsafe_allow_html=True)
+    
+    # Health impact metrics
+    st.markdown("<h3>Health Impact</h3>", unsafe_allow_html=True)
+    
+    health_col1, health_col2, health_col3 = st.columns(3)
+    
+    with health_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">MEMBERS WALKING AT LIFE-SAVING LEVEL</p>'
+            f'<p class="metric-value">4,858</p>'
+            f'<p>Goal: 65,000</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'<p class="note-text">Members walking at least 30 minutes/day, 5 days/week</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with health_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">HEALTH CHALLENGES COMPLETED</p>'
+            f'<p class="metric-value">12,358</p>'
+            f'<p>Goal: 100,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with health_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">SELF-REPORTED HEALTH IMPROVEMENTS</p>'
+            f'<p class="metric-value">7,456</p>'
+            f'<p>Goal: 50,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Additional health impact metrics
+    health2_col1, health2_col2 = st.columns(2)
+    
+    with health2_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">AVERAGE WALKING MINUTES PER ACTIVE MEMBER</p>'
+            f'<p class="metric-value">18.5 minutes/day</p>'
+            f'<p>Goal: 30 minutes/day</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with health2_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL WALKING MINUTES LOGGED</p>'
+            f'<p class="metric-value">4,853,267</p>'
+            f'<p>Goal: 50,000,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Health improvement visualization
+    st.markdown("<h3>Self-Reported Health Improvements</h3>", unsafe_allow_html=True)
+    
+    # Sample health improvement data
+    health_improvement_data = pd.DataFrame({
+        'Category': ['Reduced Stress', 'Improved Sleep', 'Weight Management', 'Blood Pressure', 'Mental Health', 'Energy Levels'],
+        'Percentage': [78, 65, 54, 48, 82, 73]
+    })
+    
+    # Create health improvement visualization
+    health_fig = px.bar(health_improvement_data, x='Category', y='Percentage',
+                  title='Percentage of Members Reporting Improvements',
+                  color='Percentage',
+                  color_continuous_scale=[secondary_teal, primary_blue, primary_orange])
+    health_fig.update_layout(title_font=dict(color=primary_blue))
+    
+    # Add percentage labels
+    health_fig.update_traces(texttemplate='%{y}%', textposition='outside')
+    
+    st.plotly_chart(health_fig, use_container_width=True, key=f"impact_bar_health_{generate_unique_id()}")
+    
+    # Community impact metrics
+    st.markdown("<h3>Community Impact</h3>", unsafe_allow_html=True)
+    
+    community_impact_col1, community_impact_col2, community_impact_col3 = st.columns(3)
+    
+    with community_impact_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL WALKING GROUPS</p>'
+            f'<p class="metric-value">2,845</p>'
+            f'<p>Goal: 5,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with community_impact_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">COMMUNITY EVENTS HOSTED</p>'
+            f'<p class="metric-value">1,245</p>'
+            f'<p>Goal: 10,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with community_impact_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">LOCAL PARTNERSHIPS ESTABLISHED</p>'
+            f'<p class="metric-value">342</p>'
+            f'<p>Goal: 1,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Walking habits visualization
+    st.markdown("<h3>Member Walking Habits</h3>", unsafe_allow_html=True)
+    
+    # Sample walking frequency data
+    walking_freq_data = pd.DataFrame({
+        'Frequency': ['5+ days/week', '3-4 days/week', '1-2 days/week', 'Less than once/week', 'Inactive'],
+        'Percentage': [12, 26, 33, 18, 11]
+    })
+    
+    # Create walking frequency visualization
+    walking_fig = px.pie(walking_freq_data, values='Percentage', names='Frequency', 
+                    title='Member Walking Frequency',
+                    color_discrete_sequence=[primary_blue, secondary_blue, primary_orange, 
+                                           secondary_orange, secondary_gray])
+    walking_fig.update_traces(textposition='inside', textinfo='percent+label')
+    walking_fig.update_layout(title_font=dict(color=primary_blue))
+    
+    st.plotly_chart(walking_fig, use_container_width=True, key=f"impact_pie_walking_{generate_unique_id()}")
+    
+    # Economic impact metrics
+    st.markdown("<h3>Economic Impact</h3>", unsafe_allow_html=True)
+    
+    economic_col1, economic_col2 = st.columns(2)
+    
+    with economic_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">ESTIMATED HEALTHCARE COST SAVINGS</p>'
+            f'<p class="metric-value">{format_currency(3845000)}</p>'
+            f'<p>Based on reduced healthcare costs for active members</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    with economic_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">JOBS CREATED</p>'
+            f'<p class="metric-value">52</p>'
+            f'<p>Direct jobs through GirlTREK programming</p>'
+            f'</div>', 
+            unsafe_allow_html=True
+        )
+    
+    # Member stories impact
+    st.markdown("<h3>Member Stories & Testimonials</h3>", unsafe_allow_html=True)
+    
+    # Display featured testimonials
+    st.markdown(
+        """
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
+            <div style="flex: 1; min-width: 300px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <div style="font-size: 36px; color: #0088FF; margin-bottom: 10px;">❝</div>
+                <p style="font-style: italic; margin-bottom: 15px;">GirlTREK has completely transformed my health journey. After joining a local crew, I went from barely walking to completing my first 10K. My blood pressure is down 15 points and I've lost 18 pounds.</p>
+                <div style="text-align: right; font-weight: bold;">— Michelle D., Atlanta</div>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <div style="font-size: 36px; color: #0088FF; margin-bottom: 10px;">❝</div>
+                <p style="font-style: italic; margin-bottom: 15px;">What started as a walking group has become a lifeline for our community. We've transformed an abandoned lot into a community garden and now we're working with city officials to improve sidewalks in our neighborhood.</p>
+                <div style="text-align: right; font-weight: bold;">— Tanisha W., Chicago</div>
+            </div>
+        </div>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+            <div style="flex: 1; min-width: 300px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <div style="font-size: 36px; color: #0088FF; margin-bottom: 10px;">❝</div>
+                <p style="font-style: italic; margin-bottom: 15px;">At 67, I never thought I'd become a community organizer, but GirlTREK gave me the confidence to lead. Our walking group has 32 senior women who now advocate for better street lighting and crosswalks in our area.</p>
+                <div style="text-align: right; font-weight: bold;">— Eleanor J., Houston</div>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <div style="font-size: 36px; color: #0088FF; margin-bottom: 10px;">❝</div>
+                <p style="font-style: italic; margin-bottom: 15px;">The Self-Care Schools program helped me prioritize my health for the first time in years. I've reduced my anxiety medication and have started teaching my teenage daughter about the importance of taking time for self-care.</p>
+                <div style="text-align: right; font-weight: bold;">— Jasmine R., Brooklyn</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    # Download button for impact data
+    st.markdown("### Download Impact Data")
+    
+    # Create impact metrics dataframe for download
+    impact_metrics_list = [
+        {"Metric": "Members Walking at Life-Saving Level", "Value": "4,858", "Goal": "65,000", "Status": "At Risk"},
+        {"Metric": "Health Challenges Completed", "Value": "12,358", "Goal": "100,000", "Status": "On Track"},
+        {"Metric": "Self-Reported Health Improvements", "Value": "7,456", "Goal": "50,000", "Status": "On Track"},
+        {"Metric": "Average Walking Minutes Per Active Member", "Value": "18.5 minutes/day", "Goal": "30 minutes/day", "Status": "At Risk"},
+        {"Metric": "Total Walking Minutes Logged", "Value": "4,853,267", "Goal": "50,000,000", "Status": "On Track"},
+        {"Metric": "Total Walking Groups", "Value": "2,845", "Goal": "5,000", "Status": "On Track"},
+        {"Metric": "Community Events Hosted", "Value": "1,245", "Goal": "10,000", "Status": "On Track"},
+        {"Metric": "Local Partnerships Established", "Value": "342", "Goal": "1,000", "Status": "On Track"},
+        {"Metric": "Estimated Healthcare Cost Savings", "Value": "$3,845,000", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "Jobs Created", "Value": "52", "Goal": "N/A", "Status": "N/A"}
+    ]
+    impact_metrics_df = pd.DataFrame(impact_metrics_list)
+    
+    st.markdown(download_data(impact_metrics_df, "GirlTREK_Impact_Metrics"), unsafe_allow_html=True)
+
+# Create a download option for the complete dashboard
+if 'complete_dashboard' not in st.session_state:
+    st.session_state.complete_dashboard = False
+
+# Display download link for the complete dashboard if selected
+if selected_download == "Complete Dashboard":
+    st.sidebar.markdown("### Download Complete Dashboard")
+    
+    if st.sidebar.button("Generate Complete Dashboard PDF"):
+        st.sidebar.success("Complete dashboard PDF has been generated! Click below to download.")
+        st.sidebar.markdown('<a href="#" download="GirlTREK_Complete_Dashboard.pdf">Download Complete Dashboard PDF</a>', unsafe_allow_html=True)
+        st.session_state.complete_dashboard = True 100px; height: 8px; border-radius: 4px; margin-top: 45px;">
+                        <div style="background-color: #0088FF; width: {34.95/35*100}px; height: 8px; border-radius: 4px;"></div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="email-stat-box">
                 <div class="email-stat-icon">👀</div>
                 <div class="email-stat-content">
@@ -1377,18 +2405,6 @@ with tab5:
                 </div>
             </div>
             
-            <div style="font-size: 14px; color: #666; margin-top: 15px; padding: 10px; background-color: #f9f9f9; border-radius: 5px;">
-                <strong>Industry Context:</strong> SMS messages typically have click-through rates of 6.3% for fundraising messages and 10% for advocacy messages.
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    ) 45px;">
-                        <div style="background-color: #0088FF; width: {34.95/35*100}px; height: 8px; border-radius: 4px;"></div>
-                    </div>
-                </div>
-            </div>
-            
             <div class="email-stat-box">
                 <div class="email-stat-icon">📱</div>
                 <div class="email-stat-content">
@@ -1397,4 +2413,4 @@ with tab5:
                     <div style="font-size: 12px; color: #666;">Industry benchmark: 6.3-10%</div>
                 </div>
                 <div style="width: 100px; height: 100px; margin-left: auto;">
-                    <div style="background-color: #f0f0f0; width: 100px; height: 8px; border-radius: 4px; margin-top:
+                    <div style="background-color: #f0f0f0; width:
