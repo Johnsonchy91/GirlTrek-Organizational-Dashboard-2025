@@ -723,30 +723,30 @@ with tab6:
     
     st.plotly_chart(budget_fig, use_container_width=True, key="budget_fig")
 
-        for i, row in budget_data.iterrows():
-            percent = row['Percent']
-            category = row['Category']
-            actual = format_currency(row['Actual'])
-            goal = format_currency(row['Budget'])
+    for i, row in budget_data.iterrows():
+        percent = row['Percent']
+        category = row['Category']
+        actual = format_currency(row['Actual'])
+        goal = format_currency(row['Budget'])
 
-            if percent >= 90:
-                bar_color = achieved_green
-                status = "On Track"
-            else:
-                bar_color = primary_orange
-                status = "At Risk"
+        if percent >= 90:
+            bar_color = achieved_green
+            status = "On Track"
+        else:
+            bar_color = primary_orange
+            status = "At Risk"
 
-            st.markdown(f"""
-                <div style="margin-bottom: 15px;">
-                    <div style="display: flex; justify-content: space-between;">
-                        <strong>{category}</strong> 
-                        <span>{actual} / {goal} ({percent}%) - {status_badge(status)}</span>
-                    </div>
-                    <div style="width: 100%; background-color: #f0f2f5; height: 12px; border-radius: 6px;">
-                        <div style="width: {percent}%; height: 100%; background-color: {bar_color}; border-radius: 6px;"></div>
-                    </div>
+        st.markdown(f"""
+            <div style="margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between;">
+                    <strong>{category}</strong> 
+                    <span>{actual} / {goal} ({percent}%) - {status_badge(status)}</span>
                 </div>
-            """, unsafe_allow_html=True)
+                <div style="width: 100%; background-color: #f0f2f5; height: 12px; border-radius: 6px;">
+                    <div style="width: {percent}%; height: 100%; background-color: {bar_color}; border-radius: 6px;"></div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
 
     # --- System Performance ---
     st.markdown('<h4>Systems Performance</h4>', unsafe_allow_html=True)
