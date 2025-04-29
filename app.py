@@ -495,14 +495,14 @@ with tab1:
         fig_total_age.update_layout(title_font=dict(color=primary_blue))
         st.plotly_chart(fig_total_age, use_container_width=True)
     
-    # New member growth chart (bar chart)
-    fig_months = px.bar(df_extended, x='Month', y='New Members', 
+    # Create bar chart for new member growth 
+    exec_fig_months = px.bar(df_extended, x='Month', y='New Members', 
                       title='New Member Contacts (2024-2025)',
                       color='New Members',
                       color_continuous_scale=[secondary_blue, primary_blue, primary_orange])
     
     # Add annotations for 2024 Jan-Sep total
-    fig_months.add_annotation(
+    exec_fig_months.add_annotation(
         x='Jan-Sep 2024',
         y=20008,
         text='20,008 total contacts',
@@ -513,7 +513,7 @@ with tab1:
     )
     
     # Add annotations for significant growth in recent months
-    fig_months.add_annotation(
+    exec_fig_months.add_annotation(
         x='Mar 2025',
         y=4382,
         text='177% increase',
@@ -523,7 +523,7 @@ with tab1:
         ay=-40
     )
     
-    fig_months.add_annotation(
+    exec_fig_months.add_annotation(
         x='Apr 2025',
         y=6073,
         text='39% increase',
@@ -533,14 +533,14 @@ with tab1:
         ay=-40
     )
     
-    fig_months.update_layout(
+    exec_fig_months.update_layout(
         title_font=dict(color=primary_blue),
         yaxis_title='Number of New Contacts',
         xaxis_title='Month',
         height=500  # Make the chart a bit taller to accommodate the large first bar
     )
     
-    st.plotly_chart(fig_months, use_container_width=True)
+    st.plotly_chart(exec_fig_months, use_container_width=True)
     
     # Geographic Distribution in Executive Summary
     geo_col1, geo_col2 = st.columns(2)
@@ -621,13 +621,13 @@ with tab2:
     with col1:
         # New members by month
         # Create bar chart instead of line chart
-        fig_months = px.bar(df_extended, x='Month', y='New Members', 
+        recruit_fig_months = px.bar(df_extended, x='Month', y='New Members', 
                           title='New Member Contacts (2024-2025)',
                           color='New Members',
                           color_continuous_scale=[secondary_blue, primary_blue, primary_orange])
         
         # Add annotations for 2024 Jan-Sep total
-        fig_months.add_annotation(
+        recruit_fig_months.add_annotation(
             x='Jan-Sep 2024',
             y=20008,
             text='20,008 total contacts',
@@ -638,7 +638,7 @@ with tab2:
         )
         
         # Add annotations for significant growth in recent months
-        fig_months.add_annotation(
+        recruit_fig_months.add_annotation(
             x='Mar 2025',
             y=4382,
             text='177% increase',
@@ -648,7 +648,7 @@ with tab2:
             ay=-40
         )
         
-        fig_months.add_annotation(
+        recruit_fig_months.add_annotation(
             x='Apr 2025',
             y=6073,
             text='39% increase',
@@ -658,14 +658,14 @@ with tab2:
             ay=-40
         )
         
-        fig_months.update_layout(
+        recruit_fig_months.update_layout(
             title_font=dict(color=primary_blue),
             yaxis_title='Number of New Contacts',
             xaxis_title='Month',
             height=500  # Make the chart a bit taller to accommodate the large first bar
         )
         
-        st.plotly_chart(fig_months, use_container_width=True)
+        st.plotly_chart(recruit_fig_months, use_container_width=True)
     
     with col2:
         # New members by age
