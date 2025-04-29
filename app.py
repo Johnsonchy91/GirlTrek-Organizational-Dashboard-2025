@@ -86,9 +86,6 @@ def add_board_update(tab_name, update_content):
             <div style="color: #333333; line-height: 1.5;">
                 {update_content}
             </div>
-            <div style="text-align: right; font-style: italic; font-size: 12px; color: #666; margin-top: 10px;">
-                Updated: April 25, 2025
-            </div>
         </div>
         '''
     
