@@ -84,6 +84,27 @@ def apply_dark_mode(dark_mode_enabled):
             h1, h2, h3, h4, h5, h6 {{
                 color: {dark_text} !important;
             }}
+            .metric-box {{
+                background-color: {dark_card_bg};
+                color: {dark_text};
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                margin-bottom: 20px;
+                text-align: center;
+            }}
+            .metric-title {{
+                font-size: 16px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: {dark_secondary_text};
+            }}
+            .metric-value {{
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: {dark_text};
+            }}
             </style>
             """,
             unsafe_allow_html=True
@@ -96,6 +117,27 @@ def apply_dark_mode(dark_mode_enabled):
                 color: #1E3C72;
                 padding-bottom: 10px;
                 border-bottom: 2px solid #FF7043;
+            }
+            .metric-box {
+                background-color: #f8f9fa;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+                text-align: center;
+                border-left: 5px solid #0088FF;
+            }
+            .metric-title {
+                font-size: 16px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #424242;
+            }
+            .metric-value {
+                font-size: 26px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #0088FF;
             }
             </style>
             """,
@@ -274,7 +316,7 @@ with tab1:
 
     with col1:
         st.markdown(
-            f'<div class="metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">TOTAL MEMBERSHIP</p>'
             f'<p class="metric-value">{format_number(st.session_state.total_membership)}</p>'
             f'<p>Goal: 2,000,000</p>'
@@ -285,7 +327,7 @@ with tab1:
 
     with col2:
         st.markdown(
-            f'<div class="metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
             f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
             f'<p>Goal: 100,000</p>'
@@ -296,7 +338,7 @@ with tab1:
 
     with col3:
         st.markdown(
-            f'<div class="metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
             f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
             f'<p>Goal: $8,000,000</p>'
@@ -457,7 +499,7 @@ with tab2:
 
     with recruitment_col1:
         st.markdown(
-            f'<div class="metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
             f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
             f'<p>Goal: 100,000</p>'
@@ -473,7 +515,7 @@ with tab2:
         ].sum()
 
         st.markdown(
-            f'<div class="metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">NEW MEMBERS AGE 18-30</p>'
             f'<p class="metric-value">{format_number(new_members_18_30)}</p>'
             f'<p>Goal: 50,000</p>'
@@ -484,7 +526,7 @@ with tab2:
 
     with recruitment_col3:
         st.markdown(
-            f'<div class="metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">TOTAL RECRUITMENT PARTNERSHIPS</p>'
             f'<p class="metric-value">2</p>'
             f'<p>Goal: 20</p>'
@@ -514,7 +556,7 @@ with tab3:
 
     with engagement_col1:
         st.markdown(
-            f'<div class="engagement-metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">TOTAL ACTIVE CREWS</p>'
             f'<p class="metric-value">603</p>'
             f'</div>',
@@ -523,7 +565,7 @@ with tab3:
 
     with engagement_col2:
         st.markdown(
-            f'<div class="engagement-metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">MEMBERS WALKING DAILY</p>'
             f'<p class="metric-value">4,788</p>'
             f'</div>',
@@ -562,9 +604,9 @@ with tab4:
 
     with dev_col1:
         st.markdown(
-            f'<div class="dev-metric-card">'
-            f'<p class="dev-metric-title">TOTAL CONTRIBUTIONS</p>'
-            f'<p class="dev-metric-value">{format_currency(st.session_state.total_contributions)}</p>'
+            f'<div class="metric-box">'
+            f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
+            f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>',
             unsafe_allow_html=True
@@ -572,9 +614,9 @@ with tab4:
 
     with dev_col2:
         st.markdown(
-            f'<div class="dev-metric-card">'
-            f'<p class="dev-metric-title">TOTAL GRANTS</p>'
-            f'<p class="dev-metric-value">{format_currency(st.session_state.total_grants)}</p>'
+            f'<div class="metric-box">'
+            f'<p class="metric-title">TOTAL GRANTS</p>'
+            f'<p class="metric-value">{format_currency(st.session_state.total_grants)}</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>',
             unsafe_allow_html=True
@@ -582,9 +624,9 @@ with tab4:
 
     with dev_col3:
         st.markdown(
-            f'<div class="dev-metric-card">'
-            f'<p class="dev-metric-title">CORPORATE SPONSORSHIPS</p>'
-            f'<p class="dev-metric-value">$130,000</p>'
+            f'<div class="metric-box">'
+            f'<p class="metric-title">CORPORATE SPONSORSHIPS</p>'
+            f'<p class="metric-value">$130,000</p>'
             f'<p>{status_badge("At Risk")}</p>'
             f'</div>',
             unsafe_allow_html=True
@@ -645,7 +687,7 @@ with tab5:
 
     with sub_col1:
         st.markdown(
-            f'<div class="metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">TOTAL SUBSCRIBERS</p>'
             f'<p class="metric-value">931,141</p>'
             f'<p>Goal: 1,300,000</p>'
@@ -655,7 +697,7 @@ with tab5:
 
     with sub_col2:
         st.markdown(
-            f'<div class="metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">ACTIVE SUBSCRIBERS</p>'
             f'<p class="metric-value">297,283</p>'
             f'<p>31.9% of Total</p>'
@@ -723,31 +765,6 @@ with tab6:
     
     st.plotly_chart(budget_fig, use_container_width=True, key="budget_fig")
 
-    for i, row in budget_data.iterrows():
-        percent = row['Percent']
-        category = row['Category']
-        actual = format_currency(row['Actual'])
-        goal = format_currency(row['Budget'])
-
-        if percent >= 90:
-            bar_color = achieved_green
-            status = "On Track"
-        else:
-            bar_color = primary_orange
-            status = "At Risk"
-
-        st.markdown(f"""
-            <div style="margin-bottom: 15px;">
-                <div style="display: flex; justify-content: space-between;">
-                    <strong>{category}</strong> 
-                    <span>{actual} / {goal} ({percent}%) - {status_badge(status)}</span>
-                </div>
-                <div style="width: 100%; background-color: #f0f2f5; height: 12px; border-radius: 6px;">
-                    <div style="width: {percent}%; height: 100%; background-color: {bar_color}; border-radius: 6px;"></div>
-                </div>
-            </div>
-        """, unsafe_allow_html=True)
-
     # --- System Performance ---
     st.markdown('<h4>Systems Performance</h4>', unsafe_allow_html=True)
 
@@ -755,9 +772,9 @@ with tab6:
 
     with sys_col1:
         st.markdown(
-            f'<div style="background-color:{secondary_beige}; padding:20px; border-radius:10px;">'
-            f'<h5 style="color:{secondary_gray};">Asana Adoption</h5>'
-            f'<h2 style="color:{primary_blue};">38%</h2>'
+            f'<div class="metric-box">'
+            f'<p class="metric-title">ASANA ADOPTION</p>'
+            f'<p class="metric-value">38%</p>'
             f'<p>Goal: 85%</p>'
             f'{status_badge("At Risk")}'
             f'</div>',
@@ -766,9 +783,9 @@ with tab6:
 
     with sys_col2:
         st.markdown(
-            f'<div style="background-color:{secondary_beige}; padding:20px; border-radius:10px;">'
-            f'<h5 style="color:{secondary_gray};">Audit Compliance</h5>'
-            f'<h2 style="color:{secondary_gray};">Pending</h2>'
+            f'<div class="metric-box">'
+            f'<p class="metric-title">AUDIT COMPLIANCE</p>'
+            f'<p class="metric-value">Pending</p>'
             f'<p>Goal: 100%</p>'
             f'{status_badge("Off Track")}'
             f'</div>',
@@ -777,9 +794,9 @@ with tab6:
 
     with sys_col3:
         st.markdown(
-            f'<div style="background-color:{secondary_beige}; padding:20px; border-radius:10px;">'
-            f'<h5 style="color:{secondary_gray};">Cybersecurity Compliance</h5>'
-            f'<h2 style="color:{secondary_gray};">Pending</h2>'
+            f'<div class="metric-box">'
+            f'<p class="metric-title">CYBERSECURITY COMPLIANCE</p>'
+            f'<p class="metric-value">Pending</p>'
             f'<p>Goal: 90%</p>'
             f'{status_badge("Off Track")}'
             f'</div>',
@@ -834,7 +851,7 @@ with tab7:
 
     with mc_col1:
         st.markdown(
-            f'<div class="metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">MEMBER SATISFACTION RATING</p>'
             f'<p class="metric-value">95%</p>'
             f'<p>Goal: 85%</p>'
@@ -844,7 +861,7 @@ with tab7:
 
     with mc_col2:
         st.markdown(
-            f'<div class="metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">RESOLUTION/RESPONSIVENESS RATE</p>'
             f'<p class="metric-value">2 hours</p>'
             f'<p>Goal: 48 hours</p>'
@@ -917,7 +934,7 @@ with tab8:
 
     with adv_col1:
         st.markdown(
-            f'<div class="metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">ADVOCACY BRIEFS PUBLISHED</p>'
             f'<p class="metric-value">4 / 10</p>'
             f'<p>{status_badge("On Track")}</p>'
@@ -927,7 +944,7 @@ with tab8:
 
     with adv_col2:
         st.markdown(
-            f'<div class="metric-card">'
+            f'<div class="metric-box">'
             f'<p class="metric-title">ADVOCACY PARTNERSHIPS</p>'
             f'<p class="metric-value">2 / 20</p>'
             f'<p>{status_badge("On Track")}</p>'
@@ -967,4 +984,3 @@ with tab9:
         """,
         unsafe_allow_html=True
     )
-
