@@ -55,7 +55,6 @@ dark_card_bg = "#1E1E1E"
 dark_text = "#FFFFFF"
 dark_secondary_text = "#BBBBBB"
 
-# Create a function to add board updates at the top of relevant tabs
 def add_board_update(tab_name, update_content):
     """
     Add a leadership update section to the top of a tab
@@ -69,7 +68,7 @@ def add_board_update(tab_name, update_content):
     
     if dark_mode:
         # Dark mode styling
-        board_update_html = f"""
+        board_update_html = f'''
         <div style="background-color: #1E2130; border-left: 5px solid #0088FF; 
              padding: 20px; border-radius: 5px; margin: 15px 0 25px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
             <h4 style="color: #4DA6FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;">Leadership Update: {tab_name}</h4>
@@ -80,10 +79,10 @@ def add_board_update(tab_name, update_content):
                 Updated: April 25, 2025
             </div>
         </div>
-        """
+        '''
     else:
         # Light mode styling (default)
-        board_update_html = f"""
+        board_update_html = f'''
         <div style="background-color: #F3F9FF; border-left: 5px solid #0088FF; 
              padding: 20px; border-radius: 5px; margin: 15px 0 25px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
             <h4 style="color: #0088FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;">Leadership Update: {tab_name}</h4>
@@ -94,7 +93,7 @@ def add_board_update(tab_name, update_content):
                 Updated: April 25, 2025
             </div>
         </div>
-        """
+        '''
     
     # Use st.markdown with unsafe_allow_html=True to render the HTML
     st.markdown(board_update_html, unsafe_allow_html=True)
