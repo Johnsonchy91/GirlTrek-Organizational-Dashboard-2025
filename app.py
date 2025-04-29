@@ -1028,15 +1028,17 @@ def main():
     with tab1:
         # Add Board Update first
         executive_update = """
-        <p style="margin-bottom: 10px;"><strong>Financial Stewardship Update:</strong> We recently received word that a major funder will be 
-        <strong>doubling their donation this year</strong>. We are in a solid financial position.</p>
-        
-        <p>We are moving forward with fiscal prudence given the economic climate and will adopt an 
-        <em>austerity budget</em> while maintaining mission-critical programming and ensuring our team remains 
-        gainfully and justly employed.</p>
-        
-        <p style="margin-bottom: 0;"><strong>Mission Priority:</strong> Our every action is in service of our mission to 
-        <strong>extend the life expectancy of Black women by 10 years in 10 years.</strong></p>
+        <div>
+            <p style="margin-bottom: 15px;"><strong>Financial Stewardship Update:</strong> We recently received word that a major funder will be 
+            <strong>doubling their donation this year</strong>. We are in a solid financial position.</p>
+            
+            <p style="margin-bottom: 15px;">We are moving forward with fiscal prudence given the economic climate and will adopt an 
+            <em>austerity budget</em> while maintaining mission-critical programming and ensuring our team remains 
+            gainfully and justly employed.</p>
+            
+            <p style="margin-bottom: 0;"><strong>Mission Priority:</strong> Our every action is in service of our mission to 
+            <strong>extend the life expectancy of Black women by 10 years in 10 years.</strong></p>
+        </div>
         """
         add_board_update("Executive Summary", executive_update)
         
@@ -1320,13 +1322,15 @@ def main():
     with tab3:
         # Add Board Update first
         engagement_update = """
-        <p style="margin-bottom: 10px;"><strong>Programming Focus:</strong> Mental health is our first priority. We've launched a 
-        nationwide effort to train a corps of women in <em>Mental Health First Aid</em>. This is an investment in both 
-        immediate healing and long-term life extension.</p>
-        
-        <p style="margin-bottom: 0;"><strong>On-the-Ground Impact:</strong> In Montgomery, we've made targeted investments to serve 
-        Black women at their point of need. These efforts align with our vision to increase longevity through 
-        localized public health services and deepen trust with the communities we serve.</p>
+        <div>
+            <p style="margin-bottom: 15px;"><strong>Programming Focus:</strong> Mental health is our first priority. We've launched a 
+            nationwide effort to train a corps of women in <em>Mental Health First Aid</em>. This is an investment in both 
+            immediate healing and long-term life extension.</p>
+            
+            <p style="margin-bottom: 0;"><strong>On-the-Ground Impact:</strong> In Montgomery, we've made targeted investments to serve 
+            Black women at their point of need. These efforts align with our vision to increase longevity through 
+            localized public health services and deepen trust with the communities we serve.</p>
+        </div>
         """
         add_board_update("Engagement", engagement_update)
         
@@ -1502,14 +1506,16 @@ def main():
     with tab4:
         # Add Board Update first
         development_update = """
-        <p style="margin-bottom: 10px;"><strong>Financial Update:</strong> A major funder will be <strong>doubling their donation this year</strong>. 
-        This strengthens our already solid financial position heading into Q3-Q4.</p>
-        
-        <p style="margin-bottom: 0;">Teams are evaluating where cost-saving measures can be applied while preserving:
-        <ul style="margin-top: 5px; margin-bottom: 0;">
-            <li>Mission-critical programming that supports Black women's longevity</li>
-            <li>Ensuring our team remains gainfully and justly employed</li>
-        </ul></p>
+        <div>
+            <p style="margin-bottom: 15px;"><strong>Financial Update:</strong> A major funder will be <strong>doubling their donation this year</strong>. 
+            This strengthens our already solid financial position heading into Q3-Q4.</p>
+            
+            <p style="margin-bottom: 0;">Teams are evaluating where cost-saving measures can be applied while preserving:
+            <ul style="margin-top: 10px; margin-bottom: 0;">
+                <li>Mission-critical programming that supports Black women's longevity</li>
+                <li>Ensuring our team remains gainfully and justly employed</li>
+            </ul></p>
+        </div>
         """
         add_board_update("Development", development_update)
         
@@ -1605,16 +1611,18 @@ def main():
     with tab5:
         # Add Board Update first
         marketing_update = """
-        <p style="margin-bottom: 10px;"><strong>Communications & Messaging:</strong> Our values have been boldly rearticulated and published in our new 
-        <strong>Field Guide</strong>:
-        <ol style="margin-top: 5px; margin-bottom: 10px;">
-            <li>We practice <strong>Radical Welcome</strong>.</li>
-            <li>We focus on <strong>Black women disproportionately affected by health disparities</strong>.</li>
-            <li>We walk with <strong>diverse communities</strong>—and we welcome all to walk with us.</li>
-        </ol></p>
-        
-        <p style="margin-bottom: 0;"><strong>Public Relations:</strong> We're developing unified talking points for internal and external use, 
-        with upcoming training sessions led by our incoming PR firm: <strong>Black Alders</strong>.</p>
+        <div>
+            <p style="margin-bottom: 15px;"><strong>Communications & Messaging:</strong> Our values have been boldly rearticulated and published in our new 
+            <strong>Field Guide</strong>:
+            <ol style="margin-top: 10px; margin-bottom: 15px;">
+                <li>We practice <strong>Radical Welcome</strong>.</li>
+                <li>We focus on <strong>Black women disproportionately affected by health disparities</strong>.</li>
+                <li>We walk with <strong>diverse communities</strong>—and we welcome all to walk with us.</li>
+            </ol></p>
+            
+            <p style="margin-bottom: 0;"><strong>Public Relations:</strong> We're developing unified talking points for internal and external use, 
+            with upcoming training sessions led by our incoming PR firm: <strong>Black Alders</strong>.</p>
+        </div>
         """
         add_board_update("Marketing", marketing_update)
         
@@ -1769,18 +1777,20 @@ def main():
     with tab6:
         # Add Board Update first
         operations_update = """
-        <p style="margin-bottom: 10px;"><strong>Technology & Security:</strong> In March, we engaged an external technology expert to audit our systems. 
-        We are currently migrating member records to a more secure platform. Through our partnership with 
-        RoundTable Technology, we've implemented 24/7 cybersecurity monitoring and completed digital safety 
-        training for 100% of staff.</p>
-        
-        <p style="margin-bottom: 10px;"><strong>Compliance & Governance:</strong> GirlTREK has updated and legally vetted policies covering hiring, 
-        procurement, and non-discrimination. We've revised our IRS Form 990 to reflect our commitment to 
-        <em>radical welcome</em> while ensuring 501(c)(3) compliance. We're also hiring a PR firm to audit 
-        our public-facing platforms.</p>
-        
-        <p style="margin-bottom: 0;"><strong>Legal Strategy:</strong> We are represented by <em>Orrick, Herrington & Sutcliffe LLP</em>—a powerhouse 
-        in civil rights law. Our operations team meets with them bi-monthly to stay ahead of the curve.</p>
+        <div>
+            <p style="margin-bottom: 15px;"><strong>Technology & Security:</strong> In March, we engaged an external technology expert to audit our systems. 
+            We are currently migrating member records to a more secure platform. Through our partnership with 
+            RoundTable Technology, we've implemented 24/7 cybersecurity monitoring and completed digital safety 
+            training for 100% of staff.</p>
+            
+            <p style="margin-bottom: 15px;"><strong>Compliance & Governance:</strong> GirlTREK has updated and legally vetted policies covering hiring, 
+            procurement, and non-discrimination. We've revised our IRS Form 990 to reflect our commitment to 
+            <em>radical welcome</em> while ensuring 501(c)(3) compliance. We're also hiring a PR firm to audit 
+            our public-facing platforms.</p>
+            
+            <p style="margin-bottom: 0;"><strong>Legal Strategy:</strong> We are represented by <em>Orrick, Herrington & Sutcliffe LLP</em>—a powerhouse 
+            in civil rights law. Our operations team meets with them bi-monthly to stay ahead of the curve.</p>
+        </div>
         """
         add_board_update("Operations", operations_update)
         
@@ -1930,9 +1940,11 @@ def main():
     with tab7:
         # Add Board Update first
         member_care_update = """
-        <p style="margin-bottom: 0;"><strong>Mental Health Initiative:</strong> We've launched a nationwide effort to train a corps of women in 
-        <em>Mental Health First Aid</em>. This program represents our commitment to both immediate healing and 
-        long-term life extension through community-based mental health support.</p>
+        <div>
+            <p style="margin-bottom: 0;"><strong>Mental Health Initiative:</strong> We've launched a nationwide effort to train a corps of women in 
+            <em>Mental Health First Aid</em>. This program represents our commitment to both immediate healing and 
+            long-term life extension through community-based mental health support.</p>
+        </div>
         """
         add_board_update("Member Care", member_care_update)
         
@@ -2026,15 +2038,17 @@ def main():
     with tab8:
         # Add Board Update first
         advocacy_update = """
-        <p style="margin-bottom: 10px;"><strong>Coalition Building:</strong> We are actively deepening our relationships with national coalitions to:
-        <ul style="margin-top: 5px; margin-bottom: 10px;">
-            <li>Share legal resources</li>
-            <li>Coordinate responses to external threats</li>
-            <li>Build collective readiness and resilience</li>
-        </ul></p>
-        
-        <p style="margin-bottom: 0;">This summer, we'll engage partners in meaningful dialogue to strengthen cross-sector relationships, 
-        culminating in a convening of our coalition partners in late 2025.</p>
+        <div>
+            <p style="margin-bottom: 15px;"><strong>Coalition Building:</strong> We are actively deepening our relationships with national coalitions to:
+            <ul style="margin-top: 10px; margin-bottom: 15px;">
+                <li>Share legal resources</li>
+                <li>Coordinate responses to external threats</li>
+                <li>Build collective readiness and resilience</li>
+            </ul></p>
+            
+            <p style="margin-bottom: 0;">This summer, we'll engage partners in meaningful dialogue to strengthen cross-sector relationships, 
+            culminating in a convening of our coalition partners in late 2025.</p>
+        </div>
         """
         add_board_update("Advocacy", advocacy_update)
         
