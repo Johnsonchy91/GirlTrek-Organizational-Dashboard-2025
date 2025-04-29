@@ -427,18 +427,6 @@ with tab1:
 
     col1, col2 = st.columns(2)
 
-    with col1:
-        exec_fig_new_age = px.pie(
-            df_new_age,
-            values='New Members',
-            names='Age Group',
-            title='New Members by Age Group',
-            color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, secondary_pink, secondary_purple, secondary_green]
-        )
-        exec_fig_new_age.update_traces(textposition='inside', textinfo='percent+label')
-        exec_fig_new_age.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(exec_fig_new_age, use_container_width=True, key="exec_fig_new_age")
-
     with col2:
         exec_fig_total_age = px.bar(
             df_total_age,
@@ -522,11 +510,6 @@ with tab2:
         )
 
     with recruitment_col2:
-        new_members_18_30 = df_new_age.loc[
-            df_new_age['Age Group'].isin(['18 to 24', '25 to 34']),
-            'New Members'
-        ].sum()
-
         st.markdown(
             f'<div class="metric-box">'
             f'<p class="metric-title">NEW MEMBERS AGE 18-30</p>'
@@ -558,6 +541,20 @@ with tab2:
     )
     recruit_monthly_fig.update_layout(title_font=dict(color=primary_blue))
     st.plotly_chart(recruit_monthly_fig, use_container_width=True, key="recruit_monthly_fig")
+    
+    # New Members by Age Group (moved from Executive Summary)
+    st.markdown('<h3>New Members by Age Group</h3>', unsafe_allow_html=True)
+    
+    new_age_fig = px.pie(
+        df_new_age,
+        values='New Members',
+        names='Age Group',
+        title='New Members by Age Group Distribution',
+        color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, secondary_pink, secondary_purple, secondary_green]
+    )
+    new_age_fig.update_traces(textposition='inside', textinfo='percent+label')
+    new_age_fig.update_layout(title_font=dict(color=primary_blue))
+    st.plotly_chart(new_age_fig, use_container_width=True, key="new_age_fig")
 
 # ---------------------------------
 # Engagement Tab
@@ -570,7 +567,7 @@ with tab3:
     with engagement_col1:
         st.markdown(
             f'<div class="metric-box">'
-            f'<p class="metric-title">TOTAL ACTIVE CREWS</p>'
+            f'<p class="metric-title">TOTAL NEW CREWS (2025)</p>'
             f'<p class="metric-value">603</p>'
             f'</div>',
             unsafe_allow_html=True
@@ -801,20 +798,101 @@ with tab5:
 with tab6:
     st.markdown('<h3 class="section-title">Operations Metrics</h3>', unsafe_allow_html=True)
 
+    # --- Financial Trends (moved to top of tab) ---
+    st.markdown('<h4>Financial Trends Overview</h4>', unsafe_allow_html=True)
+    
+    # Add disclaimer about dummy data
+    st.markdown(
+        """
+        <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic; font-size: 14px;">
+            Note: The financial data shown below is dummy data for presentation purposes only.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    ops_trend_fig = go.Figure()
+
+    ops_trend_fig.add_trace(go.Scatter(
+        x=finance_trend_data['Month'],
+        y=finance_trend_data['Revenue'],
+        mode='lines+markers',
+        name='Revenue',
+        line=dict(color=primary_blue)
+    ))
+    ops_trend_fig.add_trace(go.Scatter(
+        x=finance_trend_data['Month'],
+        y=finance_trend_data['Expenses'],
+        mode='lines+markers',
+        name='Expenses',
+        line=dict(color=primary_orange)
+    ))
+    ops_trend_fig.add_trace(go.Scatter(
+        x=finance_trend_data['Month'],
+        y=finance_trend_data['Donations'],
+        mode='lines+markers',
+        name='Donations',
+        line=dict(color=primary_yellow)
+    ))
+
+    ops_trend_fig.update_layout(
+        title='Revenue vs Expenses vs Donations',
+        xaxis_title='Month',
+        yaxis_title='USD ($)',
+        title_font=dict(color=primary_blue),
+        height=400,
+        legend_title_text='Financial Lines'
+    )
+
+    st.plotly_chart(ops_trend_fig, use_container_width=True, key="ops_trend_fig_updated")
+
     # --- Budget Performance Chart (Full Width) ---
     st.markdown('<h4>Budget Performance</h4>', unsafe_allow_html=True)
+    
+    # Add disclaimer about dummy data
+    st.markdown(
+        """
+        <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic; font-size: 14px;">
+            Note: The budget data shown below is dummy data for presentation purposes only.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     
     budget_fig = px.bar(
         budget_data,
         x='Category',
         y=['Budget', 'Actual'],
         barmode='group',
-        title='Budget vs Actual Spending',
+        title='Budget vs Actual Spending by Category',
         color_discrete_sequence=[primary_blue, primary_orange]
     )
     budget_fig.update_layout(title_font=dict(color=primary_blue))
     
     st.plotly_chart(budget_fig, use_container_width=True, key="budget_fig")
+    
+    # --- Budget by Team ---
+    st.markdown('<h4>Budget Performance by Team</h4>', unsafe_allow_html=True)
+    
+    # Create team budget data
+    team_budget_data = pd.DataFrame({
+        'Team': ['Executive', 'Marketing', 'Programs', 'Development', 'Technology', 'Operations'],
+        'Budget': [850000, 750000, 1200000, 680000, 850000, 600000],
+        'Actual': [780000, 710000, 1050000, 625000, 790000, 560000],
+        'Percent': [91.8, 94.7, 87.5, 91.9, 92.9, 93.3]
+    })
+    
+    team_budget_fig = px.bar(
+        team_budget_data,
+        x='Team',
+        y=['Budget', 'Actual'],
+        barmode='group',
+        title='Budget vs Actual Spending by Team',
+        color_discrete_sequence=[primary_blue, primary_orange]
+    )
+    team_budget_fig.update_layout(title_font=dict(color=primary_blue))
+    
+    st.plotly_chart(team_budget_fig, use_container_width=True, key="team_budget_fig")
 
     # --- System Performance ---
     st.markdown('<h4>Systems Performance</h4>', unsafe_allow_html=True)
@@ -853,44 +931,6 @@ with tab6:
             f'</div>',
             unsafe_allow_html=True
         )
-
-    # --- Financial Trends (reusing your finance trend data) ---
-    st.markdown('<h4>Financial Trends Overview</h4>', unsafe_allow_html=True)
-
-    ops_trend_fig = go.Figure()
-
-    ops_trend_fig.add_trace(go.Scatter(
-        x=finance_trend_data['Month'],
-        y=finance_trend_data['Revenue'],
-        mode='lines+markers',
-        name='Revenue',
-        line=dict(color=primary_blue)
-    ))
-    ops_trend_fig.add_trace(go.Scatter(
-        x=finance_trend_data['Month'],
-        y=finance_trend_data['Expenses'],
-        mode='lines+markers',
-        name='Expenses',
-        line=dict(color=primary_orange)
-    ))
-    ops_trend_fig.add_trace(go.Scatter(
-        x=finance_trend_data['Month'],
-        y=finance_trend_data['Donations'],
-        mode='lines+markers',
-        name='Donations',
-        line=dict(color=primary_yellow)
-    ))
-
-    ops_trend_fig.update_layout(
-        title='Revenue vs Expenses vs Donations',
-        xaxis_title='Month',
-        yaxis_title='USD ($)',
-        title_font=dict(color=primary_blue),
-        height=400,
-        legend_title_text='Financial Lines'
-    )
-
-    st.plotly_chart(ops_trend_fig, use_container_width=True, key="ops_trend_fig_updated")
 
 # ---------------------------------
 # Member Care Tab (real data from PDF)
@@ -1019,12 +1059,11 @@ with tab8:
 with tab9:
     st.markdown('<h3 class="section-title">Impact Metrics</h3>', unsafe_allow_html=True)
 
-    # Create a highlighted notification banner
+    # Create a more subtle notification
     st.markdown(
         """
-        <div style="background-color: #FFE082; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid #FFC107;">
-            <h4 style="color: #5D4037; margin-top: 0;">Important Notice</h4>
-            <p style="color: #5D4037; font-size: 16px;"><strong>GirlTREK's community health impact reporting will be updated following Self-Care School 2025 outcomes.</strong></p>
+        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 3px solid #757575;">
+            <p style="color: #424242; font-size: 15px;"><i>Note: GirlTREK's community health impact reporting will be updated following Self-Care School 2025 outcomes.</i></p>
         </div>
         """,
         unsafe_allow_html=True
@@ -1053,151 +1092,187 @@ with tab9:
 with tab10:
     st.markdown('<h3 class="section-title">Self-Care School Campaign</h3>', unsafe_allow_html=True)
     
-    scs_col1, scs_col2, scs_col3 = st.columns(3)
+    # Campaign header with progress visualization
+    campaign_progress = 11985 / 10000 * 100  # Calculate percentage of goal achieved
     
-    with scs_col1:
+    progress_html = f"""
+    <div style="background: linear-gradient(to right, #f0f9ff, #E3F2FD); border-radius: 10px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <div style="display: flex; justify-content: space-between;">
+            <div>
+                <h3 style="margin-top: 0; color: #1E88E5;">Self-Care School Campaign Status</h3>
+                <p style="font-size: 16px;">Goal: 10,000 Registrants | Current: 11,985 Registrants</p>
+                <div style="font-size: 18px; font-weight: bold; color: #00C853;">Status: {status_badge("Achieved")}</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 40px; font-weight: bold; color: #1E88E5;">{campaign_progress:.1f}%</div>
+                <p>of goal achieved</p>
+            </div>
+        </div>
+        <div style="width: 100%; background-color: #E0E0E0; height: 15px; border-radius: 10px; margin-top: 15px;">
+            <div style="width: {min(campaign_progress, 100)}%; height: 100%; background-color: #00C853; border-radius: 10px;"></div>
+        </div>
+    </div>
+    """
+    
+    st.markdown(progress_html, unsafe_allow_html=True)
+    
+    # Key metrics in visually appealing boxes
+    st.markdown('<h4>Key Metrics</h4>', unsafe_allow_html=True)
+    
+    metrics_row1_col1, metrics_row1_col2, metrics_row1_col3 = st.columns(3)
+    
+    with metrics_row1_col1:
         st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">TOTAL REGISTRANTS</p>'
-            f'<p class="metric-value">11,985</p>'
-            f'<p>Goal: 10,000</p>'
-            f'<p>{status_badge("Achieved")}</p>'
-            f'</div>',
+            f"""
+            <div style="background-color: #E8F5E9; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #2E7D32; margin-top: 0;">NEW MEMBERS</h4>
+                <div style="font-size: 36px; font-weight: bold; color: #2E7D32; margin: 10px 0;">4,808</div>
+                <p style="color: #2E7D32;">Joined through campaign</p>
+                <p>{status_badge("On Track")}</p>
+            </div>
+            """,
             unsafe_allow_html=True
         )
     
-    with scs_col2:
+    with metrics_row1_col2:
         st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">NEW MEMBERS FROM CAMPAIGN</p>'
-            f'<p class="metric-value">4,808</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>',
+            f"""
+            <div style="background-color: #FFF8E1; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #FF8F00; margin-top: 0;">DOWNLOADS</h4>
+                <div style="font-size: 36px; font-weight: bold; color: #FF8F00; margin: 10px 0;">22,186</div>
+                <p style="color: #FF8F00;">Goal: 100,000</p>
+                <p>{status_badge("At Risk")}</p>
+            </div>
+            """,
             unsafe_allow_html=True
         )
     
-    with scs_col3:
+    with metrics_row1_col3:
         st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">DOWNLOADS</p>'
-            f'<p class="metric-value">22,186</p>'
-            f'<p>Goal: 100,000</p>'
-            f'<p>{status_badge("At Risk")}</p>'
-            f'</div>',
+            f"""
+            <div style="background-color: #E1F5FE; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #0277BD; margin-top: 0;">STORIES SUBMITTED</h4>
+                <div style="font-size: 36px; font-weight: bold; color: #0277BD; margin: 10px 0;">234</div>
+                <p style="color: #0277BD;">Goal: 100</p>
+                <p>{status_badge("Achieved")}</p>
+            </div>
+            """,
             unsafe_allow_html=True
         )
     
-    # Age Demographics
-    st.markdown('<h3>Demographic & Engagement Data</h3>', unsafe_allow_html=True)
+    # Age demographics  
+    st.markdown('<h4>Age Demographics</h4>', unsafe_allow_html=True)
     
-    age_demo_col1, age_demo_col2 = st.columns(2)
+    age_col1, age_col2 = st.columns([1, 3])
     
-    with age_demo_col1:
+    with age_col1:
         st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">REGISTRANTS AGE 18-25</p>'
-            f'<p class="metric-value">101</p>'
-            f'<p>{status_badge("At Risk")}</p>'
-            f'</div>',
+            f"""
+            <div style="background-color: #FFEBEE; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #C62828; margin-top: 0;">REGISTRANTS AGE 18-25</h4>
+                <div style="font-size: 36px; font-weight: bold; color: #C62828; margin: 10px 0;">101</div>
+                <p>{status_badge("At Risk")}</p>
+            </div>
+            """,
             unsafe_allow_html=True
         )
     
-    with age_demo_col2:
-        st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">STORIES SUBMITTED</p>'
-            f'<p class="metric-value">234</p>'
-            f'<p>Goal: 100</p>'
-            f'<p>{status_badge("Achieved")}</p>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
+    with age_col2:
+        # Badges claimed by week
+        badges_col1, badges_col2, badges_col3 = st.columns(3)
+        
+        with badges_col1:
+            st.markdown(
+                f"""
+                <div style="background-color: #E0F7FA; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h4 style="color: #00838F; margin-top: 0;">WEEK 0 BADGES</h4>
+                    <div style="font-size: 28px; font-weight: bold; color: #00838F; margin: 5px 0;">3,089</div>
+                    <p style="color: #00838F; font-size: 14px;">Goal: 5,000/week</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with badges_col2:
+            st.markdown(
+                f"""
+                <div style="background-color: #E0F7FA; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h4 style="color: #00838F; margin-top: 0;">WEEK 1 BADGES</h4>
+                    <div style="font-size: 28px; font-weight: bold; color: #00838F; margin: 5px 0;">2,061</div>
+                    <p style="color: #00838F; font-size: 14px;">Goal: 5,000/week</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with badges_col3:
+            st.markdown(
+                f"""
+                <div style="background-color: #E0F7FA; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h4 style="color: #00838F; margin-top: 0;">WEEK 2 BADGES</h4>
+                    <div style="font-size: 28px; font-weight: bold; color: #00838F; margin: 5px 0;">2,197</div>
+                    <p style="color: #00838F; font-size: 14px;">Goal: 5,000/week</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
     
-    # Marketing metrics
-    st.markdown('<h3>Marketing & Social Media Performance</h3>', unsafe_allow_html=True)
+    # Social Media Performance with visualizations
+    st.markdown('<h4>Social Media Performance</h4>', unsafe_allow_html=True)
     
-    social_col1, social_col2, social_col3, social_col4 = st.columns(4)
+    # Create two columns - left for metrics, right for engagement summary
+    social_col1, social_col2 = st.columns([3, 1])
     
     with social_col1:
-        st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">IMPRESSIONS</p>'
-            f'<p class="metric-value">338K</p>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
+        # Grid of social metrics
+        social_grid_html = """
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px;">
+            <div style="background-color: #F5F5F5; border-left: 5px solid #2196F3; padding: 15px; border-radius: 5px; text-align: center;">
+                <div style="font-size: 13px; color: #757575;">IMPRESSIONS</div>
+                <div style="font-size: 24px; font-weight: bold; color: #2196F3; margin: 5px 0;">338K</div>
+            </div>
+            <div style="background-color: #F5F5F5; border-left: 5px solid #4CAF50; padding: 15px; border-radius: 5px; text-align: center;">
+                <div style="font-size: 13px; color: #757575;">CLICKS TO SITE</div>
+                <div style="font-size: 24px; font-weight: bold; color: #4CAF50; margin: 5px 0;">39K</div>
+            </div>
+            <div style="background-color: #F5F5F5; border-left: 5px solid #9C27B0; padding: 15px; border-radius: 5px; text-align: center;">
+                <div style="font-size: 13px; color: #757575;">VIDEO VIEWS</div>
+                <div style="font-size: 24px; font-weight: bold; color: #9C27B0; margin: 5px 0;">70.7K</div>
+            </div>
+            <div style="background-color: #F5F5F5; border-left: 5px solid #FF5722; padding: 15px; border-radius: 5px; text-align: center;">
+                <div style="font-size: 13px; color: #757575;">REACTIONS</div>
+                <div style="font-size: 24px; font-weight: bold; color: #FF5722; margin: 5px 0;">3.2K</div>
+            </div>
+            <div style="background-color: #F5F5F5; border-left: 5px solid #795548; padding: 15px; border-radius: 5px; text-align: center;">
+                <div style="font-size: 13px; color: #757575;">COMMENTS</div>
+                <div style="font-size: 24px; font-weight: bold; color: #795548; margin: 5px 0;">74</div>
+            </div>
+            <div style="background-color: #F5F5F5; border-left: 5px solid #607D8B; padding: 15px; border-radius: 5px; text-align: center;">
+                <div style="font-size: 13px; color: #757575;">SHARES</div>
+                <div style="font-size: 24px; font-weight: bold; color: #607D8B; margin: 5px 0;">217</div>
+            </div>
+            <div style="background-color: #F5F5F5; border-left: 5px solid #FFC107; padding: 15px; border-radius: 5px; text-align: center;">
+                <div style="font-size: 13px; color: #757575;">SAVES</div>
+                <div style="font-size: 24px; font-weight: bold; color: #FFC107; margin: 5px 0;">66</div>
+            </div>
+            <div style="background-color: #F5F5F5; border-left: 5px solid #3F51B5; padding: 15px; border-radius: 5px; text-align: center;">
+                <div style="font-size: 13px; color: #757575;">NEW FB PAGE LIKES</div>
+                <div style="font-size: 24px; font-weight: bold; color: #3F51B5; margin: 5px 0;">67</div>
+            </div>
+        </div>
+        """
+        
+        st.markdown(social_grid_html, unsafe_allow_html=True)
     
     with social_col2:
         st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">CLICKS TO SITE</p>'
-            f'<p class="metric-value">39K</p>'
-            f'</div>',
+            """
+            <div style="background: linear-gradient(to bottom, #E8EAF6, #C5CAE9); border-radius: 10px; padding: 15px; height: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <h4 style="color: #3F51B5; margin-top: 0;">Engagement Summary</h4>
+                <p style="color: #3F51B5;">Super positive engagement and comments.</p>
+                <p style="color: #3F51B5; font-weight: bold;">Action Item:</p>
+                <p style="color: #3F51B5;">Increase replies to existing comments for better community engagement.</p>
+            </div>
+            """,
             unsafe_allow_html=True
         )
-    
-    with social_col3:
-        st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">VIDEO VIEWS</p>'
-            f'<p class="metric-value">70.7K</p>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-    
-    with social_col4:
-        st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">REACTIONS</p>'
-            f'<p class="metric-value">3.2K</p>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-    
-    engagement_col1, engagement_col2, engagement_col3, engagement_col4 = st.columns(4)
-    
-    with engagement_col1:
-        st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">COMMENTS</p>'
-            f'<p class="metric-value">74</p>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-    
-    with engagement_col2:
-        st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">SHARES</p>'
-            f'<p class="metric-value">217</p>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-    
-    with engagement_col3:
-        st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">SAVES</p>'
-            f'<p class="metric-value">66</p>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-    
-    with engagement_col4:
-        st.markdown(
-            f'<div class="metric-box">'
-            f'<p class="metric-title">NEW FB PAGE LIKES</p>'
-            f'<p class="metric-value">67</p>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-    
-    # Engagement summary
-    st.markdown(
-        """
-        <div style="background-color: #f7f7f7; padding: 15px; border-radius: 5px; margin: 20px 0;">
-            <p><strong>Engagement Summary:</strong> Super positive engagement and comments. Need to increase replies to existing comments for better community engagement.</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
