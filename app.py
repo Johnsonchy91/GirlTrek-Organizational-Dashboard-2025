@@ -574,7 +574,7 @@ with tab2:
     
     with col1:
         # New members by month
-        fig_months = px.line(df_months, x='Month', y='New Members', 
+        fig_months = px.bar(df_months, x='Month', y='New Members', 
                           title='New Members by Month',
                           markers=True)
         fig_months.update_traces(
