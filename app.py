@@ -855,3 +855,476 @@ with tab4:
 
     st.markdown(download_data(development_metrics_df, "GirlTREK_Development_Metrics"), unsafe_allow_html=True)
 
+with tab5:
+    st.markdown('<h3 class="section-title">Marketing Metrics</h3>', unsafe_allow_html=True)
+    
+    sub_col1, sub_col2 = st.columns(2)
+
+    with sub_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL SUBSCRIBERS</p>'
+            f'<p class="metric-value">931,141</p>'
+            f'<p>Goal: 1,300,000</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with sub_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">ACTIVE SUBSCRIBERS</p>'
+            f'<p class="metric-value">297,283</p>'
+            f'<p>31.9% of Total Subscribers</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # Subscriber Activity Chart
+    marketing_activity_fig = go.Figure()
+
+    marketing_activity_fig.add_trace(go.Bar(
+        x=df_activity['Period'],
+        y=df_activity['Openers'],
+        name='Openers',
+        marker_color=primary_blue
+    ))
+
+    marketing_activity_fig.add_trace(go.Bar(
+        x=df_activity['Period'],
+        y=df_activity['Clickers'],
+        name='Clickers',
+        marker_color=primary_orange
+    ))
+
+    marketing_activity_fig.update_layout(
+        title='Subscriber Activity',
+        xaxis_title='Time Period',
+        yaxis_title='Number of Subscribers',
+        barmode='group',
+        height=400,
+        title_font=dict(color=primary_blue)
+    )
+
+    st.plotly_chart(marketing_activity_fig, use_container_width=True)
+
+    # Email and SMS Engagement
+    st.markdown('<h3>Email & Text Message Engagement</h3>', unsafe_allow_html=True)
+    
+    st.markdown(
+        """
+        <div class="email-stats-container">
+            <div class="email-stat-box">
+                <div class="email-stat-icon">📧</div>
+                <div class="email-stat-content">
+                    <div class="email-stat-title">Average Email Open Rate</div>
+                    <div class="email-stat-value">34.95%</div>
+                    <div style="font-size: 12px; color: #666;">Industry benchmark: 6.3-10%</div>
+                </div>
+            </div>
+            <div class="email-stat-box">
+                <div class="email-stat-icon">👀</div>
+                <div class="email-stat-content">
+                    <div class="email-stat-title">30-Day Email Opens</div>
+                    <div class="email-stat-value">221,719</div>
+                </div>
+            </div>
+            <div class="email-stat-box">
+                <div class="email-stat-icon">👆</div>
+                <div class="email-stat-content">
+                    <div class="email-stat-title">30-Day Email Clicks</div>
+                    <div class="email-stat-value">13,000</div>
+                </div>
+            </div>
+            <div class="email-stat-box">
+                <div class="email-stat-icon">📱</div>
+                <div class="email-stat-content">
+                    <div class="email-stat-title">Text Message Click-Through Rate</div>
+                    <div class="email-stat-value">6.27%</div>
+                </div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Email Engagement Over Time
+    st.markdown("<h3>Email Engagement Over Time</h3>", unsafe_allow_html=True)
+
+    email_trend_data = pd.DataFrame({
+        'Month': ['January', 'February', 'March', 'April'],
+        'Open Rate': [33.8, 34.2, 34.6, 34.95],
+        'Click Rate': [2.9, 3.4, 4.1, 5.9],
+        'Date': [datetime(2025, 1, 1), datetime(2025, 2, 1), datetime(2025, 3, 1), datetime(2025, 4, 1)]
+    })
+
+    email_trend_fig = go.Figure()
+
+    email_trend_fig.add_trace(go.Scatter(
+        x=email_trend_data['Month'],
+        y=email_trend_data['Open Rate'],
+        mode='lines+markers',
+        name='Open Rate (%)',
+        line=dict(color=primary_blue, width=3),
+        marker=dict(size=8)
+    ))
+
+    email_trend_fig.add_trace(go.Scatter(
+        x=email_trend_data['Month'],
+        y=email_trend_data['Click Rate'],
+        mode='lines+markers',
+        name='Click Rate (%)',
+        line=dict(color=primary_orange, width=3),
+        marker=dict(size=8)
+    ))
+
+    if show_target_lines:
+        email_trend_fig.add_shape(
+            type="line",
+            x0=0,
+            y0=35,
+            x1=3,
+            y1=35,
+            line=dict(color="green", width=2, dash="dash")
+        )
+        email_trend_fig.add_annotation(
+            x=3,
+            y=35,
+            text="Target Open Rate: 35%",
+            showarrow=False,
+            yshift=10,
+            font=dict(color="green")
+        )
+
+    email_trend_fig.update_layout(
+        title='Email Engagement Trends',
+        xaxis_title='Month',
+        yaxis_title='Rate (%)',
+        legend_title='Metric',
+        height=400,
+        title_font=dict(color=primary_blue)
+    )
+
+    st.plotly_chart(email_trend_fig, use_container_width=True)
+
+    # Social Media Metrics
+    st.markdown("<h3>Social Media Metrics</h3>", unsafe_allow_html=True)
+
+    social_col1, social_col2, social_col3, social_col4 = st.columns(4)
+
+    with social_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">INSTAGRAM FOLLOWERS</p>'
+            f'<p class="metric-value">127,450</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with social_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">FACEBOOK FOLLOWERS</p>'
+            f'<p class="metric-value">98,265</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with social_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TWITTER FOLLOWERS</p>'
+            f'<p class="metric-value">42,871</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with social_col4:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">YOUTUBE SUBSCRIBERS</p>'
+            f'<p class="metric-value">18,539</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # Top Performing Content
+    st.markdown("<h3>Top Performing Content</h3>", unsafe_allow_html=True)
+
+    top_posts_data = [
+        {"Platform": "Instagram", "Content": "Self-Care Schools Launch", "Engagement": "12,450 likes, 1,835 comments"},
+        {"Platform": "Facebook", "Content": "Crew Leader Feature: Atlanta", "Engagement": "8,245 reactions, 543 shares"},
+        {"Platform": "Twitter", "Content": "National Walking Day Event", "Engagement": "2,160 retweets, 167 replies"},
+        {"Platform": "YouTube", "Content": "Morning Walk Tutorial", "Engagement": "24,815 views, 1,250 likes"}
+    ]
+
+    for post in top_posts_data:
+        st.markdown(
+            f"""
+            <div style="background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 10px;">
+                <div style="display: flex; align-items: center;">
+                    <div style="font-weight: bold; color: #0088FF; width: 100px;">{post['Platform']}</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold;">{post['Content']}</div>
+                        <div style="font-size: 14px; color: #666;">{post['Engagement']}</div>
+                    </div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    # Download Marketing Metrics
+    st.markdown("### Download Marketing Data")
+
+    marketing_metrics_list = [
+        {"Metric": "Total Subscribers", "Value": "931,141"},
+        {"Metric": "Active Subscribers", "Value": "297,283"},
+        {"Metric": "Instagram Followers", "Value": "127,450"},
+        {"Metric": "Facebook Followers", "Value": "98,265"},
+        {"Metric": "Twitter Followers", "Value": "42,871"},
+        {"Metric": "YouTube Subscribers", "Value": "18,539"}
+    ]
+    marketing_metrics_df = pd.DataFrame(marketing_metrics_list)
+
+    st.markdown(download_data(marketing_metrics_df, "GirlTREK_Marketing_Metrics"), unsafe_allow_html=True)
+
+
+with tab6:
+    st.markdown('<h3 class="section-title">Operations Metrics</h3>', unsafe_allow_html=True)
+    
+    # Staff & Team Metrics
+    st.markdown("<h3>Staff & Team Metrics</h3>", unsafe_allow_html=True)
+    
+    ops_col1, ops_col2, ops_col3 = st.columns(3)
+
+    with ops_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL TEAM MEMBERS</p>'
+            f'<p class="metric-value">48</p>'
+            f'<p>Goal: 65</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with ops_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">OPEN POSITIONS</p>'
+            f'<p class="metric-value">7</p>'
+            f'<p>In active recruitment</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with ops_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">STAFF RETENTION RATE</p>'
+            f'<p class="metric-value">93%</p>'
+            f'<p>Goal: >90%</p>'
+            f'<p>{status_badge("Achieved")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # Technology Systems Metrics
+    st.markdown("<h3>Technology Systems</h3>", unsafe_allow_html=True)
+    
+    tech_col1, tech_col2 = st.columns(2)
+
+    with tech_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">APP DOWNLOADS</p>'
+            f'<p class="metric-value">32,450</p>'
+            f'<p>Goal: 100,000</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with tech_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">ACTIVE APP USERS</p>'
+            f'<p class="metric-value">18,736</p>'
+            f'<p>57.7% of downloads</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # Website Metrics
+    st.markdown("<h3>Website Performance</h3>", unsafe_allow_html=True)
+    
+    web_col1, web_col2, web_col3 = st.columns(3)
+
+    with web_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">MONTHLY WEBSITE VISITORS</p>'
+            f'<p class="metric-value">124,856</p>'
+            f'<p>+18% from Q1</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with web_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">AVERAGE SESSION DURATION</p>'
+            f'<p class="metric-value">3:42</p>'
+            f'<p>+0:15 from Q1</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with web_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">CONVERSION RATE</p>'
+            f'<p class="metric-value">4.8%</p>'
+            f'<p>Goal: 5%</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # IT Efficiency Metrics
+    st.markdown("<h3>IT & Operations Efficiency</h3>", unsafe_allow_html=True)
+
+    it_col1, it_col2 = st.columns(2)
+
+    with it_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">AVERAGE SUPPORT TICKET RESOLUTION TIME</p>'
+            f'<p class="metric-value">16.4 hours</p>'
+            f'<p>Goal: <24 hours</p>'
+            f'<p>{status_badge("Achieved")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with it_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">SYSTEM UPTIME</p>'
+            f'<p class="metric-value">99.7%</p>'
+            f'<p>Goal: >99.5%</p>'
+            f'<p>{status_badge("Achieved")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # Operational Budget Performance
+    st.markdown("<h3>Operational Budget Performance</h3>", unsafe_allow_html=True)
+
+    budget_data = pd.DataFrame({
+        'Category': ['Personnel', 'Technology', 'Facilities', 'Marketing', 'Programs', 'Admin'],
+        'Budget': [2100000, 850000, 320000, 750000, 1200000, 280000],
+        'Actual': [1950000, 790000, 295000, 710000, 1050000, 265000],
+        'Percent': [92.9, 92.9, 92.2, 94.7, 87.5, 94.6]
+    })
+
+    budget_fig = go.Figure()
+
+    budget_fig.add_trace(go.Bar(
+        x=budget_data['Category'],
+        y=budget_data['Budget'],
+        name='Budget',
+        marker_color=primary_blue
+    ))
+
+    budget_fig.add_trace(go.Bar(
+        x=budget_data['Category'],
+        y=budget_data['Actual'],
+        name='Actual',
+        marker_color=primary_orange
+    ))
+
+    budget_fig.update_layout(
+        title='Budget vs. Actual Spending by Category',
+        xaxis_title='Category',
+        yaxis_title='Amount ($)',
+        barmode='group',
+        height=400,
+        title_font=dict(color=primary_blue)
+    )
+
+    st.plotly_chart(budget_fig, use_container_width=True)
+
+    # Download Operations Data
+    st.markdown("### Download Operations Data")
+
+    operations_metrics_list = [
+        {"Metric": "Total Team Members", "Value": "26"},
+        {"Metric": "Open Positions", "Value": "0"},
+        {"Metric": "Staff Retention Rate", "Value": "0"},
+        {"Metric": "App Downloads", "Value": "0"},
+        {"Metric": "Active App Users", "Value": "0"},
+        {"Metric": "Monthly Website Visitors", "Value": "124,856"},
+        {"Metric": "Average Session Duration", "Value": "3:42"},
+        {"Metric": "Conversion Rate", "Value": "4.8%"},
+        {"Metric": "Avg Ticket Resolution Time", "Value": "16.4 hours"},
+        {"Metric": "System Uptime", "Value": "99.7%"}
+    ]
+    operations_metrics_df = pd.DataFrame(operations_metrics_list)
+
+    st.markdown(download_data(operations_metrics_df, "GirlTREK_Operations_Metrics"), unsafe_allow_html=True)
+# ---------------- Member Care ----------------
+with tab7:
+    st.markdown('<h3 class="section-title">Member Care Metrics</h3>', unsafe_allow_html=True)
+
+    st.markdown(
+        """
+        <p>Tracking for Member Care is currently in development.</p>
+        <p>Key focus areas will include:</p>
+        <ul>
+            <li>Response time to member inquiries</li>
+            <li>Resolution rates for support requests</li>
+            <li>Member satisfaction surveys</li>
+            <li>Retention & re-engagement programs</li>
+        </ul>
+        """,
+        unsafe_allow_html=True
+    )
+
+# ---------------- Advocacy ----------------
+with tab8:
+    st.markdown('<h3 class="section-title">Advocacy Metrics</h3>', unsafe_allow_html=True)
+
+    st.markdown(
+        """
+        <p>Advocacy engagement metrics under review.</p>
+        <p>Initial reporting will include:</p>
+        <ul>
+            <li>Number of active advocacy partners</li>
+            <li>Policy wins & endorsements</li>
+            <li>Event participation numbers</li>
+            <li>Storytelling and advocacy campaigns impact</li>
+        </ul>
+        """,
+        unsafe_allow_html=True
+    )
+
+# ---------------- Impact ----------------
+with tab9:
+    st.markdown('<h3 class="section-title">Impact Metrics</h3>', unsafe_allow_html=True)
+
+    st.markdown(
+        """
+        <p>GirlTREK’s broader health impact metrics are in development.</p>
+        <p>We aim to track:</p>
+        <ul>
+            <li>Improvements in community health outcomes</li>
+            <li>Walking frequency and duration trends</li>
+            <li>Behavior change over time</li>
+            <li>Self-reported health improvements</li>
+        </ul>
+        <p>Formal research partnerships are being explored for 2025 and beyond.</p>
+        """,
+        unsafe_allow_html=True
+    )
