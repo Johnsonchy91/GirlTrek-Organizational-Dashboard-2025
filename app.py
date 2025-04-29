@@ -29,6 +29,59 @@ dark_card_bg = "#1E1E1E"
 dark_text = "#FFFFFF"
 dark_secondary_text = "#BBBBBB"
 
+# Add Notes Functionality - Moved to top of file
+def create_notes_section(tab_name):
+    """Create a notes section for any tab with persistence"""
+    
+    notes_key = f"notes_{tab_name}"
+    
+    # Initialize notes in session state if they don't exist
+    if notes_key not in st.session_state:
+        st.session_state[notes_key] = ""
+    
+    # Create expandable section for notes
+    with st.expander(f"📝 Notes for {tab_name}", expanded=False):
+        col1, col2 = st.columns([3, 1])
+        
+        with col1:
+            # Create text area for notes with the current value from session state
+            notes = st.text_area(
+                "Add your notes here:",
+                value=st.session_state[notes_key],
+                height=150,
+                key=f"textarea_{notes_key}"
+            )
+            
+            # Automatically save notes when they change
+            if notes != st.session_state[notes_key]:
+                st.session_state[notes_key] = notes
+                st.success("Notes saved automatically!")
+                
+                # Add timestamp for last edit
+                if 'last_edit_time' not in st.session_state:
+                    st.session_state.last_edit_time = {}
+                st.session_state.last_edit_time[notes_key] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        with col2:
+            # Display timestamp of last edit if available
+            if 'last_edit_time' in st.session_state and notes_key in st.session_state.last_edit_time:
+                st.info(f"Last edited: {st.session_state.last_edit_time[notes_key]}")
+            
+            # Add export functionality
+            if st.button("Export Notes", key=f"export_{tab_name}"):
+                # Convert notes to CSV format for download
+                notes_data = f"Tab,Notes\n{tab_name},{st.session_state[notes_key].replace(',', ';').replace('\n', ' ')}"
+                b64 = base64.b64encode(notes_data.encode()).decode()
+                href = f'<a href="data:file/csv;base64,{b64}" download="{tab_name}_notes.csv">Download {tab_name} Notes</a>'
+                st.markdown(href, unsafe_allow_html=True)
+            
+            # Add ability to clear notes
+            if st.button("Clear Notes", key=f"clear_{tab_name}"):
+                st.session_state[notes_key] = ""
+                if 'last_edit_time' in st.session_state and notes_key in st.session_state.last_edit_time:
+                    del st.session_state.last_edit_time[notes_key]
+                st.experimental_rerun()
+
 # Helper Functions
 def generate_unique_id():
     return str(uuid.uuid4())
