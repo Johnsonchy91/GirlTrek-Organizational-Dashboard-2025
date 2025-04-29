@@ -845,7 +845,10 @@ with tab3:
     
     st.markdown(progress_html, unsafe_allow_html=True)
     
-    # Key metrics in visually appealing boxes
+    # Age demographics and Badges claimed  
+    st.markdown('<h4>Campaign Metrics</h4>', unsafe_allow_html=True)
+
+       # Key metrics in visually appealing boxes
     metrics_row1_col1, metrics_row1_col2, metrics_row1_col3 = st.columns(3)
     
     with metrics_row1_col1:
@@ -886,9 +889,6 @@ with tab3:
             """,
             unsafe_allow_html=True
         )
-    
-    # Age demographics and Badges claimed  
-    st.markdown('<h4>Campaign Metrics</h4>', unsafe_allow_html=True)
         
     st.markdown(
         f"""
