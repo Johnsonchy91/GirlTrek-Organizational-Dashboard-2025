@@ -38,6 +38,10 @@ def create_notes_section(tab_name):
     # Initialize notes in session state if they don't exist
     if notes_key not in st.session_state:
         st.session_state[notes_key] = ""
+        
+    # Initialize recent notes tracking if it doesn't exist
+    if 'recent_notes' not in st.session_state:
+        st.session_state.recent_notes = []
     
     # Create expandable section for notes
     with st.expander(f"📝 Notes for {tab_name}", expanded=False):
@@ -54,13 +58,30 @@ def create_notes_section(tab_name):
             
             # Automatically save notes when they change
             if notes != st.session_state[notes_key]:
+                previous_notes = st.session_state[notes_key]
                 st.session_state[notes_key] = notes
-                st.success("Notes saved automatically!")
                 
                 # Add timestamp for last edit
                 if 'last_edit_time' not in st.session_state:
                     st.session_state.last_edit_time = {}
-                st.session_state.last_edit_time[notes_key] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                st.session_state.last_edit_time[notes_key] = timestamp
+                
+                # Track recent note submissions for display in sidebar
+                if notes.strip() and (not previous_notes.strip() or notes.strip() != previous_notes.strip()):
+                    # Only add if it's not empty and is different from before
+                    note_summary = notes.strip() if len(notes.strip()) < 50 else notes.strip()[:47] + "..."
+                    st.session_state.recent_notes.insert(0, {
+                        "tab": tab_name,
+                        "summary": note_summary,
+                        "timestamp": timestamp
+                    })
+                    # Keep only the 5 most recent notes
+                    if len(st.session_state.recent_notes) > 5:
+                        st.session_state.recent_notes = st.session_state.recent_notes[:5]
+                
+                st.success("Notes saved automatically!")
         
         with col2:
             # Display timestamp of last edit if available
@@ -236,13 +257,7 @@ if st.sidebar.button("Generate PDF for Download"):
         unsafe_allow_html=True
     )
 
-st.sidebar.markdown("### Dashboard Settings")
-show_target_lines = st.sidebar.checkbox("Show Target Lines", value=True)
-dark_mode = st.sidebar.checkbox("Dark Mode", value=False)
-
-apply_dark_mode(dark_mode)
-
-# Add new sidebar section for dashboard notes
+# Add dashboard notes section after settings
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Dashboard Notes")
 
@@ -259,8 +274,42 @@ global_notes = st.sidebar.text_area(
 
 # Save button for global notes
 if st.sidebar.button("Save Global Notes"):
+    previous_notes = st.session_state.global_notes
     st.session_state.global_notes = global_notes
+    
+    # Track recent note submissions
+    if global_notes.strip() and (not previous_notes.strip() or global_notes.strip() != previous_notes.strip()):
+        # Only add if it's not empty and is different from before
+        note_summary = global_notes.strip() if len(global_notes.strip()) < 50 else global_notes.strip()[:47] + "..."
+        if 'recent_notes' not in st.session_state:
+            st.session_state.recent_notes = []
+        
+        st.session_state.recent_notes.insert(0, {
+            "tab": "Global",
+            "summary": note_summary,
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        })
+        # Keep only the 5 most recent notes
+        if len(st.session_state.recent_notes) > 5:
+            st.session_state.recent_notes = st.session_state.recent_notes[:5]
+            
     st.sidebar.success("Global notes saved successfully!")
+
+# Display recent notes
+st.sidebar.markdown("### Recent Notes")
+if 'recent_notes' in st.session_state and st.session_state.recent_notes:
+    for note in st.session_state.recent_notes:
+        st.sidebar.markdown(
+            f"""
+            <div style="background-color: #f1f3f4; padding: 10px; border-radius: 5px; margin-bottom: 10px; border-left: 3px solid #0088FF;">
+                <div style="font-size: 12px; color: #666; margin-bottom: 2px;">{note['tab']} - {note['timestamp']}</div>
+                <div style="font-size: 14px;">{note['summary']}</div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+else:
+    st.sidebar.markdown("*No recent notes to display*")
 
 # Export all notes
 if st.sidebar.button("Export All Notes"):
