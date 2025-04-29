@@ -493,7 +493,7 @@ with tab1:
     # Report Card Progress
     st.markdown('<h3>Report Card Progress</h3>', unsafe_allow_html=True)
     
-    # Create a data table for report card with more specific goals
+    # Updated report_data dictionary with consistent numeric types as strings
     report_data = {
         "Goal": [
             "Goal 1: Recruit 100,000 new members", 
@@ -665,13 +665,14 @@ with tab1:
     exec_fig_cities.update_layout(title_font=dict(color=primary_blue))
     st.plotly_chart(exec_fig_cities, use_container_width=True, key=f"exec_bar_cities_{generate_unique_id()}")
     
-    # Download button for this tab
-    report_df = pd.DataFrame({
-        "Goal": report_data["Goal"],
-        "Current Total": report_data["Current Total"],
-        "Percent Progress": report_data["Percent Progress"],
-        "Status": report_data["Status"]
-    })
+    # Create report_df with simple, consistent structure
+    report_df = pd.DataFrame([
+        {"Goal": report_data["Goal"][i], 
+         "Current Total": report_data["Current Total"][i],
+         "Percent Progress": report_data["Percent Progress"][i],
+         "Status": report_data["Status"][i]} 
+        for i in range(len(report_data["Goal"]))
+    ])
     
     st.markdown(download_data(report_df, "GirlTREK_Executive_Summary"), unsafe_allow_html=True)
 
@@ -1065,37 +1066,36 @@ with tab3:
     # Download button for this tab
     st.markdown("### Download Engagement Data")
     
-    # Create dataframes for download
-    engagement_metrics_df = pd.DataFrame({
-        "Metric": ["Total Active Volunteers", "Total Documented Crew Leaders", "Total Active Crew Leaders", 
-                  "Total New Crews", "Members Walking at Life-Saving Level", "Members in Special Impact Programs", 
-                  "Total Trained"],
-        "Value": [3348, 3732, 1846, 603, 4788, 100, 50],
-        "Goal": ["N/A", "N/A", "N/A", "N/A", 50000, 65000, 1000],
-        "Status": ["N/A", "N/A", "On Track", "N/A", "At Risk", "N/A", "At Risk"]
-    })
+    # Create dataframes for download using list of dictionaries approach
+    engagement_metrics_list = [
+        {"Metric": "Total Active Volunteers", "Value": "3,348", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "Total Documented Crew Leaders", "Value": "3,732", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "Total Active Crew Leaders", "Value": "1,846", "Goal": "N/A", "Status": "On Track"},
+        {"Metric": "Total New Crews", "Value": "603", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "Members Walking at Life-Saving Level", "Value": "4,788", "Goal": "50,000", "Status": "At Risk"},
+        {"Metric": "Members in Special Impact Programs", "Value": "100", "Goal": "65,000", "Status": "N/A"},
+        {"Metric": "Total Trained", "Value": "50", "Goal": "1,000", "Status": "At Risk"}
+    ]
+    engagement_metrics_df = pd.DataFrame(engagement_metrics_list)
     
-    campaign_metrics_df = pd.DataFrame({
-        "Metric": ["Total Registrants", "Total Downloads", "Registrants Age 18-25", 
-                  "New Members from Campaign", "New Members Age 18-25 from Campaign",
-                  "People Who Have Claimed Badges", "Stories Submitted"],
-        "Value": [11985, 22186, 101, 4808, 75, 4788, 234],
-        "Goal": [10000, 100000, "N/A", "N/A", "N/A", 10000, 100],
-        "Status": ["On Track", "At Risk", "At Risk", "On Track", "At Risk", "On Track", "On Track"]
-    })
+    campaign_metrics_list = [
+        {"Metric": "Total Registrants", "Value": "11,985", "Goal": "10,000", "Status": "On Track"},
+        {"Metric": "Total Downloads", "Value": "22,186", "Goal": "100,000", "Status": "At Risk"},
+        {"Metric": "Registrants Age 18-25", "Value": "101", "Goal": "N/A", "Status": "At Risk"},
+        {"Metric": "New Members from Campaign", "Value": "4,808", "Goal": "N/A", "Status": "On Track"},
+        {"Metric": "New Members Age 18-25 from Campaign", "Value": "75", "Goal": "N/A", "Status": "At Risk"},
+        {"Metric": "People Who Have Claimed Badges", "Value": "4,788", "Goal": "10,000", "Status": "On Track"},
+        {"Metric": "Stories Submitted", "Value": "234", "Goal": "100", "Status": "On Track"}
+    ]
+    campaign_metrics_df = pd.DataFrame(campaign_metrics_list)
     
-    care_village_metrics_df = pd.DataFrame({
-        "Metric": ["Total Population Reached", "Health Worker Training", 
-                  "Community Engagement", "Bricklayers Hall Fundraising"],
-        "Value": ["Unknown", "Unknown", "Unknown", "Unknown"],
-        "Goal": ["20,000", "4,000", "40,000", "$400,000"],
-        "Notes": [
-            "Black women impacted through programs & events",
-            "Number of community health workers trained",
-            "Number of Black women reached in Montgomery, AL",
-            ""
-        ]
-    })
+    care_village_metrics_list = [
+        {"Metric": "Total Population Reached", "Value": "Unknown", "Goal": "20,000", "Notes": "Black women impacted through programs & events"},
+        {"Metric": "Health Worker Training", "Value": "Unknown", "Goal": "4,000", "Notes": "Number of community health workers trained"},
+        {"Metric": "Community Engagement", "Value": "Unknown", "Goal": "40,000", "Notes": "Number of Black women reached in Montgomery, AL"},
+        {"Metric": "Bricklayers Hall Fundraising", "Value": "Unknown", "Goal": "$400,000", "Notes": ""}
+    ]
+    care_village_metrics_df = pd.DataFrame(care_village_metrics_list)
     
     engagement_data = {
         "Engagement Metrics": engagement_metrics_df,
@@ -1278,14 +1278,16 @@ with tab4:
     # Download button for this tab
     st.markdown("### Download Development Data")
     
-    # Create dataframes for download
-    development_metrics_df = pd.DataFrame({
-        "Metric": ["Total Contributions", "Total Donations", "Total Grants", 
-                 "Corporate Engagement", "Number of Grants", "Prospective Corporate Sponsors"],
-        "Value": [3061104.78, 5854.78, 3055250, 130000, 12, 6],
-        "Goal": [8000000, "N/A", "N/A", 1500000, 48, 20],
-        "Status": ["On Track", "On Track", "On Track", "At Risk", "On Track", "On Track"]
-    })
+    # Create dataframes for download - changed to list of dictionaries approach
+    development_metrics_list = [
+        {"Metric": "Total Contributions", "Value": "3,061,104.78", "Goal": "8,000,000", "Status": "On Track"},
+        {"Metric": "Total Donations", "Value": "5,854.78", "Goal": "N/A", "Status": "On Track"},
+        {"Metric": "Total Grants", "Value": "3,055,250", "Goal": "N/A", "Status": "On Track"},
+        {"Metric": "Corporate Engagement", "Value": "130,000", "Goal": "1,500,000", "Status": "At Risk"},
+        {"Metric": "Number of Grants", "Value": "12", "Goal": "48", "Status": "On Track"},
+        {"Metric": "Prospective Corporate Sponsors", "Value": "6", "Goal": "20", "Status": "On Track"}
+    ]
+    development_metrics_df = pd.DataFrame(development_metrics_list)
     
     st.markdown(download_data(development_metrics_df, "GirlTREK_Development_Metrics"), unsafe_allow_html=True)
 
@@ -1430,12 +1432,14 @@ with tab5:
     # Download button
     st.markdown("### Download Marketing Data")
     
-    # Create dataframes for download
-    subscriber_metrics_df = pd.DataFrame({
-        "Metric": ["Total Subscribers", "Active Subscribers", "Average Open Rate", "Text Message Click-Through Rate"],
-        "Value": [931141, 297283, "34.95%", "6.27%"],
-        "Goal/Benchmark": [1300000, "N/A", "35%", "6.3-10%"]
-    })
+    # Create dataframes for download using list of dictionaries approach
+    subscriber_metrics_list = [
+        {"Metric": "Total Subscribers", "Value": "931,141", "Goal/Benchmark": "1,300,000"},
+        {"Metric": "Active Subscribers", "Value": "297,283", "Goal/Benchmark": "N/A"},
+        {"Metric": "Average Open Rate", "Value": "34.95%", "Goal/Benchmark": "35%"},
+        {"Metric": "Text Message Click-Through Rate", "Value": "6.27%", "Goal/Benchmark": "6.3-10%"}
+    ]
+    subscriber_metrics_df = pd.DataFrame(subscriber_metrics_list)
     
     st.markdown(download_data(subscriber_metrics_df, "GirlTREK_Marketing_Metrics"), unsafe_allow_html=True)
     st.markdown(download_data(df_activity, "GirlTREK_Subscriber_Activity"), unsafe_allow_html=True)
@@ -1565,14 +1569,15 @@ with tab6:
     # Download button
     st.markdown("### Download Operations Data")
     
-    # Create dataframe for download
-    operations_metrics_df = pd.DataFrame({
-        "Metric": ["Total Expenses", "Earned Revenue (Store Sales)", "Audit Compliance", 
-                  "Cyber Security Compliance", "Asana Adoption"],
-        "Value": ["Unknown", "Unknown", "Unknown", "Unknown", "38%"],
-        "Goal": ["N/A", "$400,000", "100%", "90%", "85%"],
-        "Status": ["N/A", "N/A", "N/A", "N/A", "At Risk"]
-    })
+    # Create dataframes for download using list of dictionaries approach
+    operations_metrics_list = [
+        {"Metric": "Total Expenses", "Value": "Unknown", "Goal": "N/A", "Status": "N/A"},
+        {"Metric": "Earned Revenue (Store Sales)", "Value": "Unknown", "Goal": "$400,000", "Status": "N/A"},
+        {"Metric": "Audit Compliance", "Value": "Unknown", "Goal": "100%", "Status": "N/A"},
+        {"Metric": "Cyber Security Compliance", "Value": "Unknown", "Goal": "90%", "Status": "N/A"},
+        {"Metric": "Asana Adoption", "Value": "38%", "Goal": "85%", "Status": "At Risk"}
+    ]
+    operations_metrics_df = pd.DataFrame(operations_metrics_list)
     
     st.markdown(download_data(operations_metrics_df, "GirlTREK_Operations_Metrics"), unsafe_allow_html=True)
 
@@ -1707,21 +1712,21 @@ with tab7:
     # Download button
     st.markdown("### Download Member Care Data")
     
-    # Create dataframe for download
-    member_care_metrics_df = pd.DataFrame({
-        "Metric": ["Member Satisfaction Rating", "Resolution/Responsiveness Rate"],
-        "Value": ["95%", "2 hours"],
-        "Goal": ["85%", "48 hours"]
-    })
+    # Create dataframes for download using list of dictionaries approach
+    member_care_metrics_list = [
+        {"Metric": "Member Satisfaction Rating", "Value": "95%", "Goal": "85%"},
+        {"Metric": "Resolution/Responsiveness Rate", "Value": "2 hours", "Goal": "48 hours"}
+    ]
+    member_care_metrics_df = pd.DataFrame(member_care_metrics_list)
     
-    member_issues_df = pd.DataFrame({
-        "Top Member Issues/Concerns": [
-            "The App functionality and usability",
-            "Join the Movement process and onboarding",
-            "Finding local crew events"
-        ]
-    })
+    member_issues_list = [
+        {"Top Member Issues/Concerns": "The App functionality and usability"},
+        {"Top Member Issues/Concerns": "Join the Movement process and onboarding"},
+        {"Top Member Issues/Concerns": "Finding local crew events"}
+    ]
+    member_issues_df = pd.DataFrame(member_issues_list)
     
+    # Create a properly formatted satisfaction trend dataframe for download
     member_care_data = {
         "Member Care Metrics": member_care_metrics_df,
         "Top Member Issues": member_issues_df,
@@ -1895,18 +1900,14 @@ with tab8:
     # Download button
     st.markdown("### Download Advocacy Data")
     
-    # Create dataframe for download
-    advocacy_metrics_df = pd.DataFrame({
-        "Metric": [
-            "Advocacy briefs produced",
-            "Advocacy partners secured",
-            "Media Mentions",
-            "Policy Meetings"
-        ],
-        "Value": [4, 2, 28, 6],
-        "Goal": [10, 20, 50, 15],
-        "Status": ["On Track", "On Track", "On Track", "On Track"]
-    })
+    # Create dataframes for download using list of dictionaries approach
+    advocacy_metrics_list = [
+        {"Metric": "Advocacy briefs produced", "Value": "4", "Goal": "10", "Status": "On Track"},
+        {"Metric": "Advocacy partners secured", "Value": "2", "Goal": "20", "Status": "On Track"},
+        {"Metric": "Media Mentions", "Value": "28", "Goal": "50", "Status": "On Track"},
+        {"Metric": "Policy Meetings", "Value": "6", "Goal": "15", "Status": "On Track"}
+    ]
+    advocacy_metrics_df = pd.DataFrame(advocacy_metrics_list)
     
     st.markdown(download_data(advocacy_metrics_df, "GirlTREK_Advocacy_Metrics"), unsafe_allow_html=True)
 
@@ -1956,14 +1957,16 @@ with tab9:
     # Download button
     st.markdown("### Download Impact Data")
     
-    # Create dataframe for download
-    impact_metrics_df = pd.DataFrame({
-        "Metric": ["Improved Mental Well-being", "Feel More Connected", "Weight Loss", 
-                  "Improved Chronic Conditions", "Reduced Medication", "Reduced Depression/Anxiety"],
-        "Target Percentage": [75, 80, 60, 55, 40, 70],
-        "Status": ["Pending", "Pending", "Pending", "Pending", "Pending", "Pending"],
-        "Notes": ["To be reported post Self-Care School 2025"]
-    })
+    # Create a simpler DataFrame using list of dictionaries to avoid column inconsistencies
+    impact_metrics_list = [
+        {"Metric": "Improved Mental Well-being", "Target Percentage": "75%", "Status": "Pending"},
+        {"Metric": "Feel More Connected", "Target Percentage": "80%", "Status": "Pending"},
+        {"Metric": "Weight Loss", "Target Percentage": "60%", "Status": "Pending"},
+        {"Metric": "Improved Chronic Conditions", "Target Percentage": "55%", "Status": "Pending"},
+        {"Metric": "Reduced Medication", "Target Percentage": "40%", "Status": "Pending"},
+        {"Metric": "Reduced Depression/Anxiety", "Target Percentage": "70%", "Status": "Pending"}
+    ]
+    impact_metrics_df = pd.DataFrame(impact_metrics_list)
     
     st.markdown(download_data(impact_metrics_df, "GirlTREK_Impact_Metrics"), unsafe_allow_html=True)
 
