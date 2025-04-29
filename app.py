@@ -74,7 +74,6 @@ def add_board_update(tab_name, update_content):
             <h4 style="color: #4DA6FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;">Leadership Update: {tab_name}</h4>
             <div style="color: #E0E0E0; line-height: 1.5;">
                 {update_content}
-            </div>
         </div>
         '''
     else:
@@ -85,7 +84,6 @@ def add_board_update(tab_name, update_content):
             <h4 style="color: #0088FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;">Leadership Update: {tab_name}</h4>
             <div style="color: #333333; line-height: 1.5;">
                 {update_content}
-            </div>
         </div>
         '''
     
