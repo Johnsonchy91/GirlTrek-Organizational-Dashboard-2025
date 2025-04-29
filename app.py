@@ -601,69 +601,82 @@ with tab1:
         exec_fig_total_age.update_layout(title_font=dict(color=primary_blue))
         st.plotly_chart(exec_fig_total_age, use_container_width=True, key=f"exec_bar_total_age_{generate_unique_id()}")
     
-    # Create bar chart for new member growth with unique key
-    exec_fig_months = px.bar(df_extended, x='Month', y='New Members', 
-                      title='New Member Contacts (2024-2025)',
-                      color='New Members',
-                      color_continuous_scale=[secondary_blue, primary_blue, primary_orange])
+    # Historic Movement Growth Numbers
+    st.markdown("<h3>Historic Movement Growth Numbers</h3>", unsafe_allow_html=True)
     
-    # Add annotations for 2024 Jan-Sep total
-    exec_fig_months.add_annotation(
-        x='Jan-Sep 2024',
-        y=20008,
-        text='20,008 total contacts',
-        showarrow=True,
-        arrowhead=1,
-        ax=0,
-        ay=-40
-    )
+    # Create two columns for the historic data
+    historic_col1, historic_col2 = st.columns(2)
     
-    # Add annotations for significant growth in recent months
-    exec_fig_months.add_annotation(
-        x='Mar 2025',
-        y=4382,
-        text='177% increase',
-        showarrow=True,
-        arrowhead=1,
-        ax=40,
-        ay=-40
-    )
+    with historic_col1:
+        st.markdown("""
+        * **2012**
+            * Number of Trekkers: 10,000
+            * Number of New Women: (Baseline year — N/A)
+            * Percent Growth: (Baseline year — N/A)
+        * **2013**
+            * Number of Trekkers: 18,675
+            * Number of New Women: 8,675
+            * Percent Growth: 86.75%
+        * **2014**
+            * Number of Trekkers: 21,068
+            * Number of New Women: 2,393
+            * Percent Growth: 12.81%
+        * **2015**
+            * Number of Trekkers: 33,175
+            * Number of New Women: 12,107
+            * Percent Growth: 57.47%
+        * **2016**
+            * Number of Trekkers: 72,789
+            * Number of New Women: 39,614
+            * Percent Growth: 119.41%
+        * **2017**
+            * Number of Trekkers: 116,938
+            * Number of New Women: 44,149
+            * Percent Growth: 60.65%
+        * **2018**
+            * Number of Trekkers: 164,982
+            * Number of New Women: 48,044
+            * Percent Growth: 41.09%
+        """)
     
-    exec_fig_months.add_annotation(
-        x='Apr 2025',
-        y=6073,
-        text='39% increase',
-        showarrow=True,
-        arrowhead=1,
-        ax=40,
-        ay=-40
-    )
+    with historic_col2:
+        st.markdown("""
+        * **2019**
+            * Number of Trekkers: 373,340
+            * Number of New Women: 208,358
+            * Percent Growth: 126.29%
+        * **2020**
+            * Number of Trekkers: 1,000,000
+            * Number of New Women: 626,660
+            * Percent Growth: 167.85%
+        * **2021**
+            * Number of Trekkers: 1,218,000
+            * Number of New Women: 218,000
+            * Percent Growth: 21.80%
+        * **2022**
+            * Number of Trekkers: 1,214,566
+            * Number of New Women: -3,434
+            * Percent Growth: -0.28%
+        * **2023**
+            * Number of Trekkers: 1,207,517
+            * Number of New Women: -7,049
+            * Percent Growth: -0.58%
+        * **2024**
+            * Number of Trekkers: 1,229,691
+            * Number of New Women: 22,174
+            * Percent Growth: 1.84%
+        * **2025**
+            * Number of Trekkers: 1,240,394
+            * Number of New Women: 10,703
+            * Percent Growth: 0.87%
+        """)
     
-    exec_fig_months.update_layout(
-        title_font=dict(color=primary_blue),
-        yaxis_title='Number of New Contacts',
-        xaxis_title='Month',
-        height=500  # Make the chart a bit taller to accommodate the large first bar
-    )
-    
-    st.plotly_chart(exec_fig_months, use_container_width=True, key=f"exec_bar_months_{generate_unique_id()}")
-    
-    # Geographic Distribution in Executive Summary - Stacked on top of each other as requested
-    # Top 5 States with unique key
-    exec_fig_states = px.bar(df_states, x='State', y='Members',
-                     title='Membership by Top 5 States',
-                     color='Members',
-                     color_continuous_scale=[secondary_blue, primary_blue])
-    exec_fig_states.update_layout(title_font=dict(color=primary_blue))
-    st.plotly_chart(exec_fig_states, use_container_width=True, key=f"exec_bar_states_{generate_unique_id()}")
-    
-    # Top 5 Cities with unique key - stacked below states
-    exec_fig_cities = px.bar(df_cities, x='City', y='Members',
-                     title='Membership by Top 5 Cities',
-                     color='Members',
-                     color_continuous_scale=[secondary_teal, primary_orange])
-    exec_fig_cities.update_layout(title_font=dict(color=primary_blue))
-    st.plotly_chart(exec_fig_cities, use_container_width=True, key=f"exec_bar_cities_{generate_unique_id()}")
+    # Add note about growth trends
+    st.markdown("""
+    **Note:**
+    * 2022 and 2023 show **negative growth**.
+    * 2019–2020 had the **largest spike** (167.85% growth, +626,660 new women).
+    """)
     
     # Create report_df with simple, consistent structure
     report_df = pd.DataFrame([
@@ -786,22 +799,6 @@ with tab2:
     recruit_total_age_fig.update_layout(title_font=dict(color=primary_blue))
     st.plotly_chart(recruit_total_age_fig, use_container_width=True, key=f"recruit_bar_total_age_{generate_unique_id()}")
     
-    # Top states - stacked instead of side by side
-    recruit_states_fig = px.bar(df_states, x='State', y='Members',
-                    title='Membership by Top 5 States',
-                    color='Members',
-                    color_continuous_scale=[secondary_blue, primary_blue])
-    recruit_states_fig.update_layout(title_font=dict(color=primary_blue))
-    st.plotly_chart(recruit_states_fig, use_container_width=True, key=f"recruit_bar_states_{generate_unique_id()}")
-    
-    # Top cities - stacked below states
-    recruit_cities_fig = px.bar(df_cities, x='City', y='Members',
-                    title='Membership by Top 5 Cities',
-                    color='Members',
-                    color_continuous_scale=[secondary_teal, primary_orange])
-    recruit_cities_fig.update_layout(title_font=dict(color=primary_blue))
-    st.plotly_chart(recruit_cities_fig, use_container_width=True, key=f"recruit_bar_cities_{generate_unique_id()}")
-    
     # Download button for this tab
     st.markdown("### Download Recruitment Data")
     
@@ -809,8 +806,6 @@ with tab2:
     recruitment_data = {
         "Monthly New Members": df_extended,
         "New Members by Age": df_new_age,
-        "Members by State": df_states,
-        "Members by City": df_cities,
         "Total Members by Age": df_total_age
     }
     
@@ -1361,21 +1356,7 @@ with tab5:
                 </div>
                 <div style="width: 100px; height: 100px; margin-left: auto;">
                     <div style="background-color: #f0f0f0; width: 100px; height: 8px; border-radius: 4px; margin-top: 45px;">
-                        <div style="background-color: #0088FF; width: {34.95/35*100}px; height: 8px; border-radius: 4px;"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="email-stat-box">
-                <div class="email-stat-icon">📱</div>
-                <div class="email-stat-content">
-                    <div class="email-stat-title">Text Message Click-Through Rate</div>
-                    <div class="email-stat-value">6.27%</div>
-                    <div style="font-size: 12px; color: #666;">Industry benchmark: 6.3-10%</div>
-                </div>
-                <div style="width: 100px; height: 100px; margin-left: auto;">
-                    <div style="background-color: #f0f0f0; width: 100px; height: 8px; border-radius: 4px; margin-top: 45px;">
-                        <div style="background-color: #FF5722; width: {6.27/10*100}px; height: 8px; border-radius: 4px;"></div>
+                        <div style="background-color: #FF5722; width: 62.7px; height: 8px; border-radius: 4px;"></div>
                     </div>
                 </div>
             </div>
@@ -1404,587 +1385,18 @@ with tab5:
         </div>
         """,
         unsafe_allow_html=True
-    )
-    
-    # Marketing spend
-    st.markdown('<h3>Marketing Spend</h3>', unsafe_allow_html=True)
-    
-    spend_col1, spend_col2 = st.columns(2)
-    
-    with spend_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TEXT MESSAGING SPEND</p>'
-            f'<p class="metric-value">{format_currency(11180.21)}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with spend_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL MARKETING SPEND</p>'
-            f'<p class="metric-value">Unknown</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Download button
-    st.markdown("### Download Marketing Data")
-    
-    # Create dataframes for download using list of dictionaries approach
-    subscriber_metrics_list = [
-        {"Metric": "Total Subscribers", "Value": "931,141", "Goal/Benchmark": "1,300,000"},
-        {"Metric": "Active Subscribers", "Value": "297,283", "Goal/Benchmark": "N/A"},
-        {"Metric": "Average Open Rate", "Value": "34.95%", "Goal/Benchmark": "35%"},
-        {"Metric": "Text Message Click-Through Rate", "Value": "6.27%", "Goal/Benchmark": "6.3-10%"}
-    ]
-    subscriber_metrics_df = pd.DataFrame(subscriber_metrics_list)
-    
-    st.markdown(download_data(subscriber_metrics_df, "GirlTREK_Marketing_Metrics"), unsafe_allow_html=True)
-    st.markdown(download_data(df_activity, "GirlTREK_Subscriber_Activity"), unsafe_allow_html=True)
-
-with tab6:
-    st.markdown('<h3 class="section-title">Operations Metrics</h3>', unsafe_allow_html=True)
-    
-    # Keep the top metrics at the top as requested
-    ops_col1, ops_col2, ops_col3 = st.columns(3)
-    
-    with ops_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL EXPENSES</p>'
-            f'<p class="metric-value">Unknown</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with ops_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">EARNED REVENUE (STORE SALES)</p>'
-            f'<p class="metric-value">Unknown</p>'
-            f'<p>Goal: {format_currency(400000)}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with ops_col3:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">AUDIT COMPLIANCE</p>'
-            f'<p class="metric-value">Unknown</p>'
-            f'<p>Goal: 100%</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Use progress bars for other goals similar to executive summary
-    st.markdown("<h3>Operations Goals Progress</h3>", unsafe_allow_html=True)
-    
-    # Create data for goals
-    ops_goals_data = {
-        "Goal": [
-            "Cyber Security Compliance", 
-            "Asana Adoption"
-        ],
-        "Current Total": [
-            "Unknown", 
-            "38%"
-        ],
-        "Percent Progress": [
-            "0%", 
-            "44.7%"
-        ],
-        "Status": [
-            "Unknown", 
-            "At Risk"
-        ],
-        "Progress": [
-            0, 
-            44.7
-        ],
-        "Target": [
-            "90%",
-            "85%"
-        ]
-    }
-    
-    # Create styled progress bars with color based on status
-    for i in range(len(ops_goals_data["Goal"])):
-        goal = ops_goals_data["Goal"][i]
-        current = ops_goals_data["Current Total"][i]
-        target = ops_goals_data["Target"][i]
-        percent = ops_goals_data["Percent Progress"][i]
-        status = ops_goals_data["Status"][i]
-        progress = ops_goals_data["Progress"][i]
-        
-        # Determine color based on status
-        if status == "On Track":
-            bar_color = "#4CAF50"  # Green
-        elif status == "Achieved":
-            bar_color = achieved_green  # Bright green
-        elif status == "Unknown":
-            bar_color = "#888888"  # Gray
-        else:
-            bar_color = "#FF9800"  # Yellow/Orange for "At Risk"
-        
-        st.markdown(
-            f"""
-            <div class="progress-container">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <div><strong>{goal}</strong></div>
-                    <div style="text-align: right;">
-                        <span style="margin-right: 15px;"><strong>Current: {current}</strong></span>
-                        <span style="margin-right: 15px;"><strong>Target: {target}</strong></span>
-                        <span><strong>{status}</strong></span>
+    ) 45px;">
+                        <div style="background-color: #0088FF; width: {34.95/35*100}px; height: 8px; border-radius: 4px;"></div>
                     </div>
                 </div>
-                <div style="width: 100%; background-color: #f0f2f5; height: 12px; border-radius: 6px;">
-                    <div style="width: {progress}%; height: 100%; background-color: {bar_color}; border-radius: 6px;"></div>
-                </div>
             </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
-    # Simulated expense categories for visualization
-    st.markdown("<h3>Estimated Expense Distribution</h3>", unsafe_allow_html=True)
-    expense_categories = {
-        'Category': ['Staff Salaries', 'Program Expenses', 'Marketing', 'Technology', 'Administrative', 'Other'],
-        'Percentage': [45, 25, 15, 8, 5, 2]
-    }
-    df_expenses = pd.DataFrame(expense_categories)
-    
-    # Expense pie chart with unique key
-    ops_expenses_fig = px.pie(df_expenses, values='Percentage', names='Category', 
-                       title='Estimated Expense Distribution',
-                       color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
-                                              secondary_blue, secondary_pink, secondary_green])
-    ops_expenses_fig.update_traces(textposition='inside', textinfo='percent+label')
-    ops_expenses_fig.update_layout(title_font=dict(color=primary_blue))
-    
-    st.plotly_chart(ops_expenses_fig, use_container_width=True, key=f"ops_pie_expenses_{generate_unique_id()}")
-    
-    # Download button
-    st.markdown("### Download Operations Data")
-    
-    # Create dataframes for download using list of dictionaries approach
-    operations_metrics_list = [
-        {"Metric": "Total Expenses", "Value": "Unknown", "Goal": "N/A", "Status": "N/A"},
-        {"Metric": "Earned Revenue (Store Sales)", "Value": "Unknown", "Goal": "$400,000", "Status": "N/A"},
-        {"Metric": "Audit Compliance", "Value": "Unknown", "Goal": "100%", "Status": "N/A"},
-        {"Metric": "Cyber Security Compliance", "Value": "Unknown", "Goal": "90%", "Status": "N/A"},
-        {"Metric": "Asana Adoption", "Value": "38%", "Goal": "85%", "Status": "At Risk"}
-    ]
-    operations_metrics_df = pd.DataFrame(operations_metrics_list)
-    
-    st.markdown(download_data(operations_metrics_df, "GirlTREK_Operations_Metrics"), unsafe_allow_html=True)
-
-with tab7:
-    st.markdown('<h3 class="section-title">Member Care Metrics</h3>', unsafe_allow_html=True)
-    
-    # Member care metrics
-    member_col1, member_col2 = st.columns(2)
-    
-    with member_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">MEMBER SATISFACTION RATING</p>'
-            f'<p class="metric-value">95%</p>'
-            f'<p>Goal: 85%</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with member_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">RESOLUTION/RESPONSIVENESS RATE</p>'
-            f'<p class="metric-value">2 hours</p>'
-            f'<p>Goal: 48 hours</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Top member issues
-    st.markdown('<h4>Top Member Issues/Concerns</h4>', unsafe_allow_html=True)
-    st.markdown(
-        f"""
-        <div class="metric-card">
-            <ul>
-                <li>The App functionality and usability</li>
-                <li>Join the Movement process and onboarding</li>
-                <li>Finding local crew events</li>
-            </ul>
-        </div>
-        """, 
-        unsafe_allow_html=True
-    )
-    
-    # Inspirational Stories
-    st.markdown('<h4>Voices from the Field: Top 3 Inspirational Stories</h4>', unsafe_allow_html=True)
-    
-    # Use expanders for the stories to save space
-    with st.expander("Story 1: Crew Leader Nicole Crooks"):
-        st.markdown(
-            f"""
-            <div class="metric-card">
-                <p>Crew Leader Nicole Crooks and the South Florida crew understood the assignment during #SisterhoodSaturday! Nicole's post says it best: "Simply grateful!!! #SisterhoodSaturday during Black Maternal Health Week was absolutely everything! A huge thank you to Maya at Historic Virginia Key Beach Park, Kallima and the entire GirlTREK: Healthy Black Women village, Cortes, Jamarrah and the entire https://southernbirthjustice.org/ (SBJN) village, Kedemah and the entire AKA village, Mama Kuks, Mama Joy, Mama Sheila & Mama Wangari (our beautiful village of elders), to each and every sister who came or supported in any way. AND a SUPERDUPER Thank you, thank you, THANK YOU!!! to Kukuwa Fitness and Nakreshia Causey Born Saturday was filled with magic and joy! And yep... you can grab those GirlTREK inspired leggings at https://www.kukuwafitness.com/ I am so ready for this week's #selfcareschool hope you are too!!!"</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
-    with st.expander("Story 2: Amazing TedTalk used in class"):
-        st.markdown(
-            f"""
-            <div class="metric-card">
-                <p>Hello ladies! First and foremost YOU ARE AMAZING. Sending so much love to you all and holding space for your amazing cause. I am a teacher in Ohio and I just wanted to tell you that I am using the TedTalk from 2018 in my Black History in America course. I can't wait to help my students use this frame of understanding. Thank you for shining a light on this - it is so needed!!! Thank you for taking action! Thank you for showing so much loving kindness!!!! I appreciate you all and am so excited for this movement! Much love and respect, Kaitlin Finan kbeeble@gmail.com</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
-    with st.expander("Story 3: My Sister's Keeper"):
-        st.markdown(
-            f"""
-            <div class="metric-card">
-                <p>Morgan and Vanessa, I walked this evening—first chance I've had in a while. And I talked on the phone to a friend of mine who was also walking at the time and had not walked in a while. I invited her to walk with me and told her about Harriet Day and the meeting last night. I also shared GirlTREK information with her and invited her to join. We're going to start walking together!
-
-                I used to walk all the time. I moved back closer to my hometown four years ago to be near Mama and help take care of her. She got better and was doing great, then all of a sudden she wasn't. Mama transitioned to Heaven a little over a year ago and life has been difficult. She was everything to me. It's just been hard—but by the grace of God, I'm still standing. He did bless us with 3 more years after she was hospitalized 33 days. I'm trying to get my legs back under me. But I am lonely for Mama. 99% of the time, I walked alone...didn't have anyone to walk with. But I would listen in some Saturdays. Everybody is a few towns over, so weekday scheduling is tough. But I also told my sisters and my brother that they were going to walk with me as a part of this next 10-week commitment. Thank you for all that you do, Sandy B. Carter sandybcarter@yahoo.com</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
-    # Interactive element - satisfaction survey results over time
-    st.markdown("<h4>Member Satisfaction Trend</h4>", unsafe_allow_html=True)
-    
-    # Sample data for satisfaction trend
-    satisfaction_data = {
-        'Month': ['January', 'February', 'March', 'April'],
-        'Satisfaction': [88, 90, 93, 95]
-    }
-    df_satisfaction = pd.DataFrame(satisfaction_data)
-    
-    # Create satisfaction trend line chart with unique key
-    member_satisfaction_fig = px.line(df_satisfaction, x='Month', y='Satisfaction',
-                             title='Member Satisfaction Rating Over Time (%)',
-                             markers=True)
-    member_satisfaction_fig.update_traces(
-        line=dict(color=primary_blue, width=3),
-        marker=dict(color=primary_orange, size=10)
-    )
-    
-    # Add target line if enabled
-    if show_target_lines:
-        member_satisfaction_fig.add_shape(
-            type="line",
-            x0=-0.5,
-            y0=85,
-            x1=len(df_satisfaction)-0.5,
-            y1=85,
-            line=dict(
-                color="green",
-                width=2,
-                dash="dash",
-            )
-        )
-        member_satisfaction_fig.add_annotation(
-            x=0,
-            y=85,
-            text="Goal: 85%",
-            showarrow=False,
-            yshift=-15,
-            font=dict(color="green")
-        )
-    
-    member_satisfaction_fig.update_layout(
-        xaxis_title='Month',
-        yaxis_title='Satisfaction (%)',
-        yaxis=dict(range=[80, 100]),  # Set y-axis range
-        title_font=dict(color=primary_blue)
-    )
-    
-    st.plotly_chart(member_satisfaction_fig, use_container_width=True, key=f"member_line_satisfaction_{generate_unique_id()}")
-    
-    # Download button
-    st.markdown("### Download Member Care Data")
-    
-    # Create dataframes for download using list of dictionaries approach
-    member_care_metrics_list = [
-        {"Metric": "Member Satisfaction Rating", "Value": "95%", "Goal": "85%"},
-        {"Metric": "Resolution/Responsiveness Rate", "Value": "2 hours", "Goal": "48 hours"}
-    ]
-    member_care_metrics_df = pd.DataFrame(member_care_metrics_list)
-    
-    member_issues_list = [
-        {"Top Member Issues/Concerns": "The App functionality and usability"},
-        {"Top Member Issues/Concerns": "Join the Movement process and onboarding"},
-        {"Top Member Issues/Concerns": "Finding local crew events"}
-    ]
-    member_issues_df = pd.DataFrame(member_issues_list)
-    
-    # Create a properly formatted satisfaction trend dataframe for download
-    member_care_data = {
-        "Member Care Metrics": member_care_metrics_df,
-        "Top Member Issues": member_issues_df,
-        "Satisfaction Trend": df_satisfaction
-    }
-    
-    selected_member_care_data = st.selectbox("Select data to download:", list(member_care_data.keys()), key=f"member_select_{generate_unique_id()}")
-    st.markdown(download_data(member_care_data[selected_member_care_data], 
-                           f"GirlTREK_{selected_member_care_data.replace(' ', '_')}"), unsafe_allow_html=True)
-
-with tab8:
-    st.markdown('<h3 class="section-title">Advocacy</h3>', unsafe_allow_html=True)
-    
-    # Create a styled table for Advocacy metrics
-    st.markdown(
-        """
-        <style>
-        .advocacy-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
-        .advocacy-table th {
-            background-color: #f8f8f8;
-            padding: 12px 10px;
-            text-align: left;
-            font-weight: bold;
-            border: 1px solid #ddd;
-        }
-        .advocacy-table td {
-            padding: 12px 10px;
-            border: 1px solid #ddd;
-            vertical-align: top;
-        }
-        .highlight {
-            background-color: #ffdddd;
-        }
-        </style>
-        """, 
-        unsafe_allow_html=True
-    )
-    
-    # Define advocacy metrics data
-    advocacy_data = [
-        {
-            "metric": "# of Advocacy briefs produced establishing research basis for why each J&J agenda item leads to increase in Black women's life expectancy and uplifting best in class organizations",
-            "goal": "10",
-            "current": "4",
-            "status": "On Track"
-        },
-        {
-            "metric": "Secure at least 20 advocacy partners that align with GirlTREK's Joy & Justice Agenda through signed MOUs.",
-            "goal": "20",
-            "current": "2",
-            "status": "On Track"
-        }
-    ]
-    
-    # Build the table HTML - with error handling
-    try:
-        advocacy_html = """
-        <table class="advocacy-table">
-            <tr>
-                <th>Metric</th>
-                <th>Goal</th>
-                <th>Current Total</th>
-                <th>Status</th>
-            </tr>
-        """
-        
-        # Add rows
-        for item in advocacy_data:
-            # Adding highlighting to specific text as in the screenshot
-            metric_text = item["metric"]
-            if "life expectancy and uplifting best" in metric_text:
-                parts = metric_text.split("life expectancy and uplifting best")
-                metric_display = f"{parts[0]}<span class='highlight'>life expectancy and uplifting best</span>{parts[1]}"
-            else:
-                metric_display = metric_text
-                
-            advocacy_html += f"""
-            <tr>
-                <td>{metric_display}</td>
-                <td>{item["goal"]}</td>
-                <td>{item["current"]}</td>
-                <td>{status_badge(item["status"])}</td>
-            </tr>
-            """
-        
-        advocacy_html += "</table>"
-        
-        st.markdown(advocacy_html, unsafe_allow_html=True)
-    except Exception as e:
-        st.error(f"Error rendering advocacy table: {str(e)}")
-    
-    # Additional advocacy metrics
-    st.markdown("### Advocacy Partner Organizations")
-    
-    advocacy_partners = {
-        "Current Partners": ["National Urban League", "Black Women's Health Imperative"],
-        "Pending Partners": ["NAACP", "Color of Change", "African American Policy Forum"]
-    }
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.subheader("Current Partners")
-        for partner in advocacy_partners["Current Partners"]:
-            st.markdown(f"- {partner}")
-    
-    with col2:
-        st.subheader("Pending Partners")
-        for partner in advocacy_partners["Pending Partners"]:
-            st.markdown(f"- {partner}")
             
-    # Advocacy impact metrics
-    st.markdown("### Advocacy Impact")
-    
-    impact_col1, impact_col2 = st.columns(2)
-    
-    with impact_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">MEDIA MENTIONS</p>'
-            f'<p class="metric-value">28</p>'
-            f'<p>Goal: 50</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with impact_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">POLICY MEETINGS</p>'
-            f'<p class="metric-value">6</p>'
-            f'<p>Goal: 15</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Use a different visualization for policy impact
-    policy_impact_data = {
-        'Policy Area': ['Health Equity', 'Safe Walking Spaces', 'Food Justice', 'Mental Health', 'Environmental Justice'],
-        'Meetings': [2, 1, 1, 1, 1],
-        'Partners': [1, 0, 1, 0, 0]
-    }
-    df_policy = pd.DataFrame(policy_impact_data)
-    
-    # Create policy impact bar chart with unique key
-    advocacy_policy_fig = px.bar(df_policy, x='Policy Area', y=['Meetings', 'Partners'],
-                      title='Policy Impact by Area',
-                      barmode='group')
-    
-    advocacy_policy_fig.update_traces(
-        marker_color=[primary_blue, primary_orange],
-    )
-    
-    advocacy_policy_fig.update_layout(
-        xaxis_title='Policy Area',
-        yaxis_title='Count',
-        legend_title='Type',
-        height=400,
-        title_font=dict(color=primary_blue)
-    )
-    
-    st.plotly_chart(advocacy_policy_fig, use_container_width=True, key=f"advocacy_bar_policy_{generate_unique_id()}")
-    
-    # Download button
-    st.markdown("### Download Advocacy Data")
-    
-    # Create dataframes for download using list of dictionaries approach
-    advocacy_metrics_list = [
-        {"Metric": "Advocacy briefs produced", "Value": "4", "Goal": "10", "Status": "On Track"},
-        {"Metric": "Advocacy partners secured", "Value": "2", "Goal": "20", "Status": "On Track"},
-        {"Metric": "Media Mentions", "Value": "28", "Goal": "50", "Status": "On Track"},
-        {"Metric": "Policy Meetings", "Value": "6", "Goal": "15", "Status": "On Track"}
-    ]
-    advocacy_metrics_df = pd.DataFrame(advocacy_metrics_list)
-    
-    st.markdown(download_data(advocacy_metrics_df, "GirlTREK_Advocacy_Metrics"), unsafe_allow_html=True)
-
-with tab9:
-    st.markdown('<h3 class="section-title">Impact Metrics</h3>', unsafe_allow_html=True)
-    
-    # Impact metrics - to be reported post Self-Care School 2025
-    st.markdown(
-        """
-        ### Self-Reported Health Improvements
-        
-        The following metrics will be reported post Self-Care School 2025:
-        
-        - Women who have reported a change in health knowledge
-        - Changes in self-reported mental well-being
-        - Number of women who report feeling more connected and less isolated as a result of GirlTREK programming
-        - % of participants reporting: Weight loss
-        - % of participants reporting: Improved management of chronic conditions (e.g., diabetes, hypertension)
-        - % of participants reporting: Reduced medication dependency
-        - % of participants reporting: Fewer symptoms of depression or anxiety
-        """
-    )
-    
-    # Anticipated impact visualization
-    impact_data = {
-        'Health Outcome': ['Improved Mental Well-being', 'Feel More Connected', 'Weight Loss', 
-                         'Improved Chronic Conditions', 'Reduced Medication', 'Reduced Depression/Anxiety'],
-        'Target Percentage': [75, 80, 60, 55, 40, 70]
-    }
-    df_impact = pd.DataFrame(impact_data)
-    
-    # Create a new figure with a unique key
-    impact_outcomes_fig = px.bar(df_impact, x='Health Outcome', y='Target Percentage',
-                      title='Anticipated Health Outcomes (Target Percentages)',
-                      color='Target Percentage',
-                      color_continuous_scale=[primary_blue, primary_orange, primary_yellow])
-    
-    impact_outcomes_fig.update_layout(
-        xaxis_title='Health Outcome',
-        yaxis_title='Target Percentage (%)',
-        height=500,
-        title_font=dict(color=primary_blue)
-    )
-    
-    st.plotly_chart(impact_outcomes_fig, use_container_width=True, key=f"impact_bar_outcomes_{generate_unique_id()}")
-    
-    # Download button
-    st.markdown("### Download Impact Data")
-    
-    # Create a simpler DataFrame using list of dictionaries to avoid column inconsistencies
-    impact_metrics_list = [
-        {"Metric": "Improved Mental Well-being", "Target Percentage": "75%", "Status": "Pending"},
-        {"Metric": "Feel More Connected", "Target Percentage": "80%", "Status": "Pending"},
-        {"Metric": "Weight Loss", "Target Percentage": "60%", "Status": "Pending"},
-        {"Metric": "Improved Chronic Conditions", "Target Percentage": "55%", "Status": "Pending"},
-        {"Metric": "Reduced Medication", "Target Percentage": "40%", "Status": "Pending"},
-        {"Metric": "Reduced Depression/Anxiety", "Target Percentage": "70%", "Status": "Pending"}
-    ]
-    impact_metrics_df = pd.DataFrame(impact_metrics_list)
-    
-    st.markdown(download_data(impact_metrics_df, "GirlTREK_Impact_Metrics"), unsafe_allow_html=True)
-
-# Add error handling wrapper for the entire app
-try:
-    # Footer with last updated timestamp
-    current_time = datetime.now().strftime("%B %d, %Y at %I:%M %p")
-    st.markdown(
-        f"""
-        <div style="margin-top: 50px; padding: 20px; background-color: {secondary_beige}; border-radius: 10px; text-align: center;">
-            <h3 style="color: {primary_blue};">GirlTREK - Inspiring Black Women to Walk for Better Health</h3>
-            <p>Data last updated: April 25, 2025</p>
-            <p>Dashboard last refreshed: {current_time}</p>
-            <p>For more information, visit <a href="https://www.girltrek.org" target="_blank" style="color: {primary_blue};">girltrek.org</a></p>
-        </div>
-        """, 
-        unsafe_allow_html=True
-    )
-except Exception as e:
-    st.error(f"An error occurred: {str(e)}")
-    st.warning("Please try refreshing the page. If the problem persists, contact support.")
+            <div class="email-stat-box">
+                <div class="email-stat-icon">📱</div>
+                <div class="email-stat-content">
+                    <div class="email-stat-title">Text Message Click-Through Rate</div>
+                    <div class="email-stat-value">6.27%</div>
+                    <div style="font-size: 12px; color: #666;">Industry benchmark: 6.3-10%</div>
+                </div>
+                <div style="width: 100px; height: 100px; margin-left: auto;">
+                    <div style="background-color: #f0f0f0; width: 100px; height: 8px; border-radius: 4px; margin-top:
