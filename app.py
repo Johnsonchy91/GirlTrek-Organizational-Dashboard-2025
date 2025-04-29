@@ -1434,7 +1434,7 @@ with tab8:
             unsafe_allow_html=True
         )
     
-   with st.expander("Story 2: Amazing TedTalk used in class"):
+    with st.expander("Story 2: Amazing TedTalk used in class"):
         st.markdown(
             f"""
             <div class="metric-card">
