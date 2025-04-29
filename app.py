@@ -1402,7 +1402,7 @@ with tab7:
     with st.expander("Story 3: My Sister's Keeper"):
         st.markdown(
             """
-            Morgan and Vanessa, I walked this evening. First chance I've had in a while. 
+            Morgan and Vanessa, I walked this evening. First chance I've had in a while.
             And I talked on the phone to a friend of mine who was also walking at the time and had not walked in a while. 
             I invited her to walk with me and told her about Harriet Day and the meeting last night. 
             I also shared GirlTREK information with her and invited her to join. We're going to start walking together!
@@ -1417,10 +1417,11 @@ with tab7:
             Everybody is a few towns over, so weekday scheduling is tough. But I also told my sisters and my brother 
             that they were going to walk with me as a part of this next 10-week commitment.
     
-            Thank you for all that you do, 
+            Thank you for all that you do,  
             Sandy B. Carter
             """
         )
+
 
 
 # ---------------------------------
