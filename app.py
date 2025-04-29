@@ -171,7 +171,18 @@ df_total_age = pd.DataFrame({
     'Members': [1803, 16790, 83392, 163951, 106812, 752621]
 })
 
-# Historic Movement Growth Numbers — now as a DataFrame!
+# Top States & Top Cities
+df_top_states = pd.DataFrame({
+    'State': ['Texas', 'Georgia', 'California', 'New York', 'Florida'],
+    'Members': [91101, 86968, 80328, 68538, 66135]
+})
+
+df_top_cities = pd.DataFrame({
+    'City': ['Chicago', 'Philadelphia', 'Houston', 'Brooklyn', 'Atlanta'],
+    'Members': [20645, 17276, 17065, 15602, 13172]
+})
+
+# Historic Movement Growth Numbers
 df_historic_growth = pd.DataFrame({
     'Year': [
         2012, 2013, 2014, 2015, 2016, 2017,
@@ -220,6 +231,21 @@ budget_data = pd.DataFrame({
     'Budget': [2100000, 850000, 320000, 750000, 1200000, 280000],
     'Actual': [1950000, 790000, 295000, 710000, 1050000, 265000],
     'Percent': [92.9, 92.9, 92.2, 94.7, 87.5, 94.6]
+})
+
+# Member Care Data
+member_care_data = pd.DataFrame({
+    'Metric': ['Member Satisfaction Rating', 'Resolution/Responsiveness Rate', 'Top Member Issues/Concerns'],
+    'Goal': ['85%', '48 hours', '-'],
+    'Current Total': ['95%', '2 hours', 'The App & Join the Movement']
+})
+
+# Advocacy Data
+advocacy_data = pd.DataFrame({
+    'Metric': ['Advocacy Briefs Published', 'Secure Advocacy Partners'],
+    'Goal': ['10', '20'],
+    'Current Total': ['4', '2'],
+    'Status': ['On Track', 'On Track']
 })
 
 
@@ -370,13 +396,8 @@ with tab1:
         exec_fig_total_age.update_layout(title_font=dict(color=primary_blue))
         st.plotly_chart(exec_fig_total_age, use_container_width=True, key="exec_fig_total_age")
 
-    # --- NEW: Top States & Top Cities ---
+    # --- Top States ---
     st.markdown('<h3>Top States</h3>', unsafe_allow_html=True)
-
-    df_top_states = pd.DataFrame({
-        'State': ['Texas', 'Georgia', 'California', 'New York', 'Florida'],
-        'Members': [91101, 86968, 80328, 68538, 66135]
-    })
 
     states_fig = px.bar(
         df_top_states,
@@ -389,12 +410,8 @@ with tab1:
     states_fig.update_layout(title_font=dict(color=primary_blue))
     st.plotly_chart(states_fig, use_container_width=True, key="states_fig")
 
+    # --- Top Cities ---
     st.markdown('<h3>Top Cities</h3>', unsafe_allow_html=True)
-
-    df_top_cities = pd.DataFrame({
-        'City': ['Chicago', 'Philadelphia', 'Houston', 'Brooklyn', 'Atlanta'],
-        'Members': [20645, 17276, 17065, 15602, 13172]
-    })
 
     cities_fig = px.bar(
         df_top_cities,
@@ -671,6 +688,19 @@ with tab5:
     )
 
     st.plotly_chart(marketing_activity_fig, use_container_width=True, key="marketing_activity_fig")
+    
+    # Add text messaging engagement
+    st.markdown("<h3>Text Message Engagement</h3>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div style="background-color: #f7f7f7; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <p><strong>Text Message Engagement (Clicks):</strong> 6.27%</p>
+            <p><em>Industry Standard: SMS messages boast click-through rates of 6.3% for fundraising messages and 10% for advocacy messages.</em></p>
+            <p><strong>Text Messaging Spend:</strong> $11,180.21</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 # ---------------------------------
 # Operations Tab (Updated with real data)
@@ -684,8 +714,7 @@ with tab6:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TOTAL EXPENSES</p>'
-            f'<p class="metric-value">$1,940,000</p>'
-            f'<p>Goal: $8,000,000</p>'
+            f'<p class="metric-value">Unknown</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -694,7 +723,8 @@ with tab6:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">EARNED REVENUE (STORE SALES)</p>'
-            f'<p class="metric-value">$25,000</p>'
+            f'<p class="metric-value">Unknown</p>'
+            f'<p>Goal: $400,000</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -703,8 +733,8 @@ with tab6:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">AUDIT COMPLIANCE</p>'
-            f'<p class="metric-value">On Track</p>'
-            f'<p>Independent audit with no major findings</p>'
+            f'<p class="metric-value">Unknown</p>'
+            f'<p>Goal: 100%</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -715,7 +745,9 @@ with tab6:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">ASANA ADOPTION</p>'
-            f'<p class="metric-value">100%</p>'
+            f'<p class="metric-value">38%</p>'
+            f'<p>Goal: 85%</p>'
+            f'<p>{status_badge("At Risk")}</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -723,33 +755,33 @@ with tab6:
     with ops2_col2:
         st.markdown(
             f'<div class="metric-card">'
-            f'<p class="metric-title">SYSTEM UPTIME</p>'
-            f'<p class="metric-value">99.7%</p>'
-            f'<p>Goal: >99.5%</p>'
+            f'<p class="metric-title">CYBER SECURITY COMPLIANCE</p>'
+            f'<p class="metric-value">Unknown</p>'
+            f'<p>Goal: 90%</p>'
             f'</div>',
             unsafe_allow_html=True
         )
 
-    # --- Financial Trends also here! ---
+    # Financial Trends 
     st.markdown('<h3>Financial Trends</h3>', unsafe_allow_html=True)
 
-    dev_trend_fig_ops = go.Figure()
+    ops_trend_fig = go.Figure()
 
-    dev_trend_fig_ops.add_trace(go.Scatter(
+    ops_trend_fig.add_trace(go.Scatter(
         x=finance_trend_data['Month'],
         y=finance_trend_data['Revenue'],
         mode='lines+markers',
         name='Revenue',
         line=dict(color=primary_blue)
     ))
-    dev_trend_fig_ops.add_trace(go.Scatter(
+    ops_trend_fig.add_trace(go.Scatter(
         x=finance_trend_data['Month'],
         y=finance_trend_data['Expenses'],
         mode='lines+markers',
         name='Expenses',
         line=dict(color=primary_orange)
     ))
-    dev_trend_fig_ops.add_trace(go.Scatter(
+    ops_trend_fig.add_trace(go.Scatter(
         x=finance_trend_data['Month'],
         y=finance_trend_data['Donations'],
         mode='lines+markers',
@@ -757,7 +789,7 @@ with tab6:
         line=dict(color=primary_yellow)
     ))
 
-    dev_trend_fig_ops.update_layout(
+    ops_trend_fig.update_layout(
         title='Financial Trends',
         xaxis_title='Month',
         yaxis_title='Amount ($)',
@@ -765,7 +797,7 @@ with tab6:
         height=400
     )
 
-    st.plotly_chart(dev_trend_fig_ops, use_container_width=True, key="dev_trend_fig_ops")
+    st.plotly_chart(ops_trend_fig, use_container_width=True, key="ops_trend_fig")
 
 # ---------------------------------
 # Member Care Tab (real data from PDF)
@@ -778,8 +810,9 @@ with tab7:
     with mc_col1:
         st.markdown(
             f'<div class="metric-card">'
-            f'<p class="metric-title">AVERAGE RESPONSE TIME</p>'
-            f'<p class="metric-value">2 hours</p>'
+            f'<p class="metric-title">MEMBER SATISFACTION RATING</p>'
+            f'<p class="metric-value">95%</p>'
+            f'<p>Goal: 85%</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -787,21 +820,67 @@ with tab7:
     with mc_col2:
         st.markdown(
             f'<div class="metric-card">'
-            f'<p class="metric-title">MEMBER SATISFACTION RATE</p>'
-            f'<p class="metric-value">95%</p>'
+            f'<p class="metric-title">RESOLUTION/RESPONSIVENESS RATE</p>'
+            f'<p class="metric-value">2 hours</p>'
+            f'<p>Goal: 48 hours</p>'
             f'</div>',
             unsafe_allow_html=True
         )
 
-    st.markdown('<h3>Top Support Issues</h3>', unsafe_allow_html=True)
+    st.markdown('<h3>Top Member Issues/Concerns</h3>', unsafe_allow_html=True)
     st.markdown(
         """
-        - Wellness questions (Self-Care School program)
-        - Event logistics and support
-        - App usage help
+        - The App & Join the Movement
         """,
         unsafe_allow_html=True
     )
+    
+    st.markdown('<h3>Voices from the Field: Top Inspirational Stories</h3>', unsafe_allow_html=True)
+    
+    with st.expander("Story 1: Crew Leader Nicole Crooks and the South Florida crew"):
+        st.markdown(
+            """
+            Crew Leader Nicole Crooks and the South Florida crew understood the assignment during #SisterhoodSaturday! 
+            Nicole's post says it best: "Simply grateful!!! #SisterhoodSaturday during Black Maternal Health Week was absolutely everything! 
+            A huge thank you to Maya at Historic Virginia Key Beach Park, Kallima and the entire GirlTREK: Healthy Black Women village, 
+            Cortes, Jamarrah and the entire https://southernbirthjustice.org/ (SBJN) village, Kedemah and the entire AKA village, 
+            Mama Kuks, Mama Joy, Mama Sheila & Mama Wangari (our beautiful village of elders), to each and every sister who came or 
+            supported in any way. AND a SUPER DUPER Thank you, thank you, THANK YOU!!! to Kukuwa Fitness and Nakreshia Causey Borno 
+            Saturday was filled with magic and joy! And yep... you can grab those GirlTREK inspired leggings at https://www.kukuwafitness.com/ 
+            I am so ready for this week's #selfcareschool hope you are too!!!"
+            """
+        )
+    
+    with st.expander("Story 2: Amazing Ted Talk used in class!"):
+        st.markdown(
+            """
+            Hello ladies! First and foremost YOU ARE AMAZING. Sending so much love to you all and holding space for your amazing cause. 
+            I am a teacher in Ohio and I just wanted to tell you that I am using the TedTalk from 2018 in my Black History in America course. 
+            I can't wait to help my students use this frame of understanding. Thank you for shining a light on this - it is so needed!!! 
+            Thank you for taking action! Thank you for showing so much loving kindness!!!! I appreciate you all and am so excited for this movement! 
+            Much love and respect, Kaitlin Finan
+            """
+        )
+    
+    with st.expander("Story 3: My Sister's Keeper"):
+        st.markdown(
+            """
+            Morgan and Vanessa, I walked this evening_ first chance I've had in a while. And I talked on the phone to a friend of mine who was 
+            also walking at the time and had not walked in a while. I invited her to walk with me and told her about Harriet Day and the meeting 
+            last night. I also shared GirlTREK information with her and invited her to join. We're going to start walking together!
+            
+            I used to walk all the time. I moved back closer to my hometown a four years ago to be near Mama and help take care of her. 
+            She got better and was doing great, then all of a sudden she wasn't. Mama transitioned to Heaven a little over a year ago and 
+            life has been difficult. She was everything to me. It's just been hard_ but by the grace of God, I'm still standing. 
+            He did bless us with 3 more years after she was hospitalized 33 days. I'm trying to get my legs back under me. But I am lonely for Mama.
+            
+            99% of the time, I walked alone…didn't have anyone to walk with. But I would listen in some Saturdays. Everybody is a few towns over, 
+            so weekday scheduling is tough. But I also told my sisters and my brother that they were going to walk with me as a part of this 
+            next 10-week commitment.
+            
+            Thank you for all that you do, Sandy B. Carter
+            """
+        )
 
 # ---------------------------------
 # Advocacy Tab (real data from PDF)
@@ -816,6 +895,7 @@ with tab8:
             f'<div class="metric-card">'
             f'<p class="metric-title">ADVOCACY BRIEFS PUBLISHED</p>'
             f'<p class="metric-value">4 / 10</p>'
+            f'<p>{status_badge("On Track")}</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -825,6 +905,7 @@ with tab8:
             f'<div class="metric-card">'
             f'<p class="metric-title">ADVOCACY PARTNERSHIPS</p>'
             f'<p class="metric-value">2 / 20</p>'
+            f'<p>{status_badge("On Track")}</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -832,8 +913,9 @@ with tab8:
     st.markdown('<h3>Current Focus Areas</h3>', unsafe_allow_html=True)
     st.markdown(
         """
-        - Expanding local advocacy partner network
-        - Publishing regular advocacy briefs (health justice focus)
+        - Produce advocacy briefs establishing research basis for why each J&J agenda item leads to an increase in Black women's life expectancy
+        - Uplift best-in-class organizations
+        - Secure advocacy partners that align with GirlTREK's Joy & Justice Agenda through signed MOUs
         """,
         unsafe_allow_html=True
     )
@@ -846,13 +928,16 @@ with tab9:
 
     st.markdown(
         """
-        <p>GirlTREK’s community health impact reporting will be updated following Self-Care School 2025 outcomes.</p>
-        <p>Goals for future measurement:</p>
+        <p>GirlTREK's community health impact reporting will be updated following Self-Care School 2025 outcomes.</p>
+        <p>Metrics to be reported post Self-Care School 2025:</p>
         <ul>
-            <li>Increased walking activity rates</li>
-            <li>Documented health improvements (self-reported)</li>
-            <li>Behavior change sustainability (12-month check)</li>
-            <li>Community-level health justice outcomes</li>
+            <li>Women who have reported a change in health knowledge</li>
+            <li>Changes in self-reported mental well-being</li>
+            <li>Number of women who report feeling more connected and less isolated as a result of GirlTREK programming</li>
+            <li>% of participants reporting weight loss</li>
+            <li>% of participants reporting improved management of chronic conditions (e.g., diabetes, hypertension)</li>
+            <li>% of participants reporting reduced medication dependency</li>
+            <li>% of participants reporting fewer symptoms of depression or anxiety</li>
         </ul>
         """,
         unsafe_allow_html=True
