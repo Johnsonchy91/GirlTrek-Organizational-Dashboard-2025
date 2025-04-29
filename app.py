@@ -373,16 +373,6 @@ with tab1:
             f'</div>', 
             unsafe_allow_html=True
         )
-        
-    with col4:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL GRANTS</p>'
-            f'<p class="metric-value">{format_currency(st.session_state.total_grants)}</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
     
     # Report Card Progress
     st.markdown('<h3>Report Card Progress</h3>', unsafe_allow_html=True)
