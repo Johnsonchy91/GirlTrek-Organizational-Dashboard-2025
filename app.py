@@ -724,7 +724,37 @@ with tab2:
     
     # Fixed: Added chart display that was missing
     st.plotly_chart(new_age_fig, use_container_width=True, key="new_age_fig")
+
+        # Recruitment Metrics that need updates
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    recruit_col1, recruit_col2 = st.columns(2)
     
+    with recruit_col1:
+        st.markdown(
+            f"""
+            <div style="background-color: #FFF3E0; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #E65100; margin-top: 0;">RECRUITMENT PARTNERSHIPS</h4>
+                <div style="font-size: 20px; font-weight: bold; color: #E65100; margin: 10px 0;">Needs Reporting Update</div>
+                <p style="color: #E65100; font-style: italic;">Data collection in progress</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    with recruit_col2:
+        st.markdown(
+            f"""
+            <div style="background-color: #FFF3E0; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #E65100; margin-top: 0;">RECRUITMENT EVENTS HOSTED</h4>
+                <div style="font-size: 20px; font-weight: bold; color: #E65100; margin: 10px 0;">Needs Reporting Update</div>
+                <p style="color: #E65100; font-style: italic;">Data collection in progress</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
     # Add Notes Section for Recruitment
     st.markdown('<hr>', unsafe_allow_html=True)
     create_notes_section("Recruitment")
@@ -1127,36 +1157,6 @@ with tab5:
             unsafe_allow_html=True
         )
     
-    # Recruitment Metrics that need updates
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    recruit_col1, recruit_col2 = st.columns(2)
-    
-    with recruit_col1:
-        st.markdown(
-            f"""
-            <div style="background-color: #FFF3E0; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h4 style="color: #E65100; margin-top: 0;">RECRUITMENT PARTNERSHIPS</h4>
-                <div style="font-size: 20px; font-weight: bold; color: #E65100; margin: 10px 0;">Needs Reporting Update</div>
-                <p style="color: #E65100; font-style: italic;">Data collection in progress</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
-    with recruit_col2:
-        st.markdown(
-            f"""
-            <div style="background-color: #FFF3E0; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h4 style="color: #E65100; margin-top: 0;">RECRUITMENT EVENTS HOSTED</h4>
-                <div style="font-size: 20px; font-weight: bold; color: #E65100; margin: 10px 0;">Needs Reporting Update</div>
-                <p style="color: #E65100; font-style: italic;">Data collection in progress</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-        
     # Social Media Engagement data from Self-Care School Campaign 
     st.markdown("<h3>Self-Care School Social Media Performance</h3>", unsafe_allow_html=True)
     
