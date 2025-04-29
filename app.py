@@ -2381,7 +2381,7 @@ if selected_download == "Complete Dashboard":
     if st.sidebar.button("Generate Complete Dashboard PDF"):
         st.sidebar.success("Complete dashboard PDF has been generated! Click below to download.")
         st.sidebar.markdown('<a href="#" download="GirlTREK_Complete_Dashboard.pdf">Download Complete Dashboard PDF</a>', unsafe_allow_html=True)
-        st.session_state.complete_dashboard = True 100px; height: 8px; border-radius: 4px; margin-top: 45px;">
+        st.session_state.complete_dashboard = True 100 px; height: 8 px; border-radius: 4 px; margin-top: 45 px;">
                         <div style="background-color: #0088FF; width: {34.95/35*100}px; height: 8px; border-radius: 4px;"></div>
                     </div>
                 </div>
