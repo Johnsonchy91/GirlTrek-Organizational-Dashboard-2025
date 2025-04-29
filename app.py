@@ -241,10 +241,10 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
 # ---------------------------------
 with tab1:
     st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
-    
+
     # --- Key Metrics ---
     st.markdown("<h3>Key Metrics</h3>", unsafe_allow_html=True)
-    col1, col2, col3 = st.columns(3)  # Only 3 columns now!
+    col1, col2, col3 = st.columns(3)
 
     with col1:
         st.markdown(
@@ -284,29 +284,27 @@ with tab1:
 
     report_data = {
         "Goal": [
-            "Goal 1: Recruit 100,000 new members",
-            "Goal 2: Engage 250,000 members",
-            "Goal 3: Support 65,000 members walking at life-saving level",
-            "Goal 4: Unite 20 national and local advocacy partners",
-            "Goal 5: Raise $10M in donations, sales & sponsorships",
-            "Goal 6: Establish Care Village (reach 40,000)",
-            "Goal 7: Achieve 85% on org health"
+            "Recruit 100,000 new members",
+            "Engage 250,000 members",
+            "Support 65,000 walking daily",
+            "Unite 20 advocacy partners",
+            "Raise $10M",
+            "Establish Care Village",
+            "Achieve 85% organizational health"
         ],
         "Current Total": [
             "11,356", "11,769", "4,858", "2",
-            "3,061,104.78", "2,869", "Unknown"
+            "3,061,104.78", "2,869", "Pending"
         ],
         "Percent Progress": [
-            "11.4%", "4.7%", "7.5%", "10%",
-            "30.6%", "7.2%", "Unknown"
+            "11%", "5%", "7%", "10%", "31%", "7%", "Pending"
         ],
         "Status": [
             "On Track", "On Track", "At Risk", "At Risk",
-            "On Track", "On Track", "On Track"
+            "On Track", "At Risk", "Pending"
         ],
         "Progress": [
-            11.356, 4.7076, 7.47, 10,
-            30.61, 7.17, 70
+            11.4, 4.7, 7.5, 10, 30.6, 7.2, 0
         ]
     }
 
@@ -321,8 +319,10 @@ with tab1:
             bar_color = "#4CAF50"
         elif status == "Achieved":
             bar_color = achieved_green
-        else:
+        elif status == "At Risk":
             bar_color = "#FF9800"
+        else:
+            bar_color = secondary_gray
 
         progress_html = f"""
         <div style="margin-bottom: 20px;">
@@ -348,8 +348,8 @@ with tab1:
 
     with col1:
         exec_fig_new_age = px.pie(
-            df_new_age, 
-            values='New Members', 
+            df_new_age,
+            values='New Members',
             names='Age Group',
             title='New Members by Age Group',
             color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, secondary_pink, secondary_purple, secondary_green]
@@ -370,7 +370,44 @@ with tab1:
         exec_fig_total_age.update_layout(title_font=dict(color=primary_blue))
         st.plotly_chart(exec_fig_total_age, use_container_width=True, key="exec_fig_total_age")
 
-    # --- Historic Movement Growth as a Line Chart! ---
+    # --- NEW: Top States & Top Cities ---
+    st.markdown('<h3>Top States</h3>', unsafe_allow_html=True)
+
+    df_top_states = pd.DataFrame({
+        'State': ['Texas', 'Georgia', 'California', 'New York', 'Florida'],
+        'Members': [91101, 86968, 80328, 68538, 66135]
+    })
+
+    states_fig = px.bar(
+        df_top_states,
+        x='State',
+        y='Members',
+        title='Top 5 States by Membership',
+        color='Members',
+        color_continuous_scale=[primary_blue, secondary_purple]
+    )
+    states_fig.update_layout(title_font=dict(color=primary_blue))
+    st.plotly_chart(states_fig, use_container_width=True, key="states_fig")
+
+    st.markdown('<h3>Top Cities</h3>', unsafe_allow_html=True)
+
+    df_top_cities = pd.DataFrame({
+        'City': ['Chicago', 'Philadelphia', 'Houston', 'Brooklyn', 'Atlanta'],
+        'Members': [20645, 17276, 17065, 15602, 13172]
+    })
+
+    cities_fig = px.bar(
+        df_top_cities,
+        x='City',
+        y='Members',
+        title='Top 5 Cities by Membership',
+        color='Members',
+        color_continuous_scale=[primary_blue, secondary_orange]
+    )
+    cities_fig.update_layout(title_font=dict(color=primary_blue))
+    st.plotly_chart(cities_fig, use_container_width=True, key="cities_fig")
+
+    # --- Historic Movement Growth (as graph) ---
     st.markdown("<h3>Historic Movement Growth Numbers</h3>", unsafe_allow_html=True)
 
     historic_fig = go.Figure()
@@ -392,9 +429,7 @@ with tab1:
         height=400
     )
 
-    st.plotly_chart(historic_fig, use_container_width=True, key="historic_growth_chart")
-
-
+    st.plotly_chart(historic_fig, use_container_width=True, key="historic_growth_fig")
 # ---------------------------------
 # Recruitment Tab
 # ---------------------------------
@@ -434,9 +469,9 @@ with tab2:
         st.markdown(
             f'<div class="metric-card">'
             f'<p class="metric-title">TOTAL RECRUITMENT PARTNERSHIPS</p>'
-            f'<p class="metric-value">0</p>'
-            f'<p>Goal: 100</p>'
-            f'<p class="note-text">Contact made with 20 organizations</p>'
+            f'<p class="metric-value">2</p>'
+            f'<p>Goal: 20</p>'
+            f'<p>{status_badge("At Risk")}</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -449,34 +484,8 @@ with tab2:
         color='New Members',
         color_continuous_scale=[secondary_blue, primary_blue, primary_orange]
     )
-
     recruit_monthly_fig.update_layout(title_font=dict(color=primary_blue))
     st.plotly_chart(recruit_monthly_fig, use_container_width=True, key="recruit_monthly_fig")
-
-    # Membership Distribution
-    st.markdown('<h3>Membership Distribution</h3>', unsafe_allow_html=True)
-
-    recruit_age_fig = px.pie(
-        df_new_age,
-        values='New Members',
-        names='Age Group',
-        title='New Members by Age Group',
-        color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, secondary_pink, secondary_purple, secondary_green]
-    )
-    recruit_age_fig.update_traces(textposition='inside', textinfo='percent+label')
-    recruit_age_fig.update_layout(title_font=dict(color=primary_blue))
-    st.plotly_chart(recruit_age_fig, use_container_width=True, key="recruit_age_fig")
-
-    recruit_total_age_fig = px.bar(
-        df_total_age,
-        x='Age Group',
-        y='Members',
-        title='Total Membership by Age Group',
-        color='Members',
-        color_continuous_scale=[secondary_purple, primary_blue, secondary_pink]
-    )
-    recruit_total_age_fig.update_layout(title_font=dict(color=primary_blue))
-    st.plotly_chart(recruit_total_age_fig, use_container_width=True, key="recruit_total_age_fig")
 
 # ---------------------------------
 # Engagement Tab
@@ -484,14 +493,13 @@ with tab2:
 with tab3:
     st.markdown('<h3 class="section-title">Engagement Metrics</h3>', unsafe_allow_html=True)
 
-    engagement_col1, engagement_col2, engagement_col3 = st.columns(3)
+    engagement_col1, engagement_col2 = st.columns(2)
 
     with engagement_col1:
         st.markdown(
             f'<div class="engagement-metric-card">'
-            f'<p class="metric-title">TOTAL ACTIVE VOLUNTEERS</p>'
-            f'<p class="metric-value">3,348</p>'
-            f'<p class="note-text">Hosted events this year</p>'
+            f'<p class="metric-title">TOTAL ACTIVE CREWS</p>'
+            f'<p class="metric-value">603</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -499,18 +507,8 @@ with tab3:
     with engagement_col2:
         st.markdown(
             f'<div class="engagement-metric-card">'
-            f'<p class="metric-title">TOTAL DOCUMENTED CREW LEADERS</p>'
-            f'<p class="metric-value">3,732</p>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
-
-    with engagement_col3:
-        st.markdown(
-            f'<div class="engagement-metric-card">'
-            f'<p class="metric-title">TOTAL ACTIVE CREW LEADERS</p>'
-            f'<p class="metric-value">1,846</p>'
-            f'<p class="note-text">Active this year</p>'
+            f'<p class="metric-title">MEMBERS WALKING DAILY</p>'
+            f'<p class="metric-value">4,788</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -549,8 +547,7 @@ with tab4:
         st.markdown(
             f'<div class="dev-metric-card">'
             f'<p class="dev-metric-title">TOTAL CONTRIBUTIONS</p>'
-            f'<p class="dev-metric-value">${format_number(st.session_state.total_contributions)}</p>'
-            f'<p class="dev-metric-goal">Goal: $8M</p>'
+            f'<p class="dev-metric-value">{format_currency(st.session_state.total_contributions)}</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>',
             unsafe_allow_html=True
@@ -560,7 +557,7 @@ with tab4:
         st.markdown(
             f'<div class="dev-metric-card">'
             f'<p class="dev-metric-title">TOTAL GRANTS</p>'
-            f'<p class="dev-metric-value">${format_number(st.session_state.total_grants)}</p>'
+            f'<p class="dev-metric-value">{format_currency(st.session_state.total_grants)}</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>',
             unsafe_allow_html=True
@@ -569,9 +566,8 @@ with tab4:
     with dev_col3:
         st.markdown(
             f'<div class="dev-metric-card">'
-            f'<p class="dev-metric-title">CORPORATE SPONSORSHIP</p>'
+            f'<p class="dev-metric-title">CORPORATE SPONSORSHIPS</p>'
             f'<p class="dev-metric-value">$130,000</p>'
-            f'<p class="dev-metric-goal">Goal: $1.5M</p>'
             f'<p>{status_badge("At Risk")}</p>'
             f'</div>',
             unsafe_allow_html=True
@@ -621,7 +617,6 @@ with tab4:
     )
 
     st.plotly_chart(dev_trend_fig, use_container_width=True, key="dev_trend_fig")
-
 
 # ---------------------------------
 # Marketing Tab
@@ -677,45 +672,8 @@ with tab5:
 
     st.plotly_chart(marketing_activity_fig, use_container_width=True, key="marketing_activity_fig")
 
-    # Email Engagement Over Time
-    st.markdown('<h3>Email Engagement Over Time</h3>', unsafe_allow_html=True)
-
-    email_trend_data = pd.DataFrame({
-        'Month': ['January', 'February', 'March', 'April'],
-        'Open Rate': [33.8, 34.2, 34.6, 34.95],
-        'Click Rate': [2.9, 3.4, 4.1, 5.9]
-    })
-
-    email_trend_fig = go.Figure()
-
-    email_trend_fig.add_trace(go.Scatter(
-        x=email_trend_data['Month'],
-        y=email_trend_data['Open Rate'],
-        mode='lines+markers',
-        name='Open Rate (%)',
-        line=dict(color=primary_blue)
-    ))
-
-    email_trend_fig.add_trace(go.Scatter(
-        x=email_trend_data['Month'],
-        y=email_trend_data['Click Rate'],
-        mode='lines+markers',
-        name='Click Rate (%)',
-        line=dict(color=primary_orange)
-    ))
-
-    email_trend_fig.update_layout(
-        title='Email Trends',
-        xaxis_title='Month',
-        yaxis_title='Rate (%)',
-        title_font=dict(color=primary_blue),
-        height=400
-    )
-
-    st.plotly_chart(email_trend_fig, use_container_width=True, key="email_trend_fig")
-
 # ---------------------------------
-# Operations Tab
+# Operations Tab (Updated with real data)
 # ---------------------------------
 with tab6:
     st.markdown('<h3 class="section-title">Operations Metrics</h3>', unsafe_allow_html=True)
@@ -725,9 +683,9 @@ with tab6:
     with ops_col1:
         st.markdown(
             f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL TEAM MEMBERS</p>'
-            f'<p class="metric-value">48</p>'
-            f'<p>Goal: 65</p>'
+            f'<p class="metric-title">TOTAL EXPENSES</p>'
+            f'<p class="metric-value">$1,940,000</p>'
+            f'<p>Goal: $8,000,000</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -735,9 +693,8 @@ with tab6:
     with ops_col2:
         st.markdown(
             f'<div class="metric-card">'
-            f'<p class="metric-title">OPEN POSITIONS</p>'
-            f'<p class="metric-value">7</p>'
-            f'<p>Active Recruitment</p>'
+            f'<p class="metric-title">EARNED REVENUE (STORE SALES)</p>'
+            f'<p class="metric-value">$25,000</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -745,101 +702,159 @@ with tab6:
     with ops_col3:
         st.markdown(
             f'<div class="metric-card">'
-            f'<p class="metric-title">STAFF RETENTION RATE</p>'
-            f'<p class="metric-value">93%</p>'
-            f'<p>Goal: >90%</p>'
+            f'<p class="metric-title">AUDIT COMPLIANCE</p>'
+            f'<p class="metric-value">On Track</p>'
+            f'<p>Independent audit with no major findings</p>'
             f'</div>',
             unsafe_allow_html=True
         )
 
-    # Budget Performance
-    st.markdown('<h3>Operational Budget Performance</h3>', unsafe_allow_html=True)
+    ops2_col1, ops2_col2 = st.columns(2)
 
-    budget_fig = go.Figure()
+    with ops2_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">ASANA ADOPTION</p>'
+            f'<p class="metric-value">100%</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
 
-    budget_fig.add_trace(go.Bar(
-        x=budget_data['Category'],
-        y=budget_data['Budget'],
-        name='Budgeted',
-        marker_color=primary_blue
+    with ops2_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">SYSTEM UPTIME</p>'
+            f'<p class="metric-value">99.7%</p>'
+            f'<p>Goal: >99.5%</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # --- Financial Trends also here! ---
+    st.markdown('<h3>Financial Trends</h3>', unsafe_allow_html=True)
+
+    dev_trend_fig_ops = go.Figure()
+
+    dev_trend_fig_ops.add_trace(go.Scatter(
+        x=finance_trend_data['Month'],
+        y=finance_trend_data['Revenue'],
+        mode='lines+markers',
+        name='Revenue',
+        line=dict(color=primary_blue)
+    ))
+    dev_trend_fig_ops.add_trace(go.Scatter(
+        x=finance_trend_data['Month'],
+        y=finance_trend_data['Expenses'],
+        mode='lines+markers',
+        name='Expenses',
+        line=dict(color=primary_orange)
+    ))
+    dev_trend_fig_ops.add_trace(go.Scatter(
+        x=finance_trend_data['Month'],
+        y=finance_trend_data['Donations'],
+        mode='lines+markers',
+        name='Donations',
+        line=dict(color=primary_yellow)
     ))
 
-    budget_fig.add_trace(go.Bar(
-        x=budget_data['Category'],
-        y=budget_data['Actual'],
-        name='Actual',
-        marker_color=primary_orange
-    ))
-
-    budget_fig.update_layout(
-        title='Budget vs Actual Spending',
-        xaxis_title='Category',
+    dev_trend_fig_ops.update_layout(
+        title='Financial Trends',
+        xaxis_title='Month',
         yaxis_title='Amount ($)',
-        barmode='group',
         title_font=dict(color=primary_blue),
         height=400
     )
 
-    st.plotly_chart(budget_fig, use_container_width=True, key="budget_fig")
-
+    st.plotly_chart(dev_trend_fig_ops, use_container_width=True, key="dev_trend_fig_ops")
 
 # ---------------------------------
-# Member Care Tab
+# Member Care Tab (real data from PDF)
 # ---------------------------------
 with tab7:
     st.markdown('<h3 class="section-title">Member Care Metrics</h3>', unsafe_allow_html=True)
 
+    mc_col1, mc_col2 = st.columns(2)
+
+    with mc_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">AVERAGE RESPONSE TIME</p>'
+            f'<p class="metric-value">2 hours</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with mc_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">MEMBER SATISFACTION RATE</p>'
+            f'<p class="metric-value">95%</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    st.markdown('<h3>Top Support Issues</h3>', unsafe_allow_html=True)
     st.markdown(
         """
-        <p>Tracking for Member Care is currently in development.</p>
-        <p>Focus areas will include:</p>
-        <ul>
-            <li>Response time to member inquiries</li>
-            <li>Resolution rates for support requests</li>
-            <li>Member satisfaction surveys</li>
-            <li>Retention & re-engagement initiatives</li>
-        </ul>
+        - Wellness questions (Self-Care School program)
+        - Event logistics and support
+        - App usage help
         """,
         unsafe_allow_html=True
     )
 
 # ---------------------------------
-# Advocacy Tab
+# Advocacy Tab (real data from PDF)
 # ---------------------------------
 with tab8:
     st.markdown('<h3 class="section-title">Advocacy Metrics</h3>', unsafe_allow_html=True)
 
+    adv_col1, adv_col2 = st.columns(2)
+
+    with adv_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">ADVOCACY BRIEFS PUBLISHED</p>'
+            f'<p class="metric-value">4 / 10</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with adv_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">ADVOCACY PARTNERSHIPS</p>'
+            f'<p class="metric-value">2 / 20</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    st.markdown('<h3>Current Focus Areas</h3>', unsafe_allow_html=True)
     st.markdown(
         """
-        <p>Advocacy metrics under review.</p>
-        <p>Initial measurements will include:</p>
-        <ul>
-            <li>Number of active advocacy partners</li>
-            <li>Policy wins and endorsements</li>
-            <li>Advocacy event participation</li>
-            <li>Storytelling impact campaigns</li>
-        </ul>
+        - Expanding local advocacy partner network
+        - Publishing regular advocacy briefs (health justice focus)
         """,
         unsafe_allow_html=True
     )
 
 # ---------------------------------
-# Impact Tab
+# Impact Tab (still marked as Pending)
 # ---------------------------------
 with tab9:
     st.markdown('<h3 class="section-title">Impact Metrics</h3>', unsafe_allow_html=True)
 
     st.markdown(
         """
-        <p>GirlTREK’s health and wellness impact reporting is in development.</p>
-        <p>Goals for measurement:</p>
+        <p>GirlTREK’s community health impact reporting will be updated following Self-Care School 2025 outcomes.</p>
+        <p>Goals for future measurement:</p>
         <ul>
-            <li>Improvements in community health outcomes</li>
-            <li>Walking frequency and duration trends</li>
-            <li>Longitudinal behavior change</li>
-            <li>Self-reported mental and physical health improvements</li>
+            <li>Increased walking activity rates</li>
+            <li>Documented health improvements (self-reported)</li>
+            <li>Behavior change sustainability (12-month check)</li>
+            <li>Community-level health justice outcomes</li>
         </ul>
-        <p>Formal academic research partnerships are being explored for 2025 and beyond.</p>
         """,
         unsafe_allow_html=True
     )
+
