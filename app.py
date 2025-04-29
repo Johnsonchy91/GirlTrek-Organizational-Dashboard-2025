@@ -189,6 +189,51 @@ dark_mode = st.sidebar.checkbox("Dark Mode", value=False)
 
 apply_dark_mode(dark_mode)
 
+# Add new sidebar section for dashboard notes
+st.sidebar.markdown("---")
+st.sidebar.markdown("### Dashboard Notes")
+
+# Add a section for global notes that apply to all tabs
+if 'global_notes' not in st.session_state:
+    st.session_state.global_notes = ""
+
+global_notes = st.sidebar.text_area(
+    "Add global notes for the entire dashboard:",
+    value=st.session_state.global_notes,
+    height=100,
+    key="textarea_global_notes"
+)
+
+# Save button for global notes
+if st.sidebar.button("Save Global Notes"):
+    st.session_state.global_notes = global_notes
+    st.sidebar.success("Global notes saved successfully!")
+
+# Export all notes
+if st.sidebar.button("Export All Notes"):
+    # Collect all notes from session state
+    all_notes = {"Global": st.session_state.global_notes}
+    
+    # Add notes from each tab if they exist
+    for tab in ["Executive Summary", "Recruitment", "Engagement", "Development", 
+                "Marketing", "Operations", "Member Care", "Advocacy", "Impact"]:
+        tab_key = f"notes_{tab}"
+        if tab_key in st.session_state:
+            all_notes[tab] = st.session_state[tab_key]
+    
+    # Create CSV string
+    csv_data = "Tab,Notes\n"
+    for tab, notes in all_notes.items():
+        # Replace commas and newlines to avoid breaking CSV format
+        clean_notes = notes.replace(',', ';').replace('\n', ' ')
+        csv_data += f"{tab},{clean_notes}\n"
+    
+    # Create download link
+    b64 = base64.b64encode(csv_data.encode()).decode()
+    date_str = datetime.now().strftime("%Y%m%d")
+    href = f'<a href="data:file/csv;base64,{b64}" download="GirlTREK_Dashboard_Notes_{date_str}.csv">Download All Notes</a>'
+    st.sidebar.markdown(href, unsafe_allow_html=True)
+
 # App Title
 st.title("GirlTREK Organizational Dashboard")
 st.markdown("### Q2 2025 Metrics Overview")
@@ -304,7 +349,7 @@ advocacy_data = pd.DataFrame({
 
 
 # Create Tabs
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
     "Executive Summary",
     "Recruitment",
     "Engagement",
@@ -313,8 +358,7 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
     "Operations",
     "Member Care",
     "Advocacy",
-    "Impact",
-    "Self-Care School"
+    "Impact"
 ])
 
 # ---------------------------------
@@ -422,22 +466,44 @@ with tab1:
         """
         st.markdown(progress_html, unsafe_allow_html=True)
 
+    # --- Historic Movement Growth (as graph) - MOVED HERE ---
+    st.markdown("<h3>Historic Movement Growth Numbers</h3>", unsafe_allow_html=True)
+
+    historic_fig = go.Figure()
+
+    historic_fig.add_trace(go.Scatter(
+        x=df_historic_growth['Year'],
+        y=df_historic_growth['Trekkers'],
+        mode='lines+markers',
+        name='Trekkers',
+        line=dict(color=primary_blue, width=3),
+        marker=dict(size=8)
+    ))
+
+    historic_fig.update_layout(
+        title='Historic Growth of Trekkers (2012–2025)',
+        xaxis_title='Year',
+        yaxis_title='Total Trekkers',
+        title_font=dict(color=primary_blue),
+        height=400
+    )
+
+    st.plotly_chart(historic_fig, use_container_width=True, key="historic_growth_fig")
+
     # --- Membership Distribution ---
     st.markdown('<h3>Membership Distribution</h3>', unsafe_allow_html=True)
 
-    col1, col2 = st.columns(2)
-
-    with col2:
-        exec_fig_total_age = px.bar(
-            df_total_age,
-            x='Age Group',
-            y='Members',
-            title='Total Membership by Age Group',
-            color='Members',
-            color_continuous_scale=[secondary_purple, primary_blue, secondary_pink]
-        )
-        exec_fig_total_age.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(exec_fig_total_age, use_container_width=True, key="exec_fig_total_age")
+    # Full width total membership by age
+    exec_fig_total_age = px.bar(
+        df_total_age,
+        x='Age Group',
+        y='Members',
+        title='Total Membership by Age Group',
+        color='Members',
+        color_continuous_scale=[secondary_purple, primary_blue, secondary_pink]
+    )
+    exec_fig_total_age.update_layout(title_font=dict(color=primary_blue))
+    st.plotly_chart(exec_fig_total_age, use_container_width=True, key="exec_fig_total_age")
 
     # --- Top States ---
     st.markdown('<h3>Top States</h3>', unsafe_allow_html=True)
@@ -466,30 +532,10 @@ with tab1:
     )
     cities_fig.update_layout(title_font=dict(color=primary_blue))
     st.plotly_chart(cities_fig, use_container_width=True, key="cities_fig")
-
-    # --- Historic Movement Growth (as graph) ---
-    st.markdown("<h3>Historic Movement Growth Numbers</h3>", unsafe_allow_html=True)
-
-    historic_fig = go.Figure()
-
-    historic_fig.add_trace(go.Scatter(
-        x=df_historic_growth['Year'],
-        y=df_historic_growth['Trekkers'],
-        mode='lines+markers',
-        name='Trekkers',
-        line=dict(color=primary_blue, width=3),
-        marker=dict(size=8)
-    ))
-
-    historic_fig.update_layout(
-        title='Historic Growth of Trekkers (2012–2025)',
-        xaxis_title='Year',
-        yaxis_title='Total Trekkers',
-        title_font=dict(color=primary_blue),
-        height=400
-    )
-
-    st.plotly_chart(historic_fig, use_container_width=True, key="historic_growth_fig")
+    
+    # Add Notes Section at the bottom of the tab
+    st.markdown('<hr>', unsafe_allow_html=True)
+    create_notes_section("Executive Summary")
 # ---------------------------------
 # Recruitment Tab
 # ---------------------------------
@@ -583,32 +629,8 @@ with tab3:
             f'</div>',
             unsafe_allow_html=True
         )
-
-    engage_badges_fig = px.bar(
-        df_badges,
-        x='Week',
-        y='Badges Claimed',
-        title='Badges Claimed by Week (Goal: 5,000/week)',
-        color='Badges Claimed',
-        color_continuous_scale=[secondary_green, primary_blue, secondary_purple]
-    )
-    engage_badges_fig.update_layout(title_font=dict(color=primary_blue))
-
-    if show_target_lines:
-        engage_badges_fig.add_shape(
-            type="line",
-            x0=-0.5,
-            y0=5000,
-            x1=len(df_badges)-0.5,
-            y1=5000,
-            line=dict(color="red", width=2, dash="dash")
-        )
-
-    st.plotly_chart(engage_badges_fig, use_container_width=True, key="engage_badges_fig")
     
     # Additional engagement metrics
-    st.markdown('<h3>Engagement Metrics</h3>', unsafe_allow_html=True)
-    
     eng_col1, eng_col2, eng_col3 = st.columns(3)
     
     with eng_col1:
@@ -638,6 +660,155 @@ with tab3:
             f'</div>',
             unsafe_allow_html=True
         )
+        
+    # Self-Care School Campaign Section (moved from its own tab)
+    st.markdown('<h3 class="section-title">Self-Care School Campaign</h3>', unsafe_allow_html=True)
+    
+    # Campaign header with progress visualization
+    campaign_progress = 11985 / 10000 * 100  # Calculate percentage of goal achieved
+    
+    progress_html = f"""
+    <div style="background: linear-gradient(to right, #f0f9ff, #E3F2FD); border-radius: 10px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <div style="display: flex; justify-content: space-between;">
+            <div>
+                <h3 style="margin-top: 0; color: #1E88E5;">Self-Care School Campaign Status</h3>
+                <p style="font-size: 16px;">Goal: 10,000 Registrants | Current: 11,985 Registrants</p>
+                <div style="font-size: 18px; font-weight: bold; color: #00C853;">Status: {status_badge("Achieved")}</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-size: 40px; font-weight: bold; color: #1E88E5;">{campaign_progress:.1f}%</div>
+                <p>of goal achieved</p>
+            </div>
+        </div>
+        <div style="width: 100%; background-color: #E0E0E0; height: 15px; border-radius: 10px; margin-top: 15px;">
+            <div style="width: {min(campaign_progress, 100)}%; height: 100%; background-color: #00C853; border-radius: 10px;"></div>
+        </div>
+    </div>
+    """
+    
+    st.markdown(progress_html, unsafe_allow_html=True)
+    
+    # Key metrics in visually appealing boxes
+    metrics_row1_col1, metrics_row1_col2, metrics_row1_col3 = st.columns(3)
+    
+    with metrics_row1_col1:
+        st.markdown(
+            f"""
+            <div style="background-color: #E8F5E9; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #2E7D32; margin-top: 0;">NEW MEMBERS</h4>
+                <div style="font-size: 36px; font-weight: bold; color: #2E7D32; margin: 10px 0;">4,808</div>
+                <p style="color: #2E7D32;">Joined through campaign</p>
+                <p>{status_badge("On Track")}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    with metrics_row1_col2:
+        st.markdown(
+            f"""
+            <div style="background-color: #FFF8E1; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #FF8F00; margin-top: 0;">DOWNLOADS</h4>
+                <div style="font-size: 36px; font-weight: bold; color: #FF8F00; margin: 10px 0;">22,186</div>
+                <p style="color: #FF8F00;">Goal: 100,000</p>
+                <p>{status_badge("At Risk")}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    with metrics_row1_col3:
+        st.markdown(
+            f"""
+            <div style="background-color: #E1F5FE; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #0277BD; margin-top: 0;">STORIES SUBMITTED</h4>
+                <div style="font-size: 36px; font-weight: bold; color: #0277BD; margin: 10px 0;">234</div>
+                <p style="color: #0277BD;">Goal: 100</p>
+                <p>{status_badge("Achieved")}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    # Age demographics and Badges claimed  
+    st.markdown('<h4>Campaign Metrics</h4>', unsafe_allow_html=True)
+    
+    age_col1, age_col2 = st.columns([1, 3])
+    
+    with age_col1:
+        st.markdown(
+            f"""
+            <div style="background-color: #FFEBEE; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #C62828; margin-top: 0;">REGISTRANTS AGE 18-25</h4>
+                <div style="font-size: 36px; font-weight: bold; color: #C62828; margin: 10px 0;">101</div>
+                <p>{status_badge("At Risk")}</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    with age_col2:
+        # Badges claimed by week
+        badges_col1, badges_col2, badges_col3 = st.columns(3)
+        
+        with badges_col1:
+            st.markdown(
+                f"""
+                <div style="background-color: #E0F7FA; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h4 style="color: #00838F; margin-top: 0;">WEEK 0 BADGES</h4>
+                    <div style="font-size: 28px; font-weight: bold; color: #00838F; margin: 5px 0;">3,089</div>
+                    <p style="color: #00838F; font-size: 14px;">Goal: 5,000/week</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with badges_col2:
+            st.markdown(
+                f"""
+                <div style="background-color: #E0F7FA; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h4 style="color: #00838F; margin-top: 0;">WEEK 1 BADGES</h4>
+                    <div style="font-size: 28px; font-weight: bold; color: #00838F; margin: 5px 0;">2,061</div>
+                    <p style="color: #00838F; font-size: 14px;">Goal: 5,000/week</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with badges_col3:
+            st.markdown(
+                f"""
+                <div style="background-color: #E0F7FA; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h4 style="color: #00838F; margin-top: 0;">WEEK 2 BADGES</h4>
+                    <div style="font-size: 28px; font-weight: bold; color: #00838F; margin: 5px 0;">2,197</div>
+                    <p style="color: #00838F; font-size: 14px;">Goal: 5,000/week</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    
+    # Badges Claimed Chart
+    engage_badges_fig = px.bar(
+        df_badges,
+        x='Week',
+        y='Badges Claimed',
+        title='Badges Claimed by Week (Goal: 5,000/week)',
+        color='Badges Claimed',
+        color_continuous_scale=[secondary_green, primary_blue, secondary_purple]
+    )
+    engage_badges_fig.update_layout(title_font=dict(color=primary_blue))
+
+    if show_target_lines:
+        engage_badges_fig.add_shape(
+            type="line",
+            x0=-0.5,
+            y0=5000,
+            x1=len(df_badges)-0.5,
+            y1=5000,
+            line=dict(color="red", width=2, dash="dash")
+        )
+
+    st.plotly_chart(engage_badges_fig, use_container_width=True, key="engage_badges_fig")
 
 # ---------------------------------
 # Development Tab
@@ -779,18 +950,178 @@ with tab5:
 
     st.plotly_chart(marketing_activity_fig, use_container_width=True, key="marketing_activity_fig")
     
-    # Add text messaging engagement
-    st.markdown("<h3>Text Message Engagement</h3>", unsafe_allow_html=True)
-    st.markdown(
-        """
-        <div style="background-color: #f7f7f7; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-            <p><strong>Text Message Engagement (Clicks):</strong> 6.27%</p>
-            <p><em>Industry Standard: SMS messages boast click-through rates of 6.3% for fundraising messages and 10% for advocacy messages.</em></p>
-            <p><strong>Text Messaging Spend:</strong> $11,180.21</p>
+    # Add Notes Functionality
+def create_notes_section(tab_name):
+    """Create a notes section for any tab with persistence"""
+    
+    notes_key = f"notes_{tab_name}"
+    
+    # Initialize notes in session state if they don't exist
+    if notes_key not in st.session_state:
+        st.session_state[notes_key] = ""
+    
+    # Create expandable section for notes
+    with st.expander(f"📝 Notes for {tab_name}", expanded=False):
+        col1, col2 = st.columns([3, 1])
+        
+        with col1:
+            # Create text area for notes with the current value from session state
+            notes = st.text_area(
+                "Add your notes here:",
+                value=st.session_state[notes_key],
+                height=150,
+                key=f"textarea_{notes_key}"
+            )
+            
+            # Automatically save notes when they change
+            if notes != st.session_state[notes_key]:
+                st.session_state[notes_key] = notes
+                st.success("Notes saved automatically!")
+                
+                # Add timestamp for last edit
+                if 'last_edit_time' not in st.session_state:
+                    st.session_state.last_edit_time = {}
+                st.session_state.last_edit_time[notes_key] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        with col2:
+            # Display timestamp of last edit if available
+            if 'last_edit_time' in st.session_state and notes_key in st.session_state.last_edit_time:
+                st.info(f"Last edited: {st.session_state.last_edit_time[notes_key]}")
+            
+            # Add export functionality
+            if st.button("Export Notes", key=f"export_{tab_name}"):
+                # Convert notes to CSV format for download
+                notes_data = f"Tab,Notes\n{tab_name},{st.session_state[notes_key].replace(',', ';').replace('\n', ' ')}"
+                b64 = base64.b64encode(notes_data.encode()).decode()
+                href = f'<a href="data:file/csv;base64,{b64}" download="{tab_name}_notes.csv">Download {tab_name} Notes</a>'
+                st.markdown(href, unsafe_allow_html=True)
+            
+            # Add ability to clear notes
+            if st.button("Clear Notes", key=f"clear_{tab_name}"):
+                st.session_state[notes_key] = ""
+                if 'last_edit_time' in st.session_state and notes_key in st.session_state.last_edit_time:
+                    del st.session_state.last_edit_time[notes_key]
+                st.experimental_rerun()
+    
+    # Social Media Followers
+    st.markdown("<h3>Social Media Following</h3>", unsafe_allow_html=True)
+    
+    social_col1, social_col2, social_col3 = st.columns(3)
+    
+    with social_col1:
+        st.markdown(
+            f"""
+            <div style="background-color: #E8F5FE; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #1877F2; margin-top: 0;">FACEBOOK</h4>
+                <div style="font-size: 36px; font-weight: bold; color: #1877F2; margin: 10px 0;">382,000</div>
+                <p style="color: #1877F2;">Followers</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    with social_col2:
+        st.markdown(
+            f"""
+            <div style="background-color: #FCEFF6; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #E1306C; margin-top: 0;">INSTAGRAM</h4>
+                <div style="font-size: 36px; font-weight: bold; color: #E1306C; margin: 10px 0;">194,041</div>
+                <p style="color: #E1306C;">Followers</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    with social_col3:
+        st.markdown(
+            f"""
+            <div style="background-color: #E8F0FE; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #0077B5; margin-top: 0;">LINKEDIN</h4>
+                <div style="font-size: 36px; font-weight: bold; color: #0077B5; margin: 10px 0;">5,034</div>
+                <p style="color: #0077B5;">Followers</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    # Recruitment Metrics that need updates
+    st.markdown("<h3>Recruitment Marketing</h3>", unsafe_allow_html=True)
+    
+    recruit_col1, recruit_col2 = st.columns(2)
+    
+    with recruit_col1:
+        st.markdown(
+            f"""
+            <div style="background-color: #FFF3E0; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #E65100; margin-top: 0;">RECRUITMENT PARTNERSHIPS</h4>
+                <div style="font-size: 20px; font-weight: bold; color: #E65100; margin: 10px 0;">Needs Reporting Update</div>
+                <p style="color: #E65100; font-style: italic;">Data collection in progress</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    with recruit_col2:
+        st.markdown(
+            f"""
+            <div style="background-color: #FFF3E0; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #E65100; margin-top: 0;">RECRUITMENT EVENTS HOSTED</h4>
+                <div style="font-size: 20px; font-weight: bold; color: #E65100; margin: 10px 0;">Needs Reporting Update</div>
+                <p style="color: #E65100; font-style: italic;">Data collection in progress</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        
+    # Social Media Engagement data from Self-Care School Campaign 
+    st.markdown("<h3>Self-Care School Social Media Performance</h3>", unsafe_allow_html=True)
+    
+    # Create a grid of social metrics for Self-Care School Campaign
+    social_grid_html = """
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px;">
+        <div style="background-color: #F5F5F5; border-left: 5px solid #2196F3; padding: 15px; border-radius: 5px; text-align: center;">
+            <div style="font-size: 13px; color: #757575;">IMPRESSIONS</div>
+            <div style="font-size: 24px; font-weight: bold; color: #2196F3; margin: 5px 0;">338K</div>
         </div>
-        """,
-        unsafe_allow_html=True
-    )
+        <div style="background-color: #F5F5F5; border-left: 5px solid #4CAF50; padding: 15px; border-radius: 5px; text-align: center;">
+            <div style="font-size: 13px; color: #757575;">CLICKS TO SITE</div>
+            <div style="font-size: 24px; font-weight: bold; color: #4CAF50; margin: 5px 0;">39K</div>
+        </div>
+        <div style="background-color: #F5F5F5; border-left: 5px solid #9C27B0; padding: 15px; border-radius: 5px; text-align: center;">
+            <div style="font-size: 13px; color: #757575;">VIDEO VIEWS</div>
+            <div style="font-size: 24px; font-weight: bold; color: #9C27B0; margin: 5px 0;">70.7K</div>
+        </div>
+        <div style="background-color: #F5F5F5; border-left: 5px solid #FF5722; padding: 15px; border-radius: 5px; text-align: center;">
+            <div style="font-size: 13px; color: #757575;">REACTIONS</div>
+            <div style="font-size: 24px; font-weight: bold; color: #FF5722; margin: 5px 0;">3.2K</div>
+        </div>
+        <div style="background-color: #F5F5F5; border-left: 5px solid #795548; padding: 15px; border-radius: 5px; text-align: center;">
+            <div style="font-size: 13px; color: #757575;">COMMENTS</div>
+            <div style="font-size: 24px; font-weight: bold; color: #795548; margin: 5px 0;">74</div>
+        </div>
+        <div style="background-color: #F5F5F5; border-left: 5px solid #607D8B; padding: 15px; border-radius: 5px; text-align: center;">
+            <div style="font-size: 13px; color: #757575;">SHARES</div>
+            <div style="font-size: 24px; font-weight: bold; color: #607D8B; margin: 5px 0;">217</div>
+        </div>
+        <div style="background-color: #F5F5F5; border-left: 5px solid #FFC107; padding: 15px; border-radius: 5px; text-align: center;">
+            <div style="font-size: 13px; color: #757575;">SAVES</div>
+            <div style="font-size: 24px; font-weight: bold; color: #FFC107; margin: 5px 0;">66</div>
+        </div>
+        <div style="background-color: #F5F5F5; border-left: 5px solid #3F51B5; padding: 15px; border-radius: 5px; text-align: center;">
+            <div style="font-size: 13px; color: #757575;">NEW FB PAGE LIKES</div>
+            <div style="font-size: 24px; font-weight: bold; color: #3F51B5; margin: 5px 0;">67</div>
+        </div>
+    </div>
+    
+    <div style="background: linear-gradient(to bottom, #E8EAF6, #C5CAE9); border-radius: 10px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <h4 style="color: #3F51B5; margin-top: 0;">Engagement Summary</h4>
+        <p style="color: #3F51B5;">Super positive engagement and comments.</p>
+        <p style="color: #3F51B5; font-weight: bold;">Action Item:</p>
+        <p style="color: #3F51B5;">Increase replies to existing comments for better community engagement.</p>
+    </div>
+    """
+    
+    st.markdown(social_grid_html, unsafe_allow_html=True)
 
 # ---------------------------------
 # Operations Tab (Improved)
@@ -1052,6 +1383,10 @@ with tab8:
         """,
         unsafe_allow_html=True
     )
+    
+    # Add Notes Section
+    st.markdown('<hr>', unsafe_allow_html=True)
+    create_notes_section("Advocacy")
 
 # ---------------------------------
 # Impact Tab (still marked as Pending)
