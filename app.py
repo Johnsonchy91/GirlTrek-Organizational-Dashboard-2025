@@ -1405,9 +1405,6 @@ with tab7:
             I am so ready for this week's #selfcareschool hope you are too!!!"
             """
         )
-    # Add Notes Section for Member Care
-    st.markdown('<hr>', unsafe_allow_html=True)
-    create_notes_section("Member Care")
     
     with st.expander("Story 2: Amazing Ted Talk used in class!"):
         st.write(
@@ -1439,7 +1436,9 @@ with tab7:
             Sandy B. Carter
             """
         )
-
+        # Add Notes Section for Member Care
+        st.markdown('<hr>', unsafe_allow_html=True)
+        create_notes_section("Member Care")
 # ---------------------------------
 # Advocacy Tab (real data from PDF)
 # ---------------------------------
