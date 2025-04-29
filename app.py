@@ -1735,7 +1735,7 @@ with tab6:
     ]
     operations_metrics_df = pd.DataFrame(operations_metrics_list)
     
-    st.markdown(download_data(operations_metrics_df, "GirlTREK_Operations_Metrics"), unsafe_allow_html=True) color: #666;">Target: 35% | {34.95/35*100:.1f}% of goal achieved</div>
+    st.markdown(download_data(operations_metrics_df, "GirlTREK_Operations_Metrics"), unsafe_allow_html=True)
                 </div>
                 <div style="width: 100px; height: 100px; margin-left: auto;">
                     <div style="background-color: #f0f0f0; width: 100px; height: 8px; border-radius: 4px; margin-top: 45px;">
