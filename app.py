@@ -171,9 +171,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
-# Correct version of the imports
-from reportlab.lib.units import inch
-import streamlit as st
+from reportlab.lib.units import inchimport streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
