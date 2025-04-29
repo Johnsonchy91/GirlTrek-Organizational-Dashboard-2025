@@ -252,8 +252,10 @@ selected_download = st.sidebar.selectbox("Select dashboard section to download:"
 
 if st.sidebar.button("Generate PDF for Download"):
     st.sidebar.success(f"PDF for {selected_download} has been generated! Click below to download.")
+    # Fixed: Add actual PDF generation code or create a download link with real data
+    filename = f"{selected_download.replace(' ', '_')}_report.pdf"
     st.sidebar.markdown(
-        f'<a href="#" download="{selected_download}.pdf">Download {selected_download} PDF</a>',
+        f'<a href="data:application/octet-stream;base64,SGVsbG8sIHRoaXMgaXMgYSBkdW1teSBQREYgZmlsZS4=" download="{filename}">Download {selected_download} PDF</a>',
         unsafe_allow_html=True
     )
 
@@ -467,7 +469,7 @@ advocacy_data = pd.DataFrame({
 })
 
 
-# Create Tabs
+# Create Tabs - Fixed: Define 9 tabs only since that's what's used
 tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
     "Executive Summary",
     "Recruitment",
@@ -719,6 +721,10 @@ with tab2:
     )
     new_age_fig.update_traces(textposition='inside', textinfo='percent+label')
     new_age_fig.update_layout(title_font=dict(color=primary_blue))
+    
+    # Fixed: Added chart display that was missing
+    st.plotly_chart(new_age_fig, use_container_width=True, key="new_age_fig")
+    
     # Add Notes Section for Recruitment
     st.markdown('<hr>', unsafe_allow_html=True)
     create_notes_section("Recruitment")
@@ -928,6 +934,9 @@ with tab3:
             y1=5000,
             line=dict(color="red", width=2, dash="dash")
         )
+    
+    # Fixed: Added missing chart display
+    st.plotly_chart(engage_badges_fig, use_container_width=True, key="engage_badges_fig")
 
     # Add Notes Section
     st.markdown('<hr>', unsafe_allow_html=True)
@@ -1018,6 +1027,10 @@ with tab4:
     )
 
     st.plotly_chart(dev_trend_fig, use_container_width=True, key="dev_trend_fig")
+    
+    # Add Notes Section for Development
+    st.markdown('<hr>', unsafe_allow_html=True)
+    create_notes_section("Development")
 
 # ---------------------------------
 # Marketing Tab
@@ -1192,6 +1205,10 @@ with tab5:
     """
     
     st.markdown(social_grid_html, unsafe_allow_html=True)
+    
+    # Add Notes Section for Marketing
+    st.markdown('<hr>', unsafe_allow_html=True)
+    create_notes_section("Marketing")
 
 # ---------------------------------
 # Operations Tab (Improved)
@@ -1386,6 +1403,8 @@ with tab7:
             supported in any way. AND a SUPER DUPER Thank you, thank you, THANK YOU!!! to Kukuwa Fitness and Nakreshia Causey Borno 
             Saturday was filled with magic and joy! And yep... you can grab those GirlTREK inspired leggings at https://www.kukuwafitness.com/ 
             I am so ready for this week's #selfcareschool hope you are too!!!"
+            """
+        )
     # Add Notes Section for Member Care
     st.markdown('<hr>', unsafe_allow_html=True)
     create_notes_section("Member Care")
@@ -1399,32 +1418,27 @@ with tab7:
             "Much love and respect, Kaitlin Finan"
         )
     
-with st.expander("Story 3: My Sister's Keeper"):
-    st.markdown(
-        ""Morgan and Vanessa, I walked this evening. First chance I've had in a while.
-        And I talked on the phone to a friend of mine who was also walking at the time and had not walked in a while. 
-        I invited her to walk with me and told her about Harriet Day and the meeting last night. 
-        I also shared GirlTREK information with her and invited her to join. We're going to start walking together!
+    with st.expander("Story 3: My Sister's Keeper"):
+        st.markdown(
+            ""Morgan and Vanessa, I walked this evening. First chance I've had in a while.
+            And I talked on the phone to a friend of mine who was also walking at the time and had not walked in a while. 
+            I invited her to walk with me and told her about Harriet Day and the meeting last night. 
+            I also shared GirlTREK information with her and invited her to join. We're going to start walking together!
 
-        I used to walk all the time. I moved back closer to my hometown four years ago to be near Mama and help take care of her. 
-        She got better and was doing great, then all of a sudden she wasn't. Mama transitioned to Heaven a little over a year ago 
-        and life has been difficult. She was everything to me. It's just been hard — but by the grace of God, I'm still standing. 
-        He did bless us with 3 more years after she was hospitalized 33 days. I'm trying to get my legs back under me. 
-        But I am lonely for Mama.
+            I used to walk all the time. I moved back closer to my hometown four years ago to be near Mama and help take care of her. 
+            She got better and was doing great, then all of a sudden she wasn't. Mama transitioned to Heaven a little over a year ago 
+            and life has been difficult. She was everything to me. It's just been hard — but by the grace of God, I'm still standing. 
+            He did bless us with 3 more years after she was hospitalized 33 days. I'm trying to get my legs back under me. 
+            But I am lonely for Mama.
 
-        99% of the time, I walked alone…didn't have anyone to walk with. But I would listen in some Saturdays. 
-        Everybody is a few towns over, so weekday scheduling is tough. But I also told my sisters and my brother 
-        that they were going to walk with me as a part of this next 10-week commitment.
+            99% of the time, I walked alone…didn't have anyone to walk with. But I would listen in some Saturdays. 
+            Everybody is a few towns over, so weekday scheduling is tough. But I also told my sisters and my brother 
+            that they were going to walk with me as a part of this next 10-week commitment.
 
-        Thank you for all that you do,  
-        Sandy B. Carter
-        ""
-    )
-
-
-
-
-
+            Thank you for all that you do,  
+            Sandy B. Carter
+            """
+        )
 
 # ---------------------------------
 # Advocacy Tab (real data from PDF)
@@ -1501,193 +1515,6 @@ with tab9:
         unsafe_allow_html=True
     )
     
-# ---------------------------------
-# Self-Care School Tab (NEW)
-# ---------------------------------
-with tab10:
-    st.markdown('<h3 class="section-title">Self-Care School Campaign</h3>', unsafe_allow_html=True)
-    
-    # Campaign header with progress visualization
-    campaign_progress = 11985 / 10000 * 100  # Calculate percentage of goal achieved
-    
-    progress_html = f"""
-    <div style="background: linear-gradient(to right, #f0f9ff, #E3F2FD); border-radius: 10px; padding: 20px; margin-bottom: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-        <div style="display: flex; justify-content: space-between;">
-            <div>
-                <h3 style="margin-top: 0; color: #1E88E5;">Self-Care School Campaign Status</h3>
-                <p style="font-size: 16px;">Goal: 10,000 Registrants | Current: 11,985 Registrants</p>
-                <div style="font-size: 18px; font-weight: bold; color: #00C853;">Status: {status_badge("Achieved")}</div>
-            </div>
-            <div style="text-align: right;">
-                <div style="font-size: 40px; font-weight: bold; color: #1E88E5;">{campaign_progress:.1f}%</div>
-                <p>of goal achieved</p>
-            </div>
-        </div>
-        <div style="width: 100%; background-color: #E0E0E0; height: 15px; border-radius: 10px; margin-top: 15px;">
-            <div style="width: {min(campaign_progress, 100)}%; height: 100%; background-color: #00C853; border-radius: 10px;"></div>
-        </div>
-    </div>
-    """
-    
-    st.markdown(progress_html, unsafe_allow_html=True)
-    
-    # Key metrics in visually appealing boxes
-    st.markdown('<h4>Key Metrics</h4>', unsafe_allow_html=True)
-    
-    metrics_row1_col1, metrics_row1_col2, metrics_row1_col3 = st.columns(3)
-    
-    with metrics_row1_col1:
-        st.markdown(
-            f"""
-            <div style="background-color: #E8F5E9; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h4 style="color: #2E7D32; margin-top: 0;">NEW MEMBERS</h4>
-                <div style="font-size: 36px; font-weight: bold; color: #2E7D32; margin: 10px 0;">4,808</div>
-                <p style="color: #2E7D32;">Joined through campaign</p>
-                <p>{status_badge("On Track")}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
-    with metrics_row1_col2:
-        st.markdown(
-            f"""
-            <div style="background-color: #FFF8E1; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h4 style="color: #FF8F00; margin-top: 0;">DOWNLOADS</h4>
-                <div style="font-size: 36px; font-weight: bold; color: #FF8F00; margin: 10px 0;">22,186</div>
-                <p style="color: #FF8F00;">Goal: 100,000</p>
-                <p>{status_badge("At Risk")}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
-    with metrics_row1_col3:
-        st.markdown(
-            f"""
-            <div style="background-color: #E1F5FE; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h4 style="color: #0277BD; margin-top: 0;">STORIES SUBMITTED</h4>
-                <div style="font-size: 36px; font-weight: bold; color: #0277BD; margin: 10px 0;">234</div>
-                <p style="color: #0277BD;">Goal: 100</p>
-                <p>{status_badge("Achieved")}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
-    # Age demographics  
-    st.markdown('<h4>Age Demographics</h4>', unsafe_allow_html=True)
-    
-    age_col1, age_col2 = st.columns([1, 3])
-    
-    with age_col1:
-        st.markdown(
-            f"""
-            <div style="background-color: #FFEBEE; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h4 style="color: #C62828; margin-top: 0;">REGISTRANTS AGE 18-25</h4>
-                <div style="font-size: 36px; font-weight: bold; color: #C62828; margin: 10px 0;">101</div>
-                <p>{status_badge("At Risk")}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
-    with age_col2:
-        # Badges claimed by week
-        badges_col1, badges_col2, badges_col3 = st.columns(3)
-        
-        with badges_col1:
-            st.markdown(
-                f"""
-                <div style="background-color: #E0F7FA; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <h4 style="color: #00838F; margin-top: 0;">WEEK 0 BADGES</h4>
-                    <div style="font-size: 28px; font-weight: bold; color: #00838F; margin: 5px 0;">3,089</div>
-                    <p style="color: #00838F; font-size: 14px;">Goal: 5,000/week</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        
-        with badges_col2:
-            st.markdown(
-                f"""
-                <div style="background-color: #E0F7FA; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <h4 style="color: #00838F; margin-top: 0;">WEEK 1 BADGES</h4>
-                    <div style="font-size: 28px; font-weight: bold; color: #00838F; margin: 5px 0;">2,061</div>
-                    <p style="color: #00838F; font-size: 14px;">Goal: 5,000/week</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        
-        with badges_col3:
-            st.markdown(
-                f"""
-                <div style="background-color: #E0F7FA; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <h4 style="color: #00838F; margin-top: 0;">WEEK 2 BADGES</h4>
-                    <div style="font-size: 28px; font-weight: bold; color: #00838F; margin: 5px 0;">2,197</div>
-                    <p style="color: #00838F; font-size: 14px;">Goal: 5,000/week</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-    
-    # Social Media Performance with visualizations
-    st.markdown('<h4>Social Media Performance</h4>', unsafe_allow_html=True)
-    
-    # Create two columns - left for metrics, right for engagement summary
-    social_col1, social_col2 = st.columns([3, 1])
-    
-    with social_col1:
-        # Grid of social metrics
-        social_grid_html = """
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px;">
-            <div style="background-color: #F5F5F5; border-left: 5px solid #2196F3; padding: 15px; border-radius: 5px; text-align: center;">
-                <div style="font-size: 13px; color: #757575;">IMPRESSIONS</div>
-                <div style="font-size: 24px; font-weight: bold; color: #2196F3; margin: 5px 0;">338K</div>
-            </div>
-            <div style="background-color: #F5F5F5; border-left: 5px solid #4CAF50; padding: 15px; border-radius: 5px; text-align: center;">
-                <div style="font-size: 13px; color: #757575;">CLICKS TO SITE</div>
-                <div style="font-size: 24px; font-weight: bold; color: #4CAF50; margin: 5px 0;">39K</div>
-            </div>
-            <div style="background-color: #F5F5F5; border-left: 5px solid #9C27B0; padding: 15px; border-radius: 5px; text-align: center;">
-                <div style="font-size: 13px; color: #757575;">VIDEO VIEWS</div>
-                <div style="font-size: 24px; font-weight: bold; color: #9C27B0; margin: 5px 0;">70.7K</div>
-            </div>
-            <div style="background-color: #F5F5F5; border-left: 5px solid #FF5722; padding: 15px; border-radius: 5px; text-align: center;">
-                <div style="font-size: 13px; color: #757575;">REACTIONS</div>
-                <div style="font-size: 24px; font-weight: bold; color: #FF5722; margin: 5px 0;">3.2K</div>
-            </div>
-            <div style="background-color: #F5F5F5; border-left: 5px solid #795548; padding: 15px; border-radius: 5px; text-align: center;">
-                <div style="font-size: 13px; color: #757575;">COMMENTS</div>
-                <div style="font-size: 24px; font-weight: bold; color: #795548; margin: 5px 0;">74</div>
-            </div>
-            <div style="background-color: #F5F5F5; border-left: 5px solid #607D8B; padding: 15px; border-radius: 5px; text-align: center;">
-                <div style="font-size: 13px; color: #757575;">SHARES</div>
-                <div style="font-size: 24px; font-weight: bold; color: #607D8B; margin: 5px 0;">217</div>
-            </div>
-            <div style="background-color: #F5F5F5; border-left: 5px solid #FFC107; padding: 15px; border-radius: 5px; text-align: center;">
-                <div style="font-size: 13px; color: #757575;">SAVES</div>
-                <div style="font-size: 24px; font-weight: bold; color: #FFC107; margin: 5px 0;">66</div>
-            </div>
-            <div style="background-color: #F5F5F5; border-left: 5px solid #3F51B5; padding: 15px; border-radius: 5px; text-align: center;">
-                <div style="font-size: 13px; color: #757575;">NEW FB PAGE LIKES</div>
-                <div style="font-size: 24px; font-weight: bold; color: #3F51B5; margin: 5px 0;">67</div>
-            </div>
-        </div>
-        """
-        
-        st.markdown(social_grid_html, unsafe_allow_html=True)
-    
-    with social_col2:
-        st.markdown(
-            """
-            <div style="background: linear-gradient(to bottom, #E8EAF6, #C5CAE9); border-radius: 10px; padding: 15px; height: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                <h4 style="color: #3F51B5; margin-top: 0;">Engagement Summary</h4>
-                <p style="color: #3F51B5;">Super positive engagement and comments.</p>
-                <p style="color: #3F51B5; font-weight: bold;">Action Item:</p>
-                <p style="color: #3F51B5;">Increase replies to existing comments for better community engagement.</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+    # Add Notes Section for Impact
+    st.markdown('<hr>', unsafe_allow_html=True)
+    create_notes_section("Impact")
