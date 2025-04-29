@@ -41,7 +41,7 @@ def status_badge(status):
     str: HTML for the status badge
     """
     if status == "On Track":
-        return f'<span style="background-color: #4CAF50; color: white; padding: 3px 8px; border-radius: 4px;">On Track</span>'
+        return f'<span style="background-color: #4CAF50; color: white; padding: 3px 8px; border-radius: 4px;"</span>'
     elif status == "At Risk":
         return f'<span style="background-color: #FF9800; color: white; padding: 3px 8px; border-radius: 4px;">At Risk</span>'
     elif status == "Achieved":
