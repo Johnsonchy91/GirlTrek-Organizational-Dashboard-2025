@@ -478,22 +478,22 @@ with tab1:
     
     with col1:
         # New Members by Age - Pie Chart
-        fig_new_age = px.pie(df_new_age, values='New Members', names='Age Group', 
+        exec_fig_new_age = px.pie(df_new_age, values='New Members', names='Age Group', 
                             title='New Members by Age Group',
                             color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
                                                     secondary_pink, secondary_purple, secondary_green])
-        fig_new_age.update_traces(textposition='inside', textinfo='percent+label')
-        fig_new_age.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(fig_new_age, use_container_width=True)
+        exec_fig_new_age.update_traces(textposition='inside', textinfo='percent+label')
+        exec_fig_new_age.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(exec_fig_new_age, use_container_width=True)
     
     with col2:
         # Total Membership by Age - Bar Chart
-        fig_total_age = px.bar(df_total_age, x='Age Group', y='Members',
+        exec_fig_total_age = px.bar(df_total_age, x='Age Group', y='Members',
                             title='Total Membership by Age Group',
                             color='Members',
                             color_continuous_scale=[secondary_purple, primary_blue, secondary_pink])
-        fig_total_age.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(fig_total_age, use_container_width=True)
+        exec_fig_total_age.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(exec_fig_total_age, use_container_width=True)
     
     # Create bar chart for new member growth 
     exec_fig_months = px.bar(df_extended, x='Month', y='New Members', 
@@ -547,21 +547,21 @@ with tab1:
     
     with geo_col1:
         # Top 5 States
-        fig_states = px.bar(df_states, x='State', y='Members',
+        exec_fig_states = px.bar(df_states, x='State', y='Members',
                          title='Membership by Top 5 States',
                          color='Members',
                          color_continuous_scale=[secondary_blue, primary_blue])
-        fig_states.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(fig_states, use_container_width=True)
+        exec_fig_states.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(exec_fig_states, use_container_width=True)
     
     with geo_col2:
         # Top 5 Cities
-        fig_cities = px.bar(df_cities, x='City', y='Members',
+        exec_fig_cities = px.bar(df_cities, x='City', y='Members',
                          title='Membership by Top 5 Cities',
                          color='Members',
                          color_continuous_scale=[secondary_teal, primary_orange])
-        fig_cities.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(fig_cities, use_container_width=True)
+        exec_fig_cities.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(exec_fig_cities, use_container_width=True)
     
     # Download button for this tab
     report_df = pd.DataFrame({
@@ -669,13 +669,13 @@ with tab2:
     
     with col2:
         # New members by age
-        fig_new_age = px.pie(df_new_age, values='New Members', names='Age Group', 
+        recruit_fig_new_age = px.pie(df_new_age, values='New Members', names='Age Group', 
                          title='New Members by Age Group',
                          color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
                                                 secondary_pink, secondary_purple, secondary_green])
-        fig_new_age.update_traces(textposition='inside', textinfo='percent+label')
-        fig_new_age.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(fig_new_age, use_container_width=True)
+        recruit_fig_new_age.update_traces(textposition='inside', textinfo='percent+label')
+        recruit_fig_new_age.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(recruit_fig_new_age, use_container_width=True)
     
     # Membership by top states and cities
     st.markdown('<h4>Membership Distribution</h4>', unsafe_allow_html=True)
@@ -685,32 +685,32 @@ with tab2:
     with dist_col1:
         st.markdown("<h5>Top 5 States</h5>", unsafe_allow_html=True)
         
-        fig_states = px.bar(df_states, x='State', y='Members',
+        recruit_fig_states = px.bar(df_states, x='State', y='Members',
                          title='Membership by Top 5 States',
                          color='Members',
                          color_continuous_scale=[secondary_blue, primary_blue])
-        fig_states.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(fig_states, use_container_width=True)
+        recruit_fig_states.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(recruit_fig_states, use_container_width=True)
     
     with dist_col2:
         st.markdown("<h5>Top 5 Cities</h5>", unsafe_allow_html=True)
         
-        fig_cities = px.bar(df_cities, x='City', y='Members',
+        recruit_fig_cities = px.bar(df_cities, x='City', y='Members',
                          title='Membership by Top 5 Cities',
                          color='Members',
                          color_continuous_scale=[secondary_teal, primary_orange])
-        fig_cities.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(fig_cities, use_container_width=True)
+        recruit_fig_cities.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(recruit_fig_cities, use_container_width=True)
     
     # Total membership by age
     st.markdown('<h4>Total Membership by Age</h4>', unsafe_allow_html=True)
     
-    fig_total_age = px.bar(df_total_age, x='Age Group', y='Members',
+    recruit_fig_total_age = px.bar(df_total_age, x='Age Group', y='Members',
                        title='Total Membership by Age Group',
                        color='Members',
                        color_continuous_scale=[secondary_purple, primary_blue, secondary_pink])
-    fig_total_age.update_layout(title_font=dict(color=primary_blue))
-    st.plotly_chart(fig_total_age, use_container_width=True)
+    recruit_fig_total_age.update_layout(title_font=dict(color=primary_blue))
+    st.plotly_chart(recruit_fig_total_age, use_container_width=True)
     
     # Download button for this tab
     st.markdown("### Download Recruitment Data")
