@@ -703,67 +703,94 @@ with tab5:
     )
 
 # ---------------------------------
-# Operations Tab (Updated with real data)
+# Operations Tab (Improved)
 # ---------------------------------
 with tab6:
     st.markdown('<h3 class="section-title">Operations Metrics</h3>', unsafe_allow_html=True)
 
-    ops_col1, ops_col2, ops_col3 = st.columns(3)
+    # --- Budget Breakdown ---
+    st.markdown('<h4>Budget Performance</h4>', unsafe_allow_html=True)
+
+    ops_col1, ops_col2 = st.columns(2)
 
     with ops_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL EXPENSES</p>'
-            f'<p class="metric-value">Unknown</p>'
-            f'</div>',
-            unsafe_allow_html=True
+        budget_fig = px.bar(
+            budget_data,
+            x='Category',
+            y=['Budget', 'Actual'],
+            barmode='group',
+            title='Budget vs Actual Spending',
+            color_discrete_sequence=[primary_blue, primary_orange]
         )
+        budget_fig.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(budget_fig, use_container_width=True, key="budget_fig")
 
     with ops_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">EARNED REVENUE (STORE SALES)</p>'
-            f'<p class="metric-value">Unknown</p>'
-            f'<p>Goal: $400,000</p>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
+        for i, row in budget_data.iterrows():
+            percent = row['Percent']
+            category = row['Category']
+            actual = format_currency(row['Actual'])
+            goal = format_currency(row['Budget'])
 
-    with ops_col3:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">AUDIT COMPLIANCE</p>'
-            f'<p class="metric-value">Unknown</p>'
-            f'<p>Goal: 100%</p>'
-            f'</div>',
-            unsafe_allow_html=True
-        )
+            if percent >= 90:
+                bar_color = achieved_green
+                status = "On Track"
+            else:
+                bar_color = primary_orange
+                status = "At Risk"
 
-    ops2_col1, ops2_col2 = st.columns(2)
+            st.markdown(f"""
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong>{category}</strong> 
+                        <span>{actual} / {goal} ({percent}%) - {status_badge(status)}</span>
+                    </div>
+                    <div style="width: 100%; background-color: #f0f2f5; height: 12px; border-radius: 6px;">
+                        <div style="width: {percent}%; height: 100%; background-color: {bar_color}; border-radius: 6px;"></div>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
 
-    with ops2_col1:
+    # --- System Performance ---
+    st.markdown('<h4>Systems Performance</h4>', unsafe_allow_html=True)
+
+    sys_col1, sys_col2, sys_col3 = st.columns(3)
+
+    with sys_col1:
         st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">ASANA ADOPTION</p>'
-            f'<p class="metric-value">38%</p>'
+            f'<div style="background-color:{secondary_beige}; padding:20px; border-radius:10px;">'
+            f'<h5 style="color:{secondary_gray};">Asana Adoption</h5>'
+            f'<h2 style="color:{primary_blue};">38%</h2>'
             f'<p>Goal: 85%</p>'
-            f'<p>{status_badge("At Risk")}</p>'
+            f'{status_badge("At Risk")}'
             f'</div>',
             unsafe_allow_html=True
         )
 
-    with ops2_col2:
+    with sys_col2:
         st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">CYBER SECURITY COMPLIANCE</p>'
-            f'<p class="metric-value">Unknown</p>'
-            f'<p>Goal: 90%</p>'
+            f'<div style="background-color:{secondary_beige}; padding:20px; border-radius:10px;">'
+            f'<h5 style="color:{secondary_gray};">Audit Compliance</h5>'
+            f'<h2 style="color:{secondary_gray};">Pending</h2>'
+            f'<p>Goal: 100%</p>'
+            f'{status_badge("Off Track")}'
             f'</div>',
             unsafe_allow_html=True
         )
 
-    # Financial Trends 
-    st.markdown('<h3>Financial Trends</h3>', unsafe_allow_html=True)
+    with sys_col3:
+        st.markdown(
+            f'<div style="background-color:{secondary_beige}; padding:20px; border-radius:10px;">'
+            f'<h5 style="color:{secondary_gray};">Cybersecurity Compliance</h5>'
+            f'<h2 style="color:{secondary_gray};">Pending</h2>'
+            f'<p>Goal: 90%</p>'
+            f'{status_badge("Off Track")}'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # --- Financial Trends (reusing your finance trend data) ---
+    st.markdown('<h4>Financial Trends Overview</h4>', unsafe_allow_html=True)
 
     ops_trend_fig = go.Figure()
 
@@ -790,14 +817,15 @@ with tab6:
     ))
 
     ops_trend_fig.update_layout(
-        title='Financial Trends',
+        title='Revenue vs Expenses vs Donations',
         xaxis_title='Month',
-        yaxis_title='Amount ($)',
+        yaxis_title='USD ($)',
         title_font=dict(color=primary_blue),
-        height=400
+        height=400,
+        legend_title_text='Financial Lines'
     )
 
-    st.plotly_chart(ops_trend_fig, use_container_width=True, key="ops_trend_fig")
+    st.plotly_chart(ops_trend_fig, use_container_width=True, key="ops_trend_fig_updated")
 
 # ---------------------------------
 # Member Care Tab (real data from PDF)
