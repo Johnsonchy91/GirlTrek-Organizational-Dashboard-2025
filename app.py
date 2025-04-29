@@ -199,12 +199,15 @@ def apply_dark_mode(dark_mode_enabled):
             unsafe_allow_html=True
         )
 
+# Define sidebar settings early so they're available throughout the app
+# Apply dark mode settings as defined earlier in the sidebar
+
 # Create session state for storing data and filters
 if 'data_loaded' not in st.session_state:
     st.session_state.data_loaded = False
 
 if 'total_membership' not in st.session_state:
-    # Load initial data
+    # Load initial data from real data in the document
     st.session_state.total_membership = 1240394
     st.session_state.new_members = 11356
     st.session_state.total_contributions = 3061104.78
@@ -212,8 +215,6 @@ if 'total_membership' not in st.session_state:
     
     # Set data_loaded to True
     st.session_state.data_loaded = True
-
-# Sidebar - Dashboard download section only 
 st.sidebar.markdown("### Download Dashboard")
 download_options = [
     "Executive Summary", 
@@ -245,7 +246,7 @@ st.title("GirlTREK Organizational Dashboard")
 st.markdown("### Q2 2025 Metrics Overview")
 st.markdown("*Data dashboard was published on April 25, 2025*")
 
-# Sample data for charts and visualizations (consolidated to avoid duplication)
+# Real data for charts and visualizations from the document
 # ----- Monthly new members data -----
 extended_month_data = {
     'Month': ['Jan-Sep 2024', 'Oct 2024', 'Nov 2024', 'Dec 2024', 'Jan 2025', 'Feb 2025', 'Mar 2025', 'Apr 2025'],
@@ -260,10 +261,10 @@ extended_month_data = {
         datetime(2025, 3, 1), 
         datetime(2025, 4, 1)
     ]
- }
+}
 df_extended = pd.DataFrame(extended_month_data)
 
-# ----- Age group distribution data -----
+# ----- Age group distribution data (using real data from document) -----
 new_age_data = {
     'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown'],
     'New Members': [86, 477, 1771, 2163, 1898, 4961]
@@ -276,7 +277,7 @@ total_age_data = {
 }
 df_total_age = pd.DataFrame(total_age_data)
 
-# ----- Geographic distribution data -----
+# ----- Geographic distribution data (using real data from document) -----
 states_data = {
     'State': ['Texas', 'Georgia', 'California', 'New York', 'Florida'],
     'Members': [91101, 86968, 80328, 68538, 66135],
@@ -291,7 +292,7 @@ cities_data = {
 }
 df_cities = pd.DataFrame(cities_data)
 
-# ----- Financial data -----
+# ----- Financial data (using real data from document) -----
 finance_data = {
     'Category': ['Donations', 'Grants', 'Corporate Sponsorships', 'Store Sales', 'Other Revenue'],
     'Amount': [1094048.68, 600000, 750000, 25000, 125000]
@@ -470,7 +471,31 @@ with tab1:
             unsafe_allow_html=True
         )
     
-    # Create bar chart instead of line chart for Membership Growth
+    # Add Membership by Age graphs to Executive Summary
+    st.markdown('<h3>Membership Distribution</h3>', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # New Members by Age - Pie Chart
+        fig_new_age = px.pie(df_new_age, values='New Members', names='Age Group', 
+                            title='New Members by Age Group',
+                            color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
+                                                    secondary_pink, secondary_purple, secondary_green])
+        fig_new_age.update_traces(textposition='inside', textinfo='percent+label')
+        fig_new_age.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(fig_new_age, use_container_width=True)
+    
+    with col2:
+        # Total Membership by Age - Bar Chart
+        fig_total_age = px.bar(df_total_age, x='Age Group', y='Members',
+                            title='Total Membership by Age Group',
+                            color='Members',
+                            color_continuous_scale=[secondary_purple, primary_blue, secondary_pink])
+        fig_total_age.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(fig_total_age, use_container_width=True)
+    
+    # New member growth chart (bar chart)
     fig_months = px.bar(df_extended, x='Month', y='New Members', 
                       title='New Member Contacts (2024-2025)',
                       color='New Members',
@@ -516,6 +541,27 @@ with tab1:
     )
     
     st.plotly_chart(fig_months, use_container_width=True)
+    
+    # Geographic Distribution in Executive Summary
+    geo_col1, geo_col2 = st.columns(2)
+    
+    with geo_col1:
+        # Top 5 States
+        fig_states = px.bar(df_states, x='State', y='Members',
+                         title='Membership by Top 5 States',
+                         color='Members',
+                         color_continuous_scale=[secondary_blue, primary_blue])
+        fig_states.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(fig_states, use_container_width=True)
+    
+    with geo_col2:
+        # Top 5 Cities
+        fig_cities = px.bar(df_cities, x='City', y='Members',
+                         title='Membership by Top 5 Cities',
+                         color='Members',
+                         color_continuous_scale=[secondary_teal, primary_orange])
+        fig_cities.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(fig_cities, use_container_width=True)
     
     # Download button for this tab
     report_df = pd.DataFrame({
@@ -671,7 +717,7 @@ with tab2:
     
     # Combine dataframes for download
     recruitment_data = {
-        "Monthly New Members": df_months,
+        "Monthly New Members": df_extended,
         "New Members by Age": df_new_age,
         "Members by State": df_states,
         "Members by City": df_cities,
