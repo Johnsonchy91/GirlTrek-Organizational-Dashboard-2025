@@ -78,32 +78,44 @@ def apply_dark_mode(dark_mode_enabled):
             f"""
             <style>
             .reportview-container .main .block-container {{
-                background-color: {dark_bg};
-                color: {dark_text};
+                background-color: #000000;
+                color: #FFFFFF;
+            }}
+            .stApp {{
+                background-color: #000000;
             }}
             h1, h2, h3, h4, h5, h6 {{
-                color: {dark_text} !important;
+                color: #FFFFFF !important;
+            }}
+            p {{
+                color: #FFFFFF;
             }}
             .metric-box {{
-                background-color: {dark_card_bg};
-                color: {dark_text};
+                background-color: #1E1E1E;
+                color: #FFFFFF;
                 border-radius: 10px;
                 padding: 20px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
                 margin-bottom: 20px;
                 text-align: center;
+                border-left: 5px solid #0088FF;
             }}
             .metric-title {{
                 font-size: 16px;
                 font-weight: bold;
                 margin-bottom: 10px;
-                color: {dark_secondary_text};
+                color: #BBBBBB;
             }}
             .metric-value {{
                 font-size: 24px;
                 font-weight: bold;
                 margin-bottom: 10px;
-                color: {dark_text};
+                color: #FFFFFF;
+            }}
+            .section-title {{
+                color: #FFFFFF;
+                padding-bottom: 10px;
+                border-bottom: 2px solid #FF7043;
             }}
             </style>
             """,
@@ -151,7 +163,7 @@ if 'data_loaded' not in st.session_state:
 if 'total_membership' not in st.session_state:
     st.session_state.total_membership = 1240394
     st.session_state.new_members = 11356
-    st.session_state.total_contributions = 3061104.78
+    st.session_state.total_contributions = 1094048.68
     st.session_state.total_grants = 3055250
     st.session_state.data_loaded = True
 
@@ -292,7 +304,7 @@ advocacy_data = pd.DataFrame({
 
 
 # Create Tabs
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
     "Executive Summary",
     "Recruitment",
     "Engagement",
@@ -301,7 +313,8 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
     "Operations",
     "Member Care",
     "Advocacy",
-    "Impact"
+    "Impact",
+    "Self-Care School"
 ])
 
 # ---------------------------------
@@ -331,7 +344,7 @@ with tab1:
             f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
             f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
             f'<p>Goal: 100,000</p>'
-            f'<p>{status_badge("At Risk")}</p>'
+            f'<p>{status_badge("On Track")}</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -341,7 +354,7 @@ with tab1:
             f'<div class="metric-box">'
             f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
             f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
-            f'<p>Goal: $8,000,000</p>'
+            f'<p>Goal: $10,000,000</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>',
             unsafe_allow_html=True
@@ -517,7 +530,7 @@ with tab2:
         st.markdown(
             f'<div class="metric-box">'
             f'<p class="metric-title">NEW MEMBERS AGE 18-30</p>'
-            f'<p class="metric-value">{format_number(new_members_18_30)}</p>'
+            f'<p class="metric-value">300</p>'
             f'<p>Goal: 50,000</p>'
             f'<p>{status_badge("At Risk")}</p>'
             f'</div>',
@@ -528,9 +541,9 @@ with tab2:
         st.markdown(
             f'<div class="metric-box">'
             f'<p class="metric-title">TOTAL RECRUITMENT PARTNERSHIPS</p>'
-            f'<p class="metric-value">2</p>'
-            f'<p>Goal: 20</p>'
-            f'<p>{status_badge("At Risk")}</p>'
+            f'<p class="metric-value">0</p>'
+            f'<p>Goal: 100</p>'
+            f'<p>{status_badge("On Track")}</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -568,6 +581,8 @@ with tab3:
             f'<div class="metric-box">'
             f'<p class="metric-title">MEMBERS WALKING DAILY</p>'
             f'<p class="metric-value">4,788</p>'
+            f'<p>Goal: 50,000</p>'
+            f'<p>{status_badge("At Risk")}</p>'
             f'</div>',
             unsafe_allow_html=True
         )
@@ -576,7 +591,7 @@ with tab3:
         df_badges,
         x='Week',
         y='Badges Claimed',
-        title='Badges Claimed by Week',
+        title='Badges Claimed by Week (Goal: 5,000/week)',
         color='Badges Claimed',
         color_continuous_scale=[secondary_green, primary_blue, secondary_purple]
     )
@@ -593,6 +608,39 @@ with tab3:
         )
 
     st.plotly_chart(engage_badges_fig, use_container_width=True, key="engage_badges_fig")
+    
+    # Additional engagement metrics
+    st.markdown('<h3>Engagement Metrics</h3>', unsafe_allow_html=True)
+    
+    eng_col1, eng_col2, eng_col3 = st.columns(3)
+    
+    with eng_col1:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">ACTIVE VOLUNTEERS</p>'
+            f'<p class="metric-value">3,348</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with eng_col2:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">DOCUMENTED CREW LEADERS</p>'
+            f'<p class="metric-value">3,732</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with eng_col3:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">ACTIVE CREW LEADERS</p>'
+            f'<p class="metric-value">1,846</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
 
 # ---------------------------------
 # Development Tab
@@ -607,6 +655,7 @@ with tab4:
             f'<div class="metric-box">'
             f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
             f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
+            f'<p>Goal: $10M</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>',
             unsafe_allow_html=True
@@ -617,6 +666,7 @@ with tab4:
             f'<div class="metric-box">'
             f'<p class="metric-title">TOTAL GRANTS</p>'
             f'<p class="metric-value">{format_currency(st.session_state.total_grants)}</p>'
+            f'<p>Count: 12/48</p>'
             f'<p>{status_badge("On Track")}</p>'
             f'</div>',
             unsafe_allow_html=True
@@ -627,6 +677,7 @@ with tab4:
             f'<div class="metric-box">'
             f'<p class="metric-title">CORPORATE SPONSORSHIPS</p>'
             f'<p class="metric-value">$130,000</p>'
+            f'<p>Goal: $1.5M (6/20 sponsors)</p>'
             f'<p>{status_badge("At Risk")}</p>'
             f'</div>',
             unsafe_allow_html=True
@@ -968,10 +1019,21 @@ with tab8:
 with tab9:
     st.markdown('<h3 class="section-title">Impact Metrics</h3>', unsafe_allow_html=True)
 
+    # Create a highlighted notification banner
     st.markdown(
         """
-        <p>GirlTREK's community health impact reporting will be updated following Self-Care School 2025 outcomes.</p>
-        <p>Metrics to be reported post Self-Care School 2025:</p>
+        <div style="background-color: #FFE082; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid #FFC107;">
+            <h4 style="color: #5D4037; margin-top: 0;">Important Notice</h4>
+            <p style="color: #5D4037; font-size: 16px;"><strong>GirlTREK's community health impact reporting will be updated following Self-Care School 2025 outcomes.</strong></p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown("<h4>Upcoming Impact Metrics</h4>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        <p>The following metrics will be reported post Self-Care School 2025:</p>
         <ul>
             <li>Women who have reported a change in health knowledge</li>
             <li>Changes in self-reported mental well-being</li>
@@ -981,6 +1043,161 @@ with tab9:
             <li>% of participants reporting reduced medication dependency</li>
             <li>% of participants reporting fewer symptoms of depression or anxiety</li>
         </ul>
+        """,
+        unsafe_allow_html=True
+    )
+    
+# ---------------------------------
+# Self-Care School Tab (NEW)
+# ---------------------------------
+with tab10:
+    st.markdown('<h3 class="section-title">Self-Care School Campaign</h3>', unsafe_allow_html=True)
+    
+    scs_col1, scs_col2, scs_col3 = st.columns(3)
+    
+    with scs_col1:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">TOTAL REGISTRANTS</p>'
+            f'<p class="metric-value">11,985</p>'
+            f'<p>Goal: 10,000</p>'
+            f'<p>{status_badge("Achieved")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with scs_col2:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">NEW MEMBERS FROM CAMPAIGN</p>'
+            f'<p class="metric-value">4,808</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with scs_col3:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">DOWNLOADS</p>'
+            f'<p class="metric-value">22,186</p>'
+            f'<p>Goal: 100,000</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    # Age Demographics
+    st.markdown('<h3>Demographic & Engagement Data</h3>', unsafe_allow_html=True)
+    
+    age_demo_col1, age_demo_col2 = st.columns(2)
+    
+    with age_demo_col1:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">REGISTRANTS AGE 18-25</p>'
+            f'<p class="metric-value">101</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with age_demo_col2:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">STORIES SUBMITTED</p>'
+            f'<p class="metric-value">234</p>'
+            f'<p>Goal: 100</p>'
+            f'<p>{status_badge("Achieved")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    # Marketing metrics
+    st.markdown('<h3>Marketing & Social Media Performance</h3>', unsafe_allow_html=True)
+    
+    social_col1, social_col2, social_col3, social_col4 = st.columns(4)
+    
+    with social_col1:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">IMPRESSIONS</p>'
+            f'<p class="metric-value">338K</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with social_col2:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">CLICKS TO SITE</p>'
+            f'<p class="metric-value">39K</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with social_col3:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">VIDEO VIEWS</p>'
+            f'<p class="metric-value">70.7K</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with social_col4:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">REACTIONS</p>'
+            f'<p class="metric-value">3.2K</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    engagement_col1, engagement_col2, engagement_col3, engagement_col4 = st.columns(4)
+    
+    with engagement_col1:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">COMMENTS</p>'
+            f'<p class="metric-value">74</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with engagement_col2:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">SHARES</p>'
+            f'<p class="metric-value">217</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with engagement_col3:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">SAVES</p>'
+            f'<p class="metric-value">66</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    with engagement_col4:
+        st.markdown(
+            f'<div class="metric-box">'
+            f'<p class="metric-title">NEW FB PAGE LIKES</p>'
+            f'<p class="metric-value">67</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+    
+    # Engagement summary
+    st.markdown(
+        """
+        <div style="background-color: #f7f7f7; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <p><strong>Engagement Summary:</strong> Super positive engagement and comments. Need to increase replies to existing comments for better community engagement.</p>
+        </div>
         """,
         unsafe_allow_html=True
     )
