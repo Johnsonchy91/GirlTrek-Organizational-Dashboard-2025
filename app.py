@@ -7,6 +7,15 @@ from datetime import datetime
 import base64
 import re
 import uuid
+import io
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
+from reportlab.lib.units import inch
+from reportlab.graphics.shapes import Drawing
+from reportlab.graphics.charts.piecharts import Pie
+from reportlab.graphics.charts.barcharts import VerticalBarChart
 
 # Color Scheme
 primary_blue = "#0088FF"
@@ -28,6 +37,461 @@ dark_bg = "#121212"
 dark_card_bg = "#1E1E1E"
 dark_text = "#FFFFFF"
 dark_secondary_text = "#BBBBBB"
+
+# PDF Generation Function
+def generate_pdf(section_name, dark_mode=False):
+    """Generate a PDF report for the selected dashboard section"""
+    
+    # Buffer to store the PDF
+    buffer = io.BytesIO()
+    
+    # Set PDF styling based on dark mode
+    if dark_mode:
+        background_color = colors.HexColor('#121212')
+        text_color = colors.white
+        accent_color = colors.HexColor('#0088FF')
+    else:
+        background_color = colors.white
+        text_color = colors.black
+        accent_color = colors.HexColor('#0088FF')
+    
+    # Create PDF document
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=letter,
+        rightMargin=72,
+        leftMargin=72,
+        topMargin=72,
+        bottomMargin=72
+    )
+    
+    # Define styles
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(
+        'Title',
+        parent=styles['Title'],
+        textColor=accent_color,
+        spaceAfter=12
+    )
+    heading_style = ParagraphStyle(
+        'Heading',
+        parent=styles['Heading1'],
+        textColor=accent_color,
+        spaceAfter=10
+    )
+    normal_style = ParagraphStyle(
+        'Normal',
+        parent=styles['Normal'],
+        textColor=text_color,
+        spaceAfter=6
+    )
+    
+    # Create document elements
+    elements = []
+    
+    # Dashboard title and date
+    elements.append(Paragraph(f"GirlTREK Organizational Dashboard", title_style))
+    elements.append(Paragraph(f"Q2 2025 Metrics Overview - {section_name}", heading_style))
+    elements.append(Paragraph(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", normal_style))
+    elements.append(Spacer(1, 0.25*inch))
+    
+    # Add section-specific content
+    if section_name == "Executive Summary":
+        elements.append(Paragraph("Key Metrics", heading_style))
+        
+        # Key metrics table
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["Total Membership", f"{format_number(st.session_state.total_membership)}", "2,000,000", "On Track"],
+            ["Total New Members", f"{format_number(st.session_state.new_members)}", "100,000", "On Track"],
+            ["Total Contributions", f"{format_currency(st.session_state.total_contributions)}", "$10,000,000", "On Track"]
+        ]
+        
+        t = Table(data, colWidths=[2*inch, 1.5*inch, 1.5*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Report Card Progress
+        elements.append(Paragraph("Report Card Progress", heading_style))
+        report_data = [
+            ["Goal", "Current Total", "Percent Progress", "Status"],
+            ["Recruit 100,000 new members", "11,356", "11%", "On Track"],
+            ["Engage 250,000 members", "11,769", "5%", "On Track"],
+            ["Support 65,000 walking daily", "4,858", "7%", "At Risk"],
+            ["Unite 20 advocacy partners", "2", "10%", "At Risk"],
+            ["Raise $10M", "3,061,104.78", "31%", "On Track"],
+            ["Establish Care Village", "2,869", "7%", "At Risk"],
+            ["Achieve 85% organizational health", "Pending", "Pending", "Pending"]
+        ]
+        
+        t2 = Table(report_data, colWidths=[2.5*inch, 1.5*inch, 1*inch, 1*inch])
+        t2.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('BACKGROUND', (3, 1), (3, 1), colors.green),
+            ('BACKGROUND', (3, 2), (3, 2), colors.green),
+            ('BACKGROUND', (3, 3), (3, 3), colors.orange),
+            ('BACKGROUND', (3, 4), (3, 4), colors.orange),
+            ('BACKGROUND', (3, 5), (3, 5), colors.green),
+            ('BACKGROUND', (3, 6), (3, 6), colors.orange),
+            ('TEXTCOLOR', (3, 1), (3, 6), colors.white),
+        ]))
+        elements.append(t2)
+        
+    elif section_name == "Recruitment":
+        elements.append(Paragraph("Recruitment Metrics", heading_style))
+        
+        # Recruitment metrics table
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["Total New Members", f"{format_number(st.session_state.new_members)}", "100,000", "On Track"],
+            ["New Members Age 18-30", "300", "50,000", "At Risk"],
+            ["Total Recruitment Partnerships", "0", "100", "On Track"]
+        ]
+        
+        t = Table(data, colWidths=[2*inch, 1.5*inch, 1.5*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Add new members by age group
+        elements.append(Paragraph("New Members by Age Group", heading_style))
+        elements.append(Paragraph("18 to 24: 86 members", normal_style))
+        elements.append(Paragraph("25 to 34: 477 members", normal_style))
+        elements.append(Paragraph("35 to 49: 1,771 members", normal_style))
+        elements.append(Paragraph("50 to 64: 2,163 members", normal_style))
+        elements.append(Paragraph("65+: 1,898 members", normal_style))
+        elements.append(Paragraph("Unknown: 4,961 members", normal_style))
+                
+    elif section_name == "Development":
+        elements.append(Paragraph("Development Metrics", heading_style))
+        
+        # Development metrics table
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["Total Contributions", f"{format_currency(st.session_state.total_contributions)}", "$10,000,000", "On Track"],
+            ["Total Grants", f"{format_currency(st.session_state.total_grants)}", "48 grants", "On Track"],
+            ["Corporate Sponsorships", "$130,000", "$1,500,000", "At Risk"]
+        ]
+        
+        t = Table(data, colWidths=[2*inch, 1.5*inch, 1.5*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Revenue breakdown
+        elements.append(Paragraph("Revenue Distribution", heading_style))
+        elements.append(Paragraph("Donations: $1,094,048.68", normal_style))
+        elements.append(Paragraph("Grants: $3,055,250.00", normal_style))
+        elements.append(Paragraph("Corporate Sponsorships: $130,000.00", normal_style))
+        elements.append(Paragraph("Store Sales: $25,000.00", normal_style))
+        elements.append(Paragraph("Other Revenue: $125,000.00", normal_style))
+        
+    elif section_name == "Engagement":
+        elements.append(Paragraph("Engagement Metrics", heading_style))
+        
+        # Engagement metrics table
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["Total New Crews (2025)", "603", "-", "-"],
+            ["Members Walking Daily", "4,788", "50,000", "At Risk"],
+            ["Active Volunteers", "3,348", "-", "-"],
+            ["Documented Crew Leaders", "3,732", "-", "-"],
+            ["Active Crew Leaders", "1,846", "-", "On Track"]
+        ]
+        
+        t = Table(data, colWidths=[2*inch, 1.5*inch, 1*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Self-Care School Campaign
+        elements.append(Paragraph("Self-Care School Campaign", heading_style))
+        elements.append(Paragraph("Goal: 10,000 Registrants | Current: 11,985 Registrants", normal_style))
+        elements.append(Paragraph("Status: Achieved (119.9% of goal)", normal_style))
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Campaign Metrics
+        elements.append(Paragraph("Campaign Metrics", heading_style))
+        elements.append(Paragraph("New Members: 4,808", normal_style))
+        elements.append(Paragraph("Downloads: 22,186 (Goal: 100,000)", normal_style))
+        elements.append(Paragraph("Stories Submitted: 234 (Goal: 100)", normal_style))
+        elements.append(Paragraph("Registrants Age 18-25: 101", normal_style))
+        
+    elif section_name == "Marketing":
+        elements.append(Paragraph("Marketing Metrics", heading_style))
+        
+        # Marketing metrics table
+        data = [
+            ["Metric", "Current Value", "Goal/Percentage"],
+            ["Total Subscribers", "931,141", "Goal: 1,300,000"],
+            ["Active Subscribers", "297,283", "31.9% of Total"]
+        ]
+        
+        t = Table(data, colWidths=[2*inch, 1.5*inch, 2*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Social Media Following
+        elements.append(Paragraph("Social Media Following", heading_style))
+        elements.append(Paragraph("Facebook: 382,000 Followers", normal_style))
+        elements.append(Paragraph("Instagram: 194,041 Followers", normal_style))
+        elements.append(Paragraph("LinkedIn: 5,034 Followers", normal_style))
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Self-Care School Social Media Performance
+        elements.append(Paragraph("Self-Care School Social Media Performance", heading_style))
+        elements.append(Paragraph("Impressions: 338K", normal_style))
+        elements.append(Paragraph("Clicks to Site: 39K", normal_style))
+        elements.append(Paragraph("Video Views: 70.7K", normal_style))
+        elements.append(Paragraph("Reactions: 3.2K", normal_style))
+        elements.append(Paragraph("Comments: 74", normal_style))
+        elements.append(Paragraph("Shares: 217", normal_style))
+        elements.append(Paragraph("Saves: 66", normal_style))
+        elements.append(Paragraph("New FB Page Likes: 67", normal_style))
+        
+    elif section_name == "Operations":
+        elements.append(Paragraph("Operations Metrics", heading_style))
+        
+        # Systems Performance metrics
+        elements.append(Paragraph("Systems Performance", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["ASANA Adoption", "38%", "85%", "At Risk"],
+            ["Audit Compliance", "Pending", "100%", "Off Track"],
+            ["Cybersecurity Compliance", "Pending", "90%", "Off Track"]
+        ]
+        
+        t = Table(data, colWidths=[2*inch, 1.5*inch, 1*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Budget Performance
+        elements.append(Paragraph("Budget Performance", heading_style))
+        elements.append(Paragraph("Note: All financial data is dummy data for presentation purposes only.", normal_style))
+        elements.append(Spacer(1, 0.1*inch))
+        
+        budget_data = [
+            ["Category", "Budget", "Actual", "Percent"],
+            ["Personnel", "$2,100,000", "$1,950,000", "92.9%"],
+            ["Technology", "$850,000", "$790,000", "92.9%"],
+            ["Facilities", "$320,000", "$295,000", "92.2%"],
+            ["Marketing", "$750,000", "$710,000", "94.7%"],
+            ["Programs", "$1,200,000", "$1,050,000", "87.5%"],
+            ["Admin", "$280,000", "$265,000", "94.6%"]
+        ]
+        
+        t2 = Table(budget_data, colWidths=[1.5*inch, 1.5*inch, 1.5*inch, 1*inch])
+        t2.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t2)
+        
+    elif section_name == "Member Care":
+        elements.append(Paragraph("Member Care Metrics", heading_style))
+        
+        # Member Care metrics table
+        data = [
+            ["Metric", "Current Value", "Goal"],
+            ["Member Satisfaction Rating", "95%", "85%"],
+            ["Resolution/Responsiveness Rate", "2 hours", "48 hours"]
+        ]
+        
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1.5*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Top Member Issues
+        elements.append(Paragraph("Top Member Issues/Concerns", heading_style))
+        elements.append(Paragraph("- The App & Join the Movement", normal_style))
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Inspirational Stories (summary)
+        elements.append(Paragraph("Inspirational Stories", heading_style))
+        elements.append(Paragraph("The dashboard contains three inspirational stories: Crew Leader Nicole Crooks and the South Florida crew, Amazing Ted Talk used in class, and My Sister's Keeper. See the interactive dashboard for the full stories.", normal_style))
+        
+    elif section_name == "Advocacy":
+        elements.append(Paragraph("Advocacy Metrics", heading_style))
+        
+        # Advocacy metrics table
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["Advocacy Briefs Published", "4", "10", "On Track"],
+            ["Advocacy Partnerships", "2", "20", "On Track"]
+        ]
+        
+        t = Table(data, colWidths=[2*inch, 1.5*inch, 1*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Current Focus Areas
+        elements.append(Paragraph("Current Focus Areas", heading_style))
+        elements.append(Paragraph("- Produce advocacy briefs establishing research basis for why each J&J agenda item leads to an increase in Black women's life expectancy", normal_style))
+        elements.append(Paragraph("- Uplift best-in-class organizations", normal_style))
+        elements.append(Paragraph("- Secure advocacy partners that align with GirlTREK's Joy & Justice Agenda through signed MOUs", normal_style))
+        
+    elif section_name == "Impact":
+        elements.append(Paragraph("Impact Metrics", heading_style))
+        
+        elements.append(Paragraph("Note: GirlTREK's community health impact reporting will be updated following Self-Care School 2025 outcomes.", normal_style))
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Upcoming Impact Metrics
+        elements.append(Paragraph("Upcoming Impact Metrics", heading_style))
+        elements.append(Paragraph("The following metrics will be reported post Self-Care School 2025:", normal_style))
+        elements.append(Paragraph("- Women who have reported a change in health knowledge", normal_style))
+        elements.append(Paragraph("- Changes in self-reported mental well-being", normal_style))
+        elements.append(Paragraph("- Number of women who report feeling more connected and less isolated as a result of GirlTREK programming", normal_style))
+        elements.append(Paragraph("- % of participants reporting weight loss", normal_style))
+        elements.append(Paragraph("- % of participants reporting improved management of chronic conditions (e.g., diabetes, hypertension)", normal_style))
+        elements.append(Paragraph("- % of participants reporting reduced medication dependency", normal_style))
+        elements.append(Paragraph("- % of participants reporting fewer symptoms of depression or anxiety", normal_style))
+    
+    # Complete Dashboard section
+    elif section_name == "Complete Dashboard":
+        # Include summaries from all sections
+        elements.append(Paragraph("This report contains all sections of the GirlTREK dashboard.", normal_style))
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Executive Summary
+        elements.append(Paragraph("EXECUTIVE SUMMARY", heading_style))
+        elements.append(Paragraph(f"Total Membership: {format_number(st.session_state.total_membership)}", normal_style))
+        elements.append(Paragraph(f"Total New Members: {format_number(st.session_state.new_members)}", normal_style))
+        elements.append(Paragraph(f"Total Contributions: {format_currency(st.session_state.total_contributions)}", normal_style))
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Recruitment
+        elements.append(Paragraph("RECRUITMENT", heading_style))
+        elements.append(Paragraph("Total New Members: 11,356", normal_style))
+        elements.append(Paragraph("New Members Age 18-30: 300", normal_style))
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Engagement
+        elements.append(Paragraph("ENGAGEMENT", heading_style))
+        elements.append(Paragraph("Total New Crews: 603", normal_style))
+        elements.append(Paragraph("Members Walking Daily: 4,788", normal_style))
+        elements.append(Paragraph("Self-Care School Registrants: 11,985", normal_style))
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Development
+        elements.append(Paragraph("DEVELOPMENT", heading_style))
+        elements.append(Paragraph(f"Total Contributions: {format_currency(st.session_state.total_contributions)}", normal_style))
+        elements.append(Paragraph(f"Total Grants: {format_currency(st.session_state.total_grants)}", normal_style))
+        elements.append(Spacer(1, 0.25*inch))
+        
+        # Additional sections summarized
+        elements.append(Paragraph("MARKETING", heading_style))
+        elements.append(Paragraph("Total Subscribers: 931,141", normal_style))
+        elements.append(Paragraph("Active Subscribers: 297,283", normal_style))
+        elements.append(Spacer(1, 0.25*inch))
+        
+        elements.append(Paragraph("MEMBER CARE", heading_style))
+        elements.append(Paragraph("Member Satisfaction Rating: 95%", normal_style))
+        elements.append(Paragraph("Resolution/Responsiveness Rate: 2 hours", normal_style))
+        elements.append(Spacer(1, 0.25*inch))
+        
+        elements.append(Paragraph("ADVOCACY", heading_style))
+        elements.append(Paragraph("Advocacy Briefs Published: 4/10", normal_style))
+        elements.append(Paragraph("Advocacy Partnerships: 2/20", normal_style))
+    
+    else:
+        # Generic content for other sections
+        elements.append(Paragraph(f"{section_name} Metrics", heading_style))
+        elements.append(Paragraph("This report section contains key metrics for the selected dashboard area.", normal_style))
+        elements.append(Paragraph("For more detailed information, please refer to the interactive dashboard.", normal_style))
+    
+    # Add any notes from the dashboard
+    if section_name in ["Executive Summary", "Recruitment", "Engagement", "Development", "Marketing", "Operations", "Member Care", "Advocacy", "Impact"]:
+        notes_key = f"notes_{section_name}"
+        if notes_key in st.session_state and st.session_state[notes_key]:
+            elements.append(Spacer(1, 0.5*inch))
+            elements.append(Paragraph("Notes", heading_style))
+            elements.append(Paragraph(st.session_state[notes_key], normal_style))
+    
+    # Add global notes if they exist
+    if 'global_notes' in st.session_state and st.session_state.global_notes:
+        elements.append(Spacer(1, 0.5*inch))
+        elements.append(Paragraph("Global Dashboard Notes", heading_style))
+        elements.append(Paragraph(st.session_state.global_notes, normal_style))
+    
+    # Build PDF
+    doc.build(elements)
+    
+    # Get the PDF data and return as base64
+    pdf_data = buffer.getvalue()
+    buffer.close()
+    
+    return base64.b64encode(pdf_data).decode()
 
 # Add Notes Functionality - Moved to top of file
 def create_notes_section(tab_name):
@@ -250,16 +714,39 @@ download_options = [
 ]
 selected_download = st.sidebar.selectbox("Select dashboard section to download:", download_options)
 
+# Fixed PDF generation section
 if st.sidebar.button("Generate PDF for Download"):
-    st.sidebar.success(f"PDF for {selected_download} has been generated! Click below to download.")
-    # Fixed: Add actual PDF generation code or create a download link with real data
-    filename = f"{selected_download.replace(' ', '_')}_report.pdf"
-    st.sidebar.markdown(
-        f'<a href="data:application/octet-stream;base64,SGVsbG8sIHRoaXMgaXMgYSBkdW1teSBQREYgZmlsZS4=" download="{filename}">Download {selected_download} PDF</a>',
-        unsafe_allow_html=True
-    )
+    with st.sidebar:
+        with st.spinner("Generating PDF..."):
+            # Generate PDF using the new function
+            pdf_base64 = generate_pdf(selected_download, dark_mode=st.session_state.dark_mode)
+            
+            # Create download link
+            filename = f"{selected_download.replace(' ', '_')}_report.pdf"
+            download_link = f'<a href="data:application/pdf;base64,{pdf_base64}" download="{filename}">Download {selected_download} PDF</a>'
+            
+            st.success(f"PDF for {selected_download} has been generated!")
+            st.markdown(download_link, unsafe_allow_html=True)
 
 # Add dashboard notes section after settings
+st.sidebar.markdown("---")
+st.sidebar.markdown("### Dashboard Settings")
+if 'show_target_lines' not in st.session_state:
+    st.session_state.show_target_lines = True
+    
+if 'dark_mode' not in st.session_state:
+    st.session_state.dark_mode = False
+    
+show_target_lines = st.sidebar.checkbox("Show Target Lines", value=st.session_state.show_target_lines, key="show_target_lines_checkbox")
+dark_mode = st.sidebar.checkbox("Dark Mode", value=st.session_state.dark_mode, key="dark_mode_checkbox")
+
+# Update session state
+st.session_state.show_target_lines = show_target_lines
+st.session_state.dark_mode = dark_mode
+
+apply_dark_mode(dark_mode)
+
+# Add dashboard notes section
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Dashboard Notes")
 
@@ -342,24 +829,6 @@ if st.sidebar.button("Export All Notes"):
 st.title("GirlTREK Organizational Dashboard")
 st.markdown("### Q2 2025 Metrics Overview")
 st.markdown("*Data dashboard was published on April 25, 2025*")
-
-# Dashboard Settings
-st.sidebar.markdown("### Dashboard Settings")
-if 'show_target_lines' not in st.session_state:
-    st.session_state.show_target_lines = True
-    
-if 'dark_mode' not in st.session_state:
-    st.session_state.dark_mode = False
-    
-show_target_lines = st.sidebar.checkbox("Show Target Lines", value=st.session_state.show_target_lines, key="show_target_lines_checkbox")
-dark_mode = st.sidebar.checkbox("Dark Mode", value=st.session_state.dark_mode, key="dark_mode_checkbox")
-
-# Update session state
-st.session_state.show_target_lines = show_target_lines
-st.session_state.dark_mode = dark_mode
-
-apply_dark_mode(dark_mode)
-
 
 # Load dataframes early for faster page load
 
