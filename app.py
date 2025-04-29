@@ -341,6 +341,23 @@ st.title("GirlTREK Organizational Dashboard")
 st.markdown("### Q2 2025 Metrics Overview")
 st.markdown("*Data dashboard was published on April 25, 2025*")
 
+# Dashboard Settings
+st.sidebar.markdown("### Dashboard Settings")
+if 'show_target_lines' not in st.session_state:
+    st.session_state.show_target_lines = True
+    
+if 'dark_mode' not in st.session_state:
+    st.session_state.dark_mode = False
+    
+show_target_lines = st.sidebar.checkbox("Show Target Lines", value=st.session_state.show_target_lines, key="show_target_lines_checkbox")
+dark_mode = st.sidebar.checkbox("Dark Mode", value=st.session_state.dark_mode, key="dark_mode_checkbox")
+
+# Update session state
+st.session_state.show_target_lines = show_target_lines
+st.session_state.dark_mode = dark_mode
+
+apply_dark_mode(dark_mode)
+
 
 # Load dataframes early for faster page load
 
@@ -702,7 +719,9 @@ with tab2:
     )
     new_age_fig.update_traces(textposition='inside', textinfo='percent+label')
     new_age_fig.update_layout(title_font=dict(color=primary_blue))
-    st.plotly_chart(new_age_fig, use_container_width=True, key="new_age_fig")
+    # Add Notes Section for Recruitment
+    st.markdown('<hr>', unsafe_allow_html=True)
+    create_notes_section("Recruitment")
 
 # ---------------------------------
 # Engagement Tab
@@ -900,7 +919,7 @@ with tab3:
     )
     engage_badges_fig.update_layout(title_font=dict(color=primary_blue))
 
-    if show_target_lines:
+    if st.session_state.show_target_lines:
         engage_badges_fig.add_shape(
             type="line",
             x0=-0.5,
@@ -910,7 +929,9 @@ with tab3:
             line=dict(color="red", width=2, dash="dash")
         )
 
-    st.plotly_chart(engage_badges_fig, use_container_width=True, key="engage_badges_fig")
+    # Add Notes Section
+    st.markdown('<hr>', unsafe_allow_html=True)
+    create_notes_section("Engagement")
 
 # ---------------------------------
 # Development Tab
@@ -1364,6 +1385,10 @@ with tab6:
             f'</div>',
             unsafe_allow_html=True
         )
+        
+    # Add Notes Section
+    st.markdown('<hr>', unsafe_allow_html=True)
+    create_notes_section("Operations")
 
 # ---------------------------------
 # Member Care Tab (real data from PDF)
@@ -1414,8 +1439,9 @@ with tab7:
             supported in any way. AND a SUPER DUPER Thank you, thank you, THANK YOU!!! to Kukuwa Fitness and Nakreshia Causey Borno 
             Saturday was filled with magic and joy! And yep... you can grab those GirlTREK inspired leggings at https://www.kukuwafitness.com/ 
             I am so ready for this week's #selfcareschool hope you are too!!!"
-            """
-        )
+    # Add Notes Section for Member Care
+    st.markdown('<hr>', unsafe_allow_html=True)
+    create_notes_section("Member Care")
     
     with st.expander("Story 2: Amazing Ted Talk used in class!"):
         st.markdown(
