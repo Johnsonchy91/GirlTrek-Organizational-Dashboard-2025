@@ -890,15 +890,15 @@ with tab3:
     # Age demographics and Badges claimed  
     st.markdown('<h4>Campaign Metrics</h4>', unsafe_allow_html=True)
         
-        st.markdown(
-            f"""
-            <div style="background-color: #FFEBEE; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h4 style="color: #C62828; margin-top: 0;">REGISTRANTS AGE 18-25</h4>
-                <div style="font-size: 36px; font-weight: bold; color: #C62828; margin: 10px 0;">101</div>
-                <p>{status_badge("At Risk")}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
+    st.markdown(
+        f"""
+        <div style="background-color: #FFEBEE; border-radius: 10px; padding: 15px; height: 100%; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <h4 style="color: #C62828; margin-top: 0;">REGISTRANTS AGE 18-25</h4>
+            <div style="font-size: 36px; font-weight: bold; color: #C62828; margin: 10px 0;">101</div>
+            <p>{status_badge("At Risk")}</p>
+        </div>
+        """,
+        unsafe_allow_html=True
         )
     
     # Badges Claimed Chart
