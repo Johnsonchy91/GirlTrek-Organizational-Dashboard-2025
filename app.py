@@ -549,3 +549,309 @@ with tab2:
     selected_data = st.selectbox("Select data to download:", list(recruitment_data.keys()))
     st.markdown(download_data(recruitment_data[selected_data], f"GirlTREK_{selected_data.replace(' ', '_')}"), unsafe_allow_html=True)
 
+with tab3:
+    st.markdown('<h3 class="section-title">Engagement Metrics</h3>', unsafe_allow_html=True)
+    
+    # First row of Engagement Metrics
+    engagement_col1, engagement_col2, engagement_col3 = st.columns(3)
+
+    with engagement_col1:
+        st.markdown(
+            f'<div class="engagement-metric-card">'
+            f'<p class="metric-title">TOTAL ACTIVE VOLUNTEERS</p>'
+            f'<p class="metric-value">3,348</p>'
+            f'<p class="note-text">Has hosted an event this year</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with engagement_col2:
+        st.markdown(
+            f'<div class="engagement-metric-card">'
+            f'<p class="metric-title">TOTAL DOCUMENTED CREW LEADERS</p>'
+            f'<p class="metric-value">3,732</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with engagement_col3:
+        st.markdown(
+            f'<div class="engagement-metric-card">'
+            f'<p class="metric-title">TOTAL ACTIVE CREW LEADERS</p>'
+            f'<p class="metric-value">1,846</p>'
+            f'<p class="note-text">Has hosted an event this year or signed up this year</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # Second row of Engagement Metrics
+    more_engage_col1, more_engage_col2 = st.columns(2)
+
+    with more_engage_col1:
+        st.markdown(
+            f'<div class="engagement-metric-card">'
+            f'<p class="metric-title">TOTAL NEW CREWS</p>'
+            f'<p class="metric-value">603</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with more_engage_col2:
+        st.markdown(
+            f'<div class="engagement-metric-card">'
+            f'<p class="metric-title">MEMBERS WALKING AT LIFE-SAVING LEVEL</p>'
+            f'<p class="metric-value">4,788</p>'
+            f'<p class="note-text">Walking 30 min/day, 5 days/week</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # Care Village Metrics
+    st.markdown("<h3>Care Village Metrics</h3>", unsafe_allow_html=True)
+    
+    care_col1, care_col2 = st.columns(2)
+
+    with care_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL POPULATION REACHED</p>'
+            f'<p class="metric-value">Unknown</p>'
+            f'<p>Goal: 20,000</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with care_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">HEALTH WORKER TRAINING</p>'
+            f'<p class="metric-value">Unknown</p>'
+            f'<p>Goal: 4,000</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # Campaign Metrics
+    st.markdown('<h3>Current Campaign: Self-Care Schools</h3>', unsafe_allow_html=True)
+    
+    campaign_col1, campaign_col2, campaign_col3 = st.columns(3)
+
+    with campaign_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL REGISTRANTS</p>'
+            f'<p class="metric-value">11,985</p>'
+            f'<p>Goal: 10,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with campaign_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">TOTAL DOWNLOADS</p>'
+            f'<p class="metric-value">22,186</p>'
+            f'<p>Goal: 100,000</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with campaign_col3:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">REGISTRANTS AGE 18-25</p>'
+            f'<p class="metric-value">101</p>'
+            f'<p>{status_badge("At Risk")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # Badges Claimed by Week - Bar Chart
+    engage_badges_fig = px.bar(
+        df_badges,
+        x='Week',
+        y='Badges Claimed',
+        title='Badges Claimed by Week (Goal: 5,000 per week)',
+        color='Badges Claimed',
+        color_continuous_scale=[secondary_green, primary_blue, secondary_purple]
+    )
+    engage_badges_fig.update_layout(title_font=dict(color=primary_blue))
+
+    if show_target_lines:
+        engage_badges_fig.add_shape(
+            type="line",
+            x0=-0.5,
+            y0=5000,
+            x1=len(df_badges) - 0.5,
+            y1=5000,
+            line=dict(color="red", width=2, dash="dash")
+        )
+        engage_badges_fig.add_annotation(
+            x=len(df_badges) - 1,
+            y=5000,
+            text="Target: 5,000",
+            showarrow=False,
+            yshift=10,
+            font=dict(color="red")
+        )
+
+    st.plotly_chart(engage_badges_fig, use_container_width=True)
+
+    # Stories and Additional Campaign Metrics
+    stories_claimed_col1, stories_claimed_col2 = st.columns(2)
+
+    with stories_claimed_col1:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">PEOPLE WHO HAVE CLAIMED BADGES</p>'
+            f'<p class="metric-value">4,788</p>'
+            f'<p>Goal: 10,000</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    with stories_claimed_col2:
+        st.markdown(
+            f'<div class="metric-card">'
+            f'<p class="metric-title">STORIES SUBMITTED</p>'
+            f'<p class="metric-value">234</p>'
+            f'<p>Goal: 100</p>'
+            f'<p>{status_badge("On Track")}</p>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+
+    # Download Engagement Data
+    st.markdown("### Download Engagement Data")
+
+    engagement_metrics_list = [
+        {"Metric": "Total Active Volunteers", "Value": "3,348"},
+        {"Metric": "Total Documented Crew Leaders", "Value": "3,732"},
+        {"Metric": "Total Active Crew Leaders", "Value": "1,846"},
+        {"Metric": "Total New Crews", "Value": "603"},
+        {"Metric": "Members Walking at Life-Saving Level", "Value": "4,788"},
+    ]
+    engagement_metrics_df = pd.DataFrame(engagement_metrics_list)
+
+    st.markdown(download_data(engagement_metrics_df, "GirlTREK_Engagement_Metrics"), unsafe_allow_html=True)
+
+with tab4:
+    st.markdown('<h3 class="section-title">Development Metrics</h3>', unsafe_allow_html=True)
+    
+    st.markdown(
+        """
+        <div class="dev-metric-container">
+            <div class="dev-metric-card">
+                <div style="font-size: 24px; color: #0088FF; margin-bottom: 10px;">💰</div>
+                <p class="dev-metric-title">TOTAL CONTRIBUTIONS</p>
+                <p class="dev-metric-value">$3,061,104.78</p>
+                <p class="dev-metric-goal">Goal: $8,000,000</p>
+                <p>On Track</p>
+                <div class="dev-metric-notes">
+                    <p>• Preliminary $10M budget</p>
+                    <p>• Cash-in from pledges counted toward 2025</p>
+                </div>
+            </div>
+
+            <div class="dev-metric-card">
+                <div style="font-size: 24px; color: #0088FF; margin-bottom: 10px;">📈</div>
+                <p class="dev-metric-title">TOTAL GRANTS</p>
+                <p class="dev-metric-value">$3,055,250</p>
+                <p>On Track</p>
+                <div class="dev-metric-notes">
+                    <p>• Secured $3M gift + 2 renewals</p>
+                </div>
+            </div>
+
+            <div class="dev-metric-card">
+                <div style="font-size: 24px; color: #0088FF; margin-bottom: 10px;">🏢</div>
+                <p class="dev-metric-title">CORPORATE ENGAGEMENT</p>
+                <p class="dev-metric-value">$130,000</p>
+                <p class="dev-metric-goal">Goal: $1,500,000</p>
+                <p style="color: #FF9800; font-weight: bold;">At Risk</p>
+                <div class="dev-metric-notes">
+                    <p>• Need $500K for Summer program</p>
+                </div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Financial Pie Chart - Revenue Distribution
+    st.markdown("<h3>Revenue Breakdown</h3>", unsafe_allow_html=True)
+
+    updated_finance_data = {
+        'Category': ['Donations', 'Grants', 'Corporate Sponsorships', 'Store Sales', 'Other Revenue'],
+        'Amount': [1094048.68, 3055250, 130000, 25000, 125000]
+    }
+    df_updated_finance = pd.DataFrame(updated_finance_data)
+
+    dev_finance_fig = px.pie(
+        df_updated_finance,
+        values='Amount',
+        names='Category',
+        title='Revenue Distribution',
+        color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, secondary_blue, secondary_orange]
+    )
+    dev_finance_fig.update_traces(textposition='inside', textinfo='percent+label')
+    dev_finance_fig.update_layout(title_font=dict(color=primary_blue), height=500)
+    st.plotly_chart(dev_finance_fig, use_container_width=True)
+
+    # Financial Trends - Revenue vs Expenses vs Donations
+    st.markdown("<h3>Financial Trends</h3>", unsafe_allow_html=True)
+
+    dev_trend_fig = go.Figure()
+
+    dev_trend_fig.add_trace(go.Scatter(
+        x=finance_trend_data['Month'],
+        y=finance_trend_data['Revenue'],
+        mode='lines+markers',
+        name='Revenue',
+        line=dict(color=primary_blue, width=3),
+        marker=dict(size=8)
+    ))
+
+    dev_trend_fig.add_trace(go.Scatter(
+        x=finance_trend_data['Month'],
+        y=finance_trend_data['Expenses'],
+        mode='lines+markers',
+        name='Expenses',
+        line=dict(color=primary_orange, width=3),
+        marker=dict(size=8)
+    ))
+
+    dev_trend_fig.add_trace(go.Scatter(
+        x=finance_trend_data['Month'],
+        y=finance_trend_data['Donations'],
+        mode='lines+markers',
+        name='Donations',
+        line=dict(color=primary_yellow, width=3),
+        marker=dict(size=8)
+    ))
+
+    dev_trend_fig.update_layout(
+        title='Financial Trends by Month',
+        xaxis_title='Month',
+        yaxis_title='Amount ($)',
+        legend_title='Category',
+        height=500,
+        title_font=dict(color=primary_blue)
+    )
+    st.plotly_chart(dev_trend_fig, use_container_width=True)
+
+    # Download Development Metrics
+    st.markdown("### Download Development Data")
+
+    development_metrics_list = [
+        {"Metric": "Total Contributions", "Value": "3,061,104.78", "Goal": "8,000,000", "Status": "On Track"},
+        {"Metric": "Total Grants", "Value": "3,055,250", "Goal": "N/A", "Status": "On Track"},
+        {"Metric": "Corporate Engagement", "Value": "130,000", "Goal": "1,500,000", "Status": "At Risk"}
+    ]
+    development_metrics_df = pd.DataFrame(development_metrics_list)
+
+    st.markdown(download_data(development_metrics_df, "GirlTREK_Development_Metrics"), unsafe_allow_html=True)
+
