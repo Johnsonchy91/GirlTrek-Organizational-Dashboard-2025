@@ -237,7 +237,7 @@ if 'data_loaded' not in st.session_state:
 if 'total_membership' not in st.session_state:
     st.session_state.total_membership = 1240394
     st.session_state.new_members = 11356
-    st.session_state.total_contributions = 3061104
+    st.session_state.total_contributions = 3061104  # Corrected total contributions value
     st.session_state.total_grants = 3055250
     st.session_state.data_loaded = True
 
@@ -1417,7 +1417,8 @@ with tab7:
     
     with st.expander("Story 3: My Sister's Keeper"):
         st.markdown(
-            """Morgan and Vanessa, I walked this evening. First chance I've had in a while.
+            """
+            Morgan and Vanessa, I walked this evening. First chance I've had in a while.
             And I talked on the phone to a friend of mine who was also walking at the time and had not walked in a while. 
             I invited her to walk with me and told her about Harriet Day and the meeting last night. 
             I also shared GirlTREK information with her and invited her to join. We're going to start walking together!
@@ -1436,9 +1437,11 @@ with tab7:
             Sandy B. Carter
             """
         )
-        # Add Notes Section for Member Care
-        st.markdown('<hr>', unsafe_allow_html=True)
-        create_notes_section("Member Care")
+    
+    # Fixed: Moved notes section outside of the expander
+    st.markdown('<hr>', unsafe_allow_html=True)
+    create_notes_section("Member Care")
+
 # ---------------------------------
 # Advocacy Tab (real data from PDF)
 # ---------------------------------
