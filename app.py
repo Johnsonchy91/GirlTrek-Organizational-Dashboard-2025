@@ -558,24 +558,22 @@ with tab1:
         else:
             bar_color = "#FF9800"  # Yellow/Orange for "At Risk"
         
-        st.markdown(
-            f"""
-            <div style="margin-bottom: 20px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <div><strong>{goal}</strong></div>
-                    <div style="text-align: right;">
-                        <span style="margin-right: 15px;"><strong>{current}</strong></span>
-                        <span style="margin-right: 15px;"><strong>{percent}</strong></span>
-                        <span><strong>{status}</strong></span>
-                    </div>
-                </div>
-                <div style="width: 100%; background-color: #f0f2f5; height: 12px; border-radius: 6px;">
-                    <div style="width: {progress}%; height: 100%; background-color: {bar_color}; border-radius: 6px;"></div>
+        progress_html = f"""
+        <div style="margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <div><strong>{goal}</strong></div>
+                <div style="text-align: right;">
+                    <span style="margin-right: 15px;"><strong>{current}</strong></span>
+                    <span style="margin-right: 15px;"><strong>{percent}</strong></span>
+                    <span><strong>{status}</strong></span>
                 </div>
             </div>
-            """,
-            unsafe_allow_html=True
-        )
+            <div style="width: 100%; background-color: #f0f2f5; height: 12px; border-radius: 6px;">
+                <div style="width: {progress}%; height: 100%; background-color: {bar_color}; border-radius: 6px;"></div>
+            </div>
+        </div>
+        """
+        st.markdown(progress_html, unsafe_allow_html=True)
     
     # Add Membership by Age graphs to Executive Summary
     st.markdown('<h3>Membership Distribution</h3>', unsafe_allow_html=True)
