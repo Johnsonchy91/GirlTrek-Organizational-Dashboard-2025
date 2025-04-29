@@ -1073,59 +1073,6 @@ with tab5:
 
     st.plotly_chart(marketing_activity_fig, use_container_width=True, key="marketing_activity_fig")
     
-    # Add Notes Functionality
-def create_notes_section(tab_name):
-    """Create a notes section for any tab with persistence"""
-    
-    notes_key = f"notes_{tab_name}"
-    
-    # Initialize notes in session state if they don't exist
-    if notes_key not in st.session_state:
-        st.session_state[notes_key] = ""
-    
-    # Create expandable section for notes
-    with st.expander(f"📝 Notes for {tab_name}", expanded=False):
-        col1, col2 = st.columns([3, 1])
-        
-        with col1:
-            # Create text area for notes with the current value from session state
-            notes = st.text_area(
-                "Add your notes here:",
-                value=st.session_state[notes_key],
-                height=150,
-                key=f"textarea_{notes_key}"
-            )
-            
-            # Automatically save notes when they change
-            if notes != st.session_state[notes_key]:
-                st.session_state[notes_key] = notes
-                st.success("Notes saved automatically!")
-                
-                # Add timestamp for last edit
-                if 'last_edit_time' not in st.session_state:
-                    st.session_state.last_edit_time = {}
-                st.session_state.last_edit_time[notes_key] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
-        with col2:
-            # Display timestamp of last edit if available
-            if 'last_edit_time' in st.session_state and notes_key in st.session_state.last_edit_time:
-                st.info(f"Last edited: {st.session_state.last_edit_time[notes_key]}")
-            
-            # Add export functionality
-            if st.button("Export Notes", key=f"export_{tab_name}"):
-                # Convert notes to CSV format for download
-                notes_data = f"Tab,Notes\n{tab_name},{st.session_state[notes_key].replace(',', ';').replace('\n', ' ')}"
-                b64 = base64.b64encode(notes_data.encode()).decode()
-                href = f'<a href="data:file/csv;base64,{b64}" download="{tab_name}_notes.csv">Download {tab_name} Notes</a>'
-                st.markdown(href, unsafe_allow_html=True)
-            
-            # Add ability to clear notes
-            if st.button("Clear Notes", key=f"clear_{tab_name}"):
-                st.session_state[notes_key] = ""
-                if 'last_edit_time' in st.session_state and notes_key in st.session_state.last_edit_time:
-                    del st.session_state.last_edit_time[notes_key]
-                st.experimental_rerun()
-    
     # Social Media Followers
     st.markdown("<h3>Social Media Following</h3>", unsafe_allow_html=True)
     
@@ -1455,22 +1402,26 @@ with tab7:
     with st.expander("Story 3: My Sister's Keeper"):
         st.markdown(
             """
-            Morgan and Vanessa, I walked this evening_ first chance I've had in a while. And I talked on the phone to a friend of mine who was 
-            also walking at the time and had not walked in a while. I invited her to walk with me and told her about Harriet Day and the meeting 
-            last night. I also shared GirlTREK information with her and invited her to join. We're going to start walking together!
-            
-            I used to walk all the time. I moved back closer to my hometown a four years ago to be near Mama and help take care of her. 
-            She got better and was doing great, then all of a sudden she wasn't. Mama transitioned to Heaven a little over a year ago and 
-            life has been difficult. She was everything to me. It's just been hard_ but by the grace of God, I'm still standing. 
-            He did bless us with 3 more years after she was hospitalized 33 days. I'm trying to get my legs back under me. But I am lonely for Mama.
-            
-            99% of the time, I walked alone…didn't have anyone to walk with. But I would listen in some Saturdays. Everybody is a few towns over, 
-            so weekday scheduling is tough. But I also told my sisters and my brother that they were going to walk with me as a part of this 
-            next 10-week commitment.
-            
-            Thank you for all that you do, Sandy B. Carter
+            Morgan and Vanessa, I walked this evening—first chance I've had in a while. 
+            And I talked on the phone to a friend of mine who was also walking at the time and had not walked in a while. 
+            I invited her to walk with me and told her about Harriet Day and the meeting last night. 
+            I also shared GirlTREK information with her and invited her to join. We're going to start walking together!
+    
+            I used to walk all the time. I moved back closer to my hometown four years ago to be near Mama and help take care of her. 
+            She got better and was doing great, then all of a sudden she wasn't. Mama transitioned to Heaven a little over a year ago 
+            and life has been difficult. She was everything to me. It's just been hard — but by the grace of God, I'm still standing. 
+            He did bless us with 3 more years after she was hospitalized 33 days. I'm trying to get my legs back under me. 
+            But I am lonely for Mama.
+    
+            99% of the time, I walked alone…didn't have anyone to walk with. But I would listen in some Saturdays. 
+            Everybody is a few towns over, so weekday scheduling is tough. But I also told my sisters and my brother 
+            that they were going to walk with me as a part of this next 10-week commitment.
+    
+            Thank you for all that you do, 
+            Sandy B. Carter
             """
         )
+
 
 # ---------------------------------
 # Advocacy Tab (real data from PDF)
