@@ -469,8 +469,8 @@ def generate_pdf(section_name, dark_mode=False):
         data = [
             ["Metric", "Current Value", "Goal", "Status"],
             ["ASANA Adoption", "38%", "85%", "At Risk"],
-            ["Audit Compliance", "Pending", "100%", "Off Track"],
-            ["Cybersecurity Compliance", "Pending", "90%", "Off Track"]
+            ["Audit Compliance", "Pending", "100%", "On Track"],
+            ["Cybersecurity Compliance", "Pending", "70%", "On Track"]
         ]
         
         t = Table(data, colWidths=[2*inch, 1.5*inch, 1*inch, 1*inch])
@@ -1063,7 +1063,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL MEMBERSHIP</p>'
                 f'<p class="metric-value">{format_number(st.session_state.total_membership)}</p>'
-                f'<p>Goal: 2,000,000</p>'
+                f'<p>Goal: 1,700,000</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
@@ -1928,8 +1928,8 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">CYBERSECURITY COMPLIANCE</p>'
                 f'<p class="metric-value">Pending</p>'
-                f'<p>Goal: 90%</p>'
-                f'{status_badge("Off Track")}'
+                f'<p>Goal: 70%</p>'
+                f'{status_badge("On Track")}'
                 f'</div>',
                 unsafe_allow_html=True
             )
