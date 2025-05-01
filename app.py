@@ -1764,8 +1764,8 @@ def main():
         # Add disclaimer about dummy data
         st.markdown(
             """
-            <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic; font-size: 18px;">
-                Note: The financial data shown below is dummy data for presentation purposes only.
+            <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic; font-size: 14px;">
+                <strong>Note: The financial data shown below is dummy data for presentation purposes only.</strong>
             </div>
             """,
             unsafe_allow_html=True
