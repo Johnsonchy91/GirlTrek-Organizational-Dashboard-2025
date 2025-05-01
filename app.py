@@ -1774,6 +1774,14 @@ def main():
     with tab6:
         # Add Board Update first
         operations_update = """
+        
+        <p style="margin-bottom: 15px;"><strong>Financial Stewardship Update:</strong> We recently received word that a major funder will be 
+        <strong>doubling their donation this year</strong>. We are in a solid financial position.</p>
+        
+        <p style="margin-bottom: 15px;">We are moving forward with fiscal prudence given the economic climate and will adopt an 
+        <em>austerity budget</em> while maintaining mission-critical programming and ensuring our team remains 
+        gainfully and justly employed.</p>
+        
         <p style="margin-bottom: 15px;"><strong>Technology & Security:</strong> In March, we engaged an external technology expert to audit our systems. 
         We are currently migrating member records to a more secure platform. Through our partnership with 
         RoundTable Technology, we've implemented 24/7 cybersecurity monitoring and completed digital safety 
