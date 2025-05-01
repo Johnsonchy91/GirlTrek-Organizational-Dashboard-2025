@@ -1037,13 +1037,7 @@ def main():
     with tab1:
         # Add Board Update first
         executive_update = """
-        <p style="margin-bottom: 15px;"><strong>Financial Stewardship Update:</strong> We recently received word that a major funder will be 
-        <strong>doubling their donation this year</strong>. We are in a solid financial position.</p>
-        
-        <p style="margin-bottom: 15px;">We are moving forward with fiscal prudence given the economic climate and will adopt an 
-        <em>austerity budget</em> while maintaining mission-critical programming and ensuring our team remains 
-        gainfully and justly employed.</p>
-        
+
         <p style="margin-bottom: 0;"><strong>Mission Priority:</strong> Our every action is in service of our mission to 
         <strong>extend the life expectancy of Black women by 10 years in 10 years.</strong></p>
         """
