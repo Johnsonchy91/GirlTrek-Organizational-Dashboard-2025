@@ -293,7 +293,7 @@ def generate_pdf(section_name, dark_mode=False):
         elements.append(Paragraph("Report Card Progress", heading_style))
         report_data = [
             ["Goal", "Current Total", "Percent Progress", "Status"],
-            ["Recruit 100,000 new members", "11,356", "11%", "On Track"],
+            ["Recruit 100,000 new members (Age 18-25)", "130", ".13%", "Off Track"],
             ["Engage 250,000 members", "11,769", "5%", "On Track"],
             ["Support 65,000 walking daily", "4,858", "7%", "At Risk"],
             ["Unite 20 advocacy partners", "2", "10%", "At Risk"],
