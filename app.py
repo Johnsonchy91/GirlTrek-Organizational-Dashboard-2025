@@ -1764,40 +1764,39 @@ def main():
         # Add disclaimer about dummy data
         st.markdown(
             """
-            <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic; font-size: 14px;">
+            <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic; font-size: 18px;">
                 <strong>Note: The financial data shown below is dummy data for presentation purposes only.</strong>
             </div>
             """,
             unsafe_allow_html=True
         )
 
-        ops_trend_fig = go.Figure()
-
-        ops_trend_fig.add_trace(go.Scatter(
-            x=finance_trend_data['Month'],
-            y=finance_trend_data['Revenue'],
-            mode='lines+markers',
-            name='Revenue',
-            line=dict(color=primary_blue)
-        ))
-        ops_trend_fig.add_trace(go.Scatter(
-            x=finance_trend_data['Month'],
-            y=finance_trend_data['Expenses'],
-            mode='lines+markers',
-            name='Expenses',
-            line=dict(color=primary_orange)
-        ))
-
-        ops_trend_fig.update_layout(
-            title='Revenue vs Expenses',
-            xaxis_title='Month',
-            yaxis_title='USD ($)',
-            title_font=dict(color=primary_blue),
-            height=400,
-            legend_title_text='Financial Lines'
+        # Aggregate YTD totals for Revenue and Expenses
+        ytd_revenue = finance_trend_data['Revenue'].cumsum().iloc[-1]
+        ytd_expenses = finance_trend_data['Expenses'].cumsum().iloc[-1]
+        
+        ytd_data = pd.DataFrame({
+            'Category': ['Revenue', 'Expenses'],
+            'YTD Total': [ytd_revenue, ytd_expenses]
+        })
+        
+        # Create YTD bar chart
+        ytd_fig = px.bar(
+            ytd_data,
+            x='Category',
+            y='YTD Total',
+            title='YTD Revenue vs Expenses',
+            color='Category',
+            color_discrete_sequence=[primary_blue, primary_orange]
         )
-
-        st.plotly_chart(ops_trend_fig, use_container_width=True, key="ops_trend_fig_updated")
+        ytd_fig.update_layout(
+            title_font=dict(color=primary_blue),
+            xaxis_title='Category',
+            yaxis_title='USD ($)'
+        )
+        
+        # Render the updated chart
+        st.plotly_chart(ytd_fig, use_container_width=True, key="ytd_fig")
 
         # --- Budget Performance Chart (Full Width) ---
         st.markdown('<h4>Budget Performance</h4>', unsafe_allow_html=True)
@@ -1806,7 +1805,7 @@ def main():
         st.markdown(
             """
             <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic; font-size: 18px;">
-                Note: The budget data shown below is dummy data for presentation purposes only.
+               <strong> Note: The budget data shown below is dummy data for presentation purposes only.</strong>
             </div>
             """,
             unsafe_allow_html=True
