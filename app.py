@@ -1801,11 +1801,11 @@ def main():
         # --- Budget Performance Chart (Full Width) ---
         st.markdown('<h4>Budget Performance</h4>', unsafe_allow_html=True)
         
-        # Add disclaimer about dummy data
+        # Disclaimer that this is dummy data bold and yellow background
         st.markdown(
             """
             <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic; font-size: 18px;">
-               <strong> Note: The budget data shown below is dummy data for presentation purposes only.</strong>
+                <strong>Note: The financial data shown below is dummy data for presentation purposes only.</strong>
             </div>
             """,
             unsafe_allow_html=True
