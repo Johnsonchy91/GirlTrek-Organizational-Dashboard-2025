@@ -466,8 +466,8 @@ def generate_pdf(section_name, dark_mode=False):
         data = [
             ["Metric", "Current Value", "Goal", "Status"],
             ["ASANA Adoption", "38%", "85%", "At Risk"],
-            ["Audit Compliance", "Pending", "100%", "On Track"],
-            ["Cybersecurity Compliance", "Pending", "70%", "On Track"]
+            ["Audit Compliance", "100", "100%", "Achieved"],
+            ["Cybersecurity Compliance", "70", "90%", "On Track"]
         ]
         
         t = Table(data, colWidths=[2*inch, 1.5*inch, 1*inch, 1*inch])
