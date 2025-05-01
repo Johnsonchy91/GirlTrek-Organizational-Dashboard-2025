@@ -1507,14 +1507,8 @@ def main():
     with tab4:
         # Add Board Update first
         development_update = """
-        <p style="margin-bottom: 15px;"><strong>Financial Update:</strong> A major funder will be <strong>doubling their donation this year</strong>. 
+        <p style="margin-bottom: 15px;"><strong>Development Update:</strong> A major funder will be <strong>doubling their donation this year</strong>. 
         This strengthens our already solid financial position heading into Q3-Q4.</p>
-        
-        <p style="margin-bottom: 0;">Teams are evaluating where cost-saving measures can be applied while preserving:
-        <ul style="margin-top: 10px; margin-bottom: 0;">
-            <li>Mission-critical programming that supports Black women's longevity</li>
-            <li>Ensuring our team remains gainfully and justly employed</li>
-        </ul></p>
         """
         add_board_update("Development", development_update)
         
@@ -1550,7 +1544,7 @@ def main():
                 f'<p class="metric-title">CORPORATE SPONSORSHIPS</p>'
                 f'<p class="metric-value">$130,000</p>'
                 f'<p>Goal: $1.5M (6/20 sponsors)</p>'
-                f'<p>{status_badge("At Risk")}</p>'
+                f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1745,7 +1739,7 @@ def main():
         <strong>doubling their donation this year</strong>. We are in a solid financial position.</p>
         
         <p style="margin-bottom: 15px;">We are moving forward with fiscal prudence given the economic climate and will adopt an 
-        <em>austerity budget</em> while maintaining mission-critical programming and ensuring our team remains 
+        <em>austerity budget</em> while maintaining mission-critical programming that supports Black women's longevity and ensuring our team remains 
         gainfully and justly employed.</p>
         
         <p style="margin-bottom: 15px;"><strong>Technology & Security:</strong> In March, we engaged an external technology expert to audit our systems. 
