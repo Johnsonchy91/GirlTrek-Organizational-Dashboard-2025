@@ -1764,7 +1764,7 @@ def main():
         # Add disclaimer about dummy data
         st.markdown(
             """
-            <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic; font-size: 14px;">
+            <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic; font-size: 18px;">
                 Note: The financial data shown below is dummy data for presentation purposes only.
             </div>
             """,
@@ -1805,7 +1805,7 @@ def main():
         # Add disclaimer about dummy data
         st.markdown(
             """
-            <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic; font-size: 14px;">
+            <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-style: italic; font-size: 18px;">
                 Note: The budget data shown below is dummy data for presentation purposes only.
             </div>
             """,
