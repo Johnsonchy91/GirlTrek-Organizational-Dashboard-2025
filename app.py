@@ -1866,9 +1866,9 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">AUDIT COMPLIANCE</p>'
-                f'<p class="metric-value">Pending</p>'
+                f'<p class="metric-value">100%</p>'
                 f'<p>Goal: 100%</p>'
-                f'{status_badge("Off Track")}'
+                f'{status_badge("Achieved")}'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1877,8 +1877,8 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">CYBERSECURITY COMPLIANCE</p>'
-                f'<p class="metric-value">Pending</p>'
-                f'<p>Goal: 70%</p>'
+                f'<p class="metric-value">70%</p>'
+                f'<p>Goal: 90%</p>'
                 f'{status_badge("On Track")}'
                 f'</div>',
                 unsafe_allow_html=True
