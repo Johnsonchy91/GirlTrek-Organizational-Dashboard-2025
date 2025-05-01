@@ -600,7 +600,7 @@ def generate_pdf(section_name, dark_mode=False):
         # Recruitment
         elements.append(Paragraph("RECRUITMENT", heading_style))
         elements.append(Paragraph("Total New Members: 11,356", normal_style))
-        elements.append(Paragraph("New Members Age 18-30: 300", normal_style))
+        elements.append(Paragraph("New Members Age 18-25: 130", normal_style))
         elements.append(Spacer(1, 0.25*inch))
         
         # Engagement
@@ -1239,8 +1239,8 @@ def main():
         with recruitment_col2:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">NEW MEMBERS AGE 18-30</p>'
-                f'<p class="metric-value">300</p>'
+                f'<p class="metric-title">NEW MEMBERS AGE 18-25</p>'
+                f'<p class="metric-value">130</p>'
                 f'<p>Goal: 50,000</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
