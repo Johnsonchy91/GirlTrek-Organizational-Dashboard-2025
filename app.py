@@ -327,8 +327,8 @@ def generate_pdf(section_name, dark_mode=False):
         data = [
             ["Metric", "Current Value", "Goal", "Status"],
             ["Total New Members", f"{format_number(st.session_state.new_members)}", "100,000", "On Track"],
-            ["New Members Age 18-30", "300", "50,000", "At Risk"],
-            ["Total Recruitment Partnerships", "0", "100", "On Track"]
+            ["New Members Age 18-25", "130", "100,000", "Off Track"],
+            ["Total Recruitment Partnerships", "2", "10", "On Track"]
         ]
         
         t = Table(data, colWidths=[2*inch, 1.5*inch, 1.5*inch, 1*inch])
@@ -379,9 +379,6 @@ def generate_pdf(section_name, dark_mode=False):
         elements.append(Paragraph("Revenue Distribution", heading_style))
         elements.append(Paragraph("Donations: $1,094,048.68", normal_style))
         elements.append(Paragraph("Grants: $3,055,250.00", normal_style))
-        elements.append(Paragraph("Corporate Sponsorships: $130,000.00", normal_style))
-        elements.append(Paragraph("Store Sales: $25,000.00", normal_style))
-        elements.append(Paragraph("Other Revenue: $125,000.00", normal_style))
         
     elif section_name == "Engagement":
         elements.append(Paragraph("Engagement Metrics", heading_style))
@@ -1096,7 +1093,7 @@ def main():
 
         report_data = {
             "Goal": [
-                "Recruit 100,000 new members",
+                "Recruit 100,000 new members (Age 18-25)",
                 "Engage 250,000 members",
                 "Support 65,000 walking daily",
                 "Unite 20 advocacy partners",
@@ -1105,18 +1102,18 @@ def main():
                 "Achieve 85% organizational health"
             ],
             "Current Total": [
-                "11,356", "11,769", "4,858", "2",
+                "130", "11,769", "4,858", "2",
                 "3,061,104.78", "2,869", "Pending"
             ],
             "Percent Progress": [
-                "11%", "5%", "7%", "10%", "31%", "7%", "Pending"
+                ".13%", "5%", "7%", "10%", "31%", "7%", "Pending"
             ],
             "Status": [
-                "On Track", "On Track", "At Risk", "At Risk",
+                "Off Track", "On Track", "At Risk", "At Risk",
                 "On Track", "At Risk", "Pending"
             ],
             "Progress": [
-                11.4, 4.7, 7.5, 10, 30.6, 7.2, 0
+                .13, 4.7, 7.5, 10, 30.6, 7.2, 0
             ]
         }
 
