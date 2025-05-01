@@ -1565,40 +1565,6 @@ def main():
         dev_finance_fig.update_traces(textposition='inside', textinfo='percent+label')
         dev_finance_fig.update_layout(title_font=dict(color=primary_blue))
         st.plotly_chart(dev_finance_fig, use_container_width=True, key="dev_finance_fig")
-
-        dev_trend_fig = go.Figure()
-
-        dev_trend_fig.add_trace(go.Scatter(
-            x=finance_trend_data['Month'],
-            y=finance_trend_data['Revenue'],
-            mode='lines+markers',
-            name='Revenue',
-            line=dict(color=primary_blue)
-        ))
-        dev_trend_fig.add_trace(go.Scatter(
-            x=finance_trend_data['Month'],
-            y=finance_trend_data['Expenses'],
-            mode='lines+markers',
-            name='Expenses',
-            line=dict(color=primary_orange)
-        ))
-        dev_trend_fig.add_trace(go.Scatter(
-            x=finance_trend_data['Month'],
-            y=finance_trend_data['Donations'],
-            mode='lines+markers',
-            name='Donations',
-            line=dict(color=primary_yellow)
-        ))
-
-        dev_trend_fig.update_layout(
-            title='Financial Trends',
-            xaxis_title='Month',
-            yaxis_title='Amount ($)',
-            title_font=dict(color=primary_blue),
-            height=400
-        )
-
-        st.plotly_chart(dev_trend_fig, use_container_width=True, key="dev_trend_fig")
         
         # Add Notes Section for Development
         st.markdown('<hr>', unsafe_allow_html=True)
