@@ -979,7 +979,6 @@ def main():
         'Month': ['January', 'February', 'March', 'April'],
         'Revenue': [250000, 310000, 450000, 490000],
         'Expenses': [220000, 280000, 350000, 350000],
-        'Donations': [180000, 240000, 300000, 374048.68]
     })
 
     # Email and Subscriber Activity Data
@@ -1788,16 +1787,9 @@ def main():
             name='Expenses',
             line=dict(color=primary_orange)
         ))
-        ops_trend_fig.add_trace(go.Scatter(
-            x=finance_trend_data['Month'],
-            y=finance_trend_data['Donations'],
-            mode='lines+markers',
-            name='Donations',
-            line=dict(color=primary_yellow)
-        ))
 
         ops_trend_fig.update_layout(
-            title='Revenue vs Expenses vs Donations',
+            title='Revenue vs Expenses',
             xaxis_title='Month',
             yaxis_title='USD ($)',
             title_font=dict(color=primary_blue),
