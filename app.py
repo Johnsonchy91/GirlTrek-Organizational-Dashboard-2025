@@ -976,9 +976,9 @@ def main():
 
     # Financial Trend Data
     finance_trend_data = pd.DataFrame({
-        'Month': ['January', 'February', 'March', 'April'],
-        'Revenue': [250000, 310000, 450000, 490000],
-        'Expenses': [220000, 280000, 350000, 350000],
+    'Month': ['January', 'February', 'March', 'April'],
+    'Revenue': [250000, 310000, 450000, 490000],
+    'Expenses': [300000, 350000, 400000, 331573]  # Adjusted to total 1,381,573
     })
 
     # Email and Subscriber Activity Data
