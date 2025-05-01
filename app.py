@@ -970,8 +970,8 @@ def main():
 
     # Financial Revenue Breakdown
     df_finance = pd.DataFrame({
-        'Category': ['Donations', 'Grants', 'Corporate Sponsorships', 'Store Sales', 'Other Revenue'],
-        'Amount': [1094048.68, 3055250, 130000, 25000, 125000]
+        'Category': ['Donations', 'Grants'],
+        'Amount': [1094048.68, 3055250]
     })
 
     # Financial Trend Data
