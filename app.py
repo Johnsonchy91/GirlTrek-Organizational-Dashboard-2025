@@ -376,7 +376,7 @@ def generate_pdf(section_name, dark_mode=False):
         elements.append(Spacer(1, 0.25*inch))
         
         # Revenue breakdown
-        elements.append(Paragraph("Revenue Distribution", heading_style))
+        elements.append(Paragraph("Total Contributions", heading_style))
         elements.append(Paragraph("Donations: $1,094,048.68", normal_style))
         elements.append(Paragraph("Grants: $3,055,250.00", normal_style))
         
@@ -1552,7 +1552,7 @@ def main():
             df_finance,
             values='Amount',
             names='Category',
-            title='Revenue Distribution',
+            title='Total Contributions',
             color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, secondary_blue, secondary_orange]
         )
         dev_finance_fig.update_traces(textposition='inside', textinfo='percent+label')
