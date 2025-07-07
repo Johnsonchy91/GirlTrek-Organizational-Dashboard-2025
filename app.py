@@ -1153,7 +1153,7 @@ def main():
         # Data Management Section
         st.markdown('<h4>Data Management & Reporting</h4>', unsafe_allow_html=True)
         
-        data_col1, data_col2 = st.columns(2)
+        data_col1, data_col2, data_col3 = st.columns(3)
         
         with data_col1:
             st.markdown(
@@ -1172,6 +1172,90 @@ def main():
                 f'<p class="metric-value">92%</p>'
                 f'<p>Target: 95%</p>'
                 f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with data_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">DASHBOARD VIEWS</p>'
+                f'<p class="metric-value">1,247</p>'
+                f'<p>Monthly Average</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Additional data management metrics
+        data_row2_col1, data_row2_col2, data_row2_col3 = st.columns(3)
+        
+        with data_row2_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">DATA ACCURACY</p>'
+                f'<p class="metric-value">98.5%</p>'
+                f'<p>Member Records</p>'
+                f'{status_badge("Achieved")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with data_row2_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">AUTOMATED REPORTS</p>'
+                f'<p class="metric-value">45%</p>'
+                f'<p>Target: 60%</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with data_row2_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">DATA INTEGRATION</p>'
+                f'<p class="metric-value">8 / 12</p>'
+                f'<p>Systems Connected</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Data governance and compliance
+        st.markdown('<h5>Data Governance & Compliance</h5>', unsafe_allow_html=True)
+        
+        gov_col1, gov_col2, gov_col3 = st.columns(3)
+        
+        with gov_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">GDPR COMPLIANCE</p>'
+                f'<p class="metric-value">100%</p>'
+                f'<p>Fully Compliant</p>'
+                f'{status_badge("Achieved")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with gov_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">DATA RETENTION</p>'
+                f'<p class="metric-value">95%</p>'
+                f'<p>Policy Adherence</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with gov_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">ACCESS CONTROLS</p>'
+                f'<p class="metric-value">100%</p>'
+                f'<p>Role-Based Access</p>'
+                f'{status_badge("Achieved")}'
                 f'</div>',
                 unsafe_allow_html=True
             )
