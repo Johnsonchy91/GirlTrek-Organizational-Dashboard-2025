@@ -90,10 +90,12 @@ def add_board_update(tab_name):
     st.markdown(board_update_html, unsafe_allow_html=True)
 
 def create_notes_section(tab_name):
-    """Create a notes section for any tab with persistence"""
+    """Create a notes section for any tab with persistence across sessions"""
     notes_key = f"notes_{tab_name}"
     
+    # Initialize notes in session state if they don't exist
     if notes_key not in st.session_state:
+        # Try to load from disk if available
         try:
             with open(f"{notes_key}.txt", "r") as f:
                 st.session_state[notes_key] = f.read()
@@ -107,19 +109,25 @@ def create_notes_section(tab_name):
         col1, col2 = st.columns([3, 1])
         
         with col1:
+            # Create text area for notes with the current value from session state
             notes = st.text_area(
                 "Add your notes here:",
                 value=st.session_state[notes_key],
                 height=150,
-                key=f"textarea_{notes_key}"
+                key=f"textarea_{notes_key}_{tab_name}"  # Made key more unique
             )
             
+            # Automatically save notes when they change
             if notes != st.session_state[notes_key]:
                 previous_notes = st.session_state[notes_key]
                 st.session_state[notes_key] = notes
                 
-                with open(f"{notes_key}.txt", "w") as f:
-                    f.write(notes)
+                # Save to disk for persistence across sessions
+                try:
+                    with open(f"{notes_key}.txt", "w") as f:
+                        f.write(notes)
+                except Exception as e:
+                    st.error(f"Error saving notes: {str(e)}")
                 
                 if 'last_edit_time' not in st.session_state:
                     st.session_state.last_edit_time = {}
@@ -127,6 +135,7 @@ def create_notes_section(tab_name):
                 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 st.session_state.last_edit_time[notes_key] = timestamp
                 
+                # Track recent note submissions
                 if notes.strip() and (not previous_notes.strip() or notes.strip() != previous_notes.strip()):
                     note_summary = notes.strip() if len(notes.strip()) < 50 else notes.strip()[:47] + "..."
                     st.session_state.recent_notes.insert(0, {
@@ -137,38 +146,49 @@ def create_notes_section(tab_name):
                     if len(st.session_state.recent_notes) > 5:
                         st.session_state.recent_notes = st.session_state.recent_notes[:5]
                 
-                st.success("Notes saved automatically!")
+                st.success("✅ Notes saved automatically!")
 
         with col2:
+            # Display timestamp of last edit if available
             if 'last_edit_time' in st.session_state and notes_key in st.session_state.last_edit_time:
                 st.info(f"Last edited: {st.session_state.last_edit_time[notes_key]}")
             
+            # Add export functionality
             if st.button("Export Notes", key=f"export_{tab_name}"):
                 notes_data = f"Tab,Notes\n{tab_name},{st.session_state[notes_key].replace(',', ';').replace('\n', ' ')}"
                 b64 = base64.b64encode(notes_data.encode()).decode()
                 href = f'<a href="data:file/csv;base64,{b64}" download="{tab_name}_notes.csv">Download {tab_name} Notes</a>'
                 st.markdown(href, unsafe_allow_html=True)
             
+            # Add ability to clear notes
             if st.button("Clear Notes", key=f"clear_{tab_name}"):
                 st.session_state[notes_key] = ""
                 if 'last_edit_time' in st.session_state and notes_key in st.session_state.last_edit_time:
                     del st.session_state.last_edit_time[notes_key]
                 
+                # Remove the file to reflect cleared notes
                 try:
                     import os
                     os.remove(f"{notes_key}.txt")
                 except FileNotFoundError:
                     pass
-                    
-                st.experimental_rerun()
+                
+                st.rerun()  # Updated from experimental_rerun
 
 def save_global_notes(global_notes):
+    """Save global notes with persistence across sessions"""
     previous_notes = st.session_state.global_notes
     st.session_state.global_notes = global_notes
     
-    with open("global_notes.txt", "w") as f:
-        f.write(global_notes)
+    # Save to disk for persistence across sessions
+    try:
+        with open("global_notes.txt", "w") as f:
+            f.write(global_notes)
+    except Exception as e:
+        st.sidebar.error(f"Error saving global notes: {str(e)}")
+        return
     
+    # Track recent note submissions
     if global_notes.strip() and (not previous_notes.strip() or global_notes.strip() != previous_notes.strip()):
         note_summary = global_notes.strip() if len(global_notes.strip()) < 50 else global_notes.strip()[:47] + "..."
         if 'recent_notes' not in st.session_state:
@@ -182,7 +202,7 @@ def save_global_notes(global_notes):
         if len(st.session_state.recent_notes) > 5:
             st.session_state.recent_notes = st.session_state.recent_notes[:5]
             
-    st.sidebar.success("Global notes saved successfully!")
+    st.sidebar.success("✅ Global notes saved successfully!")
 
 # PDF Generation Function
 def generate_pdf(section_name, dark_mode=False):
@@ -1105,7 +1125,7 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">CYBERSECURITY COMPLIANCE</p>'
-                f'<p class="metric-value">80%</p>'
+                f'<p class="metric-value">60%</p>'
                 f'<p>Goal: 90%</p>'
                 f'{status_badge("On Track")}'
                 f'</div>',
