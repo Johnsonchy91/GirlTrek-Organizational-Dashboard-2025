@@ -55,9 +55,18 @@ dark_card_bg = "#1E1E1E"
 dark_text = "#FFFFFF"
 dark_secondary_text = "#BBBBBB"
 
-def add_board_update(tab_name, update_content):
+def add_board_update(tab_name):
     """Add a leadership update section to the top of a tab"""
     dark_mode = st.session_state.dark_mode if 'dark_mode' in st.session_state else False
+    
+    # Check if there are notes for this tab
+    notes_key = f"notes_{tab_name}"
+    update_content = ""
+    
+    if notes_key in st.session_state and st.session_state[notes_key].strip():
+        update_content = st.session_state[notes_key]
+    else:
+        update_content = "<p style='font-style: italic; color: #999;'>No leadership updates at this time.</p>"
     
     if dark_mode:
         board_update_html = f'''
@@ -618,11 +627,7 @@ def main():
     # Executive Summary Tab
     # ---------------------------------
     with tab1:
-        executive_update = """
-        <p style="margin-bottom: 0;"><strong>Mission Priority:</strong> Our every action is in service of our mission to 
-        <strong>extend the life expectancy of Black women by 10 years in 10 years.</strong></p>
-        """
-        add_board_update("Executive Summary", executive_update)
+        add_board_update("Executive Summary")
         
         st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
 
@@ -791,6 +796,8 @@ def main():
     # Recruitment Tab
     # ---------------------------------
     with tab2:
+        add_board_update("Recruitment")
+        
         st.markdown('<h3 class="section-title">Recruitment Metrics</h3>', unsafe_allow_html=True)
 
         recruitment_col1, recruitment_col2, recruitment_col3 = st.columns(3)
@@ -860,16 +867,7 @@ def main():
     # Engagement Tab
     # ---------------------------------
     with tab3:
-        engagement_update = """
-        <p style="margin-bottom: 15px;"><strong>Programming Focus:</strong> Mental health is our first priority. We've launched a 
-        nationwide effort to train a corps of women in <em>Mental Health First Aid</em>. This is an investment in both 
-        immediate healing and long-term life extension.</p>
-        
-        <p style="margin-bottom: 0;"><strong>On-the-Ground Impact:</strong> In Montgomery, we've made targeted investments to serve 
-        Black women at their point of need. These efforts align with our vision to increase longevity through 
-        localized public health services and deepen trust with the communities we serve.</p>
-        """
-        add_board_update("Engagement", engagement_update)
+        add_board_update("Engagement")
         
         st.markdown('<h3 class="section-title">Engagement Metrics</h3>', unsafe_allow_html=True)
 
@@ -932,11 +930,7 @@ def main():
     # Development Tab
     # ---------------------------------
     with tab4:
-        development_update = """
-        <p style="margin-bottom: 15px;"><strong>Development Update:</strong> A major funder will be <strong>doubling their donation this year</strong>. 
-        This strengthens our already solid financial position heading into Q3-Q4.</p>
-        """
-        add_board_update("Development", development_update)
+        add_board_update("Development")
         
         st.markdown('<h3 class="section-title">Development Metrics</h3>', unsafe_allow_html=True)
 
@@ -993,19 +987,7 @@ def main():
     # Marketing Tab
     # ---------------------------------
     with tab5:
-        marketing_update = """
-        <p style="margin-bottom: 15px;"><strong>Communications & Messaging:</strong> Our values have been boldly rearticulated and published in our new 
-        <strong>Field Guide</strong>:
-        <ol style="margin-top: 10px; margin-bottom: 15px;">
-            <li>We practice <strong>Radical Welcome</strong>.</li>
-            <li>We focus on <strong>Black women disproportionately affected by health disparities</strong>.</li>
-            <li>We walk with <strong>diverse communities</strong>—and we welcome all to walk with us.</li>
-        </ol></p>
-        
-        <p style="margin-bottom: 0;"><strong>Public Relations:</strong> We're developing unified talking points for internal and external use, 
-        with upcoming training sessions led by our incoming PR firm: <strong>Black Alders</strong>.</p>
-        """
-        add_board_update("Marketing", marketing_update)
+        add_board_update("Marketing")
         
         st.markdown('<h3 class="section-title">Marketing Metrics</h3>', unsafe_allow_html=True)
 
@@ -1062,20 +1044,7 @@ def main():
     # Operations Tab
     # ---------------------------------
     with tab6:
-        operations_update = """
-        <p style="margin-bottom: 15px;"><strong>Financial Stewardship Update:</strong> We recently received word that a major funder will be 
-        <strong>doubling their donation this year</strong>. We are in a solid financial position.</p>
-        
-        <p style="margin-bottom: 15px;">We are moving forward with fiscal prudence given the economic climate and will adopt an 
-        <em>austerity budget</em> while maintaining mission-critical programming that supports Black women's longevity and ensuring our team remains 
-        gainfully and justly employed.</p>
-        
-        <p style="margin-bottom: 15px;"><strong>Technology & Security:</strong> In March, we engaged an external technology expert to audit our systems. 
-        We are currently migrating member records to a more secure platform. Through our partnership with 
-        RoundTable Technology, we've implemented 24/7 cybersecurity monitoring and completed digital safety 
-        training for 100% of staff.</p>
-        """
-        add_board_update("Operations", operations_update)
+        add_board_update("Operations")
         
         st.markdown('<h3 class="section-title">Operations Metrics</h3>', unsafe_allow_html=True)
 
@@ -1142,6 +1111,108 @@ def main():
                 f'</div>',
                 unsafe_allow_html=True
             )
+        
+        # Additional Operations Metrics
+        st.markdown('<h4>Store Performance</h4>', unsafe_allow_html=True)
+        
+        store_col1, store_col2, store_col3 = st.columns(3)
+        
+        with store_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">STORE SALES</p>'
+                f'<p class="metric-value">$99,836</p>'
+                f'<p>Goal: $400,000</p>'
+                f'{status_badge("At Risk")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with store_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">AVERAGE ORDER VALUE</p>'
+                f'<p class="metric-value">$44.36</p>'
+                f'<p>Target: $20-60</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with store_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">GROSS PROFIT %</p>'
+                f'<p class="metric-value">37%</p>'
+                f'<p>Target: 50-60%</p>'
+                f'{status_badge("At Risk")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Data Management Section
+        st.markdown('<h4>Data Management & Reporting</h4>', unsafe_allow_html=True)
+        
+        data_col1, data_col2 = st.columns(2)
+        
+        with data_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">REPORTS CREATED</p>'
+                f'<p class="metric-value">75</p>'
+                f'<p>Q2 2025</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with data_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">DATA QUALITY SCORE</p>'
+                f'<p class="metric-value">92%</p>'
+                f'<p>Target: 95%</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # HR/People Operations Section
+        st.markdown('<h4>People Operations</h4>', unsafe_allow_html=True)
+        
+        hr_col1, hr_col2, hr_col3 = st.columns(3)
+        
+        with hr_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">STAFF RETENTION</p>'
+                f'<p class="metric-value">94%</p>'
+                f'<p>Industry Avg: 86%</p>'
+                f'{status_badge("Achieved")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with hr_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TRAINING COMPLETION</p>'
+                f'<p class="metric-value">100%</p>'
+                f'<p>Digital Safety Training</p>'
+                f'{status_badge("Achieved")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with hr_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">EMPLOYEE SATISFACTION</p>'
+                f'<p class="metric-value">88%</p>'
+                f'<p>Target: 85%</p>'
+                f'{status_badge("Achieved")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
             
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Operations")
@@ -1150,12 +1221,7 @@ def main():
     # Member Care Tab
     # ---------------------------------
     with tab7:
-        member_care_update = """
-        <p style="margin-bottom: 0;"><strong>Mental Health Initiative:</strong> We've launched a nationwide effort to train a corps of women in 
-        <em>Mental Health First Aid</em>. This program represents our commitment to both immediate healing and 
-        long-term life extension through community-based mental health support.</p>
-        """
-        add_board_update("Member Care", member_care_update)
+        add_board_update("Member Care")
         
         st.markdown('<h3 class="section-title">Member Care Metrics</h3>', unsafe_allow_html=True)
 
@@ -1197,18 +1263,7 @@ def main():
     # Advocacy Tab
     # ---------------------------------
     with tab8:
-        advocacy_update = """
-        <p style="margin-bottom: 15px;"><strong>Coalition Building:</strong> We are actively deepening our relationships with national coalitions to:
-        <ul style="margin-top: 10px; margin-bottom: 15px;">
-            <li>Share legal resources</li>
-            <li>Coordinate responses to external threats</li>
-            <li>Build collective readiness and resilience</li>
-        </ul></p>
-        
-        <p style="margin-bottom: 0;">This summer, we'll engage partners in meaningful dialogue to strengthen cross-sector relationships, 
-        culminating in a convening of our coalition partners in late 2025.</p>
-        """
-        add_board_update("Advocacy", advocacy_update)
+        add_board_update("Advocacy")
         
         st.markdown('<h3 class="section-title">Advocacy Metrics</h3>', unsafe_allow_html=True)
 
@@ -1251,6 +1306,8 @@ def main():
     # Impact Tab
     # ---------------------------------
     with tab9:
+        add_board_update("Impact")
+        
         st.markdown('<h3 class="section-title">Impact Metrics</h3>', unsafe_allow_html=True)
 
         st.markdown(
