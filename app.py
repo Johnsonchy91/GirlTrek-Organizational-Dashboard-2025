@@ -1,703 +1,1312 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
+import base64
+import re
+import uuid
+import io
+import sys
+import subprocess
 
-# Page configuration
-st.set_page_config(
-    page_title="GirlTREK Organizational Dashboard 2025",
-    page_icon="🚶‍♀️",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# Initialize persistent state
+if "persist" not in st.session_state:
+    st.session_state.persist = True
 
-# Color scheme from brand guidelines
-primary_blue = "#2B4C8C"
-primary_orange = "#F37726"
-primary_yellow = "#FBCD50"
-secondary_blue = "#6CACE4"
-secondary_orange = "#F68B1E"
-secondary_teal = "#00A895"
-secondary_beige = "#F8F3E6"
-secondary_gold = "#D4A900"
+# Check if reportlab is installed, if not install it
+try:
+    import reportlab
+except ImportError:
+    print("ReportLab not found. Installing...")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "reportlab"])
+    print("ReportLab installed successfully!")
+    import reportlab
+
+# Import reportlab components after ensuring installation
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
+from reportlab.lib.units import inch
+from reportlab.graphics.shapes import Drawing
+from reportlab.graphics.charts.piecharts import Pie
+from reportlab.graphics.charts.barcharts import VerticalBarChart
+
+# Color Scheme
+primary_blue = "#0088FF"
+primary_orange = "#FF5722"
+primary_yellow = "#FFEB3B"
+secondary_blue = "#00C8FF"
+secondary_orange = "#FF9100"
+secondary_teal = "#00E5FF"
+secondary_beige = "#FFECB3"
+secondary_gold = "#FFC400"
 secondary_white = "#FFFFFF"
-secondary_gray = "#6B7280"
+secondary_gray = "#424242"
+secondary_pink = "#FF4081"
+secondary_purple = "#AA00FF"
+secondary_green = "#00E676"
+achieved_green = "#00C853"
 
-# Custom CSS
-st.markdown(f"""
-<style>
-    /* Main header styling */
-    .main-header {{
-        background-color: {primary_blue};
-        color: white;
-        padding: 2rem;
-        border-radius: 10px;
-        margin-bottom: 2rem;
-        text-align: center;
-    }}
-    
-    /* Metric card styling */
-    .metric-card {{
-        background-color: {secondary_beige};
-        padding: 1.5rem;
-        border-radius: 10px;
-        margin-bottom: 1rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }}
-    
-    .metric-title {{
-        color: {primary_blue};
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }}
-    
-    .metric-value {{
-        color: {primary_orange};
-        font-size: 32px;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-    }}
-    
-    /* Section headers */
-    .section-title {{
-        color: {primary_blue};
-        border-bottom: 3px solid {primary_orange};
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.5rem;
-    }}
-    
-    /* Tab styling */
-    .stTabs [data-baseweb="tab-list"] {{
-        gap: 8px;
-    }}
-    
-    .stTabs [data-baseweb="tab"] {{
-        background-color: {secondary_beige};
-        color: {primary_blue};
-        border-radius: 8px 8px 0 0;
-        padding: 8px 16px;
-        font-weight: 600;
-    }}
-    
-    .stTabs [aria-selected="true"] {{
-        background-color: {primary_orange};
-        color: white;
-    }}
-</style>
-""", unsafe_allow_html=True)
+dark_bg = "#121212"
+dark_card_bg = "#1E1E1E"
+dark_text = "#FFFFFF"
+dark_secondary_text = "#BBBBBB"
 
-# Header
-st.markdown("""
-<div class="main-header">
-    <h1>🚶‍♀️ GirlTREK Organizational Dashboard 2025</h1>
-    <p style="font-size: 18px; margin-top: 10px;">Empowering Black Women to Walk for Better Health</p>
-</div>
-""", unsafe_allow_html=True)
+def add_board_update(tab_name, update_content):
+    """Add a leadership update section to the top of a tab"""
+    dark_mode = st.session_state.dark_mode if 'dark_mode' in st.session_state else False
+    
+    if dark_mode:
+        board_update_html = f'''
+        <div style="background-color: #1E2130; border-left: 5px solid #0088FF; 
+             padding: 20px; border-radius: 5px; margin: 15px 0 25px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+            <h4 style="color: #4DA6FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;">Leadership Update: {tab_name}</h4>
+            <div style="color: #E0E0E0; line-height: 1.5;">
+                {update_content}
+        </div>
+        '''
+    else:
+        board_update_html = f'''
+        <div style="background-color: #F3F9FF; border-left: 5px solid #0088FF; 
+             padding: 20px; border-radius: 5px; margin: 15px 0 25px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <h4 style="color: #0088FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;">Leadership Update: {tab_name}</h4>
+            <div style="color: #333333; line-height: 1.5;">
+                {update_content}
+        </div>
+        '''
+    
+    st.markdown(board_update_html, unsafe_allow_html=True)
 
-# Helper function for status badges
+def create_notes_section(tab_name):
+    """Create a notes section for any tab with persistence"""
+    notes_key = f"notes_{tab_name}"
+    
+    if notes_key not in st.session_state:
+        try:
+            with open(f"{notes_key}.txt", "r") as f:
+                st.session_state[notes_key] = f.read()
+        except FileNotFoundError:
+            st.session_state[notes_key] = ""
+    
+    if 'recent_notes' not in st.session_state:
+        st.session_state.recent_notes = []
+    
+    with st.expander(f"📝 Notes for {tab_name}", expanded=False):
+        col1, col2 = st.columns([3, 1])
+        
+        with col1:
+            notes = st.text_area(
+                "Add your notes here:",
+                value=st.session_state[notes_key],
+                height=150,
+                key=f"textarea_{notes_key}"
+            )
+            
+            if notes != st.session_state[notes_key]:
+                previous_notes = st.session_state[notes_key]
+                st.session_state[notes_key] = notes
+                
+                with open(f"{notes_key}.txt", "w") as f:
+                    f.write(notes)
+                
+                if 'last_edit_time' not in st.session_state:
+                    st.session_state.last_edit_time = {}
+                    
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                st.session_state.last_edit_time[notes_key] = timestamp
+                
+                if notes.strip() and (not previous_notes.strip() or notes.strip() != previous_notes.strip()):
+                    note_summary = notes.strip() if len(notes.strip()) < 50 else notes.strip()[:47] + "..."
+                    st.session_state.recent_notes.insert(0, {
+                        "tab": tab_name,
+                        "summary": note_summary,
+                        "timestamp": timestamp
+                    })
+                    if len(st.session_state.recent_notes) > 5:
+                        st.session_state.recent_notes = st.session_state.recent_notes[:5]
+                
+                st.success("Notes saved automatically!")
+
+        with col2:
+            if 'last_edit_time' in st.session_state and notes_key in st.session_state.last_edit_time:
+                st.info(f"Last edited: {st.session_state.last_edit_time[notes_key]}")
+            
+            if st.button("Export Notes", key=f"export_{tab_name}"):
+                notes_data = f"Tab,Notes\n{tab_name},{st.session_state[notes_key].replace(',', ';').replace('\n', ' ')}"
+                b64 = base64.b64encode(notes_data.encode()).decode()
+                href = f'<a href="data:file/csv;base64,{b64}" download="{tab_name}_notes.csv">Download {tab_name} Notes</a>'
+                st.markdown(href, unsafe_allow_html=True)
+            
+            if st.button("Clear Notes", key=f"clear_{tab_name}"):
+                st.session_state[notes_key] = ""
+                if 'last_edit_time' in st.session_state and notes_key in st.session_state.last_edit_time:
+                    del st.session_state.last_edit_time[notes_key]
+                
+                try:
+                    import os
+                    os.remove(f"{notes_key}.txt")
+                except FileNotFoundError:
+                    pass
+                    
+                st.experimental_rerun()
+
+def save_global_notes(global_notes):
+    previous_notes = st.session_state.global_notes
+    st.session_state.global_notes = global_notes
+    
+    with open("global_notes.txt", "w") as f:
+        f.write(global_notes)
+    
+    if global_notes.strip() and (not previous_notes.strip() or global_notes.strip() != previous_notes.strip()):
+        note_summary = global_notes.strip() if len(global_notes.strip()) < 50 else global_notes.strip()[:47] + "..."
+        if 'recent_notes' not in st.session_state:
+            st.session_state.recent_notes = []
+        
+        st.session_state.recent_notes.insert(0, {
+            "tab": "Global",
+            "summary": note_summary,
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        })
+        if len(st.session_state.recent_notes) > 5:
+            st.session_state.recent_notes = st.session_state.recent_notes[:5]
+            
+    st.sidebar.success("Global notes saved successfully!")
+
+# PDF Generation Function
+def generate_pdf(section_name, dark_mode=False):
+    """Generate a PDF report for the selected dashboard section"""
+    buffer = io.BytesIO()
+    
+    if dark_mode:
+        background_color = colors.HexColor('#121212')
+        text_color = colors.white
+        accent_color = colors.HexColor('#0088FF')
+    else:
+        background_color = colors.white
+        text_color = colors.black
+        accent_color = colors.HexColor('#0088FF')
+    
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=letter,
+        rightMargin=72,
+        leftMargin=72,
+        topMargin=72,
+        bottomMargin=72
+    )
+    
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(
+        'Title',
+        parent=styles['Title'],
+        textColor=accent_color,
+        spaceAfter=12
+    )
+    heading_style = ParagraphStyle(
+        'Heading',
+        parent=styles['Heading1'],
+        textColor=accent_color,
+        spaceAfter=10
+    )
+    normal_style = ParagraphStyle(
+        'Normal',
+        parent=styles['Normal'],
+        textColor=text_color,
+        spaceAfter=6
+    )
+    
+    elements = []
+    
+    elements.append(Paragraph(f"GirlTREK Organizational Dashboard", title_style))
+    elements.append(Paragraph(f"Q2 2025 Metrics Overview - {section_name}", heading_style))
+    elements.append(Paragraph(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", normal_style))
+    elements.append(Spacer(1, 0.25*inch))
+    
+    # Add section-specific content based on real data
+    if section_name == "Executive Summary":
+        elements.append(Paragraph("Key Metrics", heading_style))
+        
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["Total Membership", f"{format_number(st.session_state.total_membership)}", "1,700,000", "On Track"],
+            ["Total New Members", f"{format_number(st.session_state.new_members)}", "100,000", "On Track"],
+            ["Total Contributions", f"{format_currency(st.session_state.total_contributions)}", "$10,000,000", "On Track"]
+        ]
+        
+        t = Table(data, colWidths=[2*inch, 1.5*inch, 1.5*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        elements.append(Spacer(1, 0.25*inch))
+        
+        elements.append(Paragraph("Report Card Progress", heading_style))
+        report_data = [
+            ["Goal", "Current Total", "Percent Progress", "Status"],
+            ["Recruit 100,000 new members", "15,438", "15.44%", "On Track"],
+            ["Engage 250,000 members", "13,119", "5.25%", "On Track"],
+            ["Support 65,000 walking daily", "5,634", "8.67%", "At Risk"],
+            ["Unite 20 advocacy partners", "2", "10%", "At Risk"],
+            ["Raise $10M", "$3,109,294.25", "31.09%", "On Track"],
+            ["Establish Care Village", "3,055", "7.64%", "On Track"],
+            ["Achieve 85% organizational health", "100%", "100%", "On Track"]
+        ]
+        
+        t2 = Table(report_data, colWidths=[2.5*inch, 1.5*inch, 1*inch, 1*inch])
+        t2.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t2)
+    
+    # Add notes if they exist
+    if section_name in ["Executive Summary", "Recruitment", "Engagement", "Development", "Marketing", "Operations", "Member Care", "Advocacy", "Impact"]:
+        notes_key = f"notes_{section_name}"
+        if notes_key in st.session_state and st.session_state[notes_key]:
+            elements.append(Spacer(1, 0.5*inch))
+            elements.append(Paragraph("Notes", heading_style))
+            elements.append(Paragraph(st.session_state[notes_key], normal_style))
+    
+    if 'global_notes' in st.session_state and st.session_state.global_notes:
+        elements.append(Spacer(1, 0.5*inch))
+        elements.append(Paragraph("Global Dashboard Notes", heading_style))
+        elements.append(Paragraph(st.session_state.global_notes, normal_style))
+    
+    doc.build(elements)
+    
+    pdf_data = buffer.getvalue()
+    buffer.close()
+    
+    return base64.b64encode(pdf_data).decode()
+
+# Helper Functions
+def generate_unique_id():
+    return str(uuid.uuid4())
+
 def status_badge(status):
     if status == "On Track":
-        return f'<span style="background-color: #28a745; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px;">{status}</span>'
+        return f'<span style="background-color: #4CAF50; color: white; padding: 3px 8px; border-radius: 4px;">On Track</span>'
     elif status == "At Risk":
-        return f'<span style="background-color: #dc3545; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px;">{status}</span>'
+        return f'<span style="background-color: #FF9800; color: white; padding: 3px 8px; border-radius: 4px;">At Risk</span>'
+    elif status == "Achieved":
+        return f'<span style="background-color: {achieved_green}; color: white; padding: 3px 8px; border-radius: 4px;">Achieved</span>'
     else:
-        return f'<span style="background-color: #ffc107; color: black; padding: 4px 12px; border-radius: 20px; font-size: 12px;">{status}</span>'
+        return f'<span style="background-color: #F44336; color: white; padding: 3px 8px; border-radius: 4px;">Off Track</span>'
 
-# Create tabs
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["📊 Executive Summary", "👥 Recruitment & Engagement", "💰 Development", "📱 Marketing", "❤️ Impact & Member Care"])
+def download_data(df, filename):
+    try:
+        if not isinstance(df, pd.DataFrame):
+            return f'<p style="color: red;">Error: Invalid data format for {filename}</p>'
+        csv = df.to_csv(index=False)
+        b64 = base64.b64encode(csv.encode()).decode()
+        href = f'<a href="data:file/csv;base64,{b64}" download="{filename}.csv">Download {filename} data</a>'
+        return href
+    except Exception as e:
+        return f'<p style="color: red;">Error generating download: {str(e)}</p>'
 
-with tab1:
-    st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
-    
-    # Strategic goals overview
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">NEW MEMBERS RECRUITED</p>'
-            f'<p class="metric-value">15,438</p>'
-            f'<p>Goal: 100,000 (15.44%)</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">MEMBERS ENGAGED</p>'
-            f'<p class="metric-value">13,119</p>'
-            f'<p>Goal: 250,000 (5.25%)</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with col3:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL FUNDS RAISED</p>'
-            f'<p class="metric-value">$3.1M</p>'
-            f'<p>Goal: $10M (31.09%)</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Additional key metrics
-    col4, col5, col6 = st.columns(3)
-    
-    with col4:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">WALKING AT LIFE-SAVING LEVEL</p>'
-            f'<p class="metric-value">5,634</p>'
-            f'<p>Goal: 65,000 (8.67%)</p>'
-            f'<p>{status_badge("At Risk")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with col5:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">CARE VILLAGE REACHED</p>'
-            f'<p class="metric-value">3,055</p>'
-            f'<p>Goal: 40,000 (7.64%)</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with col6:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">ADVOCACY PARTNERS</p>'
-            f'<p class="metric-value">2</p>'
-            f'<p>Goal: 20 (10%)</p>'
-            f'<p>{status_badge("At Risk")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Progress visualization
-    st.markdown('<h4>Annual Progress by Goal</h4>', unsafe_allow_html=True)
-    
-    goals_data = {
-        'Goal': ['New Members', 'Members Engaged', 'Life-Saving Level', 'Advocacy Partners', 'Funds Raised', 'Care Village'],
-        'Progress': [15.44, 5.25, 8.67, 10.00, 31.09, 7.64],
-        'Target': [100, 100, 100, 100, 100, 100]
-    }
-    df_goals = pd.DataFrame(goals_data)
-    
-    fig_goals = go.Figure()
-    
-    fig_goals.add_trace(go.Bar(
-        x=df_goals['Goal'],
-        y=df_goals['Progress'],
-        name='Current Progress',
-        marker_color=primary_blue,
-        text=df_goals['Progress'].apply(lambda x: f'{x:.1f}%'),
-        textposition='outside'
-    ))
-    
-    fig_goals.add_trace(go.Bar(
-        x=df_goals['Goal'],
-        y=df_goals['Target'] - df_goals['Progress'],
-        name='Remaining',
-        marker_color=secondary_beige,
-        text=''
-    ))
-    
-    fig_goals.update_layout(
-        barmode='stack',
-        yaxis_title='Progress (%)',
-        xaxis_title='Strategic Goals',
-        height=400,
-        showlegend=True,
-        title_font=dict(color=primary_blue)
-    )
-    
-    st.plotly_chart(fig_goals, use_container_width=True)
-    
-    # Member demographics
-    col7, col8 = st.columns(2)
-    
-    with col7:
-        st.markdown('<h4>Top 5 States by Membership</h4>', unsafe_allow_html=True)
-        states_data = {
-            'State': ['Texas', 'Georgia', 'California', 'New York', 'Florida'],
-            'Members': [89043, 84799, 77919, 66670, 64880]
-        }
-        df_states = pd.DataFrame(states_data)
-        
-        fig_states = px.bar(df_states, x='State', y='Members',
-                           color='Members',
-                           color_continuous_scale=[primary_blue, primary_orange])
-        fig_states.update_layout(
-            showlegend=False,
-            height=350,
-            title_font=dict(color=primary_blue)
-        )
-        st.plotly_chart(fig_states, use_container_width=True)
-    
-    with col8:
-        st.markdown('<h4>Membership by Age Group</h4>', unsafe_allow_html=True)
-        age_data = {
-            'Age Group': ['18-24', '25-34', '35-49', '50-64', '65+'],
-            'Members': [1739, 16515, 82893, 164106, 108669]
-        }
-        df_age = pd.DataFrame(age_data)
-        
-        fig_age = px.pie(df_age, values='Members', names='Age Group',
-                        color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
-                                               secondary_blue, secondary_orange])
-        fig_age.update_traces(textposition='inside', textinfo='percent+label')
-        fig_age.update_layout(
-            height=350,
-            title_font=dict(color=primary_blue)
-        )
-        st.plotly_chart(fig_age, use_container_width=True)
+def format_currency(value):
+    if isinstance(value, str):
+        try:
+            clean_value = re.sub(r'[^\d.]', '', value)
+            value = float(clean_value)
+        except:
+            return value
+    return f"${value:,.2f}"
 
-with tab2:
-    st.markdown('<h3 class="section-title">Recruitment & Engagement Metrics</h3>', unsafe_allow_html=True)
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        # New members by month - Real data
-        month_data = {
-            'Month': ['January', 'February', 'March', 'April', 'May', 'June'],
-            'New Members': [591, 1588, 4382, 6073, 2610, 123]
-        }
-        df_months = pd.DataFrame(month_data)
-        
-        fig_months = px.line(df_months, x='Month', y='New Members', 
-                          title='New Members by Month',
-                          markers=True)
-        fig_months.update_traces(
-            line=dict(color=primary_blue, width=3),
-            marker=dict(color=primary_orange, size=10)
-        )
-        fig_months.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(fig_months, use_container_width=True)
-    
-    with col2:
-        # New members by age - Real data
-        new_age_data = {
-            'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown'],
-            'New Members': [90, 504, 1923, 2389, 2039, 8479]
-        }
-        df_new_age = pd.DataFrame(new_age_data)
-        
-        fig_new_age = px.pie(df_new_age, values='New Members', names='Age Group', 
-                         title='New Members by Age Group',
-                         color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, 
-                                                secondary_blue, secondary_orange, secondary_teal])
-        fig_new_age.update_traces(textposition='inside', textinfo='percent+label')
-        fig_new_age.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(fig_new_age, use_container_width=True)
-    
-    # Engagement metrics
-    st.markdown('<h4>Engagement Stats</h4>', unsafe_allow_html=True)
-    
-    engagement_col1, engagement_col2, engagement_col3 = st.columns(3)
-    
-    with engagement_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">ACTIVE VOLUNTEERS</p>'
-            f'<p class="metric-value">3,348</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with engagement_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">DOCUMENTED CREW LEADERS</p>'
-            f'<p class="metric-value">3,856</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with engagement_col3:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">ACTIVE CREW LEADERS</p>'
-            f'<p class="metric-value">1,846</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Training and volunteer metrics
-    st.markdown('<h4>Volunteer Development</h4>', unsafe_allow_html=True)
-    
-    volunteer_col1, volunteer_col2 = st.columns(2)
-    
-    with volunteer_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL TRAINED VOLUNTEERS</p>'
-            f'<p class="metric-value">11,535</p>'
-            f'<p>Includes all training programs</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with volunteer_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">NEW CREWS FORMED</p>'
-            f'<p class="metric-value">727</p>'
-            f'<p>Year to Date</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
+def format_number(value):
+    if isinstance(value, str):
+        try:
+            clean_value = value.replace(',', '')
+            value = float(clean_value)
+        except:
+            return value
+    return f"{value:,.0f}"
 
-with tab3:
-    st.markdown('<h3 class="section-title">Development Metrics</h3>', unsafe_allow_html=True)
-    
-    # Financial summary - Real data
-    financial_col1, financial_col2, financial_col3 = st.columns(3)
-    
-    with financial_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL DONATIONS</p>'
-            f'<p class="metric-value">$3,109,294.25</p>'
-            f'<p>Goal: $10,000,000</p>'
-            f'<p>Progress: 31.09%</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with financial_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL REVENUE (YTD)</p>'
-            f'<p class="metric-value">$3,243,526</p>'
-            f'<p>Budget: $1,237,419</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with financial_col3:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL EXPENSES (YTD)</p>'
-            f'<p class="metric-value">$2,343,862</p>'
-            f'<p>Budget: $1,608,765</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Grants and fundraising - Real data
-    grants_col1, grants_col2 = st.columns(2)
-    
-    with grants_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL GRANTS</p>'
-            f'<p class="metric-value">$3,101,133.09</p>'
-            f'<p>17 Grants Funded</p>'
-            f'<p>Goal: 48 Grants (35.42%)</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with grants_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">STORE SALES</p>'
-            f'<p class="metric-value">$99,836</p>'
-            f'<p>Goal: $400,000</p>'
-            f'<p>Progress: 24.96%</p>'
-            f'<p>{status_badge("At Risk")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Financial breakdown chart
-    finance_data = {
-        'Category': ['Grants', 'Donations', 'Store Sales', 'Other Revenue'],
-        'Amount': [3101133.09, 8161.16, 99836, 34395.75]
-    }
-    df_finance = pd.DataFrame(finance_data)
-    
-    fig_finance = px.pie(df_finance, values='Amount', names='Category', 
-                       title='Revenue Breakdown',
-                       color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, secondary_blue])
-    fig_finance.update_traces(textposition='inside', textinfo='percent+label')
-    fig_finance.update_layout(title_font=dict(color=primary_blue))
-    st.plotly_chart(fig_finance, use_container_width=True)
-    
-    # Store Performance
-    st.markdown('<h4>Store Performance Metrics</h4>', unsafe_allow_html=True)
-    
-    store_col1, store_col2 = st.columns(2)
-    
-    with store_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">AVERAGE ORDER VALUE (AOV)</p>'
-            f'<p class="metric-value">$44.36</p>'
-            f'<p>Target: $20-60</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with store_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">GROSS PROFIT PERCENTAGE</p>'
-            f'<p class="metric-value">37%</p>'
-            f'<p>Target: 50-60%</p>'
-            f'<p>{status_badge("At Risk")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-
-with tab4:
-    st.markdown('<h3 class="section-title">Marketing Metrics</h3>', unsafe_allow_html=True)
-    
-    # Subscriber metrics - Real data
-    sub_col1, sub_col2 = st.columns(2)
-    
-    with sub_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">TOTAL SUBSCRIBERS</p>'
-            f'<p class="metric-value">931,141</p>'
-            f'<p>Goal: 1,300,000 (71.63%)</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with sub_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">ACTIVE SUBSCRIBERS</p>'
-            f'<p class="metric-value">320,463</p>'
-            f'<p>34.4% of Total Subscribers</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Email engagement
-    st.markdown('<h4>Email Engagement (30 Day)</h4>', unsafe_allow_html=True)
-    
-    email_col1, email_col2 = st.columns(2)
-    
-    with email_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">EMAIL OPENERS</p>'
-            f'<p class="metric-value">19,148</p>'
-            f'<p>Open Rate: ~6%</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with email_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">EMAIL CLICKERS</p>'
-            f'<p class="metric-value">12,904</p>'
-            f'<p>Click Rate: ~4%</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # SMS Engagement Note
-    st.markdown(
-        f"""
-        <div class="metric-card">
-            <h6 style="color: {primary_blue};">SMS Engagement Benchmark</h6>
-            <p>Industry Standard: SMS messages have click-through rates of 6.3% for fundraising messages and 10% for advocacy messages.</p>
-        </div>
-        """, 
-        unsafe_allow_html=True
-    )
-
-with tab5:
-    st.markdown('<h3 class="section-title">Impact & Member Care Metrics</h3>', unsafe_allow_html=True)
-    
-    # Care Village metrics - Real data
-    care_col1, care_col2 = st.columns(2)
-    
-    with care_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">CARE VILLAGE: POPULATION REACHED</p>'
-            f'<p class="metric-value">3,055</p>'
-            f'<p>Goal: 40,000</p>'
-            f'<p>Progress: 7.64%</p>'
-            f'<p>{status_badge("On Track")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with care_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">WALKING AT LIFE-SAVING LEVEL</p>'
-            f'<p class="metric-value">5,634</p>'
-            f'<p>Goal: 65,000</p>'
-            f'<p>Progress: 8.67%</p>'
-            f'<p>{status_badge("At Risk")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    # Member satisfaction metrics - Real data
-    member_col1, member_col2 = st.columns(2)
-    
-    with member_col1:
-        fig_satisfaction = go.Figure(go.Indicator(
-            mode="gauge+number",
-            value=93,
-            domain={'x': [0, 1], 'y': [0, 1]},
-            title={'text': "Member Satisfaction Rating", 'font': {'color': primary_blue}},
-            gauge={
-                'axis': {'range': [None, 100]},
-                'bar': {'color': primary_orange},
-                'steps': [
-                    {'range': [0, 50], 'color': secondary_beige},
-                    {'range': [50, 85], 'color': secondary_gold},
-                    {'range': [85, 100], 'color': primary_yellow}
-                ],
-                'threshold': {
-                    'line': {'color': secondary_orange, 'width': 4},
-                    'thickness': 0.75,
-                    'value': 95
-                }
-            }
-        ))
-        
-        fig_satisfaction.update_layout(height=300)
-        st.plotly_chart(fig_satisfaction, use_container_width=True)
-    
-    with member_col2:
-        st.markdown('<h4>Top Member Issues/Concerns</h4>', unsafe_allow_html=True)
+def apply_dark_mode(dark_mode_enabled):
+    if dark_mode_enabled:
         st.markdown(
             f"""
-            <div class="metric-card">
-                <ul>
-                    <li>SCS Registration Error Message</li>
-                    <li>Connecting to the Movement</li>
-                    <li>App functionality and usability</li>
-                    <li>Finding local crew events</li>
-                </ul>
+            <style>
+            .reportview-container .main .block-container {{
+                background-color: #000000;
+                color: #FFFFFF;
+            }}
+            .stApp {{
+                background-color: #000000;
+            }}
+            h1, h2, h3, h4, h5, h6 {{
+                color: #FFFFFF !important;
+            }}
+            p {{
+                color: #FFFFFF;
+            }}
+            .metric-box {{
+                background-color: #1E1E1E;
+                color: #FFFFFF;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+                margin-bottom: 20px;
+                text-align: center;
+                border-left: 5px solid #0088FF;
+            }}
+            .metric-title {{
+                font-size: 16px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #BBBBBB;
+            }}
+            .metric-value {{
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #FFFFFF;
+            }}
+            .section-title {{
+                color: #FFFFFF;
+                padding-bottom: 10px;
+                border-bottom: 2px solid #FF7043;
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            """
+            <style>
+            .section-title {
+                color: #1E3C72;
+                padding-bottom: 10px;
+                border-bottom: 2px solid #FF7043;
+            }
+            .metric-box {
+                background-color: #f8f9fa;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+                text-align: center;
+                border-left: 5px solid #0088FF;
+            }
+            .metric-title {
+                font-size: 16px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #424242;
+            }
+            .metric-value {
+                font-size: 26px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #0088FF;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+
+# Initialize global notes from disk if available
+if 'global_notes' not in st.session_state:
+    try:
+        with open("global_notes.txt", "r") as f:
+            st.session_state.global_notes = f.read()
+    except FileNotFoundError:
+        st.session_state.global_notes = ""
+
+# Session State - Updated with real data from CSV
+if 'data_loaded' not in st.session_state:
+    st.session_state.data_loaded = False
+
+if 'total_membership' not in st.session_state:
+    st.session_state.total_membership = 1244476  # Real data from CSV
+    st.session_state.new_members = 15438  # Real data from CSV
+    st.session_state.total_contributions = 3109294.25  # Real data from CSV
+    st.session_state.total_grants = 3101133.09  # Real data from CSV
+    st.session_state.data_loaded = True
+
+# Main App
+def main():
+    # Sidebar
+    st.sidebar.markdown("### Download Dashboard")
+    download_options = [
+        "Executive Summary", "Recruitment", "Engagement",
+        "Development", "Marketing", "Operations",
+        "Member Care", "Advocacy", "Impact", "Complete Dashboard"
+    ]
+    selected_download = st.sidebar.selectbox("Select dashboard section to download:", download_options)
+
+    if st.sidebar.button("Generate PDF for Download"):
+        with st.sidebar:
+            with st.spinner("Generating PDF..."):
+                pdf_base64 = generate_pdf(selected_download, dark_mode=st.session_state.dark_mode)
+                filename = f"{selected_download.replace(' ', '_')}_report.pdf"
+                download_link = f'<a href="data:application/pdf;base64,{pdf_base64}" download="{filename}">Download {selected_download} PDF</a>'
+                st.success(f"PDF for {selected_download} has been generated!")
+                st.markdown(download_link, unsafe_allow_html=True)
+
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### Dashboard Settings")
+    if 'show_target_lines' not in st.session_state:
+        st.session_state.show_target_lines = True
+        
+    if 'dark_mode' not in st.session_state:
+        st.session_state.dark_mode = False
+        
+    show_target_lines = st.sidebar.checkbox("Show Target Lines", value=st.session_state.show_target_lines, key="show_target_lines_checkbox")
+    dark_mode = st.sidebar.checkbox("Dark Mode", value=st.session_state.dark_mode, key="dark_mode_checkbox")
+
+    st.session_state.show_target_lines = show_target_lines
+    st.session_state.dark_mode = dark_mode
+
+    apply_dark_mode(dark_mode)
+
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### Dashboard Notes")
+
+    global_notes = st.sidebar.text_area(
+        "Add global notes for the entire dashboard:",
+        value=st.session_state.global_notes,
+        height=100,
+        key="textarea_global_notes"
+    )
+
+    if st.sidebar.button("Save Global Notes"):
+        save_global_notes(global_notes)
+
+    st.sidebar.markdown("### Recent Notes")
+    if 'recent_notes' in st.session_state and st.session_state.recent_notes:
+        for note in st.session_state.recent_notes:
+            st.sidebar.markdown(
+                f"""
+                <div style="background-color: #f1f3f4; padding: 10px; border-radius: 5px; margin-bottom: 10px; border-left: 3px solid #0088FF;">
+                    <div style="font-size: 12px; color: #666; margin-bottom: 2px;">{note['tab']} - {note['timestamp']}</div>
+                    <div style="font-size: 14px;">{note['summary']}</div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    else:
+        st.sidebar.markdown("*No recent notes to display*")
+
+    if st.sidebar.button("Export All Notes"):
+        all_notes = {"Global": st.session_state.global_notes}
+        
+        for tab in ["Executive Summary", "Recruitment", "Engagement", "Development", 
+                    "Marketing", "Operations", "Member Care", "Advocacy", "Impact"]:
+            tab_key = f"notes_{tab}"
+            if tab_key in st.session_state:
+                all_notes[tab] = st.session_state[tab_key]
+        
+        csv_data = "Tab,Notes\n"
+        for tab, notes in all_notes.items():
+            clean_notes = notes.replace(',', ';').replace('\n', ' ')
+            csv_data += f"{tab},{clean_notes}\n"
+        
+        b64 = base64.b64encode(csv_data.encode()).decode()
+        date_str = datetime.now().strftime("%Y%m%d")
+        href = f'<a href="data:file/csv;base64,{b64}" download="GirlTREK_Dashboard_Notes_{date_str}.csv">Download All Notes</a>'
+        st.sidebar.markdown(href, unsafe_allow_html=True)
+
+    # App Title
+    st.title("GirlTREK Organizational Dashboard")
+    st.markdown("### Q2 2025 Metrics Overview")
+    st.markdown("*Data dashboard was published on June 30, 2025*")
+
+    # Load dataframes with real data from CSV
+
+    # New Members by Month - Real data
+    df_extended = pd.DataFrame({
+        'Month': ['Oct 2024', 'Nov 2024', 'Dec 2024', 'Jan 2025', 'Feb 2025', 'Mar 2025', 'Apr 2025', 'May 2025', 'Jun 2025'],
+        'New Members': [1365, 1419, 182, 591, 1588, 4382, 6073, 2610, 123],
+        'Date': [
+            datetime(2024, 10, 1),
+            datetime(2024, 11, 1),
+            datetime(2024, 12, 1),
+            datetime(2025, 1, 1),
+            datetime(2025, 2, 1),
+            datetime(2025, 3, 1),
+            datetime(2025, 4, 1),
+            datetime(2025, 5, 1),
+            datetime(2025, 6, 1)
+        ]
+    })
+
+    # New Members by Age - Real data
+    df_new_age = pd.DataFrame({
+        'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown'],
+        'New Members': [90, 504, 1923, 2389, 2039, 8479]
+    })
+
+    # Total Membership by Age - Real data
+    df_total_age = pd.DataFrame({
+        'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown'],
+        'Members': [1739, 16515, 82893, 164106, 108669, 755521]
+    })
+
+    # Top States & Top Cities - Real data
+    df_top_states = pd.DataFrame({
+        'State': ['Texas', 'Georgia', 'California', 'New York', 'Florida'],
+        'Members': [89043, 84799, 77919, 66670, 64880]
+    })
+
+    df_top_cities = pd.DataFrame({
+        'City': ['Chicago', 'Philadelphia', 'Houston', 'Brooklyn', 'Atlanta'],
+        'Members': [20166, 16775, 16662, 15197, 12797]
+    })
+
+    # Historic Movement Growth Numbers - Real data where available
+    df_historic_growth = pd.DataFrame({
+        'Year': [2020, 2021, 2022, 2023, 2024, 2025],
+        'Trekkers': [1000000, 1218000, 1214566, 1207517, 1229038, 1244476],
+        'New Women': [626660, 218000, -3434, -7049, 21521, 15438]
+    })
+
+    # Financial Revenue Breakdown - Real data
+    df_finance = pd.DataFrame({
+        'Category': ['Donations', 'Grants'],
+        'Amount': [8161.16, 3101133.09]
+    })
+
+    # Financial Trend Data - Real data (May 2025 YTD)
+    finance_trend_data = pd.DataFrame({
+        'Month': ['January', 'February', 'March', 'April', 'May'],
+        'Revenue': [648705, 648705, 648705, 648705, 648706],  # Total: 3,243,526
+        'Expenses': [468772, 468772, 468772, 468773, 468773]  # Total: 2,343,862
+    })
+
+    # Email and Subscriber Activity Data - Real data
+    df_activity = pd.DataFrame({
+        'Period': ['30 day'],
+        'Openers': [19148],
+        'Clickers': [12904]
+    })
+
+    # Member Care Data - Real data
+    member_care_data = pd.DataFrame({
+        'Metric': ['Member Satisfaction Rating', 'Resolution/Responsiveness Rate', 'Top Member Issues/Concerns'],
+        'Goal': ['95%', '48 hours', '-'],
+        'Current Total': ['93%', '2 hours', 'SCS Registration Error Message & Connecting to the Movement']
+    })
+
+    # Create Tabs
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
+        "Executive Summary",
+        "Recruitment",
+        "Engagement",
+        "Development",
+        "Marketing",
+        "Operations",
+        "Member Care",
+        "Advocacy",
+        "Impact"
+    ])
+
+    # ---------------------------------
+    # Executive Summary Tab
+    # ---------------------------------
+    with tab1:
+        executive_update = """
+        <p style="margin-bottom: 0;"><strong>Mission Priority:</strong> Our every action is in service of our mission to 
+        <strong>extend the life expectancy of Black women by 10 years in 10 years.</strong></p>
+        """
+        add_board_update("Executive Summary", executive_update)
+        
+        st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
+
+        st.markdown("<h3>Key Metrics</h3>", unsafe_allow_html=True)
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL MEMBERSHIP</p>'
+                f'<p class="metric-value">{format_number(st.session_state.total_membership)}</p>'
+                f'<p>Goal: 1,700,000</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        with col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
+                f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
+                f'<p>Goal: 100,000</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        with col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
+                f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
+                f'<p>Goal: $10,000,000</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        st.markdown('<h3>Report Card Progress</h3>', unsafe_allow_html=True)
+
+        report_data = {
+            "Goal": [
+                "Recruit 100,000 new members",
+                "Engage 250,000 members",
+                "Support 65,000 walking daily",
+                "Unite 20 advocacy partners",
+                "Raise $10M",
+                "Establish Care Village (40k)",
+                "Achieve 85% organizational health"
+            ],
+            "Current Total": [
+                "15,438", "13,119", "5,634", "2",
+                "$3,109,294.25", "3,055", "100%"
+            ],
+            "Percent Progress": [
+                "15.44%", "5.25%", "8.67%", "10%", "31.09%", "7.64%", "100%"
+            ],
+            "Status": [
+                "On Track", "On Track", "At Risk", "At Risk",
+                "On Track", "On Track", "On Track"
+            ],
+            "Progress": [
+                15.44, 5.25, 8.67, 10, 31.09, 7.64, 100
+            ]
+        }
+
+        for i in range(len(report_data["Goal"])):
+            goal = report_data["Goal"][i]
+            current = report_data["Current Total"][i]
+            percent = report_data["Percent Progress"][i]
+            status = report_data["Status"][i]
+            progress = report_data["Progress"][i]
+
+            if status == "On Track":
+                bar_color = "#4CAF50"
+            elif status == "Achieved":
+                bar_color = achieved_green
+            elif status == "At Risk":
+                bar_color = "#FF9800"
+            else:
+                bar_color = secondary_gray
+
+            progress_html = f"""
+            <div style="margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <div><strong>{goal}</strong></div>
+                    <div style="text-align: right;">
+                        <span style="margin-right: 15px;"><strong>{current}</strong></span>
+                        <span style="margin-right: 15px;"><strong>{percent}</strong></span>
+                        <span><strong>{status}</strong></span>
+                    </div>
+                </div>
+                <div style="width: 100%; background-color: #f0f2f5; height: 12px; border-radius: 6px;">
+                    <div style="width: {min(progress, 100)}%; height: 100%; background-color: {bar_color}; border-radius: 6px;"></div>
+                </div>
             </div>
-            """, 
-            unsafe_allow_html=True
-        )
-    
-    # Walking metrics
-    st.markdown('<h4>Health Impact Metrics</h4>', unsafe_allow_html=True)
-    
-    health_col1, health_col2 = st.columns(2)
-    
-    with health_col1:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">MEMBERS WALKING 30 MIN/DAY, 5 DAYS/WEEK</p>'
-            f'<p class="metric-value">5,439</p>'
-            f'<p>Goal: 50,000</p>'
-            f'<p>{status_badge("At Risk")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
-        )
-    
-    with health_col2:
-        st.markdown(
-            f'<div class="metric-card">'
-            f'<p class="metric-title">MEMBERS IN SPECIAL IMPACT PROGRAMS</p>'
-            f'<p class="metric-value">100</p>'
-            f'<p>Goal: 65,000</p>'
-            f'<p>{status_badge("At Risk")}</p>'
-            f'</div>', 
-            unsafe_allow_html=True
+            """
+            st.markdown(progress_html, unsafe_allow_html=True)
+
+        st.markdown("<h3>Historic Movement Growth Numbers</h3>", unsafe_allow_html=True)
+
+        historic_fig = go.Figure()
+        historic_fig.add_trace(go.Scatter(
+            x=df_historic_growth['Year'],
+            y=df_historic_growth['Trekkers'],
+            mode='lines+markers',
+            name='Trekkers',
+            line=dict(color=primary_blue, width=3),
+            marker=dict(size=8)
+        ))
+
+        historic_fig.update_layout(
+            title='Historic Growth of Trekkers (2020–2025)',
+            xaxis_title='Year',
+            yaxis_title='Total Trekkers',
+            title_font=dict(color=primary_blue),
+            height=400
         )
 
-# Sidebar for filters
-st.sidebar.markdown("# Filters")
-st.sidebar.markdown("### Date Range")
-start_date = st.sidebar.date_input("Start Date", datetime(2025, 1, 1))
-end_date = st.sidebar.date_input("End Date", datetime(2025, 6, 30))
+        st.plotly_chart(historic_fig, use_container_width=True, key="historic_growth_fig")
 
-st.sidebar.markdown("### Regions")
-regions = ['All', 'Northeast', 'Southeast', 'Midwest', 'Southwest', 'West']
-selected_region = st.sidebar.selectbox("Select Region", regions)
+        st.markdown('<h3>Membership Distribution</h3>', unsafe_allow_html=True)
 
-st.sidebar.markdown("### Age Groups")
-age_groups = ['All', '18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+']
-selected_age = st.sidebar.multiselect("Select Age Groups", age_groups, default='All')
+        exec_fig_total_age = px.bar(
+            df_total_age,
+            x='Age Group',
+            y='Members',
+            title='Total Membership by Age Group',
+            color='Members',
+            color_continuous_scale=[secondary_purple, primary_blue, secondary_pink]
+        )
+        exec_fig_total_age.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(exec_fig_total_age, use_container_width=True, key="exec_fig_total_age")
 
-st.sidebar.markdown("### Dashboard Settings")
-show_target_lines = st.sidebar.checkbox("Show Target Lines", value=True)
-dark_mode = st.sidebar.checkbox("Dark Mode", value=False)
+        st.markdown('<h3>Top States</h3>', unsafe_allow_html=True)
 
-# Footer
-st.markdown(
-    f"""
-    <div style="margin-top: 50px; padding: 20px; background-color: {secondary_beige}; border-radius: 10px; text-align: center;">
-        <h3 style="color: {primary_blue};">GirlTREK - Inspiring Black Women to Walk for Better Health</h3>
-        <p>Data last updated: June 2025</p>
-        <p>For more information, visit <a href="https://www.girltrek.org" target="_blank" style="color: {primary_blue};">girltrek.org</a></p>
-    </div>
-    """, 
-    unsafe_allow_html=True
-)
+        states_fig = px.bar(
+            df_top_states,
+            x='State',
+            y='Members',
+            title='Top 5 States by Membership',
+            color='Members',
+            color_continuous_scale=[primary_blue, secondary_purple]
+        )
+        states_fig.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(states_fig, use_container_width=True, key="states_fig")
 
-# Add documentation for deployment
-st.sidebar.markdown("---")
-st.sidebar.markdown("### Deployment Instructions")
-with st.sidebar.expander("How to deploy this dashboard on GitHub"):
-    st.markdown("""
-        ### Deploying to GitHub
+        st.markdown('<h3>Top Cities</h3>', unsafe_allow_html=True)
+
+        cities_fig = px.bar(
+            df_top_cities,
+            x='City',
+            y='Members',
+            title='Top 5 Cities by Membership',
+            color='Members',
+            color_continuous_scale=[primary_blue, secondary_orange]
+        )
+        cities_fig.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(cities_fig, use_container_width=True, key="cities_fig")
         
-        1. Create a new GitHub repository
-        2. Add the following files to your repository:
-            - `app.py` (this Streamlit app)
-            - `requirements.txt` (with dependencies)
-            - `README.md` (documentation)
-        3. Connect your repository to Streamlit Cloud:
-            - Go to [Streamlit Cloud](https://streamlit.io/cloud)
-            - Sign in with your GitHub account
-            - Click "New app"
-            - Select your repository, branch, and main file path
-            - Click "Deploy"
+        st.markdown('<hr>', unsafe_allow_html=True)
+        create_notes_section("Executive Summary")
         
-        Your dashboard will be available at a public URL provided by Streamlit Cloud.
-        """)
+    # ---------------------------------
+    # Recruitment Tab
+    # ---------------------------------
+    with tab2:
+        st.markdown('<h3 class="section-title">Recruitment Metrics</h3>', unsafe_allow_html=True)
 
-# Sample requirements.txt
-with st.sidebar.expander("Sample requirements.txt"):
-    st.code("""
-streamlit>=1.10.0
-pandas>=1.3.0
-plotly>=5.5.0
-    """)
+        recruitment_col1, recruitment_col2, recruitment_col3 = st.columns(3)
 
-# Sample config.toml with GirlTREK colors
-with st.sidebar.expander("Sample .streamlit/config.toml"):
-    st.code(f"""
-[theme]
-primaryColor = "{primary_orange}"
-backgroundColor = "{secondary_white}"
-secondaryBackgroundColor = "{secondary_beige}"
-textColor = "{secondary_gray}"
-font = "sans serif"
-    """)
+        with recruitment_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
+                f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
+                f'<p>Goal: 100,000</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        with recruitment_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">NEW MEMBERS AGE 18-25</p>'
+                f'<p class="metric-value">316</p>'
+                f'<p>Goal: 100,000</p>'
+                f'<p>{status_badge("At Risk")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        with recruitment_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL RECRUITMENT PARTNERSHIPS</p>'
+                f'<p class="metric-value">2</p>'
+                f'<p>Goal: 10</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        recruit_monthly_fig = px.bar(
+            df_extended,
+            x='Month',
+            y='New Members',
+            title='New Member Recruitment by Month (2024-2025)',
+            color='New Members',
+            color_continuous_scale=[secondary_blue, primary_blue, primary_orange]
+        )
+        recruit_monthly_fig.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(recruit_monthly_fig, use_container_width=True, key="recruit_monthly_fig")
+        
+        st.markdown('<h3>New Members by Age Group</h3>', unsafe_allow_html=True)
+        
+        new_age_fig = px.pie(
+            df_new_age,
+            values='New Members',
+            names='Age Group',
+            title='New Members by Age Group Distribution',
+            color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, secondary_pink, secondary_purple, secondary_green]
+        )
+        new_age_fig.update_traces(textposition='inside', textinfo='percent+label')
+        new_age_fig.update_layout(title_font=dict(color=primary_blue))
+        
+        st.plotly_chart(new_age_fig, use_container_width=True, key="new_age_fig")
+
+        st.markdown('<hr>', unsafe_allow_html=True)
+        create_notes_section("Recruitment")
+
+    # ---------------------------------
+    # Engagement Tab
+    # ---------------------------------
+    with tab3:
+        engagement_update = """
+        <p style="margin-bottom: 15px;"><strong>Programming Focus:</strong> Mental health is our first priority. We've launched a 
+        nationwide effort to train a corps of women in <em>Mental Health First Aid</em>. This is an investment in both 
+        immediate healing and long-term life extension.</p>
+        
+        <p style="margin-bottom: 0;"><strong>On-the-Ground Impact:</strong> In Montgomery, we've made targeted investments to serve 
+        Black women at their point of need. These efforts align with our vision to increase longevity through 
+        localized public health services and deepen trust with the communities we serve.</p>
+        """
+        add_board_update("Engagement", engagement_update)
+        
+        st.markdown('<h3 class="section-title">Engagement Metrics</h3>', unsafe_allow_html=True)
+
+        engagement_col1, engagement_col2 = st.columns(2)
+
+        with engagement_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL NEW CREWS (2025)</p>'
+                f'<p class="metric-value">727</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        with engagement_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MEMBERS WALKING DAILY</p>'
+                f'<p class="metric-value">5,439</p>'
+                f'<p>Goal: 50,000</p>'
+                f'<p>{status_badge("At Risk")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        eng_col1, eng_col2, eng_col3 = st.columns(3)
+        
+        with eng_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">ACTIVE VOLUNTEERS</p>'
+                f'<p class="metric-value">3,348</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with eng_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">DOCUMENTED CREW LEADERS</p>'
+                f'<p class="metric-value">3,856</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with eng_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">ACTIVE CREW LEADERS</p>'
+                f'<p class="metric-value">1,846</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        st.markdown('<hr>', unsafe_allow_html=True)
+        create_notes_section("Engagement")
+
+    # ---------------------------------
+    # Development Tab
+    # ---------------------------------
+    with tab4:
+        development_update = """
+        <p style="margin-bottom: 15px;"><strong>Development Update:</strong> A major funder will be <strong>doubling their donation this year</strong>. 
+        This strengthens our already solid financial position heading into Q3-Q4.</p>
+        """
+        add_board_update("Development", development_update)
+        
+        st.markdown('<h3 class="section-title">Development Metrics</h3>', unsafe_allow_html=True)
+
+        dev_col1, dev_col2, dev_col3 = st.columns(3)
+
+        with dev_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
+                f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
+                f'<p>Goal: $10M</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        with dev_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL GRANTS</p>'
+                f'<p class="metric-value">{format_currency(st.session_state.total_grants)}</p>'
+                f'<p>17 of 48 Grants</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        with dev_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">EARNED REVENUE (STORE)</p>'
+                f'<p class="metric-value">$99,836</p>'
+                f'<p>Goal: $400,000</p>'
+                f'<p>{status_badge("At Risk")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        dev_finance_fig = px.pie(
+            df_finance,
+            values='Amount',
+            names='Category',
+            title='Total Contributions Breakdown',
+            color_discrete_sequence=[primary_blue, primary_orange]
+        )
+        dev_finance_fig.update_traces(textposition='inside', textinfo='percent+label')
+        dev_finance_fig.update_layout(title_font=dict(color=primary_blue))
+        st.plotly_chart(dev_finance_fig, use_container_width=True, key="dev_finance_fig")
+        
+        st.markdown('<hr>', unsafe_allow_html=True)
+        create_notes_section("Development")
+
+    # ---------------------------------
+    # Marketing Tab
+    # ---------------------------------
+    with tab5:
+        marketing_update = """
+        <p style="margin-bottom: 15px;"><strong>Communications & Messaging:</strong> Our values have been boldly rearticulated and published in our new 
+        <strong>Field Guide</strong>:
+        <ol style="margin-top: 10px; margin-bottom: 15px;">
+            <li>We practice <strong>Radical Welcome</strong>.</li>
+            <li>We focus on <strong>Black women disproportionately affected by health disparities</strong>.</li>
+            <li>We walk with <strong>diverse communities</strong>—and we welcome all to walk with us.</li>
+        </ol></p>
+        
+        <p style="margin-bottom: 0;"><strong>Public Relations:</strong> We're developing unified talking points for internal and external use, 
+        with upcoming training sessions led by our incoming PR firm: <strong>Black Alders</strong>.</p>
+        """
+        add_board_update("Marketing", marketing_update)
+        
+        st.markdown('<h3 class="section-title">Marketing Metrics</h3>', unsafe_allow_html=True)
+
+        sub_col1, sub_col2 = st.columns(2)
+
+        with sub_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL SUBSCRIBERS</p>'
+                f'<p class="metric-value">931,141</p>'
+                f'<p>Goal: 1,300,000 (71.63%)</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        with sub_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">ACTIVE SUBSCRIBERS</p>'
+                f'<p class="metric-value">320,463</p>'
+                f'<p>34.4% of Total</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        st.markdown("<h3>Email Engagement (30 Day)</h3>", unsafe_allow_html=True)
+        
+        email_col1, email_col2 = st.columns(2)
+        
+        with email_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">EMAIL OPENERS</p>'
+                f'<p class="metric-value">19,148</p>'
+                f'<p>Open Rate: ~6%</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with email_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">EMAIL CLICKERS</p>'
+                f'<p class="metric-value">12,904</p>'
+                f'<p>Click Rate: ~4%</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        st.markdown('<hr>', unsafe_allow_html=True)
+        create_notes_section("Marketing")
+
+    # ---------------------------------
+    # Operations Tab
+    # ---------------------------------
+    with tab6:
+        operations_update = """
+        <p style="margin-bottom: 15px;"><strong>Financial Stewardship Update:</strong> We recently received word that a major funder will be 
+        <strong>doubling their donation this year</strong>. We are in a solid financial position.</p>
+        
+        <p style="margin-bottom: 15px;">We are moving forward with fiscal prudence given the economic climate and will adopt an 
+        <em>austerity budget</em> while maintaining mission-critical programming that supports Black women's longevity and ensuring our team remains 
+        gainfully and justly employed.</p>
+        
+        <p style="margin-bottom: 15px;"><strong>Technology & Security:</strong> In March, we engaged an external technology expert to audit our systems. 
+        We are currently migrating member records to a more secure platform. Through our partnership with 
+        RoundTable Technology, we've implemented 24/7 cybersecurity monitoring and completed digital safety 
+        training for 100% of staff.</p>
+        """
+        add_board_update("Operations", operations_update)
+        
+        st.markdown('<h3 class="section-title">Operations Metrics</h3>', unsafe_allow_html=True)
+
+        st.markdown('<h4>Financial Overview (YTD May 2025)</h4>', unsafe_allow_html=True)
+
+        ytd_revenue = finance_trend_data['Revenue'].sum()
+        ytd_expenses = finance_trend_data['Expenses'].sum()
+        
+        finance_col1, finance_col2 = st.columns(2)
+        
+        with finance_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">YTD REVENUE</p>'
+                f'<p class="metric-value">{format_currency(ytd_revenue)}</p>'
+                f'<p>Budget: $1,237,419</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with finance_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">YTD EXPENSES</p>'
+                f'<p class="metric-value">{format_currency(ytd_expenses)}</p>'
+                f'<p>Budget: $1,608,765</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        st.markdown('<h4>Systems Performance</h4>', unsafe_allow_html=True)
+
+        sys_col1, sys_col2, sys_col3 = st.columns(3)
+
+        with sys_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">ASANA ADOPTION</p>'
+                f'<p class="metric-value">38%</p>'
+                f'<p>Goal: 85%</p>'
+                f'{status_badge("At Risk")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        with sys_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">AUDIT COMPLIANCE</p>'
+                f'<p class="metric-value">100%</p>'
+                f'<p>Goal: 100%</p>'
+                f'{status_badge("Achieved")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        with sys_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CYBERSECURITY COMPLIANCE</p>'
+                f'<p class="metric-value">60%</p>'
+                f'<p>Goal: 90%</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+            
+        st.markdown('<hr>', unsafe_allow_html=True)
+        create_notes_section("Operations")
+
+    # ---------------------------------
+    # Member Care Tab
+    # ---------------------------------
+    with tab7:
+        member_care_update = """
+        <p style="margin-bottom: 0;"><strong>Mental Health Initiative:</strong> We've launched a nationwide effort to train a corps of women in 
+        <em>Mental Health First Aid</em>. This program represents our commitment to both immediate healing and 
+        long-term life extension through community-based mental health support.</p>
+        """
+        add_board_update("Member Care", member_care_update)
+        
+        st.markdown('<h3 class="section-title">Member Care Metrics</h3>', unsafe_allow_html=True)
+
+        mc_col1, mc_col2 = st.columns(2)
+
+        with mc_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MEMBER SATISFACTION RATING</p>'
+                f'<p class="metric-value">93%</p>'
+                f'<p>Goal: 95%</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        with mc_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">RESOLUTION/RESPONSIVENESS RATE</p>'
+                f'<p class="metric-value">2 hours</p>'
+                f'<p>Goal: 48 hours</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        st.markdown('<h3>Top Member Issues/Concerns</h3>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            - SCS Registration Error Message
+            - Connecting to the Movement
+            """,
+            unsafe_allow_html=True
+        )
+        
+        st.markdown('<hr>', unsafe_allow_html=True)
+        create_notes_section("Member Care")
+
+    # ---------------------------------
+    # Advocacy Tab
+    # ---------------------------------
+    with tab8:
+        advocacy_update = """
+        <p style="margin-bottom: 15px;"><strong>Coalition Building:</strong> We are actively deepening our relationships with national coalitions to:
+        <ul style="margin-top: 10px; margin-bottom: 15px;">
+            <li>Share legal resources</li>
+            <li>Coordinate responses to external threats</li>
+            <li>Build collective readiness and resilience</li>
+        </ul></p>
+        
+        <p style="margin-bottom: 0;">This summer, we'll engage partners in meaningful dialogue to strengthen cross-sector relationships, 
+        culminating in a convening of our coalition partners in late 2025.</p>
+        """
+        add_board_update("Advocacy", advocacy_update)
+        
+        st.markdown('<h3 class="section-title">Advocacy Metrics</h3>', unsafe_allow_html=True)
+
+        adv_col1, adv_col2 = st.columns(2)
+
+        with adv_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">ADVOCACY BRIEFS PUBLISHED</p>'
+                f'<p class="metric-value">4 / 10</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        with adv_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">ADVOCACY PARTNERSHIPS</p>'
+                f'<p class="metric-value">2 / 20</p>'
+                f'<p>{status_badge("At Risk")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        st.markdown('<h3>Current Focus Areas</h3>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            - Produce advocacy briefs establishing research basis for why each J&J agenda item leads to an increase in Black women's life expectancy
+            - Uplift best-in-class organizations
+            - Secure advocacy partners that align with GirlTREK's Joy & Justice Agenda through signed MOUs
+            """,
+            unsafe_allow_html=True
+        )
+        
+        st.markdown('<hr>', unsafe_allow_html=True)
+        create_notes_section("Advocacy")
+
+    # ---------------------------------
+    # Impact Tab
+    # ---------------------------------
+    with tab9:
+        st.markdown('<h3 class="section-title">Impact Metrics</h3>', unsafe_allow_html=True)
+
+        st.markdown(
+            """
+            <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 3px solid #757575;">
+                <p style="color: #424242; font-size: 15px;"><i>Note: GirlTREK's community health impact reporting will be updated following Self-Care School 2025 outcomes.</i></p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        st.markdown("<h4>Care Village Impact</h4>", unsafe_allow_html=True)
+        
+        care_col1, care_col2 = st.columns(2)
+        
+        with care_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CARE VILLAGE POPULATION REACHED</p>'
+                f'<p class="metric-value">3,055</p>'
+                f'<p>Goal: 40,000</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with care_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MEMBERS IN SPECIAL IMPACT PROGRAMS</p>'
+                f'<p class="metric-value">100</p>'
+                f'<p>Goal: 65,000</p>'
+                f'<p>{status_badge("At Risk")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        st.markdown("<h4>Upcoming Impact Metrics</h4>", unsafe_allow_html=True)
+        st.markdown(
+            """
+            <p>The following metrics will be reported post Self-Care School 2025:</p>
+            <ul>
+                <li>Women who have reported a change in health knowledge</li>
+                <li>Changes in self-reported mental well-being</li>
+                <li>Number of women who report feeling more connected and less isolated as a result of GirlTREK programming</li>
+                <li>% of participants reporting weight loss</li>
+                <li>% of participants reporting improved management of chronic conditions (e.g., diabetes, hypertension)</li>
+                <li>% of participants reporting reduced medication dependency</li>
+                <li>% of participants reporting fewer symptoms of depression or anxiety</li>
+            </ul>
+            """,
+            unsafe_allow_html=True
+        )
+        
+        st.markdown('<hr>', unsafe_allow_html=True)
+        create_notes_section("Impact")
+
+if __name__ == "__main__":
+    main()
