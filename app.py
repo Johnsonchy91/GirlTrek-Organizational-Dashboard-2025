@@ -1105,7 +1105,7 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">CYBERSECURITY COMPLIANCE</p>'
-                f'<p class="metric-value">60%</p>'
+                f'<p class="metric-value">80%</p>'
                 f'<p>Goal: 90%</p>'
                 f'{status_badge("On Track")}'
                 f'</div>',
