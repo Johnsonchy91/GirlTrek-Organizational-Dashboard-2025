@@ -282,7 +282,7 @@ def generate_pdf(section_name, dark_mode=False):
             ["Goal", "Current Total", "Percent Progress", "Status"],
             ["Recruit 100,000 new members", "15,438", "15.44%", "On Track"],
             ["Engage 250,000 members", "13,119", "5.25%", "On Track"],
-            ["Support 65,000 walking daily", "5,634", "8.67%", "At Risk"],
+            ["Support 65,000 walking daily", "7,638", "11.75%", "At Risk"],
             ["Unite 20 advocacy partners", "2", "10%", "At Risk"],
             ["Raise $10M", "$3,109,294.25", "31.09%", "On Track"],
             ["Establish Care Village", "3,055", "7.64%", "On Track"],
@@ -299,6 +299,196 @@ def generate_pdf(section_name, dark_mode=False):
             ('GRID', (0, 0), (-1, -1), 1, colors.black),
         ]))
         elements.append(t2)
+    
+    elif section_name == "Recruitment":
+        elements.append(Paragraph("Recruitment Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["Total New Members", "15,438", "100,000", "At Risk"],
+            ["New Members Age 18-25", "316", "100,000", "At Risk"],
+            ["Total Recruitment Partnerships", "18", "10", "Achieved"]
+        ]
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1.5*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+    elif section_name == "Engagement":
+        elements.append(Paragraph("Engagement Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal"],
+            ["Total New Crews (2025)", "727", "-"],
+            ["Members Walking Daily", "5,439", "50,000"],
+            ["Active Volunteers", "3,348", "-"],
+            ["Active Crew Leaders", "1,846", "-"],
+            ["Care Village Population Reached", "3,055", "40,000"]
+        ]
+        t = Table(data, colWidths=[3*inch, 1.5*inch, 1.5*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+    elif section_name == "Development":
+        elements.append(Paragraph("Development Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["Total Contributions", "$3,109,294.25", "$10,000,000", "On Track"],
+            ["Total Grants", "$3,101,133.09", "48 Grants", "On Track"],
+            ["Corporate Sponsorships", "$130,000", "$1,500,000", "At Risk"],
+            ["Earned Revenue (Store)", "$99,836", "$400,000", "At Risk"],
+            ["Bricklayer's Fundraising", "$2,500", "$500,000", "At Risk"]
+        ]
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1.5*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+    elif section_name == "Marketing":
+        elements.append(Paragraph("Marketing Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal/Industry"],
+            ["Total Subscribers", "931,141", "1,300,000"],
+            ["Active Subscribers", "320,463", "34.4% of Total"],
+            ["Average Open Rate", "18.54%", "Industry: 28.59%"],
+            ["Click-Through Rate", "1.06%", "Industry: 3.29%"]
+        ]
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+    elif section_name == "Campaigns":
+        elements.append(Paragraph("Self-Care School 2025 Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal"],
+            ["Members Recruited", "5,377", "-"],
+            ["Walking at Life-Saving Level", "12,037", "50,000"],
+            ["Total Registrants", "13,119", "10,000"],
+            ["Total Downloads", "87,737", "100,000"],
+            ["Mental Well-being Improvement", "998 (99.90%)", "-"],
+            ["Social Connection", "673 (68.53%)", "-"],
+            ["Total Badge Downloads", "30,008", "-"]
+        ]
+        t = Table(data, colWidths=[3*inch, 1.5*inch, 1.5*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+    elif section_name == "Operations":
+        elements.append(Paragraph("Operations Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["YTD Revenue", "$3,243,526", "$1,237,419", "-"],
+            ["YTD Expenses", "$2,343,862", "$1,608,765", "-"],
+            ["Asana Adoption", "38%", "85%", "At Risk"],
+            ["Audit Compliance", "100%", "100%", "Achieved"],
+            ["Cybersecurity Compliance", "70%", "90%", "On Track"],
+            ["Store Sales", "$99,836", "$400,000", "At Risk"]
+        ]
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1.5*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+    elif section_name == "Member Care":
+        elements.append(Paragraph("Member Care Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal"],
+            ["Member Satisfaction Rating", "93%", "95%"],
+            ["Resolution/Responsiveness Rate", "2 hours", "48 hours"],
+            ["Top Issues", "SCS Registration Error & Connecting to Movement", "-"]
+        ]
+        t = Table(data, colWidths=[3*inch, 1.5*inch, 1.5*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+    elif section_name == "Advocacy":
+        elements.append(Paragraph("Advocacy Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["Advocacy Briefs Published", "7", "10", "On Track"],
+            ["Advocacy Partnerships", "2", "20", "At Risk"]
+        ]
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1.5*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+    elif section_name == "Impact":
+        elements.append(Paragraph("Impact Metrics - Self-Care School 2025", heading_style))
+        data = [
+            ["Metric", "Current Value", "Percentage"],
+            ["Health Knowledge Change", "999", "-"],
+            ["Mental Well-being Improvement", "998", "99.90%"],
+            ["Social Connection", "673", "68.53%"],
+            ["Empowered to Take Action", "907", "90.52%"],
+            ["Stronger Walking Habit", "709", "68.70%"],
+            ["Implemented New Habits", "293", "34.92%"],
+            ["Shared with Others", "819", "83.66%"]
+        ]
+        t = Table(data, colWidths=[3*inch, 1.5*inch, 1.5*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+    elif section_name == "Complete Dashboard":
+        elements.append(Paragraph("This PDF contains summary data from all dashboard sections.", normal_style))
+        elements.append(Paragraph("Please generate individual section PDFs for detailed information.", normal_style))
     
     # Add notes if they exist
     if section_name in ["Executive Summary", "Recruitment", "Engagement", "Development", "Marketing", "Operations", "Member Care", "Advocacy", "Impact"]:
