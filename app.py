@@ -662,7 +662,7 @@ def main():
     st.sidebar.markdown("### Download Dashboard")
     download_options = [
         "Executive Summary", "Recruitment", "Engagement",
-        "Development", "Marketing", "Operations",
+        "Development", "Marketing", "Campaigns", "Operations",
         "Member Care", "Advocacy", "Impact", "Complete Dashboard"
     ]
     selected_download = st.sidebar.selectbox("Select dashboard section to download:", download_options)
