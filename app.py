@@ -860,6 +860,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL RECRUITMENT PARTNERSHIPS</p>'
                 f'<p class="metric-value">18</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Contact has been made with 20 community organizations</p>'
                 f'<p>Goal: 10</p>'
                 f'<p>{status_badge("Achieved")}</p>'
                 f'</div>',
@@ -1033,9 +1034,10 @@ def main():
         with dev_col3:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">EARNED REVENUE (STORE)</p>'
-                f'<p class="metric-value">$99,836</p>'
-                f'<p>Goal: $400,000</p>'
+                f'<p class="metric-title">CORPORATE SPONSORSHIPS</p>'
+                f'<p class="metric-value">$130,000</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Additional $60k verbally agreed to but not yet in bank</p>'
+                f'<p>Goal: $1.5M</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
@@ -1051,6 +1053,34 @@ def main():
         dev_finance_fig.update_traces(textposition='inside', textinfo='percent+label')
         dev_finance_fig.update_layout(title_font=dict(color=primary_blue))
         st.plotly_chart(dev_finance_fig, use_container_width=True, key="dev_finance_fig")
+        
+        # Additional Development Metrics
+        st.markdown('<h4>Additional Fundraising Metrics</h4>', unsafe_allow_html=True)
+        
+        fund_col1, fund_col2 = st.columns(2)
+        
+        with fund_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">EARNED REVENUE (STORE)</p>'
+                f'<p class="metric-value">$99,836</p>'
+                f'<p>Goal: $400,000</p>'
+                f'<p>{status_badge("At Risk")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with fund_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">BRICKLAYER\'S FUNDRAISING</p>'
+                f'<p class="metric-value">$2,500</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Another significant donation is anticipated by fall of 2025</p>'
+                f'<p>Goal: $500,000</p>'
+                f'<p>{status_badge("At Risk")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Development")
