@@ -1727,52 +1727,86 @@ def main():
         st.markdown('<h5>Badge Downloads Performance</h5>', unsafe_allow_html=True)
         
         download_data = pd.DataFrame({
-            'Week': ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 7', 'Week 8', 'Week 9', 'Week 10', 'Final'],
-            'Downloads': [443, 898, 2535, 2181, 1907, 1863, 1666, 88, 83, 1907],
-            'Active Users': [357, 663, 1868, 1446, 1398, 1442, 1355, 21, 17, 1350],
-            'Engagement Time': ['18s', '15s', '19s', '37s', '19s', '17s', '18s', '40s', '32s', '26s']
+            'Week': ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8', 'Week 9', 'Week 10', 'Graduation', 'Certificate'],
+            'Downloads': [3689, 4423, 3036, 1784, 1977, 2898, 2000, 1679, 2206, 1788, 2214, 2314],
+            'File Type': ['JPG', 'JPG', 'PNG', 'JPG', 'JPG', 'JPG', 'JPG', 'JPG', 'JPG', 'JPG', 'JPG', 'PDF']
         })
         
-        download_fig = px.bar(
-            download_data,
-            x='Week',
-            y='Downloads',
-            title='Badge Download Pages Activity',
-            color='Downloads',
-            color_continuous_scale=px.colors.sequential.Oranges,
-            text='Downloads'
+        # Create color mapping for file types
+        color_map = {'JPG': primary_blue, 'PNG': secondary_purple, 'PDF': secondary_orange}
+        download_data['Color'] = download_data['File Type'].map(color_map)
+        
+        download_fig = go.Figure()
+        
+        # Add bars with colors based on file type
+        for file_type in download_data['File Type'].unique():
+            df_filtered = download_data[download_data['File Type'] == file_type]
+            download_fig.add_trace(go.Bar(
+                x=df_filtered['Week'],
+                y=df_filtered['Downloads'],
+                name=file_type,
+                marker_color=color_map[file_type],
+                text=df_filtered['Downloads'],
+                textposition='outside'
+            ))
+        
+        download_fig.update_layout(
+            title='Total Badge Downloads by Week',
+            title_font=dict(color=primary_blue),
+            xaxis_title='Badge',
+            yaxis_title='Total Downloads',
+            height=400,
+            showlegend=True,
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=1.02,
+                xanchor="right",
+                x=1
+            )
         )
         
-        download_fig.update_traces(texttemplate='%{text}', textposition='outside')
-        download_fig.update_layout(
-            title_font=dict(color=primary_blue),
-            height=350,
-            showlegend=False
-        )
+        # Rotate x-axis labels for better readability
+        download_fig.update_xaxes(tickangle=-45)
         
         st.plotly_chart(download_fig, use_container_width=True, key="download_fig")
         
-        # Download Summary
-        download_col1, download_col2 = st.columns(2)
+        # Download Summary with updated numbers
+        download_col1, download_col2, download_col3 = st.columns(3)
         
         with download_col1:
+            total_downloads = download_data['Downloads'].sum()
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL BADGE DOWNLOADS</p>'
-                f'<p class="metric-value">13,571</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Across all weeks</p>'
-                f'<p style="font-size: 14px; color: #0088FF;">10,916 unique users</p>'
+                f'<p class="metric-value">{format_number(total_downloads)}</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">All downloads (not unique users)</p>'
+                f'<p style="font-size: 14px; color: #0088FF;">Across 12 badge types</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
         with download_col2:
+            max_week = download_data.loc[download_data['Downloads'].idxmax(), 'Week']
+            max_downloads = download_data['Downloads'].max()
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">MOST DOWNLOADED BADGE</p>'
-                f'<p class="metric-value">Week 3</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">2,535 downloads</p>'
-                f'<p style="font-size: 14px; color: #4CAF50;">1,868 active users</p>'
+                f'<p class="metric-value">{max_week}</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">{format_number(max_downloads)} total downloads</p>'
+                f'<p style="font-size: 14px; color: #4CAF50;">JPG format</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with download_col3:
+            avg_downloads = int(download_data['Downloads'].mean())
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">AVERAGE DOWNLOADS</p>'
+                f'<p class="metric-value">{format_number(avg_downloads)}</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Per badge type</p>'
+                f'<p style="font-size: 14px; color: #FF9800;">10 JPG, 1 PNG, 1 PDF</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
