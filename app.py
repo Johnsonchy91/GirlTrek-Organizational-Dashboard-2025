@@ -1490,7 +1490,7 @@ def main():
                 f'<p class="metric-title">MENTAL WELL-BEING</p>'
                 f'<p class="metric-value">998</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Changes in self-reported mental well-being</p>'
-                f'<p style="font-size: 14px; color: #4CAF50; font-weight: bold;">99.90% of respondents</p>'
+                f'<p style="font-size: 16px; color: #4CAF50; font-weight: bold; margin-top: 5px;">99.90% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1843,7 +1843,7 @@ def main():
                 f'<p class="metric-title">HEALTH KNOWLEDGE CHANGE</p>'
                 f'<p class="metric-value">999</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting a change in health knowledge</p>'
-                f'<p style="font-size: 14px; color: #666;">0.00% (baseline measure)</p>'
+                f'<p style="font-size: 16px; color: #FF5722; font-weight: bold;">0.00% (baseline measure)</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1854,7 +1854,7 @@ def main():
                 f'<p class="metric-title">MENTAL WELL-BEING IMPROVEMENT</p>'
                 f'<p class="metric-value">998</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting changes in self-reported mental well-being</p>'
-                f'<p style="font-size: 14px; color: #666;">99.90% of respondents</p>'
+                f'<p style="font-size: 16px; color: #4CAF50; font-weight: bold;">99.90% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1865,7 +1865,7 @@ def main():
                 f'<p class="metric-title">SOCIAL CONNECTION</p>'
                 f'<p class="metric-value">673</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women feeling more connected and less isolated through GirlTREK</p>'
-                f'<p style="font-size: 14px; color: #666;">68.53% of respondents</p>'
+                f'<p style="font-size: 16px; color: #0088FF; font-weight: bold;">68.53% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1881,7 +1881,7 @@ def main():
                 f'<p class="metric-title">EMPOWERED TO TAKE ACTION</p>'
                 f'<p class="metric-value">907</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants feeling empowered to make positive changes</p>'
-                f'<p style="font-size: 14px; color: #666;">90.52% of respondents</p>'
+                f'<p style="font-size: 16px; color: #4CAF50; font-weight: bold;">90.52% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1892,7 +1892,7 @@ def main():
                 f'<p class="metric-title">STRONGER WALKING HABIT</p>'
                 f'<p class="metric-value">709</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who built a stronger walking habit</p>'
-                f'<p style="font-size: 14px; color: #666;">68.70% of respondents</p>'
+                f'<p style="font-size: 16px; color: #0088FF; font-weight: bold;">68.70% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1905,7 +1905,7 @@ def main():
                 f'<p class="metric-title">IMPLEMENTED NEW HABITS</p>'
                 f'<p class="metric-value">293</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who implemented new habits, actions, or mindsets</p>'
-                f'<p style="font-size: 14px; color: #666;">34.92% of respondents</p>'
+                f'<p style="font-size: 16px; color: #FF9800; font-weight: bold;">34.92% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1916,7 +1916,7 @@ def main():
                 f'<p class="metric-title">SHARED WITH OTHERS</p>'
                 f'<p class="metric-value">819</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who shared lessons learned with others</p>'
-                f'<p style="font-size: 14px; color: #666;">83.66% of respondents</p>'
+                f'<p style="font-size: 16px; color: #4CAF50; font-weight: bold;">83.66% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1947,7 +1947,7 @@ def main():
                     <div class="metric-box" style="margin-bottom: 15px;">
                         <p class="metric-title" style="font-size: 14px;">{topic.upper()}</p>
                         <p class="metric-value" style="font-size: 24px;">{count}</p>
-                        <p style="font-size: 14px; color: #666;">{pct}% of respondents</p>
+                        <p style="font-size: 16px; color: #0088FF; font-weight: bold;">{pct}% of respondents</p>
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -2010,7 +2010,7 @@ def main():
                     <p class="metric-title">AVERAGE IMPACT PER TOPIC</p>
                     <p class="metric-value">630</p>
                     <p style="font-style: italic; font-size: 12px; color: #666;">Average participants reporting knowledge gain per topic</p>
-                    <p style="font-size: 14px; color: #666;">61.08% average response rate</p>
+                    <p style="font-size: 16px; color: #666;">61.08% average response rate</p>
                 </div>
                 """,
                 unsafe_allow_html=True
