@@ -678,7 +678,7 @@ def main():
                 f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
                 f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
                 f'<p>Goal: 100,000</p>'
-                f'<p>{status_badge("On Track")}</p>'
+                f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -839,7 +839,7 @@ def main():
                 f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
                 f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
                 f'<p>Goal: 100,000</p>'
-                f'<p>{status_badge("On Track")}</p>'
+                f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1098,7 +1098,6 @@ def main():
                 f'<p class="metric-value">18.54%</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Percentage of recipients who open your email out of the total number successfully delivered</p>'
                 f'<p><strong>Industry Standard:</strong> Nonprofits average 28.59%</p>'
-                f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1110,7 +1109,6 @@ def main():
                 f'<p class="metric-value">1.06%</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Measures how effectively your email drives recipients to take action by clicking on a link, button, or image</p>'
                 f'<p><strong>Industry Standard:</strong> Nonprofits average 3.29%</p>'
-                f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1256,7 +1254,7 @@ def main():
                 f'<p class="metric-title">GROSS PROFIT %</p>'
                 f'<p class="metric-value">37%</p>'
                 f'<p>Target: 50-60%</p>'
-                f'{status_badge("At Risk")}'
+                f'{status_badge("On Track")}'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1342,6 +1340,36 @@ def main():
             """,
             unsafe_allow_html=True
         )
+        
+        # Add Member Testimonials
+        st.markdown('<h3>Member Testimonials</h3>', unsafe_allow_html=True)
+        
+        with st.expander("Karen Laing - Finding Joy and Healing"):
+            st.markdown(
+                """
+                *"I have found more joy and healing spaces during these weeks and participating in GirlTrek's self-care school has been mission critical in this time when I was fired after six months on the job and it jeopardized the affordable housing my daughter and I found last fall. But God continues to keep us and y'all continue to educate, empower and inspire us as we encourage ourselves in the Lord. Thank you. and amen.*
+                
+                **— Karen Laing**
+                """
+            )
+        
+        with st.expander("Angelia Taylor - Plant Forward Success"):
+            st.markdown(
+                """
+                *"I love the Week 4 'Plant Forward' message! Thank you so much for inspiring us to feed our souls and bodies better. While working on my Master in Public Health, I designed a project that researched Black women's health. One of the three areas that I focused on included buying and eating more fruits and vegetables. Eating what the earth provides helped me lose 106 pounds! It was actually a lot of fun! I also taught plant-based meals to kids, complete with 'chocolate pudding' made from eggplant. LOL! You should have seen them lick the bowls. PRICELESS!! Again, thank you soooooo much for providing such a warm space for us to heal our communities. You are so appreciated.*
+                
+                **— Angelia Taylor, Champaign, Illinois**
+                """
+            )
+        
+        with st.expander("Alicia Cross - Perseverance Through Recovery"):
+            st.markdown(
+                """
+                *"I have walked with GirlTrek since 2019, but had a full knee replacement in 2024, so I'm still rehabbing and my surgeon approved me to ride my Trek bike to continue to break up the scar tissue which is working. Walking is causing quite a bit of swelling, but I'm taking one day at a time. Seven weeks of GirlTrek has been a lifesaver. I appreciate you ALL SO MUCH!!*
+                
+                **— Alicia Cross, Lanham, MD**
+                """
+            )
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Member Care")
