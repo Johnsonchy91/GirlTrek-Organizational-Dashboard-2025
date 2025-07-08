@@ -1289,86 +1289,75 @@ def main():
         # Caregiver Tribe Program Section
         st.markdown('<h4>Caregiver Tribe Program 2025</h4>', unsafe_allow_html=True)
         
-        st.markdown(
-            """
-            <div style="background-color: #F3F9FF; border-left: 5px solid #FF5722; 
-                 padding: 20px; border-radius: 5px; margin: 20px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                <p style="color: #333; line-height: 1.6; margin-bottom: 15px;">
-                    <strong>Program Background:</strong> The Caregiver Tribe Program initiated in 2024 was a Listening and Learning series to identify the resources and tools needed by Caregivers and focused on how GirlTREK can help to relieve many of their stressors and find ways to help them experience joy in their lives. From this year of Listening & Learning, the Caregiver Tribe Program was created.
-                </p>
+        with st.expander("🏥 View Caregiver Tribe Program Details", expanded=True):
+            st.info(
+                """
+                **Program Background:** The Caregiver Tribe Program initiated in 2024 was a Listening and Learning series to identify the resources and tools needed by Caregivers and focused on how GirlTREK can help to relieve many of their stressors and find ways to help them experience joy in their lives. From this year of Listening & Learning, the Caregiver Tribe Program was created.
                 
-                <p style="color: #333; line-height: 1.6; margin-bottom: 20px;">
-                    GirlTREK Caregiver Tribe will be hosting <strong>4 Workshops</strong> this season for Caregivers created to open the door for finding joy and living a healthier lifestyle.
-                </p>
-                
-                <h5 style="color: #FF5722; margin-top: 20px; margin-bottom: 15px;">2025 Workshop Series</h5>
-                
-                <div style="margin-bottom: 15px;">
-                    <p style="color: #0088FF; font-weight: bold; margin-bottom: 5px;">📅 April 16th: Medicaid for Caregivers</p>
-                    <p style="color: #666; margin-left: 20px; font-size: 14px;">
-                        Guest Speakers: <strong>Rae Scott</strong> (Human Services) & <strong>Maureen Welch</strong> (Navigating Disabilities Colorado)<br>
-                        Topics: How to obtain Medicaid, City/State program benefits, application process, caregiver payments, and respite care benefits.
-                    </p>
-                </div>
-                
-                <div style="margin-bottom: 15px;">
-                    <p style="color: #0088FF; font-weight: bold; margin-bottom: 5px;">📅 June 18th: Mental Health First Aid Awareness</p>
-                    <p style="color: #666; margin-left: 20px; font-size: 14px;">
-                        Guest Speaker: <strong>ReNate' Elliot</strong> (GirlTREK Mental Health First Aid)<br>
-                        Topics: Identifying mental health issues, awareness strategies, support resources, self-regulation techniques.
-                    </p>
-                </div>
-                
-                <div style="margin-bottom: 15px;">
-                    <p style="color: #0088FF; font-weight: bold; margin-bottom: 5px;">📅 August 20th: Self Care Practices</p>
-                    <p style="color: #666; margin-left: 20px; font-size: 14px;">
-                        Guest Speakers: <strong>Carla Harris</strong> & <strong>Marcie Thomas</strong> (GirlTREK Cares)<br>
-                        Topics: Prioritizing self-care, resources, meditation, and affirmation techniques.
-                    </p>
-                </div>
-                
-                <div style="margin-bottom: 20px;">
-                    <p style="color: #0088FF; font-weight: bold; margin-bottom: 5px;">📅 October 15th: Time Management and Nutrition Tips</p>
-                    <p style="color: #666; margin-left: 20px; font-size: 14px;">
-                        Guest Speakers: <strong>Jerri McElroy</strong> (Time Management) & <strong>Chef Lisa Barnett</strong> (Nutrition)<br>
-                        Topics: Prioritizing tasks, creating weekly planners with self-care practices, nutrition guidance.
-                    </p>
-                </div>
-                
-                <div style="background-color: #E8F5E9; padding: 15px; border-radius: 5px; margin: 20px 0;">
-                    <h5 style="color: #2E7D32; margin-top: 0;">🏆 Caregiver Crew Leader Certification Requirements</h5>
-                    <ol style="color: #333; margin: 10px 0; padding-left: 25px;">
-                        <li>Attend all 4 Workshops</li>
-                        <li>Attend one Crew Leader Training</li>
-                        <li>Host one Caregiver group walk per month (April through November)</li>
-                        <li>Complete 4 Self-Care Assessments to document growth, needs, and successes</li>
-                    </ol>
-                </div>
-                
-                <div style="background-color: #FFF3E0; padding: 15px; border-radius: 5px; margin: 20px 0;">
-                    <h5 style="color: #E65100; margin-top: 0;">📚 Caregiver Handbook Includes:</h5>
-                    <ul style="color: #333; margin: 10px 0; padding-left: 25px;">
-                        <li>Self-Care Practices & Tips</li>
-                        <li>Resources with direct links</li>
-                        <li>Affirmations and Meditation Links</li>
-                        <li>National Statistics on Caregivers</li>
-                        <li>Time Management Tips</li>
-                        <li>Digital Caregiver Registration QR Code for Crew Leaders</li>
-                    </ul>
-                </div>
-                
-                <div style="margin-top: 20px; padding: 15px; background-color: #F5F5F5; border-radius: 5px;">
-                    <p style="color: #333; font-weight: bold; margin-bottom: 10px;">Who is a Caregiver?</p>
-                    <p style="color: #666; line-height: 1.6;">
-                        Anyone caring for a family member, friend, or neighbor including: mothers caring for parents, wives caring for husbands, 
-                        grandparents caring for grandchildren, teachers providing emotional support, CNAs, EMTs, therapists, coaches, 
-                        home health care providers, and respite care providers.
-                    </p>
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+                GirlTREK Caregiver Tribe will be hosting **4 Workshops** this season for Caregivers created to open the door for finding joy and living a healthier lifestyle.
+                """
+            )
+            
+            st.markdown("##### 2025 Workshop Series")
+            
+            workshop_col1, workshop_col2 = st.columns(2)
+            
+            with workshop_col1:
+                st.markdown(
+                    """
+                    **📅 April 16th: Medicaid for Caregivers**  
+                    Guest Speakers: **Rae Scott** (Human Services) & **Maureen Welch** (Navigating Disabilities Colorado)  
+                    Topics: How to obtain Medicaid, City/State program benefits, application process, caregiver payments, and respite care benefits.
+                    
+                    **📅 June 18th: Mental Health First Aid Awareness**  
+                    Guest Speaker: **ReNate' Elliot** (GirlTREK Mental Health First Aid)  
+                    Topics: Identifying mental health issues, awareness strategies, support resources, self-regulation techniques.
+                    """
+                )
+            
+            with workshop_col2:
+                st.markdown(
+                    """
+                    **📅 August 20th: Self Care Practices**  
+                    Guest Speakers: **Carla Harris** & **Marcie Thomas** (GirlTREK Cares)  
+                    Topics: Prioritizing self-care, resources, meditation, and affirmation techniques.
+                    
+                    **📅 October 15th: Time Management and Nutrition Tips**  
+                    Guest Speakers: **Jerri McElroy** (Time Management) & **Chef Lisa Barnett** (Nutrition)  
+                    Topics: Prioritizing tasks, creating weekly planners with self-care practices, nutrition guidance.
+                    """
+                )
+            
+            st.success(
+                """
+                **🏆 Caregiver Crew Leader Certification Requirements:**
+                1. Attend all 4 Workshops
+                2. Attend one Crew Leader Training
+                3. Host one Caregiver group walk per month (April through November)
+                4. Complete 4 Self-Care Assessments to document growth, needs, and successes
+                """
+            )
+            
+            st.warning(
+                """
+                **📚 Caregiver Handbook Includes:**
+                - Self-Care Practices & Tips
+                - Resources with direct links
+                - Affirmations and Meditation Links
+                - National Statistics on Caregivers
+                - Time Management Tips
+                - Digital Caregiver Registration QR Code for Crew Leaders
+                """
+            )
+            
+            st.markdown(
+                """
+                **Who is a Caregiver?**  
+                Anyone caring for a family member, friend, or neighbor including: mothers caring for parents, wives caring for husbands, 
+                grandparents caring for grandchildren, teachers providing emotional support, CNAs, EMTs, therapists, coaches, 
+                home health care providers, and respite care providers.
+                """
+            )
 
         # Training and volunteer metrics already exist above
         
