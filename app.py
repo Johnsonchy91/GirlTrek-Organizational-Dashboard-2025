@@ -1392,7 +1392,7 @@ def main():
         st.plotly_chart(knowledge_fig, use_container_width=True, key="knowledge_fig")
         
         # Display knowledge topics as metric boxes for better visibility
-        st.markdown('<h5>Detailed Knowledge Impact Breakdown</h5>', unsafe_allow_html=True)
+        st.markdown('<h5>Respondents that report increase knowledge due to self-care school</h5>', unsafe_allow_html=True)
         
         know_col1, know_col2 = st.columns(2)
         
@@ -1598,6 +1598,141 @@ def main():
             with st.container():
                 st.warning("**🏗️ Infrastructure**  \nStrengthen pathways to local crews and sister circles.")
                 st.warning("**🤝 Follow-up**  \nConnect more deeply with younger members, women with disabilities, and caregivers.")
+        
+        # Website Traffic Analytics Section
+        st.markdown('<h4>Self-Care School Website Analytics (Last 90 Days)</h4>', unsafe_allow_html=True)
+        
+        # Top Content Performance
+        st.markdown('<h5>Top Content Performance</h5>', unsafe_allow_html=True)
+        
+        web_col1, web_col2 = st.columns(2)
+        
+        with web_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CLASSROOM PAGEVIEWS</p>'
+                f'<p class="metric-value">68,624</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">57,821 sessions</p>'
+                f'<p style="font-size: 14px; color: #0088FF; font-weight: bold;">48.24% engagement rate</p>'
+                f'<p style="font-size: 12px; color: #666;">Average session: 2m 4s</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with web_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MAIN SITE PAGEVIEWS</p>'
+                f'<p class="metric-value">26,245</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">21,956 sessions</p>'
+                f'<p style="font-size: 14px; color: #4CAF50; font-weight: bold;">74.2% engagement rate</p>'
+                f'<p style="font-size: 12px; color: #666;">Average session: 1m 30s</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Badge Pages Performance
+        st.markdown('<h5>Weekly Badge Pages Performance</h5>', unsafe_allow_html=True)
+        
+        badge_data = pd.DataFrame({
+            'Week': ['Week 3', 'Week 7', 'Week 8', 'Week 9', 'Week 10'],
+            'Pageviews': [3866, 3344, 3744, 4071, 2910],
+            'Sessions': [3076, 2321, 2295, 2466, 1768],
+            'Engagement Rate': [81.7, 86.51, 92.11, 92.74, 91.23],
+            'Session Duration': ['2m 24s', '2m 8s', '1m 59s', '1m 49s', '1m 55s']
+        })
+        
+        badge_fig = px.bar(
+            badge_data,
+            x='Week',
+            y='Pageviews',
+            title='Badge Page Views by Week',
+            color='Engagement Rate',
+            color_continuous_scale=['#FF9800', '#FFEB3B', '#4CAF50'],
+            hover_data=['Sessions', 'Session Duration']
+        )
+        badge_fig.update_layout(
+            title_font=dict(color=primary_blue),
+            height=350
+        )
+        
+        st.plotly_chart(badge_fig, use_container_width=True, key="badge_pageviews_fig")
+        
+        # Visitor Analytics
+        st.markdown('<h5>Visitor Analytics</h5>', unsafe_allow_html=True)
+        
+        visitor_col1, visitor_col2, visitor_col3 = st.columns(3)
+        
+        with visitor_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL VISITORS</p>'
+                f'<p class="metric-value">20K</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">New visitors</p>'
+                f'<p style="font-size: 14px; color: #0088FF;">1 visit per visitor</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with visitor_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">RETURNING VISITORS</p>'
+                f'<p class="metric-value">5.8K</p>'
+                f'<p style="font-size: 14px; color: #4CAF50; font-weight: bold;">7.6 visits per visitor</p>'
+                f'<p style="font-size: 12px; color: #666;">61.2% of total pageviews</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with visitor_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOP CITIES</p>'
+                f'<p class="metric-value" style="font-size: 18px;">New York, Atlanta, Chicago</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Ashburn (6% - likely bots)</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Traffic Sources
+        st.markdown('<h5>Traffic Sources & SEO Performance</h5>', unsafe_allow_html=True)
+        
+        traffic_col1, traffic_col2 = st.columns(2)
+        
+        with traffic_col1:
+            # Traffic Sources Pie Chart
+            traffic_data = pd.DataFrame({
+                'Source': ['Email', 'Direct', 'SMS', 'Unassigned', 'Others'],
+                'Percentage': [41.1, 36.1, 7.8, 5.7, 9.3]
+            })
+            
+            traffic_fig = px.pie(
+                traffic_data,
+                values='Percentage',
+                names='Source',
+                title='Traffic Sources Distribution',
+                color_discrete_sequence=[primary_yellow, secondary_purple, secondary_blue, secondary_pink, secondary_orange]
+            )
+            traffic_fig.update_traces(textposition='inside', textinfo='percent+label')
+            traffic_fig.update_layout(
+                title_font=dict(color=primary_blue),
+                height=300
+            )
+            
+            st.plotly_chart(traffic_fig, use_container_width=True, key="traffic_sources_fig")
+        
+        with traffic_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SEARCH PERFORMANCE</p>'
+                f'<p class="metric-value">6.0K</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total impressions</p>'
+                f'<p style="font-size: 14px;"><strong>2.5K</strong> clicks</p>'
+                f'<p style="font-size: 14px; color: #0088FF; font-weight: bold;">960 unique visitors from search</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Campaigns")
