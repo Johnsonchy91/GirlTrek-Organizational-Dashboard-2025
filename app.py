@@ -1710,44 +1710,6 @@ def main():
                 f'</div>',
                 unsafe_allow_html=True
             )
-        
-        # HR/People Operations Section
-        st.markdown('<h4>People Operations</h4>', unsafe_allow_html=True)
-        
-        hr_col1, hr_col2, hr_col3 = st.columns(3)
-        
-        with hr_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">STAFF RETENTION</p>'
-                f'<p class="metric-value">94%</p>'
-                f'<p>Industry Avg: 86%</p>'
-                f'{status_badge("On Track")}'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with hr_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TRAINING COMPLETION</p>'
-                f'<p class="metric-value">100%</p>'
-                f'<p>Digital Safety Training</p>'
-                f'{status_badge("On Track")}'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with hr_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">EMPLOYEE SATISFACTION</p>'
-                f'<p class="metric-value">88%</p>'
-                f'<p>Target: 85%</p>'
-                f'{status_badge("On Track")}'
-                f'</div>',
-                unsafe_allow_html=True
-            )
             
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Operations")
