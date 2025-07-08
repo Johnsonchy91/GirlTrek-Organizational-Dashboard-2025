@@ -325,7 +325,8 @@ def generate_pdf(section_name, dark_mode=False):
             ["Metric", "Current Value", "Goal"],
             ["Total New Crews (2025)", "727", "-"],
             ["Members Walking Daily", "5,439", "50,000"],
-            ["Active Leaders", "1,846", "-"],
+            ["Active Volunteers", "3,348", "-"],
+            ["Active Crew Leaders", "1,846", "-"],
             ["Care Village Population Reached", "3,055", "40,000"]
         ]
         t = Table(data, colWidths=[3*inch, 1.5*inch, 1.5*inch])
@@ -1218,8 +1219,10 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">SPECIAL IMPACT PROGRAMS</p>'
-                f'<p class="metric-value">233</p>'
+                f'<p class="metric-value">100</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Members in MHFA, crew leader training, faith initiatives, caregiver events, justice programs</p>'
+                f'<p>Goal: 65,000</p>'
+                f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1234,10 +1237,10 @@ def main():
         with care_col1:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">CARE VILLAGE POPULATION REACHED</p>'
+                f'<p class="metric-title">BLACK WOMEN IMPACTED DIRECTLY</p>'
                 f'<p class="metric-value">3,055</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Black women reached with localized public health services</p>'
-                f'<p>Goal: 40,000 (7.64%)</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Through programs & events</p>'
+                f'<p>Goal: 20,000 (15.28%)</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
@@ -1246,9 +1249,11 @@ def main():
         with care_col2:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL POPULATION REACHED</p>'
+                f'<p class="metric-title">REACH: BLACK WOMEN IN AL</p>'
                 f'<p class="metric-value">7,146</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Black women impacted through all programs & events</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Who have joined the movement in AL</p>'
+                f'<p>Goal: 40,000 (17.87%)</p>'
+                f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
