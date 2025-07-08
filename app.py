@@ -729,6 +729,10 @@ def main():
             status = report_data["Status"][i]
             progress = report_data["Progress"][i]
 
+            # Add context for Care Village
+            if "Care Village" in goal:
+                goal += '<br><span style="font-size: 12px; font-style: italic; color: #666;">Reach 40,000 Black women with localized public health services</span>'
+
             if status == "On Track":
                 bar_color = "#4CAF50"
             elif status == "Achieved":
