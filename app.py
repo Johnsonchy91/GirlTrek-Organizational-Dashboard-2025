@@ -1167,19 +1167,9 @@ def main():
                 unsafe_allow_html=True
             )
         
-        eng_col1, eng_col2, eng_col3 = st.columns(3)
+        eng_col1, eng_col2 = st.columns(2)
         
         with eng_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">ACTIVE VOLUNTEERS</p>'
-                f'<p class="metric-value">3,348</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Has hosted an event this year</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with eng_col2:
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">DOCUMENTED CREW LEADERS</p>'
@@ -1189,7 +1179,7 @@ def main():
                 unsafe_allow_html=True
             )
         
-        with eng_col3:
+        with eng_col2:
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">ACTIVE CREW LEADERS</p>'
