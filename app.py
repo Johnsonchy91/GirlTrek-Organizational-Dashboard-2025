@@ -325,8 +325,7 @@ def generate_pdf(section_name, dark_mode=False):
             ["Metric", "Current Value", "Goal"],
             ["Total New Crews (2025)", "727", "-"],
             ["Members Walking Daily", "5,439", "50,000"],
-            ["Active Volunteers", "3,348", "-"],
-            ["Active Crew Leaders", "1,846", "-"],
+            ["Active Leaders", "1,846", "-"],
             ["Care Village Population Reached", "3,055", "40,000"]
         ]
         t = Table(data, colWidths=[3*inch, 1.5*inch, 1.5*inch])
