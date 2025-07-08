@@ -885,6 +885,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL MEMBERSHIP</p>'
                 f'<p class="metric-value">{format_number(st.session_state.total_membership)}</p>'
+                f'<p style="font-size: 14px; color: #4CAF50;">↑ +4,082 from April</p>'
                 f'<p>Goal: 1,700,000</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
@@ -896,6 +897,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
                 f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
+                f'<p style="font-size: 14px; color: #4CAF50;">↑ +4,082 from April</p>'
                 f'<p>Goal: 100,000</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
@@ -907,6 +909,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
                 f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
+                f'<p style="font-size: 14px; color: #4CAF50;">↑ +$2,015,245.57 from April</p>'
                 f'<p>Goal: $10,000,000</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
@@ -977,6 +980,59 @@ def main():
             </div>
             """
             st.markdown(progress_html, unsafe_allow_html=True)
+
+        # Add Trends Section
+        st.markdown("<h3>Key Trends (April → June)</h3>", unsafe_allow_html=True)
+        
+        trends_col1, trends_col2, trends_col3 = st.columns(3)
+        
+        with trends_col1:
+            st.markdown(
+                """
+                <div style="background-color: #E8F5E9; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                    <h5 style="color: #2E7D32; margin-top: 0;">🎯 Progress Gains</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>New Members:</strong> +4,082 (36%)</li>
+                        <li><strong>Engaged Members:</strong> +1,350 (11.5%)</li>
+                        <li><strong>Walking Daily:</strong> +2,780 (57%)</li>
+                        <li><strong>Contributions:</strong> +$2.02M (184%)</li>
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with trends_col2:
+            st.markdown(
+                """
+                <div style="background-color: #FFF3E0; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                    <h5 style="color: #E65100; margin-top: 0;">📊 Notable Changes</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Advocacy Briefs:</strong> +3 published</li>
+                        <li><strong>Care Village Reach:</strong> +4,277 (149%)</li>
+                        <li><strong>New Crews:</strong> +124 created</li>
+                        <li><strong>Store Revenue:</strong> Tracking needed</li>
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with trends_col3:
+            st.markdown(
+                """
+                <div style="background-color: #E3F2FD; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                    <h5 style="color: #1565C0; margin-top: 0;">🚀 Campaign Success</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>SCS Registrants:</strong> 13,119 (131% of goal)</li>
+                        <li><strong>Badge Downloads:</strong> 30,008 total</li>
+                        <li><strong>Website Traffic:</strong> 140K+ views</li>
+                        <li><strong>Knowledge Impact:</strong> 99.6% positive</li>
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
         st.markdown("<h3>Historic Movement Growth Numbers</h3>", unsafe_allow_html=True)
         
@@ -1079,6 +1135,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
                 f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
+                f'<p style="font-size: 14px; color: #4CAF50;">↑ +4,082 from April (11,356)</p>'
                 f'<p>Goal: 100,000</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
@@ -1151,6 +1208,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL NEW CREWS (2025)</p>'
                 f'<p class="metric-value">727</p>'
+                f'<p style="font-size: 14px; color: #4CAF50;">↑ +124 from April (603)</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1161,6 +1219,7 @@ def main():
                 f'<p class="metric-title">MEMBERS WALKING DAILY</p>'
                 f'<p class="metric-value">5,439</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Walking at least 30 min/day, 5 days/week (from Self-Care School exit data)</p>'
+                f'<p style="font-size: 14px; color: #4CAF50;">↑ +651 from April (4,788)</p>'
                 f'<p>Goal: 50,000</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
@@ -1252,6 +1311,7 @@ def main():
                 f'<p class="metric-title">REACH: BLACK WOMEN IN AL</p>'
                 f'<p class="metric-value">7,146</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Who have joined the movement in AL</p>'
+                f'<p style="font-size: 14px; color: #4CAF50;">↑ +4,277 from April (2,869)</p>'
                 f'<p>Goal: 40,000 (17.87%)</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
@@ -1276,6 +1336,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
                 f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
+                f'<p style="font-size: 14px; color: #4CAF50;">↑ +$2.02M from April ($1.09M)</p>'
                 f'<p>Goal: $10M</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
@@ -2275,6 +2336,7 @@ def main():
                 f'<p class="metric-title">ADVOCACY BRIEFS PUBLISHED</p>'
                 f'<p class="metric-value">7 / 10</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Research basis for how J&J agenda items increase Black women\'s life expectancy</p>'
+                f'<p style="font-size: 14px; color: #4CAF50;">↑ +3 from April (4 briefs)</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
@@ -2285,6 +2347,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">ADVOCACY PARTNERSHIPS</p>'
                 f'<p class="metric-value">2 / 20</p>'
+                f'<p style="font-size: 14px; color: #FF9800;">No change from April</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
