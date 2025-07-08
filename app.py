@@ -927,10 +927,10 @@ def main():
             ],
             "Current Total": [
                 "15,438", "13,119", "7,638", "2",
-                "$3,109,294.25", "3,055", "100%"
+                "$3,109,294.25", "7,146", "100%"
             ],
             "Percent Progress": [
-                "15.44%", "5.25%", "11.75%", "10%", "31.09%", "7.64%", "100%"
+                "15.44%", "5.25%", "11.75%", "10%", "31.09%", "17.87%", "100%"
             ],
             "Status": [
                 "On Track", "On Track", "At Risk", "At Risk",
@@ -1238,10 +1238,10 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">BLACK WOMEN IMPACTED DIRECTLY</p>'
-                f'<p class="metric-value">3,055</p>'
+                f'<p class="metric-value">220</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Through programs & events</p>'
-                f'<p>Goal: 20,000 (15.28%)</p>'
-                f'<p>{status_badge("On Track")}</p>'
+                f'<p>Goal: 20,000 (1.10%)</p>'
+                f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
