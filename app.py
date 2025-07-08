@@ -1547,6 +1547,75 @@ def main():
                 unsafe_allow_html=True
             )
         
+        # Program Feedback Section
+        st.markdown('<h4>Program Feedback</h4>', unsafe_allow_html=True)
+        
+        feedback_col1, feedback_col2 = st.columns(2)
+        
+        with feedback_col1:
+            st.markdown(
+                """
+                <div style="background-color: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px; border-left: 5px solid #0088FF;">
+                    <h5 style="color: #0088FF; margin-top: 0;">Participation Rates</h5>
+                    <ul style="margin: 10px 0;">
+                        <li><strong style="color: #4CAF50; font-size: 18px;">90%+</strong> of respondents participated in nearly every weekly lesson.</li>
+                        <li><strong style="color: #FF9800; font-size: 18px;">8.3%</strong> said they "don't remember specific weeks but tuned in."</li>
+                        <li><strong style="color: #0088FF; font-size: 18px;">57%</strong> said: <em>"I love it — exactly what I needed."</em></li>
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with feedback_col2:
+            st.markdown(
+                """
+                <div style="background-color: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px; border-left: 5px solid #FF5722;">
+                    <h5 style="color: #FF5722; margin-top: 0;">Participant Requests</h5>
+                    <p style="margin: 10px 0;"><strong>Participants asked for:</strong></p>
+                    <ul style="margin: 10px 0;">
+                        <li>Transcripts or walk-and-listen study guides.</li>
+                        <li>Reading lists and playlists from each episode.</li>
+                        <li>More localized or age-specific community events.</li>
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        # Action Opportunities Section
+        st.markdown('<h4>Action Opportunities</h4>', unsafe_allow_html=True)
+        
+        action_col1, action_col2 = st.columns(2)
+        
+        with action_col1:
+            st.markdown(
+                """
+                <div style="background-color: #E8F5E9; border-radius: 10px; padding: 20px; margin-bottom: 20px; border-left: 5px solid #4CAF50;">
+                    <h5 style="color: #2E7D32; margin-top: 0;">🎉 Celebrate Momentum</h5>
+                    <p>Highlight 10-week graduates and showcase testimonials.</p>
+                    
+                    <h5 style="color: #2E7D32; margin-top: 15px;">♿ Accessibility</h5>
+                    <p>Offer transcripts, summaries, and replay options.</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with action_col2:
+            st.markdown(
+                """
+                <div style="background-color: #FFF3E0; border-radius: 10px; padding: 20px; margin-bottom: 20px; border-left: 5px solid #FF9800;">
+                    <h5 style="color: #E65100; margin-top: 0;">🏗️ Infrastructure</h5>
+                    <p>Strengthen pathways to local crews and sister circles.</p>
+                    
+                    <h5 style="color: #E65100; margin-top: 15px;">🤝 Follow-up</h5>
+                    <p>Connect more deeply with younger members, women with disabilities, and caregivers.</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Campaigns")
     
