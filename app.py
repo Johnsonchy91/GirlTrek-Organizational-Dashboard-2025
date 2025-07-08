@@ -1218,10 +1218,8 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">SPECIAL IMPACT PROGRAMS</p>'
-                f'<p class="metric-value">100</p>'
+                f'<p class="metric-value">233</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Members in MHFA, crew leader training, faith initiatives, caregiver events, justice programs</p>'
-                f'<p>Goal: 65,000</p>'
-                f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
