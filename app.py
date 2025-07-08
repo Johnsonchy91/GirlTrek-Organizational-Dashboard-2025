@@ -1589,32 +1589,14 @@ def main():
         action_col1, action_col2 = st.columns(2)
         
         with action_col1:
-            st.markdown(
-                """
-                <div style="background-color: #E8F5E9; border-radius: 10px; padding: 20px; margin-bottom: 20px; border-left: 5px solid #4CAF50;">
-                    <h5 style="color: #2E7D32; margin-top: 0;">🎉 Celebrate Momentum</h5>
-                    <p>Highlight 10-week graduates and showcase testimonials.</p>
-                    
-                    <h5 style="color: #2E7D32; margin-top: 15px;">♿ Accessibility</h5>
-                    <p>Offer transcripts, summaries, and replay options.</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+            with st.container():
+                st.success("**🎉 Celebrate Momentum**  \nHighlight 10-week graduates and showcase testimonials.")
+                st.info("**♿ Accessibility**  \nOffer transcripts, summaries, and replay options.")
         
         with action_col2:
-            st.markdown(
-                """
-                <div style="background-color: #FFF3E0; border-radius: 10px; padding: 20px; margin-bottom: 20px; border-left: 5px solid #FF9800;">
-                    <h5 style="color: #E65100; margin-top: 0;">🏗️ Infrastructure</h5>
-                    <p>Strengthen pathways to local crews and sister circles.</p>
-                    
-                    <h5 style="color: #E65100; margin-top: 15px;">🤝 Follow-up</h5>
-                    <p>Connect more deeply with younger members, women with disabilities, and caregivers.</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+            with st.container():
+                st.warning("**🏗️ Infrastructure**  \nStrengthen pathways to local crews and sister circles.")
+                st.warning("**🤝 Follow-up**  \nConnect more deeply with younger members, women with disabilities, and caregivers.")
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Campaigns")
