@@ -1470,7 +1470,7 @@ def main():
                 f'<p class="metric-title">HEALTH KNOWLEDGE CHANGE</p>'
                 f'<p class="metric-value">999</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting change in health knowledge</p>'
-                f'<p style="font-size: 14px; color: #4CAF50; font-weight: bold;">96.80% of respondents</p>'
+                f'<p style="font-size: 14px; color: #4CAF50; font-weight: bold;">99.60% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -2157,7 +2157,7 @@ def main():
                 f'<p class="metric-title">HEALTH KNOWLEDGE CHANGE</p>'
                 f'<p class="metric-value">999</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting a change in health knowledge</p>'
-                f'<p style="font-size: 16px; color: #FF5722; font-weight: bold;">0.00% (baseline measure)</p>'
+                f'<p style="font-size: 16px; color: #4CAF50; font-weight: bold;">99.60% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
