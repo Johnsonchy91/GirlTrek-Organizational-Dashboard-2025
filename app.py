@@ -651,6 +651,19 @@ def main():
         ],
         'Members': [710, 569, 645, 658, 622, 695, 536, 602]
     })
+    
+    # Age Distribution Data for Campaigns
+    age_dist_data = pd.DataFrame({
+        'Age Group': ['0-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65-74', '75-84', '85-94'],
+        'Participants': [21, 66, 386, 1316, 2268, 1077, 440, 50, 2]
+    })
+    
+    # Badge Week Data for Campaigns
+    badge_week_data = pd.DataFrame({
+        'Week': ['Week 0', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 
+                'Week 6', 'Week 7', 'Week 8', 'Week 9', 'Week 10', 'Final Impact'],
+        'Badges Claimed': [3442, 2400, 2862, 1928, 1521, 1477, 2234, 1531, 1460, 1847, 1334, 867]
+    })
 
     # Create Tabs - Adding Campaigns tab
     tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
@@ -1698,6 +1711,7 @@ def main():
                 f'<p class="metric-title">HEALTH KNOWLEDGE CHANGE</p>'
                 f'<p class="metric-value">999</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting a change in health knowledge</p>'
+                f'<p style="font-size: 14px; color: #666;">8.3% of registrants</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1708,6 +1722,7 @@ def main():
                 f'<p class="metric-title">MENTAL WELL-BEING IMPROVEMENT</p>'
                 f'<p class="metric-value">998</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting changes in self-reported mental well-being</p>'
+                f'<p style="font-size: 14px; color: #666;">8.3% of registrants</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1718,6 +1733,7 @@ def main():
                 f'<p class="metric-title">SOCIAL CONNECTION</p>'
                 f'<p class="metric-value">673</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women feeling more connected and less isolated through GirlTREK</p>'
+                f'<p style="font-size: 14px; color: #666;">5.6% of registrants</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1733,6 +1749,7 @@ def main():
                 f'<p class="metric-title">EMPOWERED TO TAKE ACTION</p>'
                 f'<p class="metric-value">907</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants feeling empowered to make positive changes</p>'
+                f'<p style="font-size: 14px; color: #666;">7.6% of registrants</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1743,6 +1760,7 @@ def main():
                 f'<p class="metric-title">STRONGER WALKING HABIT</p>'
                 f'<p class="metric-value">709</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who built a stronger walking habit</p>'
+                f'<p style="font-size: 14px; color: #666;">5.9% of registrants</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1755,6 +1773,7 @@ def main():
                 f'<p class="metric-title">IMPLEMENTED NEW HABITS</p>'
                 f'<p class="metric-value">293</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who implemented new habits, actions, or mindsets</p>'
+                f'<p style="font-size: 14px; color: #666;">2.4% of registrants</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1765,6 +1784,7 @@ def main():
                 f'<p class="metric-title">SHARED WITH OTHERS</p>'
                 f'<p class="metric-value">819</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who shared lessons learned with others</p>'
+                f'<p style="font-size: 14px; color: #666;">6.8% of registrants</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1816,6 +1836,7 @@ def main():
                     <p class="metric-title">AVERAGE IMPACT PER TOPIC</p>
                     <p class="metric-value">630</p>
                     <p style="font-style: italic; font-size: 12px; color: #666;">Average participants reporting knowledge gain per topic</p>
+                    <p style="font-size: 14px; color: #666;">5.3% average per topic</p>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -1828,6 +1849,7 @@ def main():
                     <p class="metric-title">TOTAL KNOWLEDGE IMPACTS</p>
                     <p class="metric-value">5,037</p>
                     <p style="font-style: italic; font-size: 12px; color: #666;">Sum of all topic-specific knowledge gains</p>
+                    <p style="font-size: 14px; color: #666;">42.0% total engagement rate</p>
                 </div>
                 """,
                 unsafe_allow_html=True
