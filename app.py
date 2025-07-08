@@ -636,14 +636,30 @@ def main():
         'GirlTREK': [18.54, 1.06],
         'Nonprofit Industry Average': [28.59, 3.29]
     })
+    
+    # Knowledge Impact Data for Campaigns
+    knowledge_data = pd.DataFrame({
+        'Topic': [
+            'Land rights, housing & environmental justice',
+            'Civic engagement & political participation',
+            'Safety, self-defense & public resource access',
+            'Decarceration, gun safety & restorative justice',
+            'Mental health & emotional boundaries',
+            'Radical care, family legacy & intergenerational healing',
+            'Parenting, mentorship & end-of-life planning',
+            'Self-esteem, celebration & personal empowerment'
+        ],
+        'Members': [710, 569, 645, 658, 622, 695, 536, 602]
+    })
 
-    # Create Tabs
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
+    # Create Tabs - Adding Campaigns tab
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
         "Executive Summary",
         "Recruitment",
         "Engagement",
         "Development",
         "Marketing",
+        "Campaigns",
         "Operations",
         "Member Care",
         "Advocacy",
@@ -760,6 +776,18 @@ def main():
             st.markdown(progress_html, unsafe_allow_html=True)
 
         st.markdown("<h3>Historic Movement Growth Numbers</h3>", unsafe_allow_html=True)
+        
+        # Add historic comparison note
+        st.markdown(
+            f"""
+            <div style="background-color: #E3F2FD; border-radius: 10px; padding: 15px; margin-bottom: 20px; border-left: 5px solid #2196F3;">
+                <h5 style="color: #1565C0; margin-top: 0;">Historic Comparison - 2017</h5>
+                <p style="color: #424242;">In 2017: <strong>116,938 Trekkers</strong> | <strong>44,149 New Women</strong> | <strong>60.65% Growth</strong></p>
+                <p style="color: #424242;">For comparison: In 2020, we reached <strong>1,000,000 Trekkers</strong> with <strong>626,660 New Women</strong> joining (<strong>167.85% Growth</strong>)</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
         historic_fig = go.Figure()
         historic_fig.add_trace(go.Scatter(
@@ -996,6 +1024,35 @@ def main():
                 unsafe_allow_html=True
             )
 
+        # Training and volunteer metrics already exist above
+        
+        # Care Village Section
+        st.markdown('<h4>Care Village Initiative</h4>', unsafe_allow_html=True)
+        
+        care_col1, care_col2 = st.columns(2)
+        
+        with care_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CARE VILLAGE POPULATION REACHED</p>'
+                f'<p class="metric-value">3,055</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Black women reached with localized public health services</p>'
+                f'<p>Goal: 40,000 (7.64%)</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with care_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL POPULATION REACHED</p>'
+                f'<p class="metric-value">7,146</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Black women impacted through all programs & events</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Engagement")
 
@@ -1180,9 +1237,184 @@ def main():
         create_notes_section("Marketing")
 
     # ---------------------------------
-    # Operations Tab
+    # Campaigns Tab (NEW)
     # ---------------------------------
     with tab6:
+        add_board_update("Campaigns")
+        
+        st.markdown('<h3 class="section-title">Campaign Metrics - Self-Care School 2025</h3>', unsafe_allow_html=True)
+        
+        # Campaign Overview
+        st.markdown('<h4>Campaign Overview</h4>', unsafe_allow_html=True)
+        
+        campaign_col1, campaign_col2, campaign_col3 = st.columns(3)
+        
+        with campaign_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MEMBERS RECRUITED</p>'
+                f'<p class="metric-value">5,377</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Through Self-Care School campaign</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with campaign_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">WALKING AT LIFE-SAVING LEVEL</p>'
+                f'<p class="metric-value">12,037</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Walking 30+ min/day, 5 days/week (from exit tickets)</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with campaign_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL SUPPORTING GOAL</p>'
+                f'<p class="metric-value">5,634</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Badge earners + Claimed the Victory</p>'
+                f'<p>Goal: 65,000</p>'
+                f'<p>{status_badge("At Risk")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Knowledge Increase Metrics
+        st.markdown('<h4>Self-Care School Knowledge Impact</h4>', unsafe_allow_html=True)
+        st.markdown('<p style="font-style: italic;">Members reporting significant increase in knowledge by topic:</p>', unsafe_allow_html=True)
+        
+        knowledge_data = pd.DataFrame({
+            'Topic': [
+                'Land rights, housing & environmental justice',
+                'Civic engagement & political participation',
+                'Safety, self-defense & public resource access',
+                'Decarceration, gun safety & restorative justice',
+                'Mental health & emotional boundaries',
+                'Radical care, family legacy & intergenerational healing',
+                'Parenting, mentorship & end-of-life planning',
+                'Self-esteem, celebration & personal empowerment'
+            ],
+            'Members': [710, 569, 645, 658, 622, 695, 536, 602]
+        })
+        
+        knowledge_fig = px.bar(
+            knowledge_data,
+            x='Topic',
+            y='Members',
+            title='Members Reporting Significant Knowledge Increase by Topic',
+            color='Members',
+            color_continuous_scale=[primary_blue, primary_orange, primary_yellow]
+        )
+        knowledge_fig.update_layout(
+            title_font=dict(color=primary_blue),
+            xaxis_tickangle=-45,
+            height=500
+        )
+        knowledge_fig.update_xaxis(tickmode='linear')
+        
+        st.plotly_chart(knowledge_fig, use_container_width=True, key="knowledge_fig")
+        
+        # Summary stats
+        st.markdown('<h4>Campaign Impact Summary</h4>', unsafe_allow_html=True)
+        
+        summary_col1, summary_col2 = st.columns(2)
+        
+        with summary_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL KNOWLEDGE IMPACT</p>'
+                f'<p class="metric-value">999</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting change in health knowledge</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with summary_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">AVERAGE KNOWLEDGE GAIN</p>'
+                f'<p class="metric-value">630</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Average members per topic area</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Additional Impact Metrics from Impact Tab
+        st.markdown('<h4>Self-Care School Health & Behavior Outcomes</h4>', unsafe_allow_html=True)
+        
+        outcome_col1, outcome_col2, outcome_col3 = st.columns(3)
+        
+        with outcome_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MENTAL WELL-BEING</p>'
+                f'<p class="metric-value">998</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Changes in self-reported mental well-being</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with outcome_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SOCIAL CONNECTION</p>'
+                f'<p class="metric-value">673</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Feel more connected and less isolated</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with outcome_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">EMPOWERED TO ACT</p>'
+                f'<p class="metric-value">907</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Feel empowered to take action</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        behavior_col1, behavior_col2, behavior_col3 = st.columns(3)
+        
+        with behavior_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">NEW HABITS</p>'
+                f'<p class="metric-value">293</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Implemented new habits/mindsets</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with behavior_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SHARED LESSONS</p>'
+                f'<p class="metric-value">819</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Shared lessons with others</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with behavior_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">WALKING HABIT</p>'
+                f'<p class="metric-value">709</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Built stronger walking habit</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        st.markdown('<hr>', unsafe_allow_html=True)
+        create_notes_section("Campaigns")
+    
+    # ---------------------------------
+    # Operations Tab (moved to tab7)
+    # ---------------------------------
+    with tab7:
         add_board_update("Operations")
         
         st.markdown('<h3 class="section-title">Operations Metrics</h3>', unsafe_allow_html=True)
@@ -1331,9 +1563,9 @@ def main():
         create_notes_section("Operations")
 
     # ---------------------------------
-    # Member Care Tab
+    # Member Care Tab (moved to tab8)
     # ---------------------------------
-    with tab7:
+    with tab8:
         add_board_update("Member Care")
         
         st.markdown('<h3 class="section-title">Member Care Metrics</h3>', unsafe_allow_html=True)
@@ -1405,9 +1637,9 @@ def main():
         create_notes_section("Member Care")
 
     # ---------------------------------
-    # Advocacy Tab
+    # Advocacy Tab (moved to tab9)
     # ---------------------------------
-    with tab8:
+    with tab9:
         add_board_update("Advocacy")
         
         st.markdown('<h3 class="section-title">Advocacy Metrics</h3>', unsafe_allow_html=True)
@@ -1449,64 +1681,158 @@ def main():
         create_notes_section("Advocacy")
 
     # ---------------------------------
-    # Impact Tab
+    # Impact Tab (moved to tab10)
     # ---------------------------------
-    with tab9:
+    with tab10:
         add_board_update("Impact")
         
-        st.markdown('<h3 class="section-title">Impact Metrics</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="section-title">Impact Metrics - Self-Care School 2025</h3>', unsafe_allow_html=True)
 
-        st.markdown(
-            """
-            <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 3px solid #757575;">
-                <p style="color: #424242; font-size: 15px;"><i>Note: GirlTREK's community health impact reporting will be updated following Self-Care School 2025 outcomes.</i></p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-        st.markdown("<h4>Care Village Impact</h4>", unsafe_allow_html=True)
+        # Health and Well-being Impact
+        st.markdown('<h4>Health & Well-being Outcomes</h4>', unsafe_allow_html=True)
         
-        care_col1, care_col2 = st.columns(2)
+        health_col1, health_col2, health_col3 = st.columns(3)
         
-        with care_col1:
+        with health_col1:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">CARE VILLAGE POPULATION REACHED</p>'
-                f'<p class="metric-value">3,055</p>'
-                f'<p>Goal: 40,000</p>'
-                f'<p>{status_badge("On Track")}</p>'
+                f'<p class="metric-title">HEALTH KNOWLEDGE CHANGE</p>'
+                f'<p class="metric-value">999</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting a change in health knowledge</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        with care_col2:
+        with health_col2:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">MEMBERS IN SPECIAL IMPACT PROGRAMS</p>'
-                f'<p class="metric-value">100</p>'
-                f'<p>Goal: 65,000</p>'
-                f'<p>{status_badge("At Risk")}</p>'
+                f'<p class="metric-title">MENTAL WELL-BEING IMPROVEMENT</p>'
+                f'<p class="metric-value">998</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting changes in self-reported mental well-being</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
-
-        st.markdown("<h4>Upcoming Impact Metrics</h4>", unsafe_allow_html=True)
-        st.markdown(
-            """
-            <p>The following metrics will be reported post Self-Care School 2025:</p>
-            <ul>
-                <li>Women who have reported a change in health knowledge</li>
-                <li>Changes in self-reported mental well-being</li>
-                <li>Number of women who report feeling more connected and less isolated as a result of GirlTREK programming</li>
-                <li>% of participants reporting weight loss</li>
-                <li>% of participants reporting improved management of chronic conditions (e.g., diabetes, hypertension)</li>
-                <li>% of participants reporting reduced medication dependency</li>
-                <li>% of participants reporting fewer symptoms of depression or anxiety</li>
-            </ul>
-            """,
-            unsafe_allow_html=True
+        
+        with health_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SOCIAL CONNECTION</p>'
+                f'<p class="metric-value">673</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women feeling more connected and less isolated through GirlTREK</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Behavior Change Impact
+        st.markdown('<h4>Behavior Change & Empowerment</h4>', unsafe_allow_html=True)
+        
+        behavior_col1, behavior_col2 = st.columns(2)
+        
+        with behavior_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">EMPOWERED TO TAKE ACTION</p>'
+                f'<p class="metric-value">907</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants feeling empowered to make positive changes</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with behavior_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">STRONGER WALKING HABIT</p>'
+                f'<p class="metric-value">709</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who built a stronger walking habit</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        behavior_col3, behavior_col4 = st.columns(2)
+        
+        with behavior_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">IMPLEMENTED NEW HABITS</p>'
+                f'<p class="metric-value">293</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who implemented new habits, actions, or mindsets</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with behavior_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SHARED WITH OTHERS</p>'
+                f'<p class="metric-value">819</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who shared lessons learned with others</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Knowledge Increase by Topic
+        st.markdown('<h4>Knowledge Increase by Self-Care School Topics</h4>', unsafe_allow_html=True)
+        st.markdown('<p style="font-style: italic; color: #666;">Number of participants reporting significant increase in knowledge:</p>', unsafe_allow_html=True)
+        
+        # Create visualization of knowledge topics
+        knowledge_impact_fig = px.bar(
+            knowledge_data,
+            x='Members',
+            y='Topic',
+            orientation='h',
+            title='Self-Care School Knowledge Impact by Topic',
+            color='Members',
+            color_continuous_scale=[primary_blue, primary_orange, primary_yellow]
         )
+        knowledge_impact_fig.update_layout(
+            title_font=dict(color=primary_blue),
+            height=400,
+            xaxis_title='Number of Participants',
+            yaxis_title=''
+        )
+        
+        st.plotly_chart(knowledge_impact_fig, use_container_width=True, key="knowledge_impact_fig")
+        
+        # Summary metrics
+        st.markdown('<h4>Impact Summary</h4>', unsafe_allow_html=True)
+        
+        summary_col1, summary_col2, summary_col3 = st.columns(3)
+        
+        with summary_col1:
+            st.markdown(
+                f"""
+                <div class="metric-box">
+                    <p class="metric-title">TOTAL KNOWLEDGE TOPICS</p>
+                    <p class="metric-value">8</p>
+                    <p style="font-style: italic; font-size: 12px; color: #666;">Areas of significant knowledge increase</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with summary_col2:
+            st.markdown(
+                f"""
+                <div class="metric-box">
+                    <p class="metric-title">AVERAGE IMPACT PER TOPIC</p>
+                    <p class="metric-value">630</p>
+                    <p style="font-style: italic; font-size: 12px; color: #666;">Average participants reporting knowledge gain per topic</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with summary_col3:
+            st.markdown(
+                f"""
+                <div class="metric-box">
+                    <p class="metric-title">TOTAL KNOWLEDGE IMPACTS</p>
+                    <p class="metric-value">5,037</p>
+                    <p style="font-style: italic; font-size: 12px; color: #666;">Sum of all topic-specific knowledge gains</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Impact")
