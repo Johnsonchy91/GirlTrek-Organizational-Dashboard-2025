@@ -1242,7 +1242,7 @@ def main():
     with tab6:
         add_board_update("Campaigns")
         
-        st.markdown('<h3 class="section-title">Campaign Metrics - Self-Care School 2025</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="section-title">Self-Care School 2025</h3>', unsafe_allow_html=True)
         
         # Campaign Overview
         st.markdown('<h4>Campaign Overview</h4>', unsafe_allow_html=True)
@@ -1312,7 +1312,6 @@ def main():
             xaxis_tickangle=-45,
             height=500
         )
-        knowledge_fig.update_xaxis(tickmode='linear')
         
         st.plotly_chart(knowledge_fig, use_container_width=True, key="knowledge_fig")
         
