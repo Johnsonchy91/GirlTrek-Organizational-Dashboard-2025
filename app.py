@@ -1819,6 +1819,23 @@ def main():
                 unsafe_allow_html=True
             )
 
+        # Add strategic note about advocacy partnerships
+        st.markdown(
+            """
+            <div style="background-color: #FFF3E0; border-radius: 10px; padding: 20px; margin: 20px 0; border-left: 5px solid #FF9800;">
+                <h5 style="color: #E65100; margin-top: 0;">📋 Strategic Update on Advocacy Partnerships</h5>
+                <p style="color: #333; line-height: 1.6;">
+                    Given c-suite conversations, external conditions, and internal priorities we have been reevaluating the pacing of this goal. 
+                    We are currently considering shifting timeline to Q1 2026, and reevaluating the approach to this objective. 
+                    Relationship building with national and place-based organizations to test potential activations and applications. 
+                    Participation in national convenings and briefings. Examples: In-person evaluation of participation in State of the People; 
+                    active and ongoing conversations with 1K Women Strong and Health in Partnership (HiP).
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
         st.markdown('<h3>Current Focus Areas</h3>', unsafe_allow_html=True)
         st.markdown(
             """
