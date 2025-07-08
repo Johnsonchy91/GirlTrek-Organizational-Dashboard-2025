@@ -1296,10 +1296,11 @@ def main():
         with campaign_col3:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL SUPPORTING GOAL</p>'
+                f'<p class="metric-title">WALKING AT LIFE-SAVING LEVEL</p>'
                 f'<p class="metric-value">5,634</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Badge earners + Claimed the Victory</p>'
-                f'<p>Goal: 65,000 (8.67%)</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Members who earned badges or claimed victory in Self-Care School</p>'
+                f'<p>Goal: 65,000 members</p>'
+                f'<p style="font-size: 14px; color: #FF9800; font-weight: bold;">8.67% of goal</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
