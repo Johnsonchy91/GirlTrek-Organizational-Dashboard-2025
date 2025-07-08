@@ -833,7 +833,22 @@ def main():
             color_continuous_scale=[secondary_purple, primary_blue, secondary_pink]
         )
         exec_fig_total_age.update_layout(title_font=dict(color=primary_blue))
+        # Update x-axis labels to add asterisk to Unknown
+        exec_fig_total_age.update_xaxis(
+            ticktext=['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown*'],
+            tickvals=[0, 1, 2, 3, 4, 5]
+        )
         st.plotly_chart(exec_fig_total_age, use_container_width=True, key="exec_fig_total_age")
+        
+        # Add note about Unknown age group
+        st.markdown(
+            """
+            <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-top: -10px; font-style: italic; font-size: 13px;">
+                *Unknown: Members who have not submitted date of birth or age in data collection. Date of birth is optional.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
         st.markdown('<h3>Top States</h3>', unsafe_allow_html=True)
 
@@ -1711,7 +1726,7 @@ def main():
                 f'<p class="metric-title">HEALTH KNOWLEDGE CHANGE</p>'
                 f'<p class="metric-value">999</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting a change in health knowledge</p>'
-                f'<p style="font-size: 14px; color: #666;">8.3% of registrants</p>'
+                f'<p style="font-size: 14px; color: #666;">0.00% (baseline measure)</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1722,7 +1737,7 @@ def main():
                 f'<p class="metric-title">MENTAL WELL-BEING IMPROVEMENT</p>'
                 f'<p class="metric-value">998</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting changes in self-reported mental well-being</p>'
-                f'<p style="font-size: 14px; color: #666;">8.3% of registrants</p>'
+                f'<p style="font-size: 14px; color: #666;">99.90% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1733,7 +1748,7 @@ def main():
                 f'<p class="metric-title">SOCIAL CONNECTION</p>'
                 f'<p class="metric-value">673</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women feeling more connected and less isolated through GirlTREK</p>'
-                f'<p style="font-size: 14px; color: #666;">5.6% of registrants</p>'
+                f'<p style="font-size: 14px; color: #666;">68.53% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1749,7 +1764,7 @@ def main():
                 f'<p class="metric-title">EMPOWERED TO TAKE ACTION</p>'
                 f'<p class="metric-value">907</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants feeling empowered to make positive changes</p>'
-                f'<p style="font-size: 14px; color: #666;">7.6% of registrants</p>'
+                f'<p style="font-size: 14px; color: #666;">90.52% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1760,7 +1775,7 @@ def main():
                 f'<p class="metric-title">STRONGER WALKING HABIT</p>'
                 f'<p class="metric-value">709</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who built a stronger walking habit</p>'
-                f'<p style="font-size: 14px; color: #666;">5.9% of registrants</p>'
+                f'<p style="font-size: 14px; color: #666;">68.70% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1773,7 +1788,7 @@ def main():
                 f'<p class="metric-title">IMPLEMENTED NEW HABITS</p>'
                 f'<p class="metric-value">293</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who implemented new habits, actions, or mindsets</p>'
-                f'<p style="font-size: 14px; color: #666;">2.4% of registrants</p>'
+                f'<p style="font-size: 14px; color: #666;">34.92% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1784,7 +1799,7 @@ def main():
                 f'<p class="metric-title">SHARED WITH OTHERS</p>'
                 f'<p class="metric-value">819</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who shared lessons learned with others</p>'
-                f'<p style="font-size: 14px; color: #666;">6.8% of registrants</p>'
+                f'<p style="font-size: 14px; color: #666;">83.66% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1792,6 +1807,48 @@ def main():
         # Knowledge Increase by Topic
         st.markdown('<h4>Knowledge Increase by Self-Care School Topics</h4>', unsafe_allow_html=True)
         st.markdown('<p style="font-style: italic; color: #666;">Number of participants reporting significant increase in knowledge:</p>', unsafe_allow_html=True)
+        
+        # Display as metric boxes with correct percentages
+        knowledge_col1, knowledge_col2 = st.columns(2)
+        
+        knowledge_items = [
+            ("Land rights, housing & environmental justice", 710, 71.60),
+            ("Civic engagement & political participation", 569, 57.00),
+            ("Safety, self-defense & public resource access", 645, 64.40),
+            ("Decarceration, gun safety & restorative justice", 658, 63.76),
+            ("Mental health & emotional boundaries", 622, 60.27),
+            ("Radical care, family legacy & intergenerational healing", 695, 67.34),
+            ("Parenting, mentorship & end-of-life planning", 536, 51.94),
+            ("Self-esteem, celebration & personal empowerment", 602, 58.33)
+        ]
+        
+        for i in range(0, 4):
+            with knowledge_col1:
+                topic, count, pct = knowledge_items[i]
+                st.markdown(
+                    f"""
+                    <div class="metric-box" style="margin-bottom: 15px;">
+                        <p class="metric-title" style="font-size: 14px;">{topic.upper()}</p>
+                        <p class="metric-value" style="font-size: 24px;">{count}</p>
+                        <p style="font-size: 14px; color: #666;">{pct}% of respondents</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+        
+        for i in range(4, 8):
+            with knowledge_col2:
+                topic, count, pct = knowledge_items[i]
+                st.markdown(
+                    f"""
+                    <div class="metric-box" style="margin-bottom: 15px;">
+                        <p class="metric-title" style="font-size: 14px;">{topic.upper()}</p>
+                        <p class="metric-value" style="font-size: 24px;">{count}</p>
+                        <p style="font-size: 14px; color: #666;">{pct}% of respondents</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
         
         # Create visualization of knowledge topics
         knowledge_impact_fig = px.bar(
@@ -1836,7 +1893,7 @@ def main():
                     <p class="metric-title">AVERAGE IMPACT PER TOPIC</p>
                     <p class="metric-value">630</p>
                     <p style="font-style: italic; font-size: 12px; color: #666;">Average participants reporting knowledge gain per topic</p>
-                    <p style="font-size: 14px; color: #666;">5.3% average per topic</p>
+                    <p style="font-size: 14px; color: #666;">61.08% average response rate</p>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -1849,7 +1906,6 @@ def main():
                     <p class="metric-title">TOTAL KNOWLEDGE IMPACTS</p>
                     <p class="metric-value">5,037</p>
                     <p style="font-style: italic; font-size: 12px; color: #666;">Sum of all topic-specific knowledge gains</p>
-                    <p style="font-size: 14px; color: #666;">42.0% total engagement rate</p>
                 </div>
                 """,
                 unsafe_allow_html=True
