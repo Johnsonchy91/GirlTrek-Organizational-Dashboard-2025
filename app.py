@@ -630,6 +630,13 @@ def main():
         'Current Total': ['93%', '2 hours', 'SCS Registration Error Message & Connecting to the Movement']
     })
 
+    # Email Performance Comparison Data
+    comparison_data = pd.DataFrame({
+        'Metric': ['Open Rate', 'Click-Through Rate'],
+        'GirlTREK': [18.54, 1.06],
+        'Nonprofit Industry Average': [28.59, 3.29]
+    })
+
     # Create Tabs
     tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
         "Executive Summary",
@@ -848,9 +855,9 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL RECRUITMENT PARTNERSHIPS</p>'
-                f'<p class="metric-value">2</p>'
+                f'<p class="metric-value">18</p>'
                 f'<p>Goal: 10</p>'
-                f'<p>{status_badge("On Track")}</p>'
+                f'<p>{status_badge("Achieved")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -907,6 +914,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">MEMBERS WALKING DAILY</p>'
                 f'<p class="metric-value">5,439</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Walking at least 30 min/day, 5 days/week (from Self-Care School exit data)</p>'
                 f'<p>Goal: 50,000</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
@@ -920,6 +928,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">ACTIVE VOLUNTEERS</p>'
                 f'<p class="metric-value">3,348</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Has hosted an event this year</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -929,6 +938,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">DOCUMENTED CREW LEADERS</p>'
                 f'<p class="metric-value">3,856</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Submitted crew via website, attended training, or previously noted as leader</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -938,7 +948,45 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">ACTIVE CREW LEADERS</p>'
                 f'<p class="metric-value">1,846</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Hosted an event this year or signed up this year</p>'
                 f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Additional engagement metrics with definitions
+        st.markdown('<h4>Training & Development</h4>', unsafe_allow_html=True)
+        
+        train_col1, train_col2, train_col3 = st.columns(3)
+        
+        with train_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL TRAINED VOLUNTEERS</p>'
+                f'<p class="metric-value">11,535</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Includes: Self-care for Freedom Fighters, Ketruah training, Mental Health First Aid, training walks, teach-in events</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with train_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CREW LEADERS TRAINED (2025)</p>'
+                f'<p class="metric-value">124</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total number of crew leaders trained in 2025</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with train_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SPECIAL IMPACT PROGRAMS</p>'
+                f'<p class="metric-value">100</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Members in MHFA, crew leader training, faith initiatives, caregiver events, justice programs</p>'
+                f'<p>Goal: 65,000</p>'
+                f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1018,6 +1066,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL SUBSCRIBERS</p>'
                 f'<p class="metric-value">931,141</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Total number of people subscribed to our email list</p>'
                 f'<p>Goal: 1,300,000 (71.63%)</p>'
                 f'</div>',
                 unsafe_allow_html=True
@@ -1028,21 +1077,24 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">ACTIVE SUBSCRIBERS</p>'
                 f'<p class="metric-value">320,463</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">People who have opened an email, clicked on an email, or joined the email list in the last 120 days</p>'
                 f'<p>34.4% of Total</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
 
-        st.markdown("<h3>Email Engagement (30 Day)</h3>", unsafe_allow_html=True)
+        st.markdown("<h3>Email Performance Metrics</h3>", unsafe_allow_html=True)
         
         email_col1, email_col2 = st.columns(2)
         
         with email_col1:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">EMAIL OPENERS</p>'
-                f'<p class="metric-value">19,148</p>'
-                f'<p>Open Rate: ~6%</p>'
+                f'<p class="metric-title">AVERAGE OPEN RATE</p>'
+                f'<p class="metric-value">18.54%</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Percentage of recipients who open your email out of the total number successfully delivered</p>'
+                f'<p><strong>Industry Standard:</strong> Nonprofits average 28.59%</p>'
+                f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1050,12 +1102,47 @@ def main():
         with email_col2:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">EMAIL CLICKERS</p>'
-                f'<p class="metric-value">12,904</p>'
-                f'<p>Click Rate: ~4%</p>'
+                f'<p class="metric-title">CLICK-THROUGH RATE</p>'
+                f'<p class="metric-value">1.06%</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Measures how effectively your email drives recipients to take action by clicking on a link, button, or image</p>'
+                f'<p><strong>Industry Standard:</strong> Nonprofits average 3.29%</p>'
+                f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
+        
+        # Email Engagement Comparison Chart
+        st.markdown("<h4>Email Performance vs Industry Standards</h4>", unsafe_allow_html=True)
+        
+        comparison_fig = go.Figure()
+        
+        comparison_fig.add_trace(go.Bar(
+            name='GirlTREK',
+            x=comparison_data['Metric'],
+            y=comparison_data['GirlTREK'],
+            marker_color=primary_blue,
+            text=comparison_data['GirlTREK'].apply(lambda x: f'{x}%'),
+            textposition='auto'
+        ))
+        
+        comparison_fig.add_trace(go.Bar(
+            name='Nonprofit Industry Average',
+            x=comparison_data['Metric'],
+            y=comparison_data['Nonprofit Industry Average'],
+            marker_color=secondary_orange,
+            text=comparison_data['Nonprofit Industry Average'].apply(lambda x: f'{x}%'),
+            textposition='auto'
+        ))
+        
+        comparison_fig.update_layout(
+            title='Email Performance Comparison',
+            yaxis_title='Percentage (%)',
+            barmode='group',
+            title_font=dict(color=primary_blue),
+            height=400
+        )
+        
+        st.plotly_chart(comparison_fig, use_container_width=True, key="email_comparison_fig")
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Marketing")
@@ -1125,7 +1212,7 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">CYBERSECURITY COMPLIANCE</p>'
-                f'<p class="metric-value">60%</p>'
+                f'<p class="metric-value">70%</p>'
                 f'<p>Goal: 90%</p>'
                 f'{status_badge("On Track")}'
                 f'</div>',
@@ -1181,7 +1268,7 @@ def main():
                 f'<p class="metric-title">STAFF RETENTION</p>'
                 f'<p class="metric-value">94%</p>'
                 f'<p>Industry Avg: 86%</p>'
-                f'{status_badge("Achieved")}'
+                f'{status_badge("On Track")}'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1192,7 +1279,7 @@ def main():
                 f'<p class="metric-title">TRAINING COMPLETION</p>'
                 f'<p class="metric-value">100%</p>'
                 f'<p>Digital Safety Training</p>'
-                f'{status_badge("Achieved")}'
+                f'{status_badge("On Track")}'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1203,7 +1290,7 @@ def main():
                 f'<p class="metric-title">EMPLOYEE SATISFACTION</p>'
                 f'<p class="metric-value">88%</p>'
                 f'<p>Target: 85%</p>'
-                f'{status_badge("Achieved")}'
+                f'{status_badge("On Track")}'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1226,6 +1313,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">MEMBER SATISFACTION RATING</p>'
                 f'<p class="metric-value">93%</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">How happy members are with GirlTREK services (via Zendesk tickets)</p>'
                 f'<p>Goal: 95%</p>'
                 f'</div>',
                 unsafe_allow_html=True
@@ -1236,6 +1324,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">RESOLUTION/RESPONSIVENESS RATE</p>'
                 f'<p class="metric-value">2 hours</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Percentage of support tickets resolved within specified timeframe</p>'
                 f'<p>Goal: 48 hours</p>'
                 f'</div>',
                 unsafe_allow_html=True
@@ -1267,7 +1356,8 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">ADVOCACY BRIEFS PUBLISHED</p>'
-                f'<p class="metric-value">4 / 10</p>'
+                f'<p class="metric-value">7 / 10</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Research basis for how J&J agenda items increase Black women\'s life expectancy</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
