@@ -736,18 +736,18 @@ def main():
                 "Achieve 85% organizational health"
             ],
             "Current Total": [
-                "15,438", "13,119", "5,634", "2",
+                "15,438", "13,119", "7,638", "2",
                 "$3,109,294.25", "3,055", "100%"
             ],
             "Percent Progress": [
-                "15.44%", "5.25%", "8.67%", "10%", "31.09%", "7.64%", "100%"
+                "15.44%", "5.25%", "11.75%", "10%", "31.09%", "7.64%", "100%"
             ],
             "Status": [
                 "On Track", "On Track", "At Risk", "At Risk",
                 "On Track", "On Track", "On Track"
             ],
             "Progress": [
-                15.44, 5.25, 8.67, 10, 31.09, 7.64, 100
+                15.44, 5.25, 11.75, 10, 31.09, 7.64, 100
             ]
         }
 
@@ -1297,10 +1297,10 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">WALKING AT LIFE-SAVING LEVEL</p>'
-                f'<p class="metric-value">5,634</p>'
+                f'<p class="metric-value">7,638</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Members who earned badges or claimed victory in Self-Care School</p>'
                 f'<p>Goal: 65,000 members</p>'
-                f'<p style="font-size: 14px; color: #FF9800; font-weight: bold;">8.67% of goal</p>'
+                f'<p style="font-size: 14px; color: #FF9800; font-weight: bold;">11.75% of goal</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
@@ -1635,28 +1635,147 @@ def main():
         st.markdown('<h5>Weekly Badge Pages Performance</h5>', unsafe_allow_html=True)
         
         badge_data = pd.DataFrame({
-            'Week': ['Week 3', 'Week 7', 'Week 8', 'Week 9', 'Week 10'],
-            'Pageviews': [3866, 3344, 3744, 4071, 2910],
-            'Sessions': [3076, 2321, 2295, 2466, 1768],
-            'Engagement Rate': [81.7, 86.51, 92.11, 92.74, 91.23],
-            'Session Duration': ['2m 24s', '2m 8s', '1m 59s', '1m 49s', '1m 55s']
+            'Week': ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 7', 'Week 8', 'Week 9', 'Week 10'],
+            'Pageviews': [621, 1294, 3866, 2847, 2640, 3344, 3744, 4071, 2910],
+            'Active Users': [453, 866, 2617, 1750, 1702, 2009, 2076, 2155, 1577],
+            'Views per User': [1.37, 1.49, 1.48, 1.63, 1.55, 1.66, 1.80, 1.89, 1.85],
+            'Engagement Time': ['1m 25s', '1m 28s', '1m 32s', '1m 42s', '1m 42s', '1m 23s', '1m 08s', '1m 18s', '1m 12s'],
+            'Event Count': [1723, 3937, 13114, 8963, 8526, 10080, 10218, 11883, 8380]
         })
         
-        badge_fig = px.bar(
-            badge_data,
-            x='Week',
-            y='Pageviews',
-            title='Badge Page Views by Week',
-            color='Engagement Rate',
-            color_continuous_scale=['#FF9800', '#FFEB3B', '#4CAF50'],
-            hover_data=['Sessions', 'Session Duration']
-        )
-        badge_fig.update_layout(
-            title_font=dict(color=primary_blue),
-            height=350
+        # Create a figure with secondary y-axis
+        from plotly.subplots import make_subplots
+        
+        fig = make_subplots(specs=[[{"secondary_y": True}]])
+        
+        # Add pageviews bar
+        fig.add_trace(
+            go.Bar(
+                x=badge_data['Week'],
+                y=badge_data['Pageviews'],
+                name='Pageviews',
+                marker_color=primary_blue,
+                text=badge_data['Pageviews'],
+                textposition='outside'
+            ),
+            secondary_y=False
         )
         
-        st.plotly_chart(badge_fig, use_container_width=True, key="badge_pageviews_fig")
+        # Add active users line
+        fig.add_trace(
+            go.Scatter(
+                x=badge_data['Week'],
+                y=badge_data['Active Users'],
+                name='Active Users',
+                mode='lines+markers',
+                line=dict(color=secondary_orange, width=3),
+                marker=dict(size=8)
+            ),
+            secondary_y=True
+        )
+        
+        fig.update_xaxes(title_text="Badge Week")
+        fig.update_yaxes(title_text="Pageviews", secondary_y=False)
+        fig.update_yaxes(title_text="Active Users", secondary_y=True)
+        
+        fig.update_layout(
+            title='Badge Page Performance by Week',
+            title_font=dict(color=primary_blue),
+            height=400,
+            hovermode='x unified'
+        )
+        
+        st.plotly_chart(fig, use_container_width=True, key="badge_pageviews_fig")
+        
+        # Badge engagement metrics
+        badge_col1, badge_col2, badge_col3 = st.columns(3)
+        
+        with badge_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">HIGHEST PAGEVIEWS</p>'
+                f'<p class="metric-value">Week 9</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">4,071 views</p>'
+                f'<p style="font-size: 14px; color: #4CAF50;">1.89 views per user</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with badge_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MOST ACTIVE USERS</p>'
+                f'<p class="metric-value">Week 3</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">2,617 active users</p>'
+                f'<p style="font-size: 14px; color: #0088FF;">13,114 events</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with badge_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">LONGEST ENGAGEMENT</p>'
+                f'<p class="metric-value">Week 4 & 5</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">1m 42s average</p>'
+                f'<p style="font-size: 14px; color: #FF9800;">Tied for highest</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Badge Downloads Section
+        st.markdown('<h5>Badge Downloads Performance</h5>', unsafe_allow_html=True)
+        
+        download_data = pd.DataFrame({
+            'Week': ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 7', 'Week 8', 'Week 9', 'Week 10', 'Final'],
+            'Downloads': [443, 898, 2535, 2181, 1907, 1863, 1666, 88, 83, 1907],
+            'Active Users': [357, 663, 1868, 1446, 1398, 1442, 1355, 21, 17, 1350],
+            'Engagement Time': ['18s', '15s', '19s', '37s', '19s', '17s', '18s', '40s', '32s', '26s']
+        })
+        
+        download_fig = px.bar(
+            download_data,
+            x='Week',
+            y='Downloads',
+            title='Badge Download Pages Activity',
+            color='Downloads',
+            color_continuous_scale=px.colors.sequential.Oranges,
+            text='Downloads'
+        )
+        
+        download_fig.update_traces(texttemplate='%{text}', textposition='outside')
+        download_fig.update_layout(
+            title_font=dict(color=primary_blue),
+            height=350,
+            showlegend=False
+        )
+        
+        st.plotly_chart(download_fig, use_container_width=True, key="download_fig")
+        
+        # Download Summary
+        download_col1, download_col2 = st.columns(2)
+        
+        with download_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL BADGE DOWNLOADS</p>'
+                f'<p class="metric-value">13,571</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Across all weeks</p>'
+                f'<p style="font-size: 14px; color: #0088FF;">10,916 unique users</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with download_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MOST DOWNLOADED BADGE</p>'
+                f'<p class="metric-value">Week 3</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">2,535 downloads</p>'
+                f'<p style="font-size: 14px; color: #4CAF50;">1,868 active users</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
         
         # Visitor Analytics
         st.markdown('<h5>Visitor Analytics</h5>', unsafe_allow_html=True)
