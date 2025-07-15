@@ -282,7 +282,7 @@ def generate_pdf(section_name, dark_mode=False):
             ["Goal", "Current Total", "Percent Progress", "Status"],
             ["Recruit 100,000 new members", "15,438", "15.44%", "On Track"],
             ["Engage 250,000 members", "13,119", "5.25%", "On Track"],
-            ["Support 65,000 walking daily", "7,638", "11.75%", "At Risk"],
+            ["Support 65,000 walking daily", "5,634", "8.67%", "At Risk"],
             ["Unite 20 advocacy partners", "2", "10%", "At Risk"],
             ["Raise $10M", "$3,109,294.25", "31.09%", "On Track"],
             ["Establish Care Village", "3,055", "7.64%", "On Track"],
@@ -299,196 +299,6 @@ def generate_pdf(section_name, dark_mode=False):
             ('GRID', (0, 0), (-1, -1), 1, colors.black),
         ]))
         elements.append(t2)
-    
-    elif section_name == "Recruitment":
-        elements.append(Paragraph("Recruitment Metrics", heading_style))
-        data = [
-            ["Metric", "Current Value", "Goal", "Status"],
-            ["Total New Members", "15,438", "100,000", "At Risk"],
-            ["New Members Age 18-25", "316", "100,000", "At Risk"],
-            ["Total Recruitment Partnerships", "18", "10", "Achieved"]
-        ]
-        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1.5*inch, 1*inch])
-        t.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ]))
-        elements.append(t)
-        
-    elif section_name == "Engagement":
-        elements.append(Paragraph("Engagement Metrics", heading_style))
-        data = [
-            ["Metric", "Current Value", "Goal"],
-            ["Total New Crews (2025)", "727", "-"],
-            ["Members Walking Daily", "5,439", "50,000"],
-            ["Active Volunteers", "3,348", "-"],
-            ["Active Crew Leaders", "1,846", "-"],
-            ["Care Village Population Reached", "3,055", "40,000"]
-        ]
-        t = Table(data, colWidths=[3*inch, 1.5*inch, 1.5*inch])
-        t.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ]))
-        elements.append(t)
-        
-    elif section_name == "Development":
-        elements.append(Paragraph("Development Metrics", heading_style))
-        data = [
-            ["Metric", "Current Value", "Goal", "Status"],
-            ["Total Contributions", "$3,109,294.25", "$10,000,000", "On Track"],
-            ["Total Grants", "$3,101,133.09", "48 Grants", "On Track"],
-            ["Corporate Sponsorships", "$130,000", "$1,500,000", "At Risk"],
-            ["Earned Revenue (Store)", "$99,836", "$400,000", "At Risk"],
-            ["Bricklayer's Fundraising", "$2,500", "$500,000", "At Risk"]
-        ]
-        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1.5*inch, 1*inch])
-        t.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ]))
-        elements.append(t)
-        
-    elif section_name == "Marketing":
-        elements.append(Paragraph("Marketing Metrics", heading_style))
-        data = [
-            ["Metric", "Current Value", "Goal/Industry"],
-            ["Total Subscribers", "931,141", "1,300,000"],
-            ["Active Subscribers", "320,463", "34.4% of Total"],
-            ["Average Open Rate", "18.54%", "Industry: 28.59%"],
-            ["Click-Through Rate", "1.06%", "Industry: 3.29%"]
-        ]
-        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
-        t.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ]))
-        elements.append(t)
-        
-    elif section_name == "Campaigns":
-        elements.append(Paragraph("Self-Care School 2025 Metrics", heading_style))
-        data = [
-            ["Metric", "Current Value", "Goal"],
-            ["Members Recruited", "5,377", "-"],
-            ["Walking at Life-Saving Level", "12,037", "50,000"],
-            ["Total Registrants", "13,119", "10,000"],
-            ["Total Downloads", "87,737", "100,000"],
-            ["Mental Well-being Improvement", "998 (99.90%)", "-"],
-            ["Social Connection", "673 (68.53%)", "-"],
-            ["Total Badge Downloads", "30,008", "-"]
-        ]
-        t = Table(data, colWidths=[3*inch, 1.5*inch, 1.5*inch])
-        t.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ]))
-        elements.append(t)
-        
-    elif section_name == "Operations":
-        elements.append(Paragraph("Operations Metrics", heading_style))
-        data = [
-            ["Metric", "Current Value", "Goal", "Status"],
-            ["YTD Revenue", "$3,243,526", "$1,237,419", "-"],
-            ["YTD Expenses", "$2,343,862", "$1,608,765", "-"],
-            ["Asana Adoption", "38%", "85%", "At Risk"],
-            ["Audit Compliance", "100%", "100%", "Achieved"],
-            ["Cybersecurity Compliance", "70%", "90%", "On Track"],
-            ["Store Sales", "$99,836", "$400,000", "At Risk"]
-        ]
-        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1.5*inch, 1*inch])
-        t.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ]))
-        elements.append(t)
-        
-    elif section_name == "Member Care":
-        elements.append(Paragraph("Member Care Metrics", heading_style))
-        data = [
-            ["Metric", "Current Value", "Goal"],
-            ["Member Satisfaction Rating", "93%", "95%"],
-            ["Resolution/Responsiveness Rate", "2 hours", "48 hours"],
-            ["Top Issues", "SCS Registration Error & Connecting to Movement", "-"]
-        ]
-        t = Table(data, colWidths=[3*inch, 1.5*inch, 1.5*inch])
-        t.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ]))
-        elements.append(t)
-        
-    elif section_name == "Advocacy":
-        elements.append(Paragraph("Advocacy Metrics", heading_style))
-        data = [
-            ["Metric", "Current Value", "Goal", "Status"],
-            ["Advocacy Briefs Published", "7", "10", "On Track"],
-            ["Advocacy Partnerships", "2", "20", "At Risk"]
-        ]
-        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1.5*inch, 1*inch])
-        t.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ]))
-        elements.append(t)
-        
-    elif section_name == "Impact":
-        elements.append(Paragraph("Impact Metrics - Self-Care School 2025", heading_style))
-        data = [
-            ["Metric", "Current Value", "Percentage"],
-            ["Health Knowledge Change", "999", "-"],
-            ["Mental Well-being Improvement", "998", "99.90%"],
-            ["Social Connection", "673", "68.53%"],
-            ["Empowered to Take Action", "907", "90.52%"],
-            ["Stronger Walking Habit", "709", "68.70%"],
-            ["Implemented New Habits", "293", "34.92%"],
-            ["Shared with Others", "819", "83.66%"]
-        ]
-        t = Table(data, colWidths=[3*inch, 1.5*inch, 1.5*inch])
-        t.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ]))
-        elements.append(t)
-        
-    elif section_name == "Complete Dashboard":
-        elements.append(Paragraph("This PDF contains summary data from all dashboard sections.", normal_style))
-        elements.append(Paragraph("Please generate individual section PDFs for detailed information.", normal_style))
     
     # Add notes if they exist
     if section_name in ["Executive Summary", "Recruitment", "Engagement", "Development", "Marketing", "Operations", "Member Care", "Advocacy", "Impact"]:
@@ -662,7 +472,7 @@ def main():
     st.sidebar.markdown("### Download Dashboard")
     download_options = [
         "Executive Summary", "Recruitment", "Engagement",
-        "Development", "Marketing", "Campaigns", "Operations",
+        "Development", "Marketing", "Operations",
         "Member Care", "Advocacy", "Impact", "Complete Dashboard"
     ]
     selected_download = st.sidebar.selectbox("Select dashboard section to download:", download_options)
@@ -771,7 +581,7 @@ def main():
 
     # Total Membership by Age - Real data
     df_total_age = pd.DataFrame({
-        'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown*'],
+        'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown'],
         'Members': [1739, 16515, 82893, 164106, 108669, 755521]
     })
 
@@ -885,7 +695,6 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL MEMBERSHIP</p>'
                 f'<p class="metric-value">{format_number(st.session_state.total_membership)}</p>'
-                f'<p style="font-size: 14px; color: #4CAF50;">↑ +4,082 from April</p>'
                 f'<p>Goal: 1,700,000</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
@@ -897,7 +706,6 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
                 f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
-                f'<p style="font-size: 14px; color: #4CAF50;">↑ +4,082 from April</p>'
                 f'<p>Goal: 100,000</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
@@ -909,7 +717,6 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
                 f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
-                f'<p style="font-size: 14px; color: #4CAF50;">↑ +$2,015,245.57 from April</p>'
                 f'<p>Goal: $10,000,000</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
@@ -929,18 +736,18 @@ def main():
                 "Achieve 85% organizational health"
             ],
             "Current Total": [
-                "15,438", "13,119", "7,638", "2",
-                "$3,109,294.25", "7,146", "100%"
+                "15,438", "13,119", "5,634", "2",
+                "$3,109,294.25", "3,055", "100%"
             ],
             "Percent Progress": [
-                "15.44%", "5.25%", "11.75%", "10%", "31.09%", "17.87%", "100%"
+                "15.44%", "5.25%", "8.67%", "10%", "31.09%", "7.64%", "100%"
             ],
             "Status": [
-                "On Track", "At Risk", "At Risk", "At Risk",
+                "On Track", "On Track", "At Risk", "At Risk",
                 "On Track", "On Track", "On Track"
             ],
             "Progress": [
-                15.44, 5.25, 11.75, 10, 31.09, 7.64, 100
+                15.44, 5.25, 8.67, 10, 31.09, 7.64, 100
             ]
         }
 
@@ -980,59 +787,6 @@ def main():
             </div>
             """
             st.markdown(progress_html, unsafe_allow_html=True)
-
-        # Add Trends Section
-        st.markdown("<h3>Key Trends (April → June)</h3>", unsafe_allow_html=True)
-        
-        trends_col1, trends_col2, trends_col3 = st.columns(3)
-        
-        with trends_col1:
-            st.markdown(
-                """
-                <div style="background-color: #E8F5E9; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
-                    <h5 style="color: #2E7D32; margin-top: 0;">🎯 Progress Gains</h5>
-                    <ul style="margin: 0; padding-left: 20px;">
-                        <li><strong>New Members:</strong> +4,082 (36%)</li>
-                        <li><strong>Engaged Members:</strong> +1,350 (11.5%)</li>
-                        <li><strong>Walking Daily:</strong> +2,780 (57%)</li>
-                        <li><strong>Contributions:</strong> +$2.02M (184%)</li>
-                    </ul>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        
-        with trends_col2:
-            st.markdown(
-                """
-                <div style="background-color: #FFF3E0; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
-                    <h5 style="color: #E65100; margin-top: 0;">📊 Notable Changes</h5>
-                    <ul style="margin: 0; padding-left: 20px;">
-                        <li><strong>Advocacy Briefs:</strong> +3 published</li>
-                        <li><strong>Care Village Reach:</strong> +4,277 (149%)</li>
-                        <li><strong>New Crews:</strong> +124 created</li>
-                        <li><strong>Store Revenue:</strong> Tracking needed</li>
-                    </ul>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        
-        with trends_col3:
-            st.markdown(
-                """
-                <div style="background-color: #E3F2FD; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
-                    <h5 style="color: #1565C0; margin-top: 0;">🚀 Campaign Success</h5>
-                    <ul style="margin: 0; padding-left: 20px;">
-                        <li><strong>SCS Registrants:</strong> 13,119 (131% of goal)</li>
-                        <li><strong>Badge Downloads:</strong> 30,008 total</li>
-                        <li><strong>Website Traffic:</strong> 140K+ views</li>
-                        <li><strong>Knowledge Impact:</strong> 99.6% positive</li>
-                    </ul>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
 
         st.markdown("<h3>Historic Movement Growth Numbers</h3>", unsafe_allow_html=True)
         
@@ -1079,6 +833,11 @@ def main():
             color_continuous_scale=[secondary_purple, primary_blue, secondary_pink]
         )
         exec_fig_total_age.update_layout(title_font=dict(color=primary_blue))
+        # Update x-axis labels to add asterisk to Unknown
+        exec_fig_total_age.update_xaxis(
+            ticktext=['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown*'],
+            tickvals=[0, 1, 2, 3, 4, 5]
+        )
         st.plotly_chart(exec_fig_total_age, use_container_width=True, key="exec_fig_total_age")
         
         # Add note about Unknown age group
@@ -1135,7 +894,6 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
                 f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
-                f'<p style="font-size: 14px; color: #4CAF50;">↑ +4,082 from April (11,356)</p>'
                 f'<p>Goal: 100,000</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
@@ -1190,6 +948,109 @@ def main():
         
         st.plotly_chart(new_age_fig, use_container_width=True, key="new_age_fig")
 
+        # Recruitment Programs Section
+        st.markdown('<h3>Recruitment Programs</h3>', unsafe_allow_html=True)
+        
+        # College Aged Women Program
+        st.markdown('<h4>College Aged Women - Nyra Govan</h4>', unsafe_allow_html=True)
+        st.markdown(
+            f"""
+            <div style="background-color: #FFF3E0; border-left: 5px solid #FF9800; 
+                 padding: 15px; border-radius: 5px; margin: 10px 0;">
+                <p style="color: #E65100; font-weight: bold; margin: 0;">Update Coming Soon</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        
+        # Mommy and Me Program
+        st.markdown('<h4>Mommy and Me - Keturah Queen</h4>', unsafe_allow_html=True)
+        
+        # Program Overview
+        st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            The "Mommy and Me" Walks initiative recruits GirlTrek moms to serve as Mom Coaches, leading family-centered wellness experiences in their communities. The program creates safe, supportive spaces for mothers and children to gather, move, and connect while promoting health and sisterhood within the GirlTrek movement.
+            """
+        )
+        
+        # Key Objectives
+        st.markdown('<h5>Key Objectives</h5>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            * **Recruitment**: Train 50 GirlTrek moms as Mom Coaches
+            * **Engagement**: Host fun, family-friendly community walks
+            * **Impact**: Promote physical activity, strengthen community ties, and inspire the next generation
+            * **Summer Goal**: Complete 100 "Mommy and Me" Walks nationwide
+            """
+        )
+        
+        # Current Progress Metrics
+        st.markdown('<h5>Current Progress (July 2025)</h5>', unsafe_allow_html=True)
+        
+        mommy_col1, mommy_col2 = st.columns(2)
+        
+        with mommy_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MOM COACHES RECRUITED</p>'
+                f'<p class="metric-value">45 / 50</p>'
+                f'<p style="font-size: 14px; color: #666;">90% Complete</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with mommy_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">WALKS COMPLETED</p>'
+                f'<p class="metric-value">8</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Successful "Mommy and Me" Walks</p>'
+                f'<p>Goal: 100</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        mommy_col3, mommy_col4 = st.columns(2)
+        
+        with mommy_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">COMMUNITY ENGAGEMENT</p>'
+                f'<p class="metric-value">83</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Free tickets sold in Round 1</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with mommy_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">REMAINING NEED</p>'
+                f'<p class="metric-value">5</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Additional Mom Coaches to reach target</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Walk Schedule
+        st.markdown('<h5>Walk Schedule</h5>', unsafe_allow_html=True)
+        
+        schedule_html = f"""
+        <div style="background-color: #F3F9FF; border-radius: 10px; padding: 15px; margin: 10px 0;">
+            <p><strong>Round 1</strong>: Completed July 5th ✅</p>
+            <p><strong>Round 2</strong>: Currently in progress</p>
+            <ul style="margin-left: 20px;">
+                <li>July 19</li>
+                <li>August 2 & 23</li>
+                <li>September 6</li>
+            </ul>
+        </div>
+        """
+        st.markdown(schedule_html, unsafe_allow_html=True)
+
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Recruitment")
 
@@ -1208,7 +1069,6 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL NEW CREWS (2025)</p>'
                 f'<p class="metric-value">727</p>'
-                f'<p style="font-size: 14px; color: #4CAF50;">↑ +124 from April (603)</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1219,16 +1079,25 @@ def main():
                 f'<p class="metric-title">MEMBERS WALKING DAILY</p>'
                 f'<p class="metric-value">5,439</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Walking at least 30 min/day, 5 days/week (from Self-Care School exit data)</p>'
-                f'<p style="font-size: 14px; color: #4CAF50;">↑ +651 from April (4,788)</p>'
                 f'<p>Goal: 50,000</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        eng_col1, eng_col2 = st.columns(2)
+        eng_col1, eng_col2, eng_col3 = st.columns(3)
         
         with eng_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">ACTIVE VOLUNTEERS</p>'
+                f'<p class="metric-value">3,348</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Has hosted an event this year</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with eng_col2:
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">DOCUMENTED CREW LEADERS</p>'
@@ -1238,7 +1107,7 @@ def main():
                 unsafe_allow_html=True
             )
         
-        with eng_col2:
+        with eng_col3:
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">ACTIVE CREW LEADERS</p>'
@@ -1286,79 +1155,6 @@ def main():
                 unsafe_allow_html=True
             )
 
-        # Caregiver Tribe Program Section
-        st.markdown('<h4>Caregiver Tribe Program 2025</h4>', unsafe_allow_html=True)
-        
-        with st.expander("🏥 View Caregiver Tribe Program Details", expanded=True):
-            st.info(
-                """
-                **Program Background:** The Caregiver Tribe Program initiated in 2024 was a Listening and Learning series to identify the resources and tools needed by Caregivers and focused on how GirlTREK can help to relieve many of their stressors and find ways to help them experience joy in their lives. From this year of Listening & Learning, the Caregiver Tribe Program was created.
-                
-                GirlTREK Caregiver Tribe will be hosting **4 Workshops** this season for Caregivers created to open the door for finding joy and living a healthier lifestyle.
-                """
-            )
-            
-            st.markdown("##### 2025 Workshop Series")
-            
-            workshop_col1, workshop_col2 = st.columns(2)
-            
-            with workshop_col1:
-                st.markdown(
-                    """
-                    **📅 April 16th: Medicaid for Caregivers**  
-                    Guest Speakers: **Rae Scott** (Human Services) & **Maureen Welch** (Navigating Disabilities Colorado)  
-                    Topics: How to obtain Medicaid, City/State program benefits, application process, caregiver payments, and respite care benefits.
-                    
-                    **📅 June 18th: Mental Health First Aid Awareness**  
-                    Guest Speaker: **ReNate' Elliot** (GirlTREK Mental Health First Aid)  
-                    Topics: Identifying mental health issues, awareness strategies, support resources, self-regulation techniques.
-                    """
-                )
-            
-            with workshop_col2:
-                st.markdown(
-                    """
-                    **📅 August 20th: Self Care Practices**  
-                    Guest Speakers: **Carla Harris** & **Marcie Thomas** (GirlTREK Cares)  
-                    Topics: Prioritizing self-care, resources, meditation, and affirmation techniques.
-                    
-                    **📅 October 15th: Time Management and Nutrition Tips**  
-                    Guest Speakers: **Jerri McElroy** (Time Management) & **Chef Lisa Barnett** (Nutrition)  
-                    Topics: Prioritizing tasks, creating weekly planners with self-care practices, nutrition guidance.
-                    """
-                )
-            
-            st.success(
-                """
-                **🏆 Caregiver Crew Leader Certification Requirements:**
-                1. Attend all 4 Workshops
-                2. Attend one Crew Leader Training
-                3. Host one Caregiver group walk per month (April through November)
-                4. Complete 4 Self-Care Assessments to document growth, needs, and successes
-                """
-            )
-            
-            st.warning(
-                """
-                **📚 Caregiver Handbook Includes:**
-                - Self-Care Practices & Tips
-                - Resources with direct links
-                - Affirmations and Meditation Links
-                - National Statistics on Caregivers
-                - Time Management Tips
-                - Digital Caregiver Registration QR Code for Crew Leaders
-                """
-            )
-            
-            st.markdown(
-                """
-                **Who is a Caregiver?**  
-                Anyone caring for a family member, friend, or neighbor including: mothers caring for parents, wives caring for husbands, 
-                grandparents caring for grandchildren, teachers providing emotional support, CNAs, EMTs, therapists, coaches, 
-                home health care providers, and respite care providers.
-                """
-            )
-
         # Training and volunteer metrics already exist above
         
         # Care Village Section
@@ -1369,11 +1165,11 @@ def main():
         with care_col1:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">BLACK WOMEN IMPACTED DIRECTLY</p>'
-                f'<p class="metric-value">220</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Through programs & events</p>'
-                f'<p>Goal: 20,000 (1.10%)</p>'
-                f'<p>{status_badge("At Risk")}</p>'
+                f'<p class="metric-title">CARE VILLAGE POPULATION REACHED</p>'
+                f'<p class="metric-value">3,055</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Black women reached with localized public health services</p>'
+                f'<p>Goal: 40,000 (7.64%)</p>'
+                f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1381,12 +1177,9 @@ def main():
         with care_col2:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">REACH: BLACK WOMEN IN AL</p>'
+                f'<p class="metric-title">TOTAL POPULATION REACHED</p>'
                 f'<p class="metric-value">7,146</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Who have joined the movement in AL</p>'
-                f'<p style="font-size: 14px; color: #4CAF50;">↑ +4,277 from April (2,869)</p>'
-                f'<p>Goal: 40,000 (17.87%)</p>'
-                f'<p>{status_badge("On Track")}</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Black women impacted through all programs & events</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1409,7 +1202,6 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
                 f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
-                f'<p style="font-size: 14px; color: #4CAF50;">↑ +$2.02M from April ($1.09M)</p>'
                 f'<p>Goal: $10M</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
@@ -1604,7 +1396,6 @@ def main():
                 f'<p class="metric-title">WALKING AT LIFE-SAVING LEVEL</p>'
                 f'<p class="metric-value">12,037</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Walking 30+ min/day, 5 days/week (from exit tickets)</p>'
-                f'<p style="font-size: 14px; color: #4CAF50; font-weight: bold;">24.07% of goal</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1612,159 +1403,46 @@ def main():
         with campaign_col3:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">WALKING AT LIFE-SAVING LEVEL</p>'
-                f'<p class="metric-value">7,638</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Members who earned badges or claimed victory in Self-Care School</p>'
-                f'<p>Goal: 65,000 members</p>'
-                f'<p style="font-size: 14px; color: #FF9800; font-weight: bold;">11.75% of goal</p>'
+                f'<p class="metric-title">TOTAL SUPPORTING GOAL</p>'
+                f'<p class="metric-value">5,634</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Badge earners + Claimed the Victory</p>'
+                f'<p>Goal: 65,000</p>'
                 f'<p>{status_badge("At Risk")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Additional Campaign Metrics
-        st.markdown('<h4>Registration & Engagement</h4>', unsafe_allow_html=True)
-        
-        reg_col1, reg_col2, reg_col3 = st.columns(3)
-        
-        with reg_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL REGISTRANTS</p>'
-                f'<p class="metric-value">13,119</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Goal: 10,000</p>'
-                f'<p style="font-size: 14px; color: #4CAF50; font-weight: bold;">131.19% of goal</p>'
-                f'<p>{status_badge("Achieved")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with reg_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL DOWNLOADS</p>'
-                f'<p class="metric-value">87,737</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Goal: 100,000</p>'
-                f'<p style="font-size: 14px; color: #FF9800; font-weight: bold;">87.74% of goal</p>'
-                f'<p>{status_badge("On Track")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with reg_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">REGISTRANTS AGE 18-25</p>'
-                f'<p class="metric-value">233</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">1.78% of total registrants</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
         # Knowledge Increase Metrics
         st.markdown('<h4>Self-Care School Knowledge Impact</h4>', unsafe_allow_html=True)
-        st.markdown('<p style="font-style: italic;">Members reporting significant increase in knowledge by topic (1,032 survey respondents):</p>', unsafe_allow_html=True)
+        st.markdown('<p style="font-style: italic;">Members reporting significant increase in knowledge by topic:</p>', unsafe_allow_html=True)
         
-        knowledge_data = pd.DataFrame({
-            'Topic': [
-                'Land rights, housing & environmental justice',
-                'Radical care, family legacy & intergenerational healing',
-                'Decarceration, gun safety & restorative justice',
-                'Safety, self-defense & public resource access',
-                'Mental health & emotional boundaries',
-                'Self-esteem, celebration & personal empowerment',
-                'Civic engagement & political participation',
-                'Parenting, mentorship & end-of-life planning'
-            ],
-            'Members': [710, 695, 658, 645, 622, 602, 569, 536],
-            'Percentage': [71.60, 67.34, 63.76, 64.40, 60.27, 58.33, 57.00, 51.94]
-        })
-        
-        # Sort by percentage for better visualization
-        knowledge_data = knowledge_data.sort_values('Percentage', ascending=True)
-        
-        knowledge_fig = go.Figure()
-        knowledge_fig.add_trace(go.Bar(
-            x=knowledge_data['Percentage'],
-            y=knowledge_data['Topic'],
-            orientation='h',
-            text=[f'{m} ({p:.1f}%)' for m, p in zip(knowledge_data['Members'], knowledge_data['Percentage'])],
-            textposition='outside',
-            marker_color=px.colors.sequential.Blues_r[:len(knowledge_data)],
-            hovertemplate='<b>%{y}</b><br>Members: %{text}<br><extra></extra>'
-        ))
-        
-        knowledge_fig.update_layout(
+        knowledge_fig = px.bar(
+            knowledge_data,
+            x='Topic',
+            y='Members',
             title='Members Reporting Significant Knowledge Increase by Topic',
-            xaxis_title='Percentage of Respondents (%)',
-            yaxis_title='',
+            color='Members',
+            color_continuous_scale=[primary_blue, primary_orange, primary_yellow]
+        )
+        knowledge_fig.update_layout(
             title_font=dict(color=primary_blue),
-            height=400,
-            xaxis=dict(range=[0, 80]),
-            showlegend=False,
-            margin=dict(l=350)  # More space for long topic names
+            xaxis_tickangle=-45,
+            height=500
         )
         
         st.plotly_chart(knowledge_fig, use_container_width=True, key="knowledge_fig")
         
-        # Display knowledge topics as metric boxes for better visibility
-        st.markdown('<h5>Respondents that report increase knowledge due to self-care school</h5>', unsafe_allow_html=True)
-        
-        know_col1, know_col2 = st.columns(2)
-        
-        # Re-sort by count for the metric boxes (highest impact first)
-        knowledge_items = [
-            ("Land rights, housing & environmental justice", 710, 71.60),
-            ("Radical care, family legacy & intergenerational healing", 695, 67.34),
-            ("Decarceration, gun safety & restorative justice", 658, 63.76),
-            ("Safety, self-defense & public resource access", 645, 64.40),
-            ("Mental health & emotional boundaries", 622, 60.27),
-            ("Self-esteem, celebration & personal empowerment", 602, 58.33),
-            ("Civic engagement & political participation", 569, 57.00),
-            ("Parenting, mentorship & end-of-life planning", 536, 51.94)
-        ]
-        
-        for i in range(0, 4):
-            with know_col1:
-                topic, count, pct = knowledge_items[i]
-                st.markdown(
-                    f"""
-                    <div class="metric-box" style="margin-bottom: 15px;">
-                        <p class="metric-title" style="font-size: 12px;">{topic.upper()}</p>
-                        <p class="metric-value" style="font-size: 24px;">{count}</p>
-                        <p style="font-size: 16px; color: #0088FF; font-weight: bold;">{pct}%</p>
-                        <p style="font-size: 12px; color: #666;">of respondents</p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-        
-        for i in range(4, 8):
-            with know_col2:
-                topic, count, pct = knowledge_items[i]
-                st.markdown(
-                    f"""
-                    <div class="metric-box" style="margin-bottom: 15px;">
-                        <p class="metric-title" style="font-size: 12px;">{topic.upper()}</p>
-                        <p class="metric-value" style="font-size: 24px;">{count}</p>
-                        <p style="font-size: 16px; color: #0088FF; font-weight: bold;">{pct}%</p>
-                        <p style="font-size: 12px; color: #666;">of respondents</p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-        
         # Summary stats
         st.markdown('<h4>Campaign Impact Summary</h4>', unsafe_allow_html=True)
         
-        summary_col1, summary_col2, summary_col3 = st.columns(3)
+        summary_col1, summary_col2 = st.columns(2)
         
         with summary_col1:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">SURVEY RESPONDENTS</p>'
-                f'<p class="metric-value">1,032</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total exit survey completions</p>'
+                f'<p class="metric-title">TOTAL KNOWLEDGE IMPACT</p>'
+                f'<p class="metric-value">999</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting change in health knowledge</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1775,23 +1453,11 @@ def main():
                 f'<p class="metric-title">AVERAGE KNOWLEDGE GAIN</p>'
                 f'<p class="metric-value">630</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Average members per topic area</p>'
-                f'<p style="font-size: 14px; color: #0088FF; font-weight: bold;">61.05% average</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        with summary_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">HEALTH KNOWLEDGE CHANGE</p>'
-                f'<p class="metric-value">999</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting change in health knowledge</p>'
-                f'<p style="font-size: 14px; color: #4CAF50; font-weight: bold;">99.60% of respondents</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Additional Impact Metrics with Percentages
+        # Additional Impact Metrics from Impact Tab
         st.markdown('<h4>Self-Care School Health & Behavior Outcomes</h4>', unsafe_allow_html=True)
         
         outcome_col1, outcome_col2, outcome_col3 = st.columns(3)
@@ -1802,7 +1468,6 @@ def main():
                 f'<p class="metric-title">MENTAL WELL-BEING</p>'
                 f'<p class="metric-value">998</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Changes in self-reported mental well-being</p>'
-                f'<p style="font-size: 16px; color: #4CAF50; font-weight: bold; margin-top: 5px;">99.90% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1813,7 +1478,6 @@ def main():
                 f'<p class="metric-title">SOCIAL CONNECTION</p>'
                 f'<p class="metric-value">673</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Feel more connected and less isolated</p>'
-                f'<p style="font-size: 14px; color: #0088FF; font-weight: bold;">68.53% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1824,7 +1488,6 @@ def main():
                 f'<p class="metric-title">EMPOWERED TO ACT</p>'
                 f'<p class="metric-value">907</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Feel empowered to take action</p>'
-                f'<p style="font-size: 14px; color: #4CAF50; font-weight: bold;">90.52% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1837,7 +1500,6 @@ def main():
                 f'<p class="metric-title">NEW HABITS</p>'
                 f'<p class="metric-value">293</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Implemented new habits/mindsets</p>'
-                f'<p style="font-size: 14px; color: #FF9800; font-weight: bold;">34.92% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1848,7 +1510,6 @@ def main():
                 f'<p class="metric-title">SHARED LESSONS</p>'
                 f'<p class="metric-value">819</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Shared lessons with others</p>'
-                f'<p style="font-size: 14px; color: #4CAF50; font-weight: bold;">83.66% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1859,346 +1520,6 @@ def main():
                 f'<p class="metric-title">WALKING HABIT</p>'
                 f'<p class="metric-value">709</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Built stronger walking habit</p>'
-                f'<p style="font-size: 14px; color: #0088FF; font-weight: bold;">68.70% of respondents</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Program Feedback Section
-        st.markdown('<h4>Program Feedback</h4>', unsafe_allow_html=True)
-        
-        feedback_col1, feedback_col2 = st.columns(2)
-        
-        with feedback_col1:
-            st.markdown(
-                """
-                <div style="background-color: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px; border-left: 5px solid #0088FF;">
-                    <h5 style="color: #0088FF; margin-top: 0;">Participation Rates</h5>
-                    <ul style="margin: 10px 0;">
-                        <li><strong style="color: #4CAF50; font-size: 18px;">90%+</strong> of respondents participated in nearly every weekly lesson.</li>
-                        <li><strong style="color: #FF9800; font-size: 18px;">8.3%</strong> said they "don't remember specific weeks but tuned in."</li>
-                        <li><strong style="color: #0088FF; font-size: 18px;">57%</strong> said: <em>"I love it — exactly what I needed."</em></li>
-                    </ul>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        
-        with feedback_col2:
-            st.markdown(
-                """
-                <div style="background-color: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px; border-left: 5px solid #FF5722;">
-                    <h5 style="color: #FF5722; margin-top: 0;">Participant Requests</h5>
-                    <p style="margin: 10px 0;"><strong>Participants asked for:</strong></p>
-                    <ul style="margin: 10px 0;">
-                        <li>Transcripts or walk-and-listen study guides.</li>
-                        <li>Reading lists and playlists from each episode.</li>
-                        <li>More localized or age-specific community events.</li>
-                    </ul>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        
-        # Action Opportunities Section
-        st.markdown('<h4>Action Opportunities</h4>', unsafe_allow_html=True)
-        
-        action_col1, action_col2 = st.columns(2)
-        
-        with action_col1:
-            with st.container():
-                st.success("**🎉 Celebrate Momentum**  \nHighlight 10-week graduates and showcase testimonials.")
-                st.info("**♿ Accessibility**  \nOffer transcripts, summaries, and replay options.")
-        
-        with action_col2:
-            with st.container():
-                st.warning("**🏗️ Infrastructure**  \nStrengthen pathways to local crews and sister circles.")
-                st.warning("**🤝 Follow-up**  \nConnect more deeply with younger members, women with disabilities, and caregivers.")
-        
-        # Website Traffic Analytics Section
-        st.markdown('<h4>Self-Care School Website Analytics (Last 90 Days)</h4>', unsafe_allow_html=True)
-        
-        # Top Content Performance
-        st.markdown('<h5>Top Content Performance</h5>', unsafe_allow_html=True)
-        
-        web_col1, web_col2 = st.columns(2)
-        
-        with web_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">CLASSROOM PAGEVIEWS</p>'
-                f'<p class="metric-value">68,624</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">57,821 sessions</p>'
-                f'<p style="font-size: 14px; color: #0088FF; font-weight: bold;">48.24% engagement rate</p>'
-                f'<p style="font-size: 12px; color: #666;">Average session: 2m 4s</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with web_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">MAIN SITE PAGEVIEWS</p>'
-                f'<p class="metric-value">26,245</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">21,956 sessions</p>'
-                f'<p style="font-size: 14px; color: #4CAF50; font-weight: bold;">74.2% engagement rate</p>'
-                f'<p style="font-size: 12px; color: #666;">Average session: 1m 30s</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Badge Pages Performance
-        st.markdown('<h5>Weekly Badge Pages Performance</h5>', unsafe_allow_html=True)
-        
-        badge_data = pd.DataFrame({
-            'Week': ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 7', 'Week 8', 'Week 9', 'Week 10'],
-            'Pageviews': [621, 1294, 3866, 2847, 2640, 3344, 3744, 4071, 2910],
-            'Active Users': [453, 866, 2617, 1750, 1702, 2009, 2076, 2155, 1577],
-            'Views per User': [1.37, 1.49, 1.48, 1.63, 1.55, 1.66, 1.80, 1.89, 1.85],
-            'Engagement Time': ['1m 25s', '1m 28s', '1m 32s', '1m 42s', '1m 42s', '1m 23s', '1m 08s', '1m 18s', '1m 12s'],
-            'Event Count': [1723, 3937, 13114, 8963, 8526, 10080, 10218, 11883, 8380]
-        })
-        
-        # Create a figure with secondary y-axis
-        from plotly.subplots import make_subplots
-        
-        fig = make_subplots(specs=[[{"secondary_y": True}]])
-        
-        # Add pageviews bar
-        fig.add_trace(
-            go.Bar(
-                x=badge_data['Week'],
-                y=badge_data['Pageviews'],
-                name='Pageviews',
-                marker_color=primary_blue,
-                text=badge_data['Pageviews'],
-                textposition='outside'
-            ),
-            secondary_y=False
-        )
-        
-        # Add active users line
-        fig.add_trace(
-            go.Scatter(
-                x=badge_data['Week'],
-                y=badge_data['Active Users'],
-                name='Active Users',
-                mode='lines+markers',
-                line=dict(color=secondary_orange, width=3),
-                marker=dict(size=8)
-            ),
-            secondary_y=True
-        )
-        
-        fig.update_xaxes(title_text="Badge Week")
-        fig.update_yaxes(title_text="Pageviews", secondary_y=False)
-        fig.update_yaxes(title_text="Active Users", secondary_y=True)
-        
-        fig.update_layout(
-            title='Badge Page Performance by Week',
-            title_font=dict(color=primary_blue),
-            height=400,
-            hovermode='x unified'
-        )
-        
-        st.plotly_chart(fig, use_container_width=True, key="badge_pageviews_fig")
-        
-        # Badge engagement metrics
-        badge_col1, badge_col2, badge_col3 = st.columns(3)
-        
-        with badge_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">HIGHEST PAGEVIEWS</p>'
-                f'<p class="metric-value">Week 9</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">4,071 views</p>'
-                f'<p style="font-size: 14px; color: #4CAF50;">1.89 views per user</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with badge_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">MOST ACTIVE USERS</p>'
-                f'<p class="metric-value">Week 3</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">2,617 active users</p>'
-                f'<p style="font-size: 14px; color: #0088FF;">13,114 events</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with badge_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">LONGEST ENGAGEMENT</p>'
-                f'<p class="metric-value">Week 4 & 5</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">1m 42s average</p>'
-                f'<p style="font-size: 14px; color: #FF9800;">Tied for highest</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Badge Downloads Section
-        st.markdown('<h5>Badge Downloads Performance</h5>', unsafe_allow_html=True)
-        
-        download_data = pd.DataFrame({
-            'Week': ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8', 'Week 9', 'Week 10', 'Graduation', 'Certificate'],
-            'Downloads': [3689, 4423, 3036, 1784, 1977, 2898, 2000, 1679, 2206, 1788, 2214, 2314],
-            'File Type': ['JPG', 'JPG', 'PNG', 'JPG', 'JPG', 'JPG', 'JPG', 'JPG', 'JPG', 'JPG', 'JPG', 'PDF']
-        })
-        
-        # Create color mapping for file types
-        color_map = {'JPG': primary_blue, 'PNG': secondary_purple, 'PDF': secondary_orange}
-        download_data['Color'] = download_data['File Type'].map(color_map)
-        
-        download_fig = go.Figure()
-        
-        # Add bars with colors based on file type
-        for file_type in download_data['File Type'].unique():
-            df_filtered = download_data[download_data['File Type'] == file_type]
-            download_fig.add_trace(go.Bar(
-                x=df_filtered['Week'],
-                y=df_filtered['Downloads'],
-                name=file_type,
-                marker_color=color_map[file_type],
-                text=df_filtered['Downloads'],
-                textposition='outside'
-            ))
-        
-        download_fig.update_layout(
-            title='Total Badge Downloads by Week',
-            title_font=dict(color=primary_blue),
-            xaxis_title='Badge',
-            yaxis_title='Total Downloads',
-            height=400,
-            showlegend=True,
-            legend=dict(
-                orientation="h",
-                yanchor="bottom",
-                y=1.02,
-                xanchor="right",
-                x=1
-            )
-        )
-        
-        # Rotate x-axis labels for better readability
-        download_fig.update_xaxes(tickangle=-45)
-        
-        st.plotly_chart(download_fig, use_container_width=True, key="download_fig")
-        
-        # Download Summary with updated numbers
-        download_col1, download_col2, download_col3 = st.columns(3)
-        
-        with download_col1:
-            total_downloads = download_data['Downloads'].sum()
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL BADGE DOWNLOADS</p>'
-                f'<p class="metric-value">{format_number(total_downloads)}</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">All downloads (not unique users)</p>'
-                f'<p style="font-size: 14px; color: #0088FF;">Across 12 badge types</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with download_col2:
-            max_week = download_data.loc[download_data['Downloads'].idxmax(), 'Week']
-            max_downloads = download_data['Downloads'].max()
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">MOST DOWNLOADED BADGE</p>'
-                f'<p class="metric-value">{max_week}</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">{format_number(max_downloads)} total downloads</p>'
-                f'<p style="font-size: 14px; color: #4CAF50;">JPG format</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with download_col3:
-            avg_downloads = int(download_data['Downloads'].mean())
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">AVERAGE DOWNLOADS</p>'
-                f'<p class="metric-value">{format_number(avg_downloads)}</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Per badge type</p>'
-                f'<p style="font-size: 14px; color: #FF9800;">10 JPG, 1 PNG, 1 PDF</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Visitor Analytics
-        st.markdown('<h5>Visitor Analytics</h5>', unsafe_allow_html=True)
-        
-        visitor_col1, visitor_col2, visitor_col3 = st.columns(3)
-        
-        with visitor_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL VISITORS</p>'
-                f'<p class="metric-value">20K</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">New visitors</p>'
-                f'<p style="font-size: 14px; color: #0088FF;">1 visit per visitor</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with visitor_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">RETURNING VISITORS</p>'
-                f'<p class="metric-value">5.8K</p>'
-                f'<p style="font-size: 14px; color: #4CAF50; font-weight: bold;">7.6 visits per visitor</p>'
-                f'<p style="font-size: 12px; color: #666;">61.2% of total pageviews</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with visitor_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOP CITIES</p>'
-                f'<p class="metric-value" style="font-size: 18px;">New York, Atlanta, Chicago</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Ashburn (6% - likely bots)</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Traffic Sources
-        st.markdown('<h5>Traffic Sources & SEO Performance</h5>', unsafe_allow_html=True)
-        
-        traffic_col1, traffic_col2 = st.columns(2)
-        
-        with traffic_col1:
-            # Traffic Sources Pie Chart
-            traffic_data = pd.DataFrame({
-                'Source': ['Email', 'Direct', 'SMS', 'Unassigned', 'Others'],
-                'Percentage': [41.1, 36.1, 7.8, 5.7, 9.3]
-            })
-            
-            traffic_fig = px.pie(
-                traffic_data,
-                values='Percentage',
-                names='Source',
-                title='Traffic Sources Distribution',
-                color_discrete_sequence=[primary_yellow, secondary_purple, secondary_blue, secondary_pink, secondary_orange]
-            )
-            traffic_fig.update_traces(textposition='inside', textinfo='percent+label')
-            traffic_fig.update_layout(
-                title_font=dict(color=primary_blue),
-                height=300
-            )
-            
-            st.plotly_chart(traffic_fig, use_container_width=True, key="traffic_sources_fig")
-        
-        with traffic_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">SEARCH PERFORMANCE</p>'
-                f'<p class="metric-value">6.0K</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total impressions</p>'
-                f'<p style="font-size: 14px;"><strong>2.5K</strong> clicks</p>'
-                f'<p style="font-size: 14px; color: #0088FF; font-weight: bold;">960 unique visitors from search</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -2315,6 +1636,44 @@ def main():
                 f'</div>',
                 unsafe_allow_html=True
             )
+        
+        # HR/People Operations Section
+        st.markdown('<h4>People Operations</h4>', unsafe_allow_html=True)
+        
+        hr_col1, hr_col2, hr_col3 = st.columns(3)
+        
+        with hr_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">STAFF RETENTION</p>'
+                f'<p class="metric-value">94%</p>'
+                f'<p>Industry Avg: 86%</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with hr_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TRAINING COMPLETION</p>'
+                f'<p class="metric-value">100%</p>'
+                f'<p>Digital Safety Training</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with hr_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">EMPLOYEE SATISFACTION</p>'
+                f'<p class="metric-value">88%</p>'
+                f'<p>Target: 85%</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
             
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Operations")
@@ -2409,7 +1768,6 @@ def main():
                 f'<p class="metric-title">ADVOCACY BRIEFS PUBLISHED</p>'
                 f'<p class="metric-value">7 / 10</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Research basis for how J&J agenda items increase Black women\'s life expectancy</p>'
-                f'<p style="font-size: 14px; color: #4CAF50;">↑ +3 from April (4 briefs)</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
@@ -2420,28 +1778,10 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">ADVOCACY PARTNERSHIPS</p>'
                 f'<p class="metric-value">2 / 20</p>'
-                f'<p style="font-size: 14px; color: #FF9800;">No change from April</p>'
                 f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
-
-        # Add strategic note about advocacy partnerships
-        st.markdown(
-            """
-            <div style="background-color: #FFF3E0; border-radius: 10px; padding: 20px; margin: 20px 0; border-left: 5px solid #FF9800;">
-                <h5 style="color: #E65100; margin-top: 0;">📋 Strategic Update on Advocacy Partnerships</h5>
-                <p style="color: #333; line-height: 1.6;">
-                    Given c-suite conversations, external conditions, and internal priorities we have been reevaluating the pacing of this goal. 
-                    We are currently considering shifting timeline to Q1 2026, and reevaluating the approach to this objective. 
-                    Relationship building with national and place-based organizations to test potential activations and applications. 
-                    Participation in national convenings and briefings. Examples: In-person evaluation of participation in State of the People; 
-                    active and ongoing conversations with 1K Women Strong and Health in Partnership (HiP).
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
 
         st.markdown('<h3>Current Focus Areas</h3>', unsafe_allow_html=True)
         st.markdown(
@@ -2475,7 +1815,7 @@ def main():
                 f'<p class="metric-title">HEALTH KNOWLEDGE CHANGE</p>'
                 f'<p class="metric-value">999</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting a change in health knowledge</p>'
-                f'<p style="font-size: 16px; color: #4CAF50; font-weight: bold;">99.60% of respondents</p>'
+                f'<p style="font-size: 14px; color: #666;">0.00% (baseline measure)</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -2486,7 +1826,7 @@ def main():
                 f'<p class="metric-title">MENTAL WELL-BEING IMPROVEMENT</p>'
                 f'<p class="metric-value">998</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting changes in self-reported mental well-being</p>'
-                f'<p style="font-size: 16px; color: #4CAF50; font-weight: bold;">99.90% of respondents</p>'
+                f'<p style="font-size: 14px; color: #666;">99.90% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -2497,7 +1837,7 @@ def main():
                 f'<p class="metric-title">SOCIAL CONNECTION</p>'
                 f'<p class="metric-value">673</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Women feeling more connected and less isolated through GirlTREK</p>'
-                f'<p style="font-size: 16px; color: #0088FF; font-weight: bold;">68.53% of respondents</p>'
+                f'<p style="font-size: 14px; color: #666;">68.53% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -2513,7 +1853,7 @@ def main():
                 f'<p class="metric-title">EMPOWERED TO TAKE ACTION</p>'
                 f'<p class="metric-value">907</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants feeling empowered to make positive changes</p>'
-                f'<p style="font-size: 16px; color: #4CAF50; font-weight: bold;">90.52% of respondents</p>'
+                f'<p style="font-size: 14px; color: #666;">90.52% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -2524,7 +1864,7 @@ def main():
                 f'<p class="metric-title">STRONGER WALKING HABIT</p>'
                 f'<p class="metric-value">709</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who built a stronger walking habit</p>'
-                f'<p style="font-size: 16px; color: #0088FF; font-weight: bold;">68.70% of respondents</p>'
+                f'<p style="font-size: 14px; color: #666;">68.70% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -2537,7 +1877,7 @@ def main():
                 f'<p class="metric-title">IMPLEMENTED NEW HABITS</p>'
                 f'<p class="metric-value">293</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who implemented new habits, actions, or mindsets</p>'
-                f'<p style="font-size: 16px; color: #FF9800; font-weight: bold;">34.92% of respondents</p>'
+                f'<p style="font-size: 14px; color: #666;">34.92% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -2548,7 +1888,7 @@ def main():
                 f'<p class="metric-title">SHARED WITH OTHERS</p>'
                 f'<p class="metric-value">819</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who shared lessons learned with others</p>'
-                f'<p style="font-size: 16px; color: #4CAF50; font-weight: bold;">83.66% of respondents</p>'
+                f'<p style="font-size: 14px; color: #666;">83.66% of respondents</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -2579,7 +1919,7 @@ def main():
                     <div class="metric-box" style="margin-bottom: 15px;">
                         <p class="metric-title" style="font-size: 14px;">{topic.upper()}</p>
                         <p class="metric-value" style="font-size: 24px;">{count}</p>
-                        <p style="font-size: 16px; color: #0088FF; font-weight: bold;">{pct}% of respondents</p>
+                        <p style="font-size: 14px; color: #666;">{pct}% of respondents</p>
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -2642,7 +1982,7 @@ def main():
                     <p class="metric-title">AVERAGE IMPACT PER TOPIC</p>
                     <p class="metric-value">630</p>
                     <p style="font-style: italic; font-size: 12px; color: #666;">Average participants reporting knowledge gain per topic</p>
-                    <p style="font-size: 16px; color: #666;">61.08% average response rate</p>
+                    <p style="font-size: 14px; color: #666;">61.08% average response rate</p>
                 </div>
                 """,
                 unsafe_allow_html=True
