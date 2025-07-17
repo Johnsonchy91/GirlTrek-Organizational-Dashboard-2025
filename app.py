@@ -581,7 +581,7 @@ def main():
 
     # Total Membership by Age - Real data
     df_total_age = pd.DataFrame({
-        'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown'],
+        'Age Group': ['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown*'],
         'Members': [1739, 16515, 82893, 164106, 108669, 755521]
     })
 
@@ -833,11 +833,6 @@ def main():
             color_continuous_scale=[secondary_purple, primary_blue, secondary_pink]
         )
         exec_fig_total_age.update_layout(title_font=dict(color=primary_blue))
-        # Update x-axis labels to add asterisk to Unknown
-        exec_fig_total_age.update_xaxis(
-            ticktext=['18 to 24', '25 to 34', '35 to 49', '50 to 64', '65+', 'Unknown*'],
-            tickvals=[0, 1, 2, 3, 4, 5]
-        )
         st.plotly_chart(exec_fig_total_age, use_container_width=True, key="exec_fig_total_age")
         
         # Add note about Unknown age group
