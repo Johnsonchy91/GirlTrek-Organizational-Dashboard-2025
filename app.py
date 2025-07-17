@@ -1012,18 +1012,6 @@ def main():
             """
             st.markdown(college_schedule_html, unsafe_allow_html=True)
             
-            # Mission Statement
-            st.markdown(
-                f"""
-                <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
-                     padding: 15px; border-radius: 5px; margin: 15px 0;">
-                    <p style="color: #2E7D32; font-style: italic; margin: 0;">
-                    This programming represents the heart of GirlTrek's mission—empowering Black women to reclaim their health and legacy through the simple yet radical act of walking. Together, we are ensuring that self-care and wellness become a lifestyle in the lives of young women to have the wit to carry the choice of our foremothers.
-                    </p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
         
         # Mommy and Me Program
         with st.expander("👩‍👧‍👦 Mommy and Me - Keturah Queen", expanded=False):
