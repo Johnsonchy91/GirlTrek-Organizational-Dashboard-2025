@@ -953,11 +953,79 @@ def main():
         
         # College Aged Women Program
         st.markdown('<h4>College Aged Women - Nyra Govan</h4>', unsafe_allow_html=True)
+        
+        # Program Overview
+        st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            The GirlTREK College Crews initiative was created because GirlTREK has been waiting for students to be the revolutionaries that the world has been waiting for. Throughout history we have seen the youth at the forefront of many revolutions with their eyes locked on long-term reforms. Given the current economic climate and conditions, there is concern for students' well-being as they progress through college. 
+            
+            GirlTREK aims to provide a safe space for the next generation. GirlTREK looks forward to bringing its culture to college campuses to help the next generation prioritize their health and create a safe space on college campuses. Through daily walking, students will be able to connect with like minded individuals as they walk to better health, being leaders on campus and in the community. 
+            
+            The practice of radical self-care is not in the academic curriculum, so we want to ensure that students are starting this behavior change early in their life instead of falling to the system of burnout throughout their collegiate experience. The northern star of this goal is to get 100 college students across 100 college campuses to start crews on colleges across the country, with a focus on HBCUs. These college students will be our college leads that are leading their peers by walking, talking, and solving problems at their universities. 
+            
+            **Things change when Black women walk** – GirlTREK is excited to empower young women to start their self-care journey now.
+            """
+        )
+        
+        # Program Goals
+        st.markdown('<h5>Program Goals</h5>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            * **Recruitment**: Identify and train 100 students in MHFA to serve as College Crew Leads on 100 campuses
+            * **Engagement**: Encourage students to host walks once a month on campus, creating safe spaces for college women
+            * **Impact**: Promote physical activity and empower the next generation of Legacy Builders for the movement
+            """
+        )
+        
+        # Current Status Metrics
+        st.markdown('<h5>Current Status</h5>', unsafe_allow_html=True)
+        
+        college_col1, college_col2 = st.columns(2)
+        
+        with college_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">COLLEGE LEADS RECRUITED</p>'
+                f'<p class="metric-value">11 / 100</p>'
+                f'<p style="font-size: 14px; color: #666;">11% of target achieved</p>'
+                f'<p>{status_badge("At Risk")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with college_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">WALKS COMPLETED</p>'
+                f'<p class="metric-value">0</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Due to semester not beginning yet</p>'
+                f'<p>Goal: Monthly walks on campus</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Walk Schedule
+        st.markdown('<h5>Scheduled Solidarity Walks</h5>', unsafe_allow_html=True)
+        st.markdown('<p style="font-style: italic;">Rounds of walks scheduled for college students to walk in solidarity together:</p>', unsafe_allow_html=True)
+        
+        college_schedule_html = f"""
+        <div style="background-color: #F3F9FF; border-radius: 10px; padding: 15px; margin: 10px 0;">
+            <p><strong>Round 1</strong>: September 18th, 2025</p>
+            <p><strong>Round 2</strong>: January 22nd, 2026</p>
+            <p><strong>Round 3</strong>: April 9th, 2026</p>
+        </div>
+        """
+        st.markdown(college_schedule_html, unsafe_allow_html=True)
+        
+        # Mission Statement
         st.markdown(
             f"""
-            <div style="background-color: #FFF3E0; border-left: 5px solid #FF9800; 
-                 padding: 15px; border-radius: 5px; margin: 10px 0;">
-                <p style="color: #E65100; font-weight: bold; margin: 0;">Update Coming Soon</p>
+            <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
+                 padding: 15px; border-radius: 5px; margin: 15px 0;">
+                <p style="color: #2E7D32; font-style: italic; margin: 0;">
+                This programming represents the heart of GirlTrek's mission—empowering Black women to reclaim their health and legacy through the simple yet radical act of walking. Together, we are ensuring that self-care and wellness become a lifestyle in the lives of young women to have the wit to carry the choice of our foremothers.
+                </p>
             </div>
             """,
             unsafe_allow_html=True
