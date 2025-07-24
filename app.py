@@ -1433,7 +1433,7 @@ def main():
                 
                 <p><strong>Bricklayer's Fundraising:</strong> Contributions from GirlTREK's major donor network, typically involving significant individual gifts from high-capacity donors who are deeply committed to the organization's mission.</p>
             </div>
-         
+            """"",
             unsafe_allow_html=True
         )
         
