@@ -1420,22 +1420,22 @@ def main():
         # Funding Definitions Section (moved below chart and always visible)
         st.markdown('<h4>Funding Categories Definitions</h4>', unsafe_allow_html=True)
         
-        st.markdown(
-            f"""
-            <div style="background-color: #F8F9FA; border-radius: 10px; padding: 20px; margin: 15px 0; border-left: 5px solid #6C757D;">
-                <p><strong>Grants:</strong> Funding awarded by foundations, government agencies, or corporations for specific projects or general operations. These are typically awarded through a competitive application process and may have specific requirements or restrictions on how funds are used.</p>
-                
-                <p><strong>Donations:</strong> Individual contributions from supporters, members, and donors. These include one-time gifts, recurring donations, monthly giving programs, and major gifts from individual philanthropists. Donations are often unrestricted and provide flexible funding for organizational priorities.</p>
-                
-                <p><strong>Corporate Sponsorships:</strong> Financial support from businesses and corporations, often in exchange for marketing benefits, brand visibility, or partnership opportunities. These may include event sponsorships, program partnerships, or cause marketing initiatives.</p>
-                
-                <p><strong>Earned Revenue:</strong> Income generated through GirlTREK's own activities and services, including online store sales (merchandise, apparel, wellness products), training and workshop fees, licensing or consulting revenue, and investment income.</p>
-                
-                <p><strong>Bricklayer's Fundraising:</strong> Contributions from GirlTREK's major donor network, typically involving significant individual gifts from high-capacity donors who are deeply committed to the organization's mission.</p>
-            </div>
-            """"",
-            unsafe_allow_html=True
-        )
+        # Create expandable sections for each funding category
+        with st.expander("💰 View Funding Category Definitions", expanded=True):
+            st.markdown("**Grants:**")
+            st.info("Funding awarded by foundations, government agencies, or corporations for specific projects or general operations. These are typically awarded through a competitive application process and may have specific requirements or restrictions on how funds are used.")
+            
+            st.markdown("**Donations:**")
+            st.info("Individual contributions from supporters, members, and donors. These include one-time gifts, recurring donations, monthly giving programs, and major gifts from individual philanthropists. Donations are often unrestricted and provide flexible funding for organizational priorities.")
+            
+            st.markdown("**Corporate Sponsorships:**")
+            st.info("Financial support from businesses and corporations, often in exchange for marketing benefits, brand visibility, or partnership opportunities. These may include event sponsorships, program partnerships, or cause marketing initiatives.")
+            
+            st.markdown("**Earned Revenue:**")
+            st.info("Income generated through GirlTREK's own activities and services, including online store sales (merchandise, apparel, wellness products), training and workshop fees, licensing or consulting revenue, and investment income.")
+            
+            st.markdown("**Bricklayer's Fundraising:**")
+            st.info("Contributions from GirlTREK's major donor network, typically involving significant individual gifts from high-capacity donors who are deeply committed to the organization's mission.")
         
         # Grant Tracking Table
         st.markdown('<h4>2025 Grant Applications Tracking</h4>', unsafe_allow_html=True)
