@@ -1543,58 +1543,64 @@ def main():
             # Completed Workshops
             st.markdown('<h6>✅ Completed Workshops:</h6>', unsafe_allow_html=True)
             
-            completed_workshops_html = f"""
-            <div style="background-color: #E8F5E8; border-radius: 10px; padding: 15px; margin: 10px 0;">
-                <p><strong>April 16 – Medicaid for Caregivers</strong></p>
-                <ul style="margin-left: 20px;">
-                    <li>Guest Speakers: Rae Scott (Human Services) & Maureen Welch (Navigating Disabilities Colorado)</li>
-                    <li>Topics: Medicaid application process, caregiver payments, respite care benefits</li>
-                </ul>
-                
-                <p><strong>June 18 – Mental Health First Aid Awareness</strong></p>
-                <ul style="margin-left: 20px;">
-                    <li>Guest Speaker: ReNate' Elliott, GirlTREK Program Director</li>
-                    <li>Topics: Recognizing warning signs, ALGEE Action Plan, stress management techniques</li>
-                </ul>
-            </div>
-            """
-            st.markdown(completed_workshops_html, unsafe_allow_html=True)
+            st.markdown(
+                f"""
+                <div style="background-color: #E8F5E8; border-radius: 10px; padding: 15px; margin: 10px 0;">
+                    <p><strong>April 16 – Medicaid for Caregivers</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>Guest Speakers: Rae Scott (Human Services) & Maureen Welch (Navigating Disabilities Colorado)</li>
+                        <li>Topics: Medicaid application process, caregiver payments, respite care benefits</li>
+                    </ul>
+                    
+                    <p><strong>June 18 – Mental Health First Aid Awareness</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>Guest Speaker: ReNate' Elliott, GirlTREK Program Director</li>
+                        <li>Topics: Recognizing warning signs, ALGEE Action Plan, stress management techniques</li>
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
             
             # Upcoming Workshops
             st.markdown('<h6>📅 Upcoming Workshops:</h6>', unsafe_allow_html=True)
             
-            upcoming_workshops_html = f"""
-            <div style="background-color: #F3F9FF; border-radius: 10px; padding: 15px; margin: 10px 0;">
-                <p><strong>August 20 – Self-Care Practices</strong></p>
-                <ul style="margin-left: 20px;">
-                    <li>Guest Speakers: Carla Harris & Marcie Thomas (GirlTREK Cares)</li>
-                    <li>Focus: Prioritizing self-care, meditation, affirmations</li>
-                </ul>
-                
-                <p><strong>October 15 – Time Management and Nutrition Tips</strong></p>
-                <ul style="margin-left: 20px;">
-                    <li>Guest Speakers: Jerri McElroy (Time Management) & Chef Lisa Barnett (Nutrition)</li>
-                    <li>Focus: Task prioritization, weekly planning, healthy eating</li>
-                </ul>
-            </div>
-            """
-            st.markdown(upcoming_workshops_html, unsafe_allow_html=True)
+            st.markdown(
+                f"""
+                <div style="background-color: #F3F9FF; border-radius: 10px; padding: 15px; margin: 10px 0;">
+                    <p><strong>August 20 – Self-Care Practices</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>Guest Speakers: Carla Harris & Marcie Thomas (GirlTREK Cares)</li>
+                        <li>Focus: Prioritizing self-care, meditation, affirmations</li>
+                    </ul>
+                    
+                    <p><strong>October 15 – Time Management and Nutrition Tips</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>Guest Speakers: Jerri McElroy (Time Management) & Chef Lisa Barnett (Nutrition)</li>
+                        <li>Focus: Task prioritization, weekly planning, healthy eating</li>
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
             
             # Certification Requirements
             st.markdown('<h5>Certification Requirements</h5>', unsafe_allow_html=True)
             st.markdown('<p>To earn the GT Certificate of Completion as a Caregiver Crew Leader, participants must:</p>', unsafe_allow_html=True)
             
-            certification_html = f"""
-            <div style="background-color: #FFF3E0; border-radius: 10px; padding: 15px; margin: 10px 0;">
-                <ol style="margin-left: 20px;">
-                    <li>Attend all 4 workshops</li>
-                    <li>Complete one Crew Leader Training</li>
-                    <li>Host one caregiver group walk per month (April through November)</li>
-                    <li>Complete 4 Self-Care Assessments documenting growth and needs</li>
-                </ol>
-            </div>
-            """
-            st.markdown(certification_html, unsafe_allow_html=True)
+            st.markdown(
+                f"""
+                <div style="background-color: #FFF3E0; border-radius: 10px; padding: 15px; margin: 10px 0;">
+                    <ol style="margin-left: 20px;">
+                        <li>Attend all 4 workshops</li>
+                        <li>Complete one Crew Leader Training</li>
+                        <li>Host one caregiver group walk per month (April through November)</li>
+                        <li>Complete 4 Self-Care Assessments documenting growth and needs</li>
+                    </ol>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
             
             # Key Accomplishments
             st.markdown('<h5>Key Accomplishments</h5>', unsafe_allow_html=True)
