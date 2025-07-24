@@ -302,7 +302,7 @@ def generate_pdf(section_name, dark_mode=False):
             ["Recruit 100,000 new members", "15,438", "15.44%", "On Track"],
             ["Engage 250,000 members", "13,119", "5.25%", "On Track"],
             ["Support 65,000 walking daily", "5,634", "8.67%", "At Risk"],
-            ["Unite 20 advocacy partners", "2", "10%", "At Risk"],
+            ["Unite 3 advocacy partners", "0", "0%", "On Track"],
             ["Raise $10M", "$3,109,294.25", "31.09%", "On Track"],
             ["Establish Care Village", "3,055", "7.64%", "On Track"],
             ["Achieve 85% organizational health", "100%", "100%", "On Track"]
@@ -749,24 +749,24 @@ def main():
                 "Recruit 100,000 new members",
                 "Engage 250,000 members",
                 "Support 65,000 walking daily",
-                "Unite 20 advocacy partners",
+                "Unite 3 advocacy partners",
                 "Raise $10M",
                 "Establish Care Village (40k)",
                 "Achieve 85% organizational health"
             ],
             "Current Total": [
-                "15,438", "13,119", "5,634", "2",
+                "15,438", "13,119", "5,634", "0",
                 "$3,109,294.25", "3,055", "100%"
             ],
             "Percent Progress": [
-                "15.44%", "5.25%", "8.67%", "10%", "31.09%", "7.64%", "100%"
+                "15.44%", "5.25%", "8.67%", "0%", "31.09%", "7.64%", "100%"
             ],
             "Status": [
-                "On Track", "On Track", "At Risk", "At Risk",
+                "On Track", "On Track", "At Risk", "On Track",
                 "On Track", "On Track", "On Track"
             ],
             "Progress": [
-                15.44, 5.25, 8.67, 10, 31.09, 7.64, 100
+                15.44, 5.25, 8.67, 0, 31.09, 7.64, 100
             ]
         }
 
@@ -908,7 +908,7 @@ def main():
         # Strategic Recommendations
         st.markdown('#### 💡 Strategic Recommendations')
         st.success("""
-        **Address At-Risk Goals:** Focus resources on walking daily support (8.67% progress) and advocacy partnerships (10% progress)
+        **Address At-Risk Goals:** Focus resources on walking daily support (8.67% progress) and advocacy partnerships (0% progress)
         
         **Accelerate Recruitment:** New member acquisition at 15.44% needs strategic boost to reach 100K goal
         
