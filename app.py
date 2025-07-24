@@ -891,32 +891,33 @@ def main():
         st.plotly_chart(cities_fig, use_container_width=True, key="cities_fig")
         
         # Data Analysis & Recommendations
-        st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
+        st.markdown('### 📊 Data Analysis & Recommendations')
         
-        st.markdown(
-            """
-            <div style="background-color: #E8F4FD; border-left: 5px solid #2196F3; 
-                 padding: 20px; border-radius: 5px; margin: 15px 0;">
-                <h4 style="color: #1565C0; margin-top: 0;">Key Insights</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Strong Overall Progress:</strong> 4 out of 7 major goals are on track, with organizational health at 100% and fundraising at 31% of target</li>
-                    <li><strong>Membership Growth:</strong> At 73% of target membership (1.24M vs 1.7M goal), showing solid foundation</li>
-                    <li><strong>Geographic Concentration:</strong> Top 5 states represent 25% of total membership, indicating strong regional presence</li>
-                    <li><strong>Age Distribution Opportunity:</strong> 61% of members have not provided age data, suggesting data collection improvements needed</li>
-                </ul>
-                
-                <h4 style="color: #1565C0;">Strategic Recommendations</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Address At-Risk Goals:</strong> Focus resources on walking daily support (8.67% progress) and advocacy partnerships (10% progress)</li>
-                    <li><strong>Accelerate Recruitment:</strong> New member acquisition at 15.44% needs strategic boost to reach 100K goal</li>
-                    <li><strong>Enhance Data Collection:</strong> Implement incentives for members to complete profile information, especially age demographics</li>
-                    <li><strong>Geographic Expansion:</strong> Leverage success in top states to develop strategies for underrepresented regions</li>
-                    <li><strong>Capitalize on Strengths:</strong> Use strong fundraising momentum and organizational health to support struggling areas</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Key Insights
+        st.markdown('#### 🔍 Key Insights')
+        st.info("""
+        **Strong Overall Progress:** 4 out of 7 major goals are on track, with organizational health at 100% and fundraising at 31% of target
+        
+        **Membership Growth:** At 73% of target membership (1.24M vs 1.7M goal), showing solid foundation
+        
+        **Geographic Concentration:** Top 5 states represent 25% of total membership, indicating strong regional presence
+        
+        **Age Distribution Opportunity:** 61% of members have not provided age data, suggesting data collection improvements needed
+        """)
+        
+        # Strategic Recommendations
+        st.markdown('#### 💡 Strategic Recommendations')
+        st.success("""
+        **Address At-Risk Goals:** Focus resources on walking daily support (8.67% progress) and advocacy partnerships (10% progress)
+        
+        **Accelerate Recruitment:** New member acquisition at 15.44% needs strategic boost to reach 100K goal
+        
+        **Enhance Data Collection:** Implement incentives for members to complete profile information, especially age demographics
+        
+        **Geographic Expansion:** Leverage success in top states to develop strategies for underrepresented regions
+        
+        **Capitalize on Strengths:** Use strong fundraising momentum and organizational health to support struggling areas
+        """)
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Executive Summary")
@@ -1160,34 +1161,37 @@ def main():
             st.markdown(schedule_html, unsafe_allow_html=True)
 
         # Data Analysis & Recommendations
-        st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
+        st.markdown('### 📊 Data Analysis & Recommendations')
         
-        st.markdown(
-            """
-            <div style="background-color: #FFF8E1; border-left: 5px solid #FF9800; 
-                 padding: 20px; border-radius: 5px; margin: 15px 0;">
-                <h4 style="color: #F57C00; margin-top: 0;">Key Insights</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Recruitment Challenge:</strong> At 15.44% of annual goal (15,438 vs 100,000), significant acceleration needed</li>
-                    <li><strong>Seasonal Patterns:</strong> Strong recruitment in March-May (12,065 members) suggests effective spring campaigns</li>
-                    <li><strong>Age Gap:</strong> Only 316 new members aged 18-25, highlighting need for youth engagement strategies</li>
-                    <li><strong>Partnership Success:</strong> 18 recruitment partnerships exceeded goal of 10, showing strong community connections</li>
-                    <li><strong>Program Potential:</strong> Mommy and Me at 90% completion vs College Crews at 11% shows varying program effectiveness</li>
-                </ul>
-                
-                <h4 style="color: #F57C00;">Strategic Recommendations</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Replicate Spring Success:</strong> Analyze March-May campaigns and apply learnings to remaining quarters</li>
-                    <li><strong>Youth Strategy Overhaul:</strong> Accelerate College Crews program and develop campus-specific recruitment tactics</li>
-                    <li><strong>Partnership Leverage:</strong> Utilize existing 18 partnerships for member referrals and joint recruitment events</li>
-                    <li><strong>Scale Successful Programs:</strong> Expand Mommy and Me model and recruit additional Mom Coaches beyond 50 target</li>
-                    <li><strong>Digital Focus:</strong> Invest in social media and digital recruitment to reach younger demographics</li>
-                    <li><strong>Retention Integration:</strong> Ensure recruitment efforts include onboarding strategies to improve member retention</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Key Insights
+        st.markdown('#### 🔍 Key Insights')
+        st.warning("""
+        **Recruitment Challenge:** At 15.44% of annual goal (15,438 vs 100,000), significant acceleration needed
+        
+        **Seasonal Patterns:** Strong recruitment in March-May (12,065 members) suggests effective spring campaigns
+        
+        **Age Gap:** Only 316 new members aged 18-25, highlighting need for youth engagement strategies
+        
+        **Partnership Success:** 18 recruitment partnerships exceeded goal of 10, showing strong community connections
+        
+        **Program Potential:** Mommy and Me at 90% completion vs College Crews at 11% shows varying program effectiveness
+        """)
+        
+        # Strategic Recommendations
+        st.markdown('#### 💡 Strategic Recommendations')
+        st.success("""
+        **Replicate Spring Success:** Analyze March-May campaigns and apply learnings to remaining quarters
+        
+        **Youth Strategy Overhaul:** Accelerate College Crews program and develop campus-specific recruitment tactics
+        
+        **Partnership Leverage:** Utilize existing 18 partnerships for member referrals and joint recruitment events
+        
+        **Scale Successful Programs:** Expand Mommy and Me model and recruit additional Mom Coaches beyond 50 target
+        
+        **Digital Focus:** Invest in social media and digital recruitment to reach younger demographics
+        
+        **Retention Integration:** Ensure recruitment efforts include onboarding strategies to improve member retention
+        """)
 
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Recruitment")
@@ -1323,34 +1327,37 @@ def main():
             )
 
         # Data Analysis & Recommendations
-        st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
+        st.markdown('### 📊 Data Analysis & Recommendations')
         
-        st.markdown(
-            """
-            <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
-                 padding: 20px; border-radius: 5px; margin: 15px 0;">
-                <h4 style="color: #2E7D32; margin-top: 0;">Key Insights</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Leadership Pipeline:</strong> Strong volunteer base with 3,856 documented crew leaders and 1,846 active leaders</li>
-                    <li><strong>Training Scale:</strong> 11,535 trained volunteers demonstrates robust capacity building efforts</li>
-                    <li><strong>Daily Walking Gap:</strong> Only 5,439 walking daily vs 50,000 goal (10.9%) indicates engagement challenge</li>
-                    <li><strong>Care Village Progress:</strong> 7,146 total population reached shows community impact expansion</li>
-                    <li><strong>New Crew Growth:</strong> 727 new crews in 2025 indicates healthy local expansion</li>
-                </ul>
-                
-                <h4 style="color: #2E7D32;">Strategic Recommendations</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Walking Habit Activation:</strong> Develop targeted interventions to convert trained volunteers into daily walkers</li>
-                    <li><strong>Crew Leader Activation:</strong> Focus on converting documented leaders (3,856) to active status (1,846)</li>
-                    <li><strong>Special Programs Scale:</strong> Expand successful programs beyond current 100 participants to reach 65,000 goal</li>
-                    <li><strong>Care Village Acceleration:</strong> Leverage successful model to reach remaining 32,945 women for 40,000 target</li>
-                    <li><strong>Technology Integration:</strong> Use mobile app and digital tools to support daily walking accountability</li>
-                    <li><strong>Peer Support Systems:</strong> Create walking buddy programs and crew-based accountability structures</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Key Insights
+        st.markdown('#### 🔍 Key Insights')
+        st.info("""
+        **Leadership Pipeline:** Strong volunteer base with 3,856 documented crew leaders and 1,846 active leaders
+        
+        **Training Scale:** 11,535 trained volunteers demonstrates robust capacity building efforts
+        
+        **Daily Walking Gap:** Only 5,439 walking daily vs 50,000 goal (10.9%) indicates engagement challenge
+        
+        **Care Village Progress:** 7,146 total population reached shows community impact expansion
+        
+        **New Crew Growth:** 727 new crews in 2025 indicates healthy local expansion
+        """)
+        
+        # Strategic Recommendations
+        st.markdown('#### 💡 Strategic Recommendations')
+        st.success("""
+        **Walking Habit Activation:** Develop targeted interventions to convert trained volunteers into daily walkers
+        
+        **Crew Leader Activation:** Focus on converting documented leaders (3,856) to active status (1,846)
+        
+        **Special Programs Scale:** Expand successful programs beyond current 100 participants to reach 65,000 goal
+        
+        **Care Village Acceleration:** Leverage successful model to reach remaining 32,945 women for 40,000 target
+        
+        **Technology Integration:** Use mobile app and digital tools to support daily walking accountability
+        
+        **Peer Support Systems:** Create walking buddy programs and crew-based accountability structures
+        """)
 
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Engagement")
@@ -1605,34 +1612,37 @@ def main():
             )
         
         # Data Analysis & Recommendations
-        st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
+        st.markdown('### 📊 Data Analysis & Recommendations')
         
-        st.markdown(
-            """
-            <div style="background-color: #E3F2FD; border-left: 5px solid #2196F3; 
-                 padding: 20px; border-radius: 5px; margin: 15px 0;">
-                <h4 style="color: #1565C0; margin-top: 0;">Key Insights</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Strong Grant Performance:</strong> $3.1M in grants represents 99.7% of total contributions, showing successful institutional fundraising</li>
-                    <li><strong>Grant Pipeline Value:</strong> $8.5M in applications with $14.5K secured (0.17% success rate) indicates need for strategy refinement</li>
-                    <li><strong>Corporate Sponsorship Gap:</strong> $130K vs $1.5M goal (8.7%) represents significant untapped revenue potential</li>
-                    <li><strong>Earned Revenue Underperformance:</strong> Store sales at $99.8K vs $400K goal (25%) suggests operational challenges</li>
-                    <li><strong>Diverse Application Portfolio:</strong> 22 grant applications across varied funders shows good diversification strategy</li>
-                </ul>
-                
-                <h4 style="color: #1565C0;">Strategic Recommendations</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Grant Strategy Optimization:</strong> Analyze successful vs declined applications to improve 18.2% success rate</li>
-                    <li><strong>Corporate Partnership Development:</strong> Hire dedicated corporate relations staff to capture $1.37M sponsorship gap</li>
-                    <li><strong>Store Operations Review:</strong> Conduct comprehensive analysis of product mix, pricing, and marketing for earned revenue</li>
-                    <li><strong>Major Donor Cultivation:</strong> Accelerate Bricklayers program beyond current $2.5K to approach $500K goal</li>
-                    <li><strong>Pipeline Management:</strong> Implement CRM system to better track and nurture the 7 pending grant applications</li>
-                    <li><strong>Diversification Focus:</strong> Balance grant dependence with growth in other revenue streams for sustainability</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Key Insights
+        st.markdown('#### 🔍 Key Insights')
+        st.info("""
+        **Strong Grant Performance:** $3.1M in grants represents 99.7% of total contributions, showing successful institutional fundraising
+        
+        **Grant Pipeline Value:** $8.5M in applications with $14.5K secured (0.17% success rate) indicates need for strategy refinement
+        
+        **Corporate Sponsorship Gap:** $130K vs $1.5M goal (8.7%) represents significant untapped revenue potential
+        
+        **Earned Revenue Underperformance:** Store sales at $99.8K vs $400K goal (25%) suggests operational challenges
+        
+        **Diverse Application Portfolio:** 22 grant applications across varied funders shows good diversification strategy
+        """)
+        
+        # Strategic Recommendations
+        st.markdown('#### 💡 Strategic Recommendations')
+        st.success("""
+        **Grant Strategy Optimization:** Analyze successful vs declined applications to improve 18.2% success rate
+        
+        **Corporate Partnership Development:** Hire dedicated corporate relations staff to capture $1.37M sponsorship gap
+        
+        **Store Operations Review:** Conduct comprehensive analysis of product mix, pricing, and marketing for earned revenue
+        
+        **Major Donor Cultivation:** Accelerate Bricklayers program beyond current $2.5K to approach $500K goal
+        
+        **Pipeline Management:** Implement CRM system to better track and nurture the 7 pending grant applications
+        
+        **Diversification Focus:** Balance grant dependence with growth in other revenue streams for sustainability
+        """)
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Development")
@@ -1985,35 +1995,39 @@ def main():
             )
         
         # Data Analysis & Recommendations
-        st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
+        st.markdown('### 📊 Data Analysis & Recommendations')
         
-        st.markdown(
-            """
-            <div style="background-color: #FFF3E0; border-left: 5px solid #FF9800; 
-                 padding: 20px; border-radius: 5px; margin: 15px 0;">
-                <h4 style="color: #F57C00; margin-top: 0;">Key Insights</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Email Performance Gap:</strong> 18.54% open rate vs 28.59% industry average indicates significant improvement opportunity</li>
-                    <li><strong>Engagement Challenge:</strong> 1.06% CTR vs 3.29% industry standard suggests content relevance issues</li>
-                    <li><strong>Subscriber Growth Need:</strong> 931K vs 1.3M goal (71.6%) requires 369K additional subscribers</li>
-                    <li><strong>Active Audience Strength:</strong> 34.4% active subscriber rate (320K) provides solid engagement foundation</li>
-                    <li><strong>Ad Campaign Performance:</strong> Underground App (1.30% CTR) outperforming WNBA (1.23% CTR) with better lead generation</li>
-                    <li><strong>Cost Efficiency Variance:</strong> WNBA $0.94 CPC vs Underground App $2.37 shows significant cost differences</li>
-                </ul>
-                
-                <h4 style="color: #F57C00;">Strategic Recommendations</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Email Optimization:</strong> A/B test subject lines, send times, and content formats to improve open rates by 10%</li>
-                    <li><strong>Content Strategy Overhaul:</strong> Implement personalization and segmentation to triple CTR toward industry standards</li>
-                    <li><strong>Subscriber Acquisition:</strong> Scale Underground App campaign model (9.14% conversion) across more platforms</li>
-                    <li><strong>Audience Optimization:</strong> Focus ad spend on Lookalike audiences (128 leads) and Email List + LAL combinations</li>
-                    <li><strong>Cost Management:</strong> Analyze WNBA campaign efficiency to reduce overall ad costs while maintaining reach</li>
-                    <li><strong>List Health:</strong> Implement re-engagement campaigns to convert inactive subscribers to active status</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Key Insights
+        st.markdown('#### 🔍 Key Insights')
+        st.warning("""
+        **Email Performance Gap:** 18.54% open rate vs 28.59% industry average indicates significant improvement opportunity
+        
+        **Engagement Challenge:** 1.06% CTR vs 3.29% industry standard suggests content relevance issues
+        
+        **Subscriber Growth Need:** 931K vs 1.3M goal (71.6%) requires 369K additional subscribers
+        
+        **Active Audience Strength:** 34.4% active subscriber rate (320K) provides solid engagement foundation
+        
+        **Ad Campaign Performance:** Underground App (1.30% CTR) outperforming WNBA (1.23% CTR) with better lead generation
+        
+        **Cost Efficiency Variance:** WNBA $0.94 CPC vs Underground App $2.37 shows significant cost differences
+        """)
+        
+        # Strategic Recommendations
+        st.markdown('#### 💡 Strategic Recommendations')
+        st.success("""
+        **Email Optimization:** A/B test subject lines, send times, and content formats to improve open rates by 10%
+        
+        **Content Strategy Overhaul:** Implement personalization and segmentation to triple CTR toward industry standards
+        
+        **Subscriber Acquisition:** Scale Underground App campaign model (9.14% conversion) across more platforms
+        
+        **Audience Optimization:** Focus ad spend on Lookalike audiences (128 leads) and Email List + LAL combinations
+        
+        **Cost Management:** Analyze WNBA campaign efficiency to reduce overall ad costs while maintaining reach
+        
+        **List Health:** Implement re-engagement campaigns to convert inactive subscribers to active status
+        """)
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Marketing")
@@ -2377,35 +2391,39 @@ def main():
             )
         
         # Data Analysis & Recommendations
-        st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
+        st.markdown('### 📊 Data Analysis & Recommendations')
         
-        st.markdown(
-            """
-            <div style="background-color: #F3E5F5; border-left: 5px solid #9C27B0; 
-                 padding: 20px; border-radius: 5px; margin: 15px 0;">
-                <h4 style="color: #7B1FA2; margin-top: 0;">Key Insights</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Exceptional Mental Health Impact:</strong> 99.90% reported mental well-being improvements demonstrates program effectiveness</li>
-                    <li><strong>Strong Knowledge Transfer:</strong> Average 61.08% knowledge increase across 8 topics shows comprehensive education success</li>
-                    <li><strong>Community Building Success:</strong> 83.66% shared lessons with others indicates viral knowledge spread</li>
-                    <li><strong>Walking Habit Development:</strong> 68.70% built stronger walking habits, directly supporting organizational mission</li>
-                    <li><strong>Goal Gap:</strong> 5,634 supporting vs 65,000 goal (8.67%) reveals significant scaling opportunity</li>
-                    <li><strong>High Engagement Quality:</strong> 90.52% feel empowered to take action shows transformative impact</li>
-                </ul>
-                
-                <h4 style="color: #7B1FA2;">Strategic Recommendations</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Scale Successful Model:</strong> Expand Self-Care School format to reach remaining 59,366 members for goal achievement</li>
-                    <li><strong>Leverage Social Sharing:</strong> Create formal referral programs based on 83.66% organic sharing behavior</li>
-                    <li><strong>Focus on Top Topics:</strong> Prioritize Radical care (67.34%) and Land rights (71.60%) themes in future content</li>
-                    <li><strong>Walking Integration:</strong> Develop specific programs for the 31.30% who have not built walking habits yet</li>
-                    <li><strong>Knowledge Retention:</strong> Implement follow-up programs to reinforce learning and maintain engagement</li>
-                    <li><strong>Community Activation:</strong> Channel empowerment (90.52%) into advocacy and leadership development programs</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Key Insights
+        st.markdown('#### 🔍 Key Insights')
+        st.info("""
+        **Exceptional Mental Health Impact:** 99.90% reported mental well-being improvements demonstrates program effectiveness
+        
+        **Strong Knowledge Transfer:** Average 61.08% knowledge increase across 8 topics shows comprehensive education success
+        
+        **Community Building Success:** 83.66% shared lessons with others indicates viral knowledge spread
+        
+        **Walking Habit Development:** 68.70% built stronger walking habits, directly supporting organizational mission
+        
+        **Goal Gap:** 5,634 supporting vs 65,000 goal (8.67%) reveals significant scaling opportunity
+        
+        **High Engagement Quality:** 90.52% feel empowered to take action shows transformative impact
+        """)
+        
+        # Strategic Recommendations
+        st.markdown('#### 💡 Strategic Recommendations')
+        st.success("""
+        **Scale Successful Model:** Expand Self-Care School format to reach remaining 59,366 members for goal achievement
+        
+        **Leverage Social Sharing:** Create formal referral programs based on 83.66% organic sharing behavior
+        
+        **Focus on Top Topics:** Prioritize Radical care (67.34%) and Land rights (71.60%) themes in future content
+        
+        **Walking Integration:** Develop specific programs for the 31.30% who have not built walking habits yet
+        
+        **Knowledge Retention:** Implement follow-up programs to reinforce learning and maintain engagement
+        
+        **Community Activation:** Channel empowerment (90.52%) into advocacy and leadership development programs
+        """)
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Campaigns")
@@ -2559,35 +2577,39 @@ def main():
             )
             
         # Data Analysis & Recommendations
-        st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
+        st.markdown('### 📊 Data Analysis & Recommendations')
         
-        st.markdown(
-            """
-            <div style="background-color: #E0F2F1; border-left: 5px solid #009688; 
-                 padding: 20px; border-radius: 5px; margin: 15px 0;">
-                <h4 style="color: #00695C; margin-top: 0;">Key Insights</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Strong People Operations:</strong> 94% staff retention vs 86% industry average shows excellent workplace culture</li>
-                    <li><strong>Financial Health:</strong> YTD revenue of $3.24M vs $1.24M budget indicates strong financial performance</li>
-                    <li><strong>Technology Adoption Gap:</strong> 38% Asana adoption vs 85% goal suggests change management challenges</li>
-                    <li><strong>Store Performance Issues:</strong> $99.8K vs $400K goal (25%) indicates significant operational gaps</li>
-                    <li><strong>Security Compliance Progress:</strong> 70% cybersecurity compliance shows steady improvement toward 90% goal</li>
-                    <li><strong>Employee Satisfaction:</strong> 88% vs 85% target demonstrates positive workplace environment</li>
-                </ul>
-                
-                <h4 style="color: #00695C;">Strategic Recommendations</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Technology Training Initiative:</strong> Implement comprehensive Asana training program to reach 85% adoption target</li>
-                    <li><strong>Store Operations Overhaul:</strong> Conduct full audit of product mix, pricing, marketing, and fulfillment processes</li>
-                    <li><strong>Cybersecurity Priority:</strong> Accelerate security protocols implementation to achieve 90% compliance</li>
-                    <li><strong>Retain HR Excellence:</strong> Document and replicate successful retention strategies across all departments</li>
-                    <li><strong>Financial Optimization:</strong> Analyze budget variance to optimize resource allocation for maximum impact</li>
-                    <li><strong>Process Documentation:</strong> Leverage high employee satisfaction to capture institutional knowledge</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Key Insights
+        st.markdown('#### 🔍 Key Insights')
+        st.info("""
+        **Strong People Operations:** 94% staff retention vs 86% industry average shows excellent workplace culture
+        
+        **Financial Health:** YTD revenue of $3.24M vs $1.24M budget indicates strong financial performance
+        
+        **Technology Adoption Gap:** 38% Asana adoption vs 85% goal suggests change management challenges
+        
+        **Store Performance Issues:** $99.8K vs $400K goal (25%) indicates significant operational gaps
+        
+        **Security Compliance Progress:** 70% cybersecurity compliance shows steady improvement toward 90% goal
+        
+        **Employee Satisfaction:** 88% vs 85% target demonstrates positive workplace environment
+        """)
+        
+        # Strategic Recommendations
+        st.markdown('#### 💡 Strategic Recommendations')
+        st.success("""
+        **Technology Training Initiative:** Implement comprehensive Asana training program to reach 85% adoption target
+        
+        **Store Operations Overhaul:** Conduct full audit of product mix, pricing, marketing, and fulfillment processes
+        
+        **Cybersecurity Priority:** Accelerate security protocols implementation to achieve 90% compliance
+        
+        **Retain HR Excellence:** Document and replicate successful retention strategies across all departments
+        
+        **Financial Optimization:** Analyze budget variance to optimize resource allocation for maximum impact
+        
+        **Process Documentation:** Leverage high employee satisfaction to capture institutional knowledge
+        """)
             
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Operations")
@@ -2664,35 +2686,39 @@ def main():
             )
         
         # Data Analysis & Recommendations
-        st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
+        st.markdown('### 📊 Data Analysis & Recommendations')
         
-        st.markdown(
-            """
-            <div style="background-color: #FFF8E1; border-left: 5px solid #FFC107; 
-                 padding: 20px; border-radius: 5px; margin: 15px 0;">
-                <h4 style="color: #F9A825; margin-top: 0;">Key Insights</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Excellent Response Time:</strong> 2-hour resolution vs 48-hour goal demonstrates exceptional member service</li>
-                    <li><strong>Near-Target Satisfaction:</strong> 93% vs 95% goal shows strong member satisfaction with minimal gap</li>
-                    <li><strong>Technical Issues Focus:</strong> SCS registration errors indicate system improvement opportunities</li>
-                    <li><strong>Connection Challenges:</strong> Connecting to the Movement suggests onboarding/engagement gaps</li>
-                    <li><strong>Powerful Member Stories:</strong> Testimonials show life-changing impact during difficult circumstances</li>
-                    <li><strong>Health Transformation:</strong> 106-pound weight loss and recovery stories demonstrate program effectiveness</li>
-                </ul>
-                
-                <h4 style="color: #F9A825;">Strategic Recommendations</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Technical System Improvements:</strong> Priority fix for SCS registration system to reduce support ticket volume</li>
-                    <li><strong>Enhanced Onboarding:</strong> Develop comprehensive Connecting to Movement resources and guided experiences</li>
-                    <li><strong>Proactive Support:</strong> Use 2-hour response capability to implement proactive member outreach</li>
-                    <li><strong>Satisfaction Bridge:</strong> Identify specific areas to close 2% gap to reach 95% satisfaction goal</li>
-                    <li><strong>Story Amplification:</strong> Systematically collect and share member success stories for recruitment/retention</li>
-                    <li><strong>Support Specialization:</strong> Train team members in specific technical and engagement issue resolution</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Key Insights
+        st.markdown('#### 🔍 Key Insights')
+        st.info("""
+        **Excellent Response Time:** 2-hour resolution vs 48-hour goal demonstrates exceptional member service
+        
+        **Near-Target Satisfaction:** 93% vs 95% goal shows strong member satisfaction with minimal gap
+        
+        **Technical Issues Focus:** SCS registration errors indicate system improvement opportunities
+        
+        **Connection Challenges:** Connecting to the Movement suggests onboarding/engagement gaps
+        
+        **Powerful Member Stories:** Testimonials show life-changing impact during difficult circumstances
+        
+        **Health Transformation:** 106-pound weight loss and recovery stories demonstrate program effectiveness
+        """)
+        
+        # Strategic Recommendations
+        st.markdown('#### 💡 Strategic Recommendations')
+        st.success("""
+        **Technical System Improvements:** Priority fix for SCS registration system to reduce support ticket volume
+        
+        **Enhanced Onboarding:** Develop comprehensive Connecting to Movement resources and guided experiences
+        
+        **Proactive Support:** Use 2-hour response capability to implement proactive member outreach
+        
+        **Satisfaction Bridge:** Identify specific areas to close 2% gap to reach 95% satisfaction goal
+        
+        **Story Amplification:** Systematically collect and share member success stories for recruitment/retention
+        
+        **Support Specialization:** Train team members in specific technical and engagement issue resolution
+        """)
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Member Care")
@@ -2783,35 +2809,39 @@ def main():
         )
         
         # Data Analysis & Recommendations
-        st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
+        st.markdown('### 📊 Data Analysis & Recommendations')
         
-        st.markdown(
-            """
-            <div style="background-color: #FFEBEE; border-left: 5px solid #F44336; 
-                 padding: 20px; border-radius: 5px; margin: 15px 0;">
-                <h4 style="color: #C62828; margin-top: 0;">Key Insights</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Strong Research Foundation:</strong> 7/10 advocacy briefs completed (70%) provides solid evidence base</li>
-                    <li><strong>Partnership Development Needed:</strong> 0/3 partner activations indicates relationship building challenges</li>
-                    <li><strong>Strategic Timing Adjustment:</strong> Q1 2026 timeline shift reflects thoughtful response to external conditions</li>
-                    <li><strong>Comprehensive Planning:</strong> Phase 1 strategic focus shows systematic approach to advocacy development</li>
-                    <li><strong>Coalition Building Progress:</strong> Active conversations with 1K Women Strong and HiP show promising partnerships</li>
-                    <li><strong>Member Engagement Gap:</strong> 0/5 listening sessions suggest need for community outreach acceleration</li>
-                </ul>
-                
-                <h4 style="color: #C62828;">Strategic Recommendations</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Complete Research Phase:</strong> Finalize remaining 3 advocacy briefs to establish full evidence foundation</li>
-                    <li><strong>Pilot Partnership Programs:</strong> Convert HiP and 1K Women Strong conversations into formal pilot activations</li>
-                    <li><strong>Member Listening Strategy:</strong> Launch listening sessions in 2-3 pilot geographies before full 5-location rollout</li>
-                    <li><strong>Mobile App Integration:</strong> Accelerate advocacy content in Summer of Solidarity weekly dispatches</li>
-                    <li><strong>Youth Partnership Priority:</strong> Leverage civic partnerships director relationships for next-generation leadership</li>
-                    <li><strong>Timeline Communication:</strong> Clearly communicate adjusted timeline to maintain member and partner confidence</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Key Insights
+        st.markdown('#### 🔍 Key Insights')
+        st.warning("""
+        **Strong Research Foundation:** 7/10 advocacy briefs completed (70%) provides solid evidence base
+        
+        **Partnership Development Needed:** 0/3 partner activations indicates relationship building challenges
+        
+        **Strategic Timing Adjustment:** Q1 2026 timeline shift reflects thoughtful response to external conditions
+        
+        **Comprehensive Planning:** Phase 1 strategic focus shows systematic approach to advocacy development
+        
+        **Coalition Building Progress:** Active conversations with 1K Women Strong and HiP show promising partnerships
+        
+        **Member Engagement Gap:** 0/5 listening sessions suggest need for community outreach acceleration
+        """)
+        
+        # Strategic Recommendations
+        st.markdown('#### 💡 Strategic Recommendations')
+        st.success("""
+        **Complete Research Phase:** Finalize remaining 3 advocacy briefs to establish full evidence foundation
+        
+        **Pilot Partnership Programs:** Convert HiP and 1K Women Strong conversations into formal pilot activations
+        
+        **Member Listening Strategy:** Launch listening sessions in 2-3 pilot geographies before full 5-location rollout
+        
+        **Mobile App Integration:** Accelerate advocacy content in Summer of Solidarity weekly dispatches
+        
+        **Youth Partnership Priority:** Leverage civic partnerships director relationships for next-generation leadership
+        
+        **Timeline Communication:** Clearly communicate adjusted timeline to maintain member and partner confidence
+        """)
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Advocacy")
@@ -3021,35 +3051,39 @@ def main():
             )
         
         # Data Analysis & Recommendations
-        st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
+        st.markdown('### 📊 Data Analysis & Recommendations')
         
-        st.markdown(
-            """
-            <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
-                 padding: 20px; border-radius: 5px; margin: 15px 0;">
-                <h4 style="color: #2E7D32; margin-top: 0;">Key Insights</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Universal Mental Health Impact:</strong> 99.90% reporting mental well-being improvements shows exceptional program efficacy</li>
-                    <li><strong>Knowledge Transfer Success:</strong> 5,037 total knowledge impacts across 8 topics demonstrates comprehensive education</li>
-                    <li><strong>Behavior Change Achievement:</strong> 90.52% empowered to take action indicates transformative program design</li>
-                    <li><strong>Community Multiplication:</strong> 83.66% shared lessons creates organic program expansion</li>
-                    <li><strong>Sustainable Habit Formation:</strong> 68.70% built stronger walking habits supports long-term health goals</li>
-                    <li><strong>Topic Resonance Variation:</strong> Land rights (71.60%) vs parenting (51.94%) shows content preference differences</li>
-                </ul>
-                
-                <h4 style="color: #2E7D32;">Strategic Recommendations</h4>
-                <ul style="color: #424242;">
-                    <li><strong>Scale Proven Model:</strong> Replicate Self-Care School structure for year-round programming to maximize impact</li>
-                    <li><strong>Content Optimization:</strong> Expand high-resonance topics (land rights, radical care) and enhance lower-performing areas</li>
-                    <li><strong>Peer Network Development:</strong> Formalize the 83.66% sharing behavior into structured peer mentorship programs</li>
-                    <li><strong>Walking Habit Support:</strong> Create specific interventions for the 31.30% who have not developed consistent walking habits</li>
-                    <li><strong>Impact Documentation:</strong> Implement longitudinal tracking to measure sustained behavior change over time</li>
-                    <li><strong>Program Graduation Pathways:</strong> Channel empowered participants into leadership, advocacy, and crew leader roles</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # Key Insights
+        st.markdown('#### 🔍 Key Insights')
+        st.info("""
+        **Universal Mental Health Impact:** 99.90% reporting mental well-being improvements shows exceptional program efficacy
+        
+        **Knowledge Transfer Success:** 5,037 total knowledge impacts across 8 topics demonstrates comprehensive education
+        
+        **Behavior Change Achievement:** 90.52% empowered to take action indicates transformative program design
+        
+        **Community Multiplication:** 83.66% shared lessons creates organic program expansion
+        
+        **Sustainable Habit Formation:** 68.70% built stronger walking habits supports long-term health goals
+        
+        **Topic Resonance Variation:** Land rights (71.60%) vs parenting (51.94%) shows content preference differences
+        """)
+        
+        # Strategic Recommendations
+        st.markdown('#### 💡 Strategic Recommendations')
+        st.success("""
+        **Scale Proven Model:** Replicate Self-Care School structure for year-round programming to maximize impact
+        
+        **Content Optimization:** Expand high-resonance topics (land rights, radical care) and enhance lower-performing areas
+        
+        **Peer Network Development:** Formalize the 83.66% sharing behavior into structured peer mentorship programs
+        
+        **Walking Habit Support:** Create specific interventions for the 31.30% who have not developed consistent walking habits
+        
+        **Impact Documentation:** Implement longitudinal tracking to measure sustained behavior change over time
+        
+        **Program Graduation Pathways:** Channel empowered participants into leadership, advocacy, and crew leader roles
+        """)
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Impact")
