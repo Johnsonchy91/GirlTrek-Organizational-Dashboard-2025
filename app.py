@@ -1326,6 +1326,144 @@ def main():
                 unsafe_allow_html=True
             )
 
+        # Blue Brigade Mental Health Initiative
+        st.markdown('<h4>Blue Brigade Mental Health Initiative</h4>', unsafe_allow_html=True)
+        
+        with st.expander("🧠 GirlTREK Blue Brigade (Mental Health Skills)", expanded=False):
+            # Program Overview
+            st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
+            st.markdown(
+                """
+                The GirlTREK Blue Brigade initiative aims to address the need for mental health access, resources and support for GirlTREK members and their communities. Utilizing the skills of Mental Health First Aid (MHFA), a nationally certified, research-based, peer support mental health intervention program, GirlTREK CARES trained a cohort of volunteers to provide empathetic and compassionate phone calls to members to alleviate isolation and loneliness during the COVID-19 pandemic of 2020. 
+                
+                The Blue Brigade is an evolution of this initiative; volunteers are trained as MHFA Responders and GirlTREK Crew Leaders, and put these skills into practice by leading Wellness Walks in their communities.
+                
+                Blue Brigade volunteers receive ongoing support and learning opportunities via monthly Office Hours where learning and engagement ranges from guest presentations from local/national mental health organizations, to topical discussions, Q&A sessions and a check-in for personal mental wellness of volunteers. Volunteers join quarterly workshop sessions (**April, June, August and October**) to become Crew Leaders and learn to host a walk that is responsive to the needs of sisters who may be experiencing a mental health challenge. 
+                
+                These walks are intended to be a mindfulness exercise, connecting mind and body to create a space of safety where sharing becomes natural and support feels welcomed. Volunteers are not acting in the capacity of a mental health professional and as such they do not diagnose, treat or "fix" problems, but rather serve as a connection to community care.
+                """
+            )
+            
+            # Program Goals
+            st.markdown('<h5>Program Goals</h5>', unsafe_allow_html=True)
+            st.markdown(
+                """
+                * **Recruitment & Training**: Identify and train 100 Trekkers in MHFA and GirlTREK Culture Crew Leader to serve as Blue Brigade members in 2025 and an additional 1,000 members in 2026.
+                * **Engagement**: Support volunteers as they host one (1) Wellness Walk per month or assist in coordinating Community Care Walks with local mental health focused organizations. Coordinate a national day of Wellness Walks for World Mental Health Day on October 10th and 11th 2025 and weekly Wellness Walks in May 2026 in observance of Mental Health Awareness Month.
+                * **Impact**: Decrease stigma around mental health, increase access to peer and professional support and encourage mindfulness practices such as walking to support healthy mental health.
+                """
+            )
+            
+            # Current Status Metrics
+            st.markdown('<h5>Current Status</h5>', unsafe_allow_html=True)
+            
+            blue_col1, blue_col2 = st.columns(2)
+            
+            with blue_col1:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">FULLY CERTIFIED BLUE BRIGADE MEMBERS</p>'
+                    f'<p class="metric-value">7 / 100</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Attended workshop, MHFA certified, Crew Leader trained & hosted walk(s)</p>'
+                    f'<p style="font-size: 14px; color: #666;">7% of target achieved</p>'
+                    f'<p>{status_badge("At Risk")}</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            with blue_col2:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">BLUE BRIGADE MEMBERS IN PROGRESS</p>'
+                    f'<p class="metric-value">50 / 100</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Attended workshop, office hours, Crew Leader training & will be MHFA certified before October</p>'
+                    f'<p style="font-size: 14px; color: #666;">50% of target</p>'
+                    f'<p>{status_badge("On Track")}</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            blue_col3, blue_col4 = st.columns(2)
+            
+            with blue_col3:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">COMMUNITY CARE WALKS</p>'
+                    f'<p class="metric-value">1</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Scheduled for Aug 23, 2025 in Chicago, IL with Sista Afya Community Care</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            with blue_col4:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">WELLNESS WALKS HOSTED</p>'
+                    f'<p class="metric-value">4</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Once per month April-July</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            # MHFA Training Schedule
+            st.markdown('<h5>MHFA Training Schedule</h5>', unsafe_allow_html=True)
+            st.markdown('<p style="font-style: italic;">Up to 30 members may be trained per session:</p>', unsafe_allow_html=True)
+            
+            training_schedule_html = f"""
+            <div style="background-color: #F3F9FF; border-radius: 10px; padding: 15px; margin: 10px 0;">
+                <p><strong>Virtual Training Sessions:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>August 9th</li>
+                    <li>August 17th</li>
+                    <li>September 6th</li>
+                    <li>September 26th</li>
+                </ul>
+                <p><strong>In-Person Training:</strong></p>
+                <p style="margin-left: 20px;">Montgomery, AL Blue Brigade Mental Wellness Experience<br>
+                Saturday, September 13, 2025<br>
+                <em style="font-size: 12px;">(Note: This is not the full MHFA certification training but a Wellness Walk Leader session)</em></p>
+            </div>
+            """
+            st.markdown(training_schedule_html, unsafe_allow_html=True)
+            
+            # Long-term Goals
+            st.markdown('<h5>Long-term Goals</h5>', unsafe_allow_html=True)
+            
+            longterm_col1, longterm_col2 = st.columns(2)
+            
+            with longterm_col1:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">2025 GOAL</p>'
+                    f'<p class="metric-value">100</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Blue Brigade members trained and active</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            with longterm_col2:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">2026 GOAL</p>'
+                    f'<p class="metric-value">1,000</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">MHFA Responders certified</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            # Mission Statement
+            st.markdown(
+                f"""
+                <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
+                     padding: 15px; border-radius: 5px; margin: 15px 0;">
+                    <p style="color: #2E7D32; font-style: italic; margin: 0;">
+                    This programming supports GirlTREK's Joy & Justice demand, item number two (2) <strong>"We want healthy minds"</strong> and serves to connect the GirlTREK community with culturally relevant resources and supports.
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
         # Data Analysis & Recommendations
         st.markdown('### 📊 Data Analysis & Recommendations')
         
@@ -1341,6 +1479,8 @@ def main():
         **Care Village Progress:** 7,146 total population reached shows community impact expansion
         
         **New Crew Growth:** 727 new crews in 2025 indicates healthy local expansion
+        
+        **Mental Health Initiative:** Blue Brigade at 50% progress with 50 members in training pipeline shows promising mental health support development
         """)
         
         # Strategic Recommendations
@@ -1353,6 +1493,8 @@ def main():
         **Special Programs Scale:** Expand successful programs beyond current 100 participants to reach 65,000 goal
         
         **Care Village Acceleration:** Leverage successful model to reach remaining 32,945 women for 40,000 target
+        
+        **Mental Health Support Expansion:** Fast-track MHFA certification for 50 pending Blue Brigade members by October deadline
         
         **Technology Integration:** Use mobile app and digital tools to support daily walking accountability
         
