@@ -1163,7 +1163,7 @@ def main():
         st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
         
         st.markdown(
-            f"""
+            """
             <div style="background-color: #FFF8E1; border-left: 5px solid #FF9800; 
                  padding: 20px; border-radius: 5px; margin: 15px 0;">
                 <h4 style="color: #F57C00; margin-top: 0;">Key Insights</h4>
@@ -1172,7 +1172,7 @@ def main():
                     <li><strong>Seasonal Patterns:</strong> Strong recruitment in March-May (12,065 members) suggests effective spring campaigns</li>
                     <li><strong>Age Gap:</strong> Only 316 new members aged 18-25, highlighting need for youth engagement strategies</li>
                     <li><strong>Partnership Success:</strong> 18 recruitment partnerships exceeded goal of 10, showing strong community connections</li>
-                    <li><strong>Program Potential:</strong> Mommy & Me at 90% completion vs College Crews at 11% shows varying program effectiveness</li>
+                    <li><strong>Program Potential:</strong> Mommy and Me at 90% completion vs College Crews at 11% shows varying program effectiveness</li>
                 </ul>
                 
                 <h4 style="color: #F57C00;">Strategic Recommendations</h4>
@@ -1180,7 +1180,7 @@ def main():
                     <li><strong>Replicate Spring Success:</strong> Analyze March-May campaigns and apply learnings to remaining quarters</li>
                     <li><strong>Youth Strategy Overhaul:</strong> Accelerate College Crews program and develop campus-specific recruitment tactics</li>
                     <li><strong>Partnership Leverage:</strong> Utilize existing 18 partnerships for member referrals and joint recruitment events</li>
-                    <li><strong>Scale Successful Programs:</strong> Expand Mommy & Me model and recruit additional Mom Coaches beyond 50 target</li>
+                    <li><strong>Scale Successful Programs:</strong> Expand Mommy and Me model and recruit additional Mom Coaches beyond 50 target</li>
                     <li><strong>Digital Focus:</strong> Invest in social media and digital recruitment to reach younger demographics</li>
                     <li><strong>Retention Integration:</strong> Ensure recruitment efforts include onboarding strategies to improve member retention</li>
                 </ul>
