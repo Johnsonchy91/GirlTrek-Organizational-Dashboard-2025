@@ -894,7 +894,7 @@ def main():
         st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
         
         st.markdown(
-            f"""
+            """
             <div style="background-color: #E8F4FD; border-left: 5px solid #2196F3; 
                  padding: 20px; border-radius: 5px; margin: 15px 0;">
                 <h4 style="color: #1565C0; margin-top: 0;">Key Insights</h4>
@@ -902,7 +902,7 @@ def main():
                     <li><strong>Strong Overall Progress:</strong> 4 out of 7 major goals are on track, with organizational health at 100% and fundraising at 31% of target</li>
                     <li><strong>Membership Growth:</strong> At 73% of target membership (1.24M vs 1.7M goal), showing solid foundation</li>
                     <li><strong>Geographic Concentration:</strong> Top 5 states represent 25% of total membership, indicating strong regional presence</li>
-                    <li><strong>Age Distribution Opportunity:</strong> 61% of members haven't provided age data, suggesting data collection improvements needed</li>
+                    <li><strong>Age Distribution Opportunity:</strong> 61% of members have not provided age data, suggesting data collection improvements needed</li>
                 </ul>
                 
                 <h4 style="color: #1565C0;">Strategic Recommendations</h4>
@@ -1326,7 +1326,7 @@ def main():
         st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
         
         st.markdown(
-            f"""
+            """
             <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
                  padding: 20px; border-radius: 5px; margin: 15px 0;">
                 <h4 style="color: #2E7D32; margin-top: 0;">Key Insights</h4>
@@ -1608,7 +1608,7 @@ def main():
         st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
         
         st.markdown(
-            f"""
+            """
             <div style="background-color: #E3F2FD; border-left: 5px solid #2196F3; 
                  padding: 20px; border-radius: 5px; margin: 15px 0;">
                 <h4 style="color: #1565C0; margin-top: 0;">Key Insights</h4>
@@ -1625,7 +1625,7 @@ def main():
                     <li><strong>Grant Strategy Optimization:</strong> Analyze successful vs declined applications to improve 18.2% success rate</li>
                     <li><strong>Corporate Partnership Development:</strong> Hire dedicated corporate relations staff to capture $1.37M sponsorship gap</li>
                     <li><strong>Store Operations Review:</strong> Conduct comprehensive analysis of product mix, pricing, and marketing for earned revenue</li>
-                    <li><strong>Major Donor Cultivation:</strong> Accelerate Bricklayer's program beyond current $2.5K to approach $500K goal</li>
+                    <li><strong>Major Donor Cultivation:</strong> Accelerate Bricklayers program beyond current $2.5K to approach $500K goal</li>
                     <li><strong>Pipeline Management:</strong> Implement CRM system to better track and nurture the 7 pending grant applications</li>
                     <li><strong>Diversification Focus:</strong> Balance grant dependence with growth in other revenue streams for sustainability</li>
                 </ul>
@@ -1988,7 +1988,7 @@ def main():
         st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
         
         st.markdown(
-            f"""
+            """
             <div style="background-color: #FFF3E0; border-left: 5px solid #FF9800; 
                  padding: 20px; border-radius: 5px; margin: 15px 0;">
                 <h4 style="color: #F57C00; margin-top: 0;">Key Insights</h4>
@@ -1998,7 +1998,7 @@ def main():
                     <li><strong>Subscriber Growth Need:</strong> 931K vs 1.3M goal (71.6%) requires 369K additional subscribers</li>
                     <li><strong>Active Audience Strength:</strong> 34.4% active subscriber rate (320K) provides solid engagement foundation</li>
                     <li><strong>Ad Campaign Performance:</strong> Underground App (1.30% CTR) outperforming WNBA (1.23% CTR) with better lead generation</li>
-                    <li><strong>Cost Efficiency Variance:</strong> WNBA's $0.94 CPC vs Underground App's $2.37 shows significant cost differences</li>
+                    <li><strong>Cost Efficiency Variance:</strong> WNBA $0.94 CPC vs Underground App $2.37 shows significant cost differences</li>
                 </ul>
                 
                 <h4 style="color: #F57C00;">Strategic Recommendations</h4>
@@ -2380,7 +2380,7 @@ def main():
         st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
         
         st.markdown(
-            f"""
+            """
             <div style="background-color: #F3E5F5; border-left: 5px solid #9C27B0; 
                  padding: 20px; border-radius: 5px; margin: 15px 0;">
                 <h4 style="color: #7B1FA2; margin-top: 0;">Key Insights</h4>
@@ -2397,8 +2397,8 @@ def main():
                 <ul style="color: #424242;">
                     <li><strong>Scale Successful Model:</strong> Expand Self-Care School format to reach remaining 59,366 members for goal achievement</li>
                     <li><strong>Leverage Social Sharing:</strong> Create formal referral programs based on 83.66% organic sharing behavior</li>
-                    <li><strong>Focus on Top Topics:</strong> Prioritize "Radical care" (67.34%) and "Land rights" (71.60%) themes in future content</li>
-                    <li><strong>Walking Integration:</strong> Develop specific programs for the 31.30% who haven't built walking habits yet</li>
+                    <li><strong>Focus on Top Topics:</strong> Prioritize Radical care (67.34%) and Land rights (71.60%) themes in future content</li>
+                    <li><strong>Walking Integration:</strong> Develop specific programs for the 31.30% who have not built walking habits yet</li>
                     <li><strong>Knowledge Retention:</strong> Implement follow-up programs to reinforce learning and maintain engagement</li>
                     <li><strong>Community Activation:</strong> Channel empowerment (90.52%) into advocacy and leadership development programs</li>
                 </ul>
@@ -2562,7 +2562,7 @@ def main():
         st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
         
         st.markdown(
-            f"""
+            """
             <div style="background-color: #E0F2F1; border-left: 5px solid #009688; 
                  padding: 20px; border-radius: 5px; margin: 15px 0;">
                 <h4 style="color: #00695C; margin-top: 0;">Key Insights</h4>
@@ -2667,7 +2667,7 @@ def main():
         st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
         
         st.markdown(
-            f"""
+            """
             <div style="background-color: #FFF8E1; border-left: 5px solid #FFC107; 
                  padding: 20px; border-radius: 5px; margin: 15px 0;">
                 <h4 style="color: #F9A825; margin-top: 0;">Key Insights</h4>
@@ -2675,7 +2675,7 @@ def main():
                     <li><strong>Excellent Response Time:</strong> 2-hour resolution vs 48-hour goal demonstrates exceptional member service</li>
                     <li><strong>Near-Target Satisfaction:</strong> 93% vs 95% goal shows strong member satisfaction with minimal gap</li>
                     <li><strong>Technical Issues Focus:</strong> SCS registration errors indicate system improvement opportunities</li>
-                    <li><strong>Connection Challenges:</strong> "Connecting to the Movement" suggests onboarding/engagement gaps</li>
+                    <li><strong>Connection Challenges:</strong> Connecting to the Movement suggests onboarding/engagement gaps</li>
                     <li><strong>Powerful Member Stories:</strong> Testimonials show life-changing impact during difficult circumstances</li>
                     <li><strong>Health Transformation:</strong> 106-pound weight loss and recovery stories demonstrate program effectiveness</li>
                 </ul>
@@ -2683,7 +2683,7 @@ def main():
                 <h4 style="color: #F9A825;">Strategic Recommendations</h4>
                 <ul style="color: #424242;">
                     <li><strong>Technical System Improvements:</strong> Priority fix for SCS registration system to reduce support ticket volume</li>
-                    <li><strong>Enhanced Onboarding:</strong> Develop comprehensive "Connecting to Movement" resources and guided experiences</li>
+                    <li><strong>Enhanced Onboarding:</strong> Develop comprehensive Connecting to Movement resources and guided experiences</li>
                     <li><strong>Proactive Support:</strong> Use 2-hour response capability to implement proactive member outreach</li>
                     <li><strong>Satisfaction Bridge:</strong> Identify specific areas to close 2% gap to reach 95% satisfaction goal</li>
                     <li><strong>Story Amplification:</strong> Systematically collect and share member success stories for recruitment/retention</li>
@@ -2786,7 +2786,7 @@ def main():
         st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
         
         st.markdown(
-            f"""
+            """
             <div style="background-color: #FFEBEE; border-left: 5px solid #F44336; 
                  padding: 20px; border-radius: 5px; margin: 15px 0;">
                 <h4 style="color: #C62828; margin-top: 0;">Key Insights</h4>
@@ -3024,7 +3024,7 @@ def main():
         st.markdown('<h3>📊 Data Analysis & Recommendations</h3>', unsafe_allow_html=True)
         
         st.markdown(
-            f"""
+            """
             <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
                  padding: 20px; border-radius: 5px; margin: 15px 0;">
                 <h4 style="color: #2E7D32; margin-top: 0;">Key Insights</h4>
@@ -3042,7 +3042,7 @@ def main():
                     <li><strong>Scale Proven Model:</strong> Replicate Self-Care School structure for year-round programming to maximize impact</li>
                     <li><strong>Content Optimization:</strong> Expand high-resonance topics (land rights, radical care) and enhance lower-performing areas</li>
                     <li><strong>Peer Network Development:</strong> Formalize the 83.66% sharing behavior into structured peer mentorship programs</li>
-                    <li><strong>Walking Habit Support:</strong> Create specific interventions for the 31.30% who haven't developed consistent walking habits</li>
+                    <li><strong>Walking Habit Support:</strong> Create specific interventions for the 31.30% who have not developed consistent walking habits</li>
                     <li><strong>Impact Documentation:</strong> Implement longitudinal tracking to measure sustained behavior change over time</li>
                     <li><strong>Program Graduation Pathways:</strong> Channel empowered participants into leadership, advocacy, and crew leader roles</li>
                 </ul>
