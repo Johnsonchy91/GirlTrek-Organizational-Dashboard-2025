@@ -1464,6 +1464,171 @@ def main():
                 unsafe_allow_html=True
             )
 
+        # Caregiver Tribe Program
+        st.markdown('<h4>Caregiver Support Programs</h4>', unsafe_allow_html=True)
+        
+        with st.expander("💜 GirlTREK Caregiver Tribe Program", expanded=False):
+            # Program Overview
+            st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
+            st.markdown(
+                """
+                The GirlTREK Caregiver Tribe Program is a comprehensive initiative designed to support and empower caregivers through education, resources, and community building. Building on insights from our 2024 Listening and Learning series, this program offers a structured pathway for caregivers to prioritize their health while caring for others.
+                
+                The program recognizes caregivers broadly—from family members caring for loved ones to teachers, CNAs, EMTs, therapists, and home health providers who dedicate themselves to others' wellbeing.
+                """
+            )
+            
+            # Program Goals
+            st.markdown('<h5>Program Goals</h5>', unsafe_allow_html=True)
+            st.markdown(
+                """
+                * **Certification Path**: Train caregivers to become certified Caregiver Crew Leaders
+                * **Education**: Deliver 4 comprehensive workshops covering essential caregiver topics
+                * **Community Building**: Foster support networks through monthly caregiver walks
+                * **Resource Distribution**: Provide all participants with the GirlTREK Caregiver Handbook
+                """
+            )
+            
+            # Current Status Metrics
+            st.markdown('<h5>Current Status (as of July 2025)</h5>', unsafe_allow_html=True)
+            
+            caregiver_col1, caregiver_col2 = st.columns(2)
+            
+            with caregiver_col1:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">WORKSHOPS COMPLETED</p>'
+                    f'<p class="metric-value">2 / 4</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">50% of program delivered</p>'
+                    f'<p>{status_badge("On Track")}</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            with caregiver_col2:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">CAREGIVERS ENGAGED</p>'
+                    f'<p class="metric-value">649</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Received workshop materials and resources</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            caregiver_col3, caregiver_col4 = st.columns(2)
+            
+            with caregiver_col3:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">SELF-CARE ASSESSMENTS</p>'
+                    f'<p class="metric-value">15</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Completed during June workshop</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            with caregiver_col4:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">RESOURCES DEVELOPED</p>'
+                    f'<p class="metric-value">4+</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Presentations, assessments, recordings, handbooks</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            # Workshop Schedule
+            st.markdown('<h5>Workshop Schedule</h5>', unsafe_allow_html=True)
+            
+            # Completed Workshops
+            st.markdown('<h6>✅ Completed Workshops:</h6>', unsafe_allow_html=True)
+            
+            completed_workshops_html = f"""
+            <div style="background-color: #E8F5E8; border-radius: 10px; padding: 15px; margin: 10px 0;">
+                <p><strong>April 16 – Medicaid for Caregivers</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Guest Speakers: Rae Scott (Human Services) & Maureen Welch (Navigating Disabilities Colorado)</li>
+                    <li>Topics: Medicaid application process, caregiver payments, respite care benefits</li>
+                </ul>
+                
+                <p><strong>June 18 – Mental Health First Aid Awareness</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Guest Speaker: ReNate' Elliott, GirlTREK Program Director</li>
+                    <li>Topics: Recognizing warning signs, ALGEE Action Plan, stress management techniques</li>
+                </ul>
+            </div>
+            """
+            st.markdown(completed_workshops_html, unsafe_allow_html=True)
+            
+            # Upcoming Workshops
+            st.markdown('<h6>📅 Upcoming Workshops:</h6>', unsafe_allow_html=True)
+            
+            upcoming_workshops_html = f"""
+            <div style="background-color: #F3F9FF; border-radius: 10px; padding: 15px; margin: 10px 0;">
+                <p><strong>August 20 – Self-Care Practices</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Guest Speakers: Carla Harris & Marcie Thomas (GirlTREK Cares)</li>
+                    <li>Focus: Prioritizing self-care, meditation, affirmations</li>
+                </ul>
+                
+                <p><strong>October 15 – Time Management and Nutrition Tips</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Guest Speakers: Jerri McElroy (Time Management) & Chef Lisa Barnett (Nutrition)</li>
+                    <li>Focus: Task prioritization, weekly planning, healthy eating</li>
+                </ul>
+            </div>
+            """
+            st.markdown(upcoming_workshops_html, unsafe_allow_html=True)
+            
+            # Certification Requirements
+            st.markdown('<h5>Certification Requirements</h5>', unsafe_allow_html=True)
+            st.markdown('<p>To earn the GT Certificate of Completion as a Caregiver Crew Leader, participants must:</p>', unsafe_allow_html=True)
+            
+            certification_html = f"""
+            <div style="background-color: #FFF3E0; border-radius: 10px; padding: 15px; margin: 10px 0;">
+                <ol style="margin-left: 20px;">
+                    <li>Attend all 4 workshops</li>
+                    <li>Complete one Crew Leader Training</li>
+                    <li>Host one caregiver group walk per month (April through November)</li>
+                    <li>Complete 4 Self-Care Assessments documenting growth and needs</li>
+                </ol>
+            </div>
+            """
+            st.markdown(certification_html, unsafe_allow_html=True)
+            
+            # Key Accomplishments
+            st.markdown('<h5>Key Accomplishments</h5>', unsafe_allow_html=True)
+            st.success("""
+            ✓ Successfully transitioned from listening phase to active programming
+            ✓ Developed comprehensive resource distribution system beyond workshop presentations
+            ✓ Created multiple formats for resource access (recordings, presentations, assessments)
+            ✓ Built strong participant engagement with meaningful feedback loops
+            ✓ Established clear documentation and tracking systems for participant progress
+            """)
+            
+            # Next Steps
+            st.markdown('<h5>Next Steps</h5>', unsafe_allow_html=True)
+            st.info("""
+            → Prepare Caregiver Handbook content with August workshop presenters
+            → Develop August Self-Care Assessment incorporating Mental Health workshop recap
+            → Continue resource compilation for remaining workshops
+            → Maintain engagement with all 649 participants through regular communications
+            → Support participants in organizing monthly caregiver walks
+            """)
+            
+            # Mission Statement
+            st.markdown(
+                f"""
+                <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
+                     padding: 15px; border-radius: 5px; margin: 15px 0;">
+                    <p style="color: #2E7D32; font-style: italic; margin: 0;">
+                    This initiative represents GirlTREK's commitment to supporting those who care for others, ensuring they have the tools, resources, and community needed to maintain their own health and wellbeing while serving their families and communities.
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
         # Data Analysis & Recommendations
         st.markdown('### 📊 Data Analysis & Recommendations')
         
@@ -1481,6 +1646,8 @@ def main():
         **New Crew Growth:** 727 new crews in 2025 indicates healthy local expansion
         
         **Mental Health Initiative:** Blue Brigade at 50% progress with 50 members in training pipeline shows promising mental health support development
+        
+        **Caregiver Support:** 649 caregivers engaged with 50% of workshops completed, demonstrating strong program adoption
         """)
         
         # Strategic Recommendations
@@ -1495,6 +1662,8 @@ def main():
         **Care Village Acceleration:** Leverage successful model to reach remaining 32,945 women for 40,000 target
         
         **Mental Health Support Expansion:** Fast-track MHFA certification for 50 pending Blue Brigade members by October deadline
+        
+        **Caregiver Program Completion:** Ensure strong attendance for remaining 2 workshops to achieve certification goals
         
         **Technology Integration:** Use mobile app and digital tools to support daily walking accountability
         
