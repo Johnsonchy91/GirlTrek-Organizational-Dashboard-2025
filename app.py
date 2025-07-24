@@ -63,7 +63,26 @@ def add_board_update(tab_name):
     notes_key = f"notes_{tab_name}"
     update_content = ""
     
-    if notes_key in st.session_state and st.session_state[notes_key].strip():
+    # Special content for Advocacy tab
+    if tab_name == "Advocacy":
+        update_content = """
+        <p>In Phase 1, Year 1, our strategic focus is on designing the plan for phases 1 and 2, socializing the advocacy agenda amongst our members, establishing the research basis for the 10 points, and beginning to build advocacy engagement models with our members in our most active geographies. Our key activities have included / will include:</p>
+        
+        <p><strong>Robust Articulation of 10-Point Plan:</strong> During the first half of 2025, worked in close partnership with GT co-founders to expand and make more robust our 10-Point Plan for Joy & Justice. Co-Founders then anchored to the plan during the 10 week curriculum of Self-Care School, and will continue socializing the Plan to our members during Summer of Solidarity.</p>
+        
+        <p><strong>Design of Phases 1 and 2:</strong> As detailed above, we are responding to the current political environment by designing a phased approach to member organizing and coalition building, all in service of achieving our organizational 10x10 mission.</p>
+        
+        <p><strong>Establish Research Foundation for Advocacy Agenda:</strong> Research Director is leading the development of "Advocacy Briefs" for each of the 10 points on the Advocacy Agenda, clearly articulating the research basis for each of the demands (seeking to answer the question: why is this issue killing Black women at a disproportionate rate?).</p>
+        
+        <p><strong>Utilize Launch of Mobile App to Engage Membership around Advocacy Agenda:</strong> Through Summer of Solidarity programming, members will be encouraged to download the mobile app and begin logging walks; encouragement will come in the form of "weekly dispatches," with content dedicated to uplifting and advancing the advocacy agenda (e.g. calls to action from strategic partners, member reflections on key questions).</p>
+        
+        <p><strong>Relationship Building with Key Constituencies:</strong> Director of Civic Partnerships is building and deepening relationships with youth-serving organizations to align with stated commitment to "next generation leadership;" will use the launch of the mobile app to encourage partner organizations to engage their youth members.</p>
+        
+        <p><strong>Test Advocacy-Led Member Engagement in Key Geographies:</strong> Advocacy team will identify 10 most active GT geographies, and correlate these to most populated domestic Black geographies as well as Care Village location(s). Will liaise with GT crew leaders and member care team, especially through formation of "Women of Wisdom" advisory council, to engage in advocacy listening sessions. Will consider "on the ground" training or "test sites" depending on outcome(s) of listening sessions.</p>
+        
+        <p><strong>Lay the Foundation for Phase 2 by Forming Organizational Relationships:</strong> Proactively identify and cultivate relationships with potential Coalition partners whose missions and work align with our agenda.</p>
+        """
+    elif notes_key in st.session_state and st.session_state[notes_key].strip():
         update_content = st.session_state[notes_key]
     else:
         update_content = "<p style='font-style: italic; color: #999;'>No leadership updates at this time.</p>"
@@ -1012,6 +1031,18 @@ def main():
             """
             st.markdown(college_schedule_html, unsafe_allow_html=True)
             
+            # Mission Statement
+            st.markdown(
+                f"""
+                <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
+                     padding: 15px; border-radius: 5px; margin: 15px 0;">
+                    <p style="color: #2E7D32; font-style: italic; margin: 0;">
+                    This programming represents the heart of GirlTrek's mission—empowering Black women to reclaim their health and legacy through the simple yet radical act of walking. Together, we are ensuring that self-care and wellness become a lifestyle in the lives of young women to have the wit to carry the choice of our foremothers.
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
         
         # Mommy and Me Program
         with st.expander("👩‍👧‍👦 Mommy and Me - Keturah Queen", expanded=False):
@@ -1244,6 +1275,28 @@ def main():
         
         st.markdown('<h3 class="section-title">Development Metrics</h3>', unsafe_allow_html=True)
 
+        # Funding Definitions Section
+        st.markdown('<h4>Funding Categories Definitions</h4>', unsafe_allow_html=True)
+        
+        with st.expander("📋 Understanding Our Funding Sources", expanded=False):
+            st.markdown(
+                """
+                **Grants**: Funding awarded by foundations, government agencies, or corporations for specific projects or general operations. These are typically awarded through a competitive application process and may have specific requirements or restrictions on how funds are used.
+                
+                **Donations**: Individual contributions from supporters, members, and donors. These include one-time gifts, recurring donations, monthly giving programs, and major gifts from individual philanthropists. Donations are often unrestricted and provide flexible funding for organizational priorities.
+                
+                **Corporate Sponsorships**: Financial support from businesses and corporations, often in exchange for marketing benefits, brand visibility, or partnership opportunities. These may include event sponsorships, program partnerships, or cause marketing initiatives.
+                
+                **Earned Revenue**: Income generated through GirlTREK's own activities and services, including:
+                - Online store sales (merchandise, apparel, wellness products)
+                - Training and workshop fees
+                - Licensing or consulting revenue
+                - Investment income
+                
+                **Bricklayer's Fundraising**: Contributions from GirlTREK's major donor network, typically involving significant individual gifts from high-capacity donors who are deeply committed to the organization's mission.
+                """
+            )
+
         dev_col1, dev_col2, dev_col3 = st.columns(3)
 
         with dev_col1:
@@ -1290,6 +1343,152 @@ def main():
         dev_finance_fig.update_traces(textposition='inside', textinfo='percent+label')
         dev_finance_fig.update_layout(title_font=dict(color=primary_blue))
         st.plotly_chart(dev_finance_fig, use_container_width=True, key="dev_finance_fig")
+        
+        # Grant Tracking Table
+        st.markdown('<h4>2025 Grant Applications Tracking</h4>', unsafe_allow_html=True)
+        
+        # Create grants data
+        grants_data = {
+            'Account': [
+                'Pivotal Ventures', 'National Trust for Historic Preservation', 'Echoing Green', 'Emerson Collective',
+                'National Trust for Historic Preservation', 'Gabell Foundation', 'National Trust for Historic Preservation',
+                'National Trust for Historic Preservation', 'Borealis Philanthropy', 'National Trust for Historic Preservation',
+                'Robert Wood Johnson Foundation', 'Emergent Fund', 'Southern Black Girls', 'Lumena Foundation',
+                'Sun Life', 'Black Feminist Fund', 'Elevate Prize Foundation', 'Saks Fifth Avenue Foundation',
+                'Borealis Philanthropy', 'Central Alabama Community Foundation', 'JusPax Fund', 'Tow Foundation'
+            ],
+            'Grant Name': [
+                '2025 Action for Women\'s Health', '2025 National Trust Preservation', '2025 Follow-On Funding',
+                '2025 EC Special Grant', '2025 AACHAF', '2025 CF Special Grant', '2025 Johanna Favrot',
+                '2025 Cynthia Woods Mitchell', '2025 Black Led Movement', '2025 Black Modernism',
+                '2025 Data Equity', '2025 Emergent Fund', '2025 SBG Defense Fund', '2025 Lumena Foundation Moon',
+                '2025 Sun Life Health Access', '2025 Sustain Fund', '2025 Elevate Prize', '2025 Local Funding',
+                '2025 Borealis Philanthropy REACH Fund', '2025 Montgomery City Council', '2025 JusPax Fund: Gender Justice',
+                'Tow Foundation'
+            ],
+            'Amount Requested': [
+                '$5,000,000', '$5,000', '$100,000', '$224,250', '$75,000', '$10,000', '$15,000', '$15,000',
+                '$183,500', '$150,000', '$50,000', '$25,000', '$2,000', '$50,000', '$100,000', '$1,600,000',
+                '$100,000', '$30,000', '$150,000', '$10,000', '$25,000', '$600,000'
+            ],
+            'Amount Funded': [
+                '', '$2,500', '', '', '', '$10,000', '', '', '', '', '', '', '$2,000', '', '', '', '', '', '', '', '', ''
+            ],
+            'Due Date': [
+                'Jan', 'Feb', 'Feb', 'Feb', 'Feb', 'Feb', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Apr', 'Apr',
+                'Apr', 'May', 'Jun', 'Jul', 'Jul', 'Jul', 'Jul', 'Jul'
+            ],
+            'Status': [
+                'Pending', 'Closed - Funded', 'Closed - Declined', 'Closed - Declined', 'Pending', 'Closed - Funded',
+                'Pending', 'Pending', 'Pending', 'Pending', 'Closed - Declined', 'Pending', 'Closed - Funded',
+                'Closed - Declined', 'Closed - Declined', 'Pending', 'Pending', 'Pending', 'Prepare', 'Prepare',
+                'Prepare', 'Prepare'
+            ]
+        }
+        
+        # Create DataFrame
+        grants_df = pd.DataFrame(grants_data)
+        
+        # Display the table with status color coding
+        st.markdown(
+            """
+            <style>
+            .grants-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+                font-size: 12px;
+            }
+            .grants-table th, .grants-table td {
+                padding: 8px;
+                text-align: left;
+                border: 1px solid #ddd;
+            }
+            .grants-table th {
+                background-color: #4A90E2;
+                color: white;
+                font-weight: bold;
+            }
+            .status-pending { background-color: #E3F2FD; }
+            .status-funded { background-color: #E8F5E8; }
+            .status-declined { background-color: #FFEBEE; }
+            .status-prepare { background-color: #FFF3E0; }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+        
+        # Create HTML table with color coding
+        table_html = '<table class="grants-table"><thead><tr>'
+        table_html += '<th>Account</th><th>Grant Name</th><th>Amount Requested</th><th>Amount Funded</th><th>Due Date</th><th>Status</th>'
+        table_html += '</tr></thead><tbody>'
+        
+        for _, row in grants_df.iterrows():
+            status_class = ""
+            if "Pending" in row['Status']:
+                status_class = "status-pending"
+            elif "Funded" in row['Status']:
+                status_class = "status-funded"
+            elif "Declined" in row['Status']:
+                status_class = "status-declined"
+            elif "Prepare" in row['Status']:
+                status_class = "status-prepare"
+                
+            table_html += f'<tr class="{status_class}">'
+            table_html += f'<td>{row["Account"]}</td>'
+            table_html += f'<td>{row["Grant Name"]}</td>'
+            table_html += f'<td>{row["Amount Requested"]}</td>'
+            table_html += f'<td>{row["Amount Funded"]}</td>'
+            table_html += f'<td>{row["Due Date"]}</td>'
+            table_html += f'<td><strong>{row["Status"]}</strong></td>'
+            table_html += '</tr>'
+        
+        # Add total row
+        table_html += '<tr style="background-color: #FFF9C4; font-weight: bold;">'
+        table_html += '<td colspan="2"><strong>TOTAL</strong></td>'
+        table_html += '<td><strong>$8,519,750.00</strong></td>'
+        table_html += '<td><strong>$14,500.00</strong></td>'
+        table_html += '<td colspan="2"></td>'
+        table_html += '</tr>'
+        
+        table_html += '</tbody></table>'
+        
+        st.markdown(table_html, unsafe_allow_html=True)
+        
+        # Summary statistics
+        st.markdown('<h5>Grant Application Summary</h5>', unsafe_allow_html=True)
+        
+        grant_summary_col1, grant_summary_col2, grant_summary_col3 = st.columns(3)
+        
+        with grant_summary_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL APPLICATIONS</p>'
+                f'<p class="metric-value">22</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Grant applications submitted in 2025</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with grant_summary_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SUCCESS RATE</p>'
+                f'<p class="metric-value">18.2%</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">3 funded out of 11 decided applications</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with grant_summary_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">PENDING DECISIONS</p>'
+                f'<p class="metric-value">7</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Applications awaiting funding decisions</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
         
         # Additional Development Metrics
         st.markdown('<h4>Additional Fundraising Metrics</h4>', unsafe_allow_html=True)
@@ -1412,6 +1611,262 @@ def main():
         )
         
         st.plotly_chart(comparison_fig, use_container_width=True, key="email_comparison_fig")
+        
+        # META Advertising Performance
+        st.markdown("<h3>META Advertising Performance (Year to Date)</h3>", unsafe_allow_html=True)
+        
+        # WNBA Campaign
+        st.markdown('<h4>WNBA Campaign</h4>', unsafe_allow_html=True)
+        
+        wnba_col1, wnba_col2, wnba_col3 = st.columns(3)
+        
+        with wnba_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL SPEND</p>'
+                f'<p class="metric-value">$3,901.12</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">WNBA campaign investment</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with wnba_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">IMPRESSIONS</p>'
+                f'<p class="metric-value">336,543</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total ad impressions</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with wnba_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CLICK-THROUGH RATE</p>'
+                f'<p class="metric-value">1.23%</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">CTR performance</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        wnba_col4, wnba_col5 = st.columns(2)
+        
+        with wnba_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">COST PER CLICK</p>'
+                f'<p class="metric-value">$0.94</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Average CPC</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with wnba_col5:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL CLICKS</p>'
+                f'<p class="metric-value">1,986</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total ad clicks</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # WNBA Top Audience
+        st.markdown(
+            f"""
+            <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
+                 padding: 15px; border-radius: 5px; margin: 15px 0;">
+                <p style="color: #2E7D32; margin: 0;"><strong>🎯 Top Performing Audience:</strong> Email List + LAL (Lookalike Audiences)</p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        
+        # Underground App Campaign
+        st.markdown('<h4>Underground App Campaign</h4>', unsafe_allow_html=True)
+        
+        app_col1, app_col2, app_col3 = st.columns(3)
+        
+        with app_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL SPEND</p>'
+                f'<p class="metric-value">$7,279.07</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Underground App campaign investment</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with app_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">IMPRESSIONS</p>'
+                f'<p class="metric-value">522,347</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total ad impressions</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with app_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CLICK-THROUGH RATE</p>'
+                f'<p class="metric-value">1.30%</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">CTR performance</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        app_col4, app_col5, app_col6 = st.columns(3)
+        
+        with app_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">COST PER CLICK</p>'
+                f'<p class="metric-value">$2.37</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Average CPC</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with app_col5:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL CLICKS</p>'
+                f'<p class="metric-value">3,074</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total ad clicks</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with app_col6:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">COST PER LEAD</p>'
+                f'<p class="metric-value">$25.90</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Average CPL</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        app_col7, app_col8 = st.columns(2)
+        
+        with app_col7:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL LEADS</p>'
+                f'<p class="metric-value">281</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total leads generated</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with app_col8:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">LEAD CONVERSION RATE</p>'
+                f'<p class="metric-value">9.14%</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Leads per total clicks</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Underground App Audience Performance
+        st.markdown('<h5>Underground App - Top Performing Audiences</h5>', unsafe_allow_html=True)
+        
+        audience_data = pd.DataFrame({
+            'Audience Type': ['Lookalikes', 'Cultural Interests'],
+            'Leads Generated': [128, 116]
+        })
+        
+        audience_fig = px.bar(
+            audience_data,
+            x='Audience Type',
+            y='Leads Generated',
+            title='Underground App Campaign - Leads by Audience Type',
+            color='Leads Generated',
+            color_continuous_scale=[primary_blue, primary_orange]
+        )
+        audience_fig.update_layout(
+            title_font=dict(color=primary_blue),
+            height=350
+        )
+        
+        st.plotly_chart(audience_fig, use_container_width=True, key="audience_performance_fig")
+        
+        # Campaign Comparison
+        st.markdown('<h4>Campaign Performance Comparison</h4>', unsafe_allow_html=True)
+        
+        campaign_comparison = pd.DataFrame({
+            'Campaign': ['WNBA', 'Underground App'],
+            'Spend': [3901.12, 7279.07],
+            'CTR': [1.23, 1.30],
+            'CPC': [0.94, 2.37],
+            'Clicks': [1986, 3074]
+        })
+        
+        # Create comparison chart for spend vs clicks
+        comparison_spend_fig = go.Figure()
+        
+        comparison_spend_fig.add_trace(go.Scatter(
+            x=campaign_comparison['Spend'],
+            y=campaign_comparison['Clicks'],
+            mode='markers+text',
+            text=campaign_comparison['Campaign'],
+            textposition="top center",
+            marker=dict(
+                size=[20, 30],  # Scaled by relative spend
+                color=[primary_blue, primary_orange],
+                opacity=0.8
+            ),
+            name='Campaigns'
+        ))
+        
+        comparison_spend_fig.update_layout(
+            title='Campaign Spend vs Clicks Performance',
+            xaxis_title='Total Spend ($)',
+            yaxis_title='Total Clicks',
+            title_font=dict(color=primary_blue),
+            height=400
+        )
+        
+        st.plotly_chart(comparison_spend_fig, use_container_width=True, key="campaign_comparison_fig")
+        
+        # META Advertising Summary
+        st.markdown('<h4>META Advertising Summary</h4>', unsafe_allow_html=True)
+        
+        summary_col1, summary_col2, summary_col3 = st.columns(3)
+        
+        with summary_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL AD SPEND</p>'
+                f'<p class="metric-value">$11,180.19</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Combined WNBA + Underground App</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with summary_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL IMPRESSIONS</p>'
+                f'<p class="metric-value">858,890</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Combined campaign reach</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with summary_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL CLICKS</p>'
+                f'<p class="metric-value">5,060</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Combined campaign clicks</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Marketing")
@@ -1570,6 +2025,207 @@ def main():
                 f'<p class="metric-value">709</p>'
                 f'<p style="font-style: italic; font-size: 12px; color: #666;">Built stronger walking habit</p>'
                 f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        st.markdown('<hr>', unsafe_allow_html=True)
+        
+        # Copy Impact Metrics from Impact Tab
+        st.markdown('<h3 class="section-title">Detailed Impact Metrics - Self-Care School 2025</h3>', unsafe_allow_html=True)
+
+        # Health and Well-being Impact
+        st.markdown('<h4>Health & Well-being Outcomes</h4>', unsafe_allow_html=True)
+        
+        health_col1, health_col2, health_col3 = st.columns(3)
+        
+        with health_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">HEALTH KNOWLEDGE CHANGE</p>'
+                f'<p class="metric-value">999</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting a change in health knowledge</p>'
+                f'<p style="font-size: 14px; color: #666;">0.00% (baseline measure)</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with health_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MENTAL WELL-BEING IMPROVEMENT</p>'
+                f'<p class="metric-value">998</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting changes in self-reported mental well-being</p>'
+                f'<p style="font-size: 14px; color: #666;">99.90% of respondents</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with health_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SOCIAL CONNECTION</p>'
+                f'<p class="metric-value">673</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women feeling more connected and less isolated through GirlTREK</p>'
+                f'<p style="font-size: 14px; color: #666;">68.53% of respondents</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Behavior Change Impact
+        st.markdown('<h4>Behavior Change & Empowerment</h4>', unsafe_allow_html=True)
+        
+        behavior_col1, behavior_col2 = st.columns(2)
+        
+        with behavior_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">EMPOWERED TO TAKE ACTION</p>'
+                f'<p class="metric-value">907</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants feeling empowered to make positive changes</p>'
+                f'<p style="font-size: 14px; color: #666;">90.52% of respondents</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with behavior_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">STRONGER WALKING HABIT</p>'
+                f'<p class="metric-value">709</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who built a stronger walking habit</p>'
+                f'<p style="font-size: 14px; color: #666;">68.70% of respondents</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        behavior_col3, behavior_col4 = st.columns(2)
+        
+        with behavior_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">IMPLEMENTED NEW HABITS</p>'
+                f'<p class="metric-value">293</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who implemented new habits, actions, or mindsets</p>'
+                f'<p style="font-size: 14px; color: #666;">34.92% of respondents</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with behavior_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SHARED WITH OTHERS</p>'
+                f'<p class="metric-value">819</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who shared lessons learned with others</p>'
+                f'<p style="font-size: 14px; color: #666;">83.66% of respondents</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Knowledge Increase by Topic
+        st.markdown('<h4>Knowledge Increase by Self-Care School Topics</h4>', unsafe_allow_html=True)
+        st.markdown('<p style="font-style: italic; color: #666;">Number of participants reporting significant increase in knowledge:</p>', unsafe_allow_html=True)
+        
+        # Display as metric boxes with correct percentages
+        knowledge_col1, knowledge_col2 = st.columns(2)
+        
+        knowledge_items = [
+            ("Land rights, housing & environmental justice", 710, 71.60),
+            ("Civic engagement & political participation", 569, 57.00),
+            ("Safety, self-defense & public resource access", 645, 64.40),
+            ("Decarceration, gun safety & restorative justice", 658, 63.76),
+            ("Mental health & emotional boundaries", 622, 60.27),
+            ("Radical care, family legacy & intergenerational healing", 695, 67.34),
+            ("Parenting, mentorship & end-of-life planning", 536, 51.94),
+            ("Self-esteem, celebration & personal empowerment", 602, 58.33)
+        ]
+        
+        for i in range(0, 4):
+            with knowledge_col1:
+                topic, count, pct = knowledge_items[i]
+                st.markdown(
+                    f"""
+                    <div class="metric-box" style="margin-bottom: 15px;">
+                        <p class="metric-title" style="font-size: 14px;">{topic.upper()}</p>
+                        <p class="metric-value" style="font-size: 24px;">{count}</p>
+                        <p style="font-size: 14px; color: #666;">{pct}% of respondents</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+        
+        for i in range(4, 8):
+            with knowledge_col2:
+                topic, count, pct = knowledge_items[i]
+                st.markdown(
+                    f"""
+                    <div class="metric-box" style="margin-bottom: 15px;">
+                        <p class="metric-title" style="font-size: 14px;">{topic.upper()}</p>
+                        <p class="metric-value" style="font-size: 24px;">{count}</p>
+                        <p style="font-size: 14px; color: #666;">{pct}% of respondents</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+        
+        # Create visualization of knowledge topics
+        knowledge_impact_fig_campaigns = px.bar(
+            knowledge_data,
+            x='Members',
+            y='Topic',
+            orientation='h',
+            title='Self-Care School Knowledge Impact by Topic',
+            color='Members',
+            color_continuous_scale=[primary_blue, primary_orange, primary_yellow]
+        )
+        knowledge_impact_fig_campaigns.update_layout(
+            title_font=dict(color=primary_blue),
+            height=400,
+            xaxis_title='Number of Participants',
+            yaxis_title=''
+        )
+        
+        st.plotly_chart(knowledge_impact_fig_campaigns, use_container_width=True, key="knowledge_impact_fig_campaigns")
+        
+        # Summary metrics
+        st.markdown('<h4>Impact Summary</h4>', unsafe_allow_html=True)
+        
+        summary_col1, summary_col2, summary_col3 = st.columns(3)
+        
+        with summary_col1:
+            st.markdown(
+                f"""
+                <div class="metric-box">
+                    <p class="metric-title">TOTAL KNOWLEDGE TOPICS</p>
+                    <p class="metric-value">8</p>
+                    <p style="font-style: italic; font-size: 12px; color: #666;">Areas of significant knowledge increase</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with summary_col2:
+            st.markdown(
+                f"""
+                <div class="metric-box">
+                    <p class="metric-title">AVERAGE IMPACT PER TOPIC</p>
+                    <p class="metric-value">630</p>
+                    <p style="font-style: italic; font-size: 12px; color: #666;">Average participants reporting knowledge gain per topic</p>
+                    <p style="font-size: 14px; color: #666;">61.08% average response rate</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with summary_col3:
+            st.markdown(
+                f"""
+                <div class="metric-box">
+                    <p class="metric-title">TOTAL KNOWLEDGE IMPACTS</p>
+                    <p class="metric-value">5,037</p>
+                    <p style="font-style: italic; font-size: 12px; color: #666;">Sum of all topic-specific knowledge gains</p>
+                </div>
+                """,
                 unsafe_allow_html=True
             )
         
@@ -1826,8 +2482,36 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">ADVOCACY PARTNERSHIPS</p>'
-                f'<p class="metric-value">2 / 20</p>'
-                f'<p>{status_badge("At Risk")}</p>'
+                f'<p class="metric-value">0 / 3</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Partner-led advocacy activations</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+        # Additional Advocacy Metrics
+        st.markdown('<h4>Additional Advocacy Initiatives</h4>', unsafe_allow_html=True)
+        
+        adv_col3, adv_col4 = st.columns(2)
+        
+        with adv_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MEMBER LISTENING SESSIONS</p>'
+                f'<p class="metric-value">0 / 5</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">In 5 key geographies</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with adv_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CASE STUDIES</p>'
+                f'<p class="metric-value">0 / 4</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Showcasing GirlTREK\'s local advocacy impact</p>'
+                f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1838,6 +2522,22 @@ def main():
             - Produce advocacy briefs establishing research basis for why each J&J agenda item leads to an increase in Black women's life expectancy
             - Uplift best-in-class organizations
             - Secure advocacy partners that align with GirlTREK's Joy & Justice Agenda through signed MOUs
+            - Catalyze local advocacy by convening member listening sessions in key geographies
+            - Produce compelling case studies showcasing GirlTREK's impact through local advocacy engagement
+            """,
+            unsafe_allow_html=True
+        )
+        
+        # Strategic Context
+        st.markdown('<h3>Strategic Context - Timeline Adjustment</h3>', unsafe_allow_html=True)
+        st.markdown(
+            f"""
+            <div style="background-color: #FFF3E0; border-left: 5px solid #FF9800; 
+                 padding: 15px; border-radius: 5px; margin: 10px 0;">
+                <p style="color: #E65100; margin: 0;">
+                <strong>Note:</strong> Given c-suite conversations, external conditions, and internal priorities we have been reevaluating the pacing of advocacy goals. We are currently considering shifting timeline to Q1 2026, and reevaluating the approach to these objectives. Current focus includes relationship building with national and place-based organizations to test potential activations and applications, participation in national convenings and briefings, and active conversations with 1K Women Strong and Health in Partnership (HiP).
+                </p>
+            </div>
             """,
             unsafe_allow_html=True
         )
