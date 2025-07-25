@@ -592,7 +592,7 @@ def main():
     # App Title
     st.title("GirlTREK Organizational Dashboard")
     st.markdown("### Q2 2025 Metrics Overview")
-    st.markdown("*Data dashboard was published on June 30, 2025*")
+    st.markdown("*Data dashboard was updated on July 25, 2025*")
 
     # Load dataframes with real data from CSV
 
