@@ -82,6 +82,27 @@ def add_board_update(tab_name):
         
         <p><strong>Lay the Foundation for Phase 2 by Forming Organizational Relationships:</strong> Proactively identify and cultivate relationships with potential Coalition partners whose missions and work align with our agenda.</p>
         """
+    elif tab_name == "Operations":
+        update_content = """
+        <p><strong>What's Going Well</strong></p>
+        <ul>
+            <li><strong>People First Wins:</strong> We're operating with 94% staff retention—well above the industry average (86%)—and our latest 2024 survey shows 88% employee satisfaction. That's a reflection of the culture we're building together. Let's keep investing in each other.</li>
+            <li><strong>Financial Strength:</strong> We've exceeded expectations with $3.24M YTD revenue compared to a $1.24M budget. We must be mindful of the current climate we are in and continue to be in a posture of how we fund our boldest ideas.</li>
+            <li><strong>Cybersecurity on the Rise:</strong> We're now at 70% compliance—steadily advancing toward our 90% goal. Thank you to everyone working behind the scenes to keep our systems and data secure.</li>
+        </ul>
+        
+        <p><strong>Where We Need to Focus</strong></p>
+        <ul>
+            <li><strong>Tech Adoption & Efficiency:</strong> Asana adoption is currently at 38% vs. our 85% goal. This signals a need for more support, training, and change management. The operations team will continue to provide not just training but real world examples of how Asana can help the organization be more productive and support our Goals process.</li>
+            <li><strong>Store Operations Lag:</strong> With only 25% of our sales goal reached, we are taking a hard look at—product mix, pricing, marketing, and fulfillment and make necessary pivots.</li>
+        </ul>
+        """
+    elif tab_name == "Engagement":
+        update_content = """
+        <p>The Engagement Team has hosted eight content-specific training workshops for members, focused on food justice, mental health, justice impacted communities, and caregivers. Eight additional workshops are scheduled for the remainder of the year. Members have engaged with field experts and gained valuable resources to support walking crews centered on these content areas. We are currently planning both in-person and online Mental Health First Aid training sessions for members in September. The GirlTREK Garden Club has completed two seed mailings with the first focused on growing heirloom collard greens, and the second on seed saving and community seed distribution. Additionally, the Faith Team has hosted numerous gatherings to support the growth of the faith initiative and has successfully recruited new faith communities. They are well on their way to engaging 500 faith communities this year.</p>
+        
+        <p>Work in Montgomery is steadily progressing. The architecture consultant has developed renderings for the space, including a beautiful Mother Garden in the backyard that will serve as a gathering space, a place of respite, and a food access point for the community. Our Director of Place-Based Innovation has also cultivated strong relationships across the community, and GirlTREK now enjoys increased brand awareness through outreach, publicity, and hosted walks.</p>
+        """
     elif notes_key in st.session_state and st.session_state[notes_key].strip():
         update_content = st.session_state[notes_key]
     else:
