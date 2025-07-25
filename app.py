@@ -911,6 +911,151 @@ def main():
         cities_fig.update_layout(title_font=dict(color=primary_blue))
         st.plotly_chart(cities_fig, use_container_width=True, key="cities_fig")
         
+        # Member Profile Section
+        st.markdown('<h3>👩🏾 GirlTREK General Member Profile: "The Everyday Health Activist"</h3>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div style="background-color: #F8F9FA; border-radius: 10px; padding: 20px; margin: 20px 0; border-left: 5px solid #0088FF;">
+                <p style="color: #424242; font-style: italic; font-size: 16px; margin-bottom: 20px;">
+                <strong>She is the backbone of the movement. A consistent, committed, and conscientious Black woman who is reclaiming her health and leading others by example—not necessarily with a megaphone, but with steady action.</strong>
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        
+        # Demographic Snapshot
+        st.markdown('<h4>📊 Demographic Snapshot</h4>', unsafe_allow_html=True)
+        
+        demo_col1, demo_col2, demo_col3 = st.columns(3)
+        
+        with demo_col1:
+            st.markdown("""
+            **👤 Personal Info**
+            - **Age**: 52 years old (core "sweet spot" 48-61)
+            - **Race/Ethnicity**: Black or African American
+            - **Marital Status**: Married (54.9%)
+            - **Children**: Has grown children or is a caregiver (36.8%)
+            """)
+        
+        with demo_col2:
+            st.markdown("""
+            **🎓 Education & Career**
+            - **Education**: College-educated with bachelor's degree (26% have graduate degree)
+            - **Occupation**: Professional/technical/managerial
+            - **Common Sectors**: Tech (17%), Healthcare (6.2%), Education
+            """)
+        
+        with demo_col3:
+            st.markdown("""
+            **💰 Financial Profile**
+            - **Income**: $100K+ annually (69% of engaged members)
+            - **Net Worth**: $250K-$499K
+            - **Homeowner**: 83.3% (10+ years in home)
+            - **Region**: Southern states (GA, TX, FL) or urban metros (NY, LA)
+            """)
+        
+        # Mindset & Lifestyle
+        st.markdown('<h4>💭 Mindset & Lifestyle</h4>', unsafe_allow_html=True)
+        
+        mindset_col1, mindset_col2 = st.columns(2)
+        
+        with mindset_col1:
+            st.info("""
+            **🚶🏾‍♀️ Why She Walks**
+            - Health, stress relief, joy, and reclaiming time for herself
+            - Both physical health and emotional healing
+            - Fighting isolation, inactivity, and injustice
+            
+            **👥 Social Role**
+            - May not lead a crew but admired by friends/family
+            - First to text "You walking this Saturday?"
+            - Medium to high engagement level
+            """)
+        
+        with mindset_col2:
+            st.info("""
+            **🎯 Mission Alignment**
+            - Driven by adding 10 years to Black women's life expectancy
+            - Aligned with 3 "Deadly I's" framework
+            - Subscribed to SMS list, checks Field Guide
+            - Listens to Black History Bootcamp podcast
+            """)
+        
+        # Health & Activity Level
+        st.markdown('<h4>🏃🏾‍♀️ Health & Activity Level</h4>', unsafe_allow_html=True)
+        
+        health_col1, health_col2 = st.columns(2)
+        
+        with health_col1:
+            st.success("""
+            **Exercise Routine**
+            - Walks 30 minutes/day, 5 days/week
+            - Achieved during Self-Care School or Summer of Solidarity
+            - Meets threshold to extend life by 7 years
+            """)
+        
+        with health_col2:
+            st.success("""
+            **Preferred Activities**
+            - Walking in parks or urban sidewalks
+            - Gardening (80.2%)
+            - Home cooking with healthy food
+            - Reading (92.2%)
+            - Travel (89.9%)
+            - Fitness-focused (90.5%) on her own terms
+            """)
+        
+        # Programs & Tools
+        st.markdown('<h4>🛠️ Programs & Tools She Uses</h4>', unsafe_allow_html=True)
+        
+        tools_col1, tools_col2, tools_col3 = st.columns(3)
+        
+        with tools_col1:
+            st.markdown("""
+            **📱 Digital Tools**
+            - **Field Guide**: Self-Care School calendar, Sister's Keeper pledge
+            - **Podcast**: Black History Bootcamp during walks
+            - **App/Website**: Tracks self-care streaks
+            """)
+        
+        with tools_col2:
+            st.markdown("""
+            **🎪 Events & Programs**
+            - **Mobilize**: Registers for local walks/events
+            - **Juneteenth** and **BF5K** participation
+            - **Care Programs**: Food justice, caregiving, mental health
+            """)
+        
+        with tools_col3:
+            st.markdown("""
+            **🛍️ Engagement**
+            - **Shop**: Campaign launches, golden shoelaces
+            - **SMS/Email**: Subscribed for updates
+            - **Social**: Shares with #GirlTREK #BlackGirlJoy
+            """)
+        
+        # Member Behavior Patterns
+        st.markdown('<h4>📅 Member Behavior Patterns</h4>', unsafe_allow_html=True)
+        
+        behavior_col1, behavior_col2 = st.columns(2)
+        
+        with behavior_col1:
+            st.warning("""
+            **🌸 Seasonal Engagement**
+            - **Spring**: Self-Care School (10-week training)
+            - **Summer**: Summer of Solidarity walks and local events
+            - **Fall**: Gratitude Season – Black Family 5K, 9-Day Prayer Trek, Gratitude Trek
+            """)
+        
+        with behavior_col2:
+            st.warning("""
+            **🌟 Social Influence**
+            - Invites others to walk (Sister's Keeper bracelet goal)
+            - Participates in Harriet House Parties, Juneteenth walks
+            - Shares GirlTREK's message in church, workplace, community
+            """)
+        
         # Data Analysis & Recommendations
         st.markdown('### 📊 Data Analysis & Recommendations')
         
