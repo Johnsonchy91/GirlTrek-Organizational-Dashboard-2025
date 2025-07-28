@@ -3051,17 +3051,6 @@ def main():
         with hr_col2:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">TRAINING COMPLETION</p>'
-                f'<p class="metric-value">100%</p>'
-                f'<p>Digital Safety Training</p>'
-                f'{status_badge("On Track")}'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with hr_col3:
-            st.markdown(
-                f'<div class="metric-box">'
                 f'<p class="metric-title">EMPLOYEE SATISFACTION</p>'
                 f'<p class="metric-value">88%</p>'
                 f'<p>Target: 85%</p>'
