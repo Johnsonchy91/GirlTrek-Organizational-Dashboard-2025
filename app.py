@@ -305,7 +305,7 @@ def generate_pdf(section_name, dark_mode=False):
     elements = []
     
     elements.append(Paragraph(f"GirlTREK Organizational Dashboard", title_style))
-    elements.append(Paragraph(f"Q2 2025 Metrics Overview - {section_name}", heading_style))
+    elements.append(Paragraph(f"Q3 2025 Metrics Overview - {section_name}", heading_style))
     elements.append(Paragraph(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", normal_style))
     elements.append(Spacer(1, 0.25*inch))
     
