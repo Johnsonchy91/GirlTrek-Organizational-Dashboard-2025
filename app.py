@@ -105,12 +105,13 @@ def add_board_update(tab_name):
         """
     elif notes_key in st.session_state and st.session_state[notes_key].strip():
         update_content = st.session_state[notes_key]
-    
+        
         # Add specific content for Executive Summary
+    else:
         if tab_name == "Executive Summary":
             update_content = "<p><strong>Strong Overall Progress:</strong> 4 out of 7 major goals are on track, with fundraising at 31% of target.</p>"
-    else:
-        update_content = "<p style='font-style: italic; color: #999;'>No leadership updates at this time.</p>"
+        else:
+            update_content = "<p style='font-style: italic; color: #999;'>No leadership updates at this time.</p>"
     
     if dark_mode:
         board_update_html = f'''
