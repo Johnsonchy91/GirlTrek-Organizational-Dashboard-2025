@@ -1187,17 +1187,17 @@ def main():
             ],
             "Current Total": [
                 "15,438", "13,119", "5,634", "0",
-                "$3,109,294.25", "3,055", "End of Year Metric"
+                "$3,109,294.25", "7,660", "End of Year Metric"
             ],
             "Percent Progress": [
-                "15.44%", "5.25%", "8.67%", "0%", "31.09%", "7.64%", "TBD"
+                "15.44%", "5.25%", "8.67%", "0%", "31.09%", "19.15%", "TBD"
             ],
             "Status": [
                 "On Track", "On Track", "At Risk", "On Track",
                 "On Track", "On Track", "On Track"
             ],
             "Progress": [
-                15.44, 5.25, 8.67, 0, 31.09, 7.64, 0
+                15.44, 5.25, 8.67, 0, 31.09, 19.15, 0
             ]
         }
 
@@ -1886,9 +1886,9 @@ def main():
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">CARE VILLAGE POPULATION REACHED</p>'
-                f'<p class="metric-value">3,055</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Black women reached with localized public health services</p>'
-                f'<p>Goal: 40,000 (7.64%)</p>'
+                f'<p class="metric-value">7,660</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total number of women who have joined movement in AL</p>'
+                f'<p>Goal: 40,000 (19.15%)</p>'
                 f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
