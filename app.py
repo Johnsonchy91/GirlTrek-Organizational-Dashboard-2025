@@ -1127,7 +1127,7 @@ def main():
     # ---------------------------------
     # Executive Summary Tab
     # ---------------------------------
-        with tab1:
+    with tab1:
             add_board_update("Executive Summary")
             
             st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
