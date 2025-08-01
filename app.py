@@ -3578,7 +3578,9 @@ def main():
         **Excellent Response Time:** 2-hour resolution vs 48-hour goal demonstrates exceptional member service
         
         **Near-Target Satisfaction:** 93% vs 95% goal shows strong member satisfaction with minimal gap
-                
+        
+        **Technical Issues Focus:** SCS registration errors indicate system improvement opportunities
+        
         **Connection Challenges:** Connecting to the Movement suggests onboarding/engagement gaps
         
         **Powerful Member Stories:** Testimonials show life-changing impact during difficult circumstances
@@ -3588,12 +3590,19 @@ def main():
         
         # Strategic Recommendations
         st.markdown('#### 💡 Strategic Recommendations')
-        st.success("""                
+        st.success("""
+        **Technical System Improvements:** Priority fix for SCS registration system to reduce support ticket volume
+        
+        **Enhanced Onboarding:** Develop comprehensive Connecting to Movement resources and guided experiences
+        
         **Proactive Support:** Use 2-hour response capability to implement proactive member outreach
         
         **Satisfaction Bridge:** Identify specific areas to close 2% gap to reach 95% satisfaction goal
         
         **Story Amplification:** Systematically collect and share member success stories for recruitment/retention
+        
+        **Support Specialization:** Train team members in specific technical and engagement issue resolution
+        """)
         
         st.markdown('<hr>', unsafe_allow_html=True)
         create_notes_section("Member Care")
