@@ -1127,11 +1127,23 @@ def main():
     # ---------------------------------
     # Executive Summary Tab
     # ---------------------------------
-    with tab1:
-        add_board_update("Executive Summary")
-        
-        st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
-
+        with tab1:
+            add_board_update("Executive Summary")
+            
+            st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
+            
+            # Add progress summary at the top
+            st.markdown(
+                f"""
+                <div style="background-color: #E3F2FD; border-radius: 10px; padding: 20px; margin-bottom: 25px; border-left: 5px solid #2196F3;">
+                    <h4 style="color: #1565C0; margin-top: 0;">Overall Progress Update</h4>
+                    <p style="color: #424242; font-size: 16px; margin-bottom: 0;">
+                        <strong>Strong Overall Progress:</strong> 4 out of 7 major goals are on track, with fundraising at 31% of target.
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
         st.markdown("<h3>Key Metrics</h3>", unsafe_allow_html=True)
         col1, col2, col3 = st.columns(3)
 
