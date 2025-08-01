@@ -1893,16 +1893,6 @@ def main():
                 f'</div>',
                 unsafe_allow_html=True
             )
-        
-        with care_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL POPULATION REACHED</p>'
-                f'<p class="metric-value">7,146</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Black women impacted through all programs & events</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
 
         # Blue Brigade Mental Health Initiative
         st.markdown('<h4>Blue Brigade Mental Health Initiative</h4>', unsafe_allow_html=True)
