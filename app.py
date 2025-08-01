@@ -112,7 +112,7 @@ def add_board_update(tab_name):
         board_update_html = f'''
         <div style="background-color: #1E2130; border-left: 5px solid #0088FF; 
              padding: 20px; border-radius: 5px; margin: 15px 0 25px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
-            <h4 style="color: #4DA6FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;">Leadership Update: {tab_name}</h4>
+            <h4 style="color: #4DA6FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;"> {tab_name}</h4>
             <div style="color: #E0E0E0; line-height: 1.5;">
                 {update_content}
         </div>
@@ -1468,8 +1468,6 @@ def main():
         st.markdown('#### 🔍 Key Insights')
         st.info("""
         **Strong Overall Progress:** 4 out of 7 major goals are on track, with organizational health at 100% and fundraising at 31% of target
-        
-        **Membership Growth:** At 73% of target membership (1.24M vs 1.7M goal), showing solid foundation
         
         **Geographic Concentration:** Top 5 states represent 25% of total membership, indicating strong regional presence
         
