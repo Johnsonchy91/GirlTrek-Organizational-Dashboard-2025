@@ -2226,8 +2226,6 @@ def main():
         
         **Daily Walking Gap:** Only 5,439 walking daily vs 50,000 goal (10.9%) indicates engagement challenge
         
-        **Care Village Progress:** 7,146 total population reached shows community impact expansion
-        
         **New Crew Growth:** 727 new crews in 2025 indicates healthy local expansion
         
         **Mental Health Initiative:** Blue Brigade at 50% progress with 50 members in training pipeline shows promising mental health support development
