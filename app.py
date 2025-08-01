@@ -352,7 +352,7 @@ def generate_pdf(section_name, dark_mode=False):
                     ["Support 65,000 walking daily", "5,634", "8.67%", "At Risk"],
                     ["Unite 3 advocacy partners", "0", "0%", "On Track"],
                     ["Raise $10M", "$3,109,294.25", "31.09%", "On Track"],
-                    ["Establish Care Village (40k)", "3,055", "7.64%", "On Track"],
+                    ["Establish Care Village (40k)", "7,660", "19.15%", "On Track"],
                     ["Achieve 85% organizational health", "100%", "100%", "On Track"]
                 ]
                 
@@ -1210,7 +1210,7 @@ def main():
 
             # Add context for Care Village
             if "Care Village" in goal:
-                goal += '<br><span style="font-size: 12px; font-style: italic; color: #666;">Reach 40,000 Black women with localized public health services</span>'
+                goal += '<br><span style="font-size: 12px; font-style: italic; color: #666;">Total number of women who have joined movement in AL</span>'
 
             if status == "On Track":
                 bar_color = "#4CAF50"
