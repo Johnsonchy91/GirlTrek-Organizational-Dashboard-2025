@@ -1182,17 +1182,17 @@ def main():
             ],
             "Current Total": [
                 "15,438", "13,119", "5,634", "0",
-                "$3,109,294.25", "3,055", "100%"
+                "$3,109,294.25", "3,055", "End of Year Metric"
             ],
             "Percent Progress": [
-                "15.44%", "5.25%", "8.67%", "0%", "31.09%", "7.64%", "100%"
+                "15.44%", "5.25%", "8.67%", "0%", "31.09%", "7.64%", "TBD"
             ],
             "Status": [
                 "On Track", "On Track", "At Risk", "On Track",
                 "On Track", "On Track", "On Track"
             ],
             "Progress": [
-                15.44, 5.25, 8.67, 0, 31.09, 7.64, 100
+                15.44, 5.25, 8.67, 0, 31.09, 7.64, 0
             ]
         }
 
@@ -1234,7 +1234,11 @@ def main():
             st.markdown(progress_html, unsafe_allow_html=True)
 
         st.markdown("<h3>Historic Movement Growth Numbers</h3>", unsafe_allow_html=True)
-        
+
+        # Add context for organizational health
+        if "organizational health" in goal:
+            goal += '<br><span style="font-size: 12px; font-style: italic; color: #666;">Data will be collected in staff survey in Nov 2025</span>'
+    
         # Add historic comparison note
         st.markdown(
             f"""
