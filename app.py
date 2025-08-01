@@ -121,7 +121,7 @@ def add_board_update(tab_name):
         board_update_html = f'''
         <div style="background-color: #F3F9FF; border-left: 5px solid #0088FF; 
              padding: 20px; border-radius: 5px; margin: 15px 0 25px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            <h4 style="color: #0088FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;">Leadership Update: {tab_name}</h4>
+            <h4 style="color: #0088FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;"> {tab_name}</h4>
             <div style="color: #333333; line-height: 1.5;">
                 {update_content}
         </div>
