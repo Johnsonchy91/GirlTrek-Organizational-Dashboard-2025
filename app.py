@@ -2531,15 +2531,11 @@ def main():
         st.markdown('#### 💡 Strategic Recommendations')
         st.success("""
         **Grant Strategy Optimization:** Analyze successful vs declined applications to improve 18.2% success rate
-        
-        **Corporate Partnership Development:** Hire dedicated corporate relations staff to capture $1.37M sponsorship gap
-        
-        **Store Operations Review:** Conduct comprehensive analysis of product mix, pricing, and marketing for earned revenue
+                
+        **Store Operations Review:** Conduct a comprehensive analysis of product mix, pricing, and marketing for earned revenue
         
         **Major Donor Cultivation:** Accelerate Bricklayers program beyond current $2.5K to approach $500K goal
-        
-        **Pipeline Management:** Implement CRM system to better track and nurture the 7 pending grant applications
-        
+                
         **Diversification Focus:** Balance grant dependence with growth in other revenue streams for sustainability
         """)
         
