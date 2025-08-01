@@ -104,7 +104,12 @@ def add_board_update(tab_name):
         <p>Work in Montgomery is steadily progressing. The architecture consultant has developed renderings for the space, including a beautiful Mother Garden in the backyard that will serve as a gathering space, a place of respite, and a food access point for the community. Our Director of Place-Based Innovation has also cultivated strong relationships across the community, and GirlTREK now enjoys increased brand awareness through outreach, publicity, and hosted walks.</p>
         """
     elif notes_key in st.session_state and st.session_state[notes_key].strip():
-        update_content = st.session_state[notes_key]
+    update_content = st.session_state[notes_key]
+    
+    else:
+        # Add specific content for Executive Summary
+        if tab_name == "Executive Summary":
+            update_content = "<p><strong>Strong Overall Progress:</strong> 4 out of 7 major goals are on track, with fundraising at 31% of target.</p>"
     else:
         update_content = "<p style='font-style: italic; color: #999;'>No leadership updates at this time.</p>"
     
