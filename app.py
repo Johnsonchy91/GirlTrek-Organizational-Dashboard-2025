@@ -249,6 +249,9 @@ def generate_pdf(section_name, dark_mode=False):
     """Generate a PDF report for the selected dashboard section"""
     buffer = io.BytesIO()
     
+    # Import PageBreak at the beginning
+    from reportlab.platypus import PageBreak
+    
     if dark_mode:
         background_color = colors.HexColor('#121212')
         text_color = colors.white
@@ -695,14 +698,52 @@ def generate_pdf(section_name, dark_mode=False):
                 elements.append(Paragraph("Total Knowledge Impacts: 5,037 across all topics", normal_style))
     
     else:
-        # Handle individual sections - same content as above but for single section
+        # Handle individual sections
         if section_name == "Executive Summary":
-            # Add Executive Summary content (same as above)
-            pass
-        elif section_name == "Recruitment":
-            # Add Recruitment content (same as above)
-            pass
-        # ... etc for all sections
+            # Key Metrics
+            elements.append(Paragraph("Key Metrics", subheading_style))
+            data = [
+                ["Metric", "Current Value", "Goal", "Status"],
+                ["Total Membership", f"{format_number(st.session_state.total_membership)}", "1,700,000", "On Track"],
+                ["Total New Members", f"{format_number(st.session_state.new_members)}", "100,000", "At Risk"],
+                ["Total Contributions", f"{format_currency(st.session_state.total_contributions)}", "$10,000,000", "On Track"]
+            ]
+            
+            t = Table(data, colWidths=[2*inch, 1.5*inch, 1.5*inch, 1*inch])
+            t.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ]))
+            elements.append(t)
+            elements.append(Spacer(1, 0.25*inch))
+            
+            # Report Card Progress
+            elements.append(Paragraph("Report Card Progress", subheading_style))
+            report_data = [
+                ["Goal", "Current Total", "Percent Progress", "Status"],
+                ["Recruit 100,000 new members", "15,438", "15.44%", "On Track"],
+                ["Engage 250,000 members", "13,119", "5.25%", "On Track"],
+                ["Support 65,000 walking daily", "5,634", "8.67%", "At Risk"],
+                ["Unite 3 advocacy partners", "0", "0%", "On Track"],
+                ["Raise $10M", "$3,109,294.25", "31.09%", "On Track"],
+                ["Establish Care Village (40k)", "3,055", "7.64%", "On Track"],
+                ["Achieve 85% organizational health", "100%", "100%", "On Track"]
+            ]
+            
+            t2 = Table(report_data, colWidths=[2.5*inch, 1.5*inch, 1*inch, 1*inch])
+            t2.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ]))
+            elements.append(t2)
     
     # Add notes if they exist
     if section_name in ["Executive Summary", "Recruitment", "Engagement", "Development", "Marketing", "Operations", "Member Care", "Advocacy", "Impact", "Campaigns"]:
@@ -717,15 +758,13 @@ def generate_pdf(section_name, dark_mode=False):
         elements.append(Paragraph("Global Dashboard Notes", heading_style))
         elements.append(Paragraph(st.session_state.global_notes, normal_style))
     
-    # Import PageBreak
-    from reportlab.platypus import PageBreak
-    
     doc.build(elements)
     
     pdf_data = buffer.getvalue()
     buffer.close()
     
     return base64.b64encode(pdf_data).decode()
+    
 # Helper Functions
 def generate_unique_id():
     return str(uuid.uuid4())
