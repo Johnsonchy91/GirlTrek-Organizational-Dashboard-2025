@@ -294,7 +294,50 @@ def generate_pdf(section_name, dark_mode=False):
     elements.append(Paragraph(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", normal_style))
     elements.append(Spacer(1, 0.25*inch))
     
-    # Add section-specific content based on real data
+    # Handle Complete Dashboard
+    if section_name == "Complete Dashboard":
+        sections = ["Executive Summary", "Recruitment", "Engagement", "Development", "Marketing", 
+                   "Campaigns", "Operations", "Member Care", "Advocacy", "Impact"]
+        for section in sections:
+            elements.append(Paragraph(f"{section}", heading_style))
+            add_section_content(section, elements, heading_style, normal_style, accent_color, colors)
+            elements.append(Spacer(1, 0.5*inch))
+    else:
+        # Add section-specific content for individual sections
+        add_section_content(section_name, elements, heading_style, normal_style, accent_color, colors)
+    
+    # Add notes if they exist
+    if section_name == "Complete Dashboard":
+        elements.append(Spacer(1, 0.5*inch))
+        elements.append(Paragraph("Dashboard Notes", heading_style))
+        for section in sections:
+            notes_key = f"notes_{section}"
+            if notes_key in st.session_state and st.session_state[notes_key]:
+                elements.append(Paragraph(f"{section} Notes:", normal_style))
+                elements.append(Paragraph(st.session_state[notes_key], normal_style))
+                elements.append(Spacer(1, 0.25*inch))
+    else:
+        notes_key = f"notes_{section_name}"
+        if notes_key in st.session_state and st.session_state[notes_key]:
+            elements.append(Spacer(1, 0.5*inch))
+            elements.append(Paragraph("Notes", heading_style))
+            elements.append(Paragraph(st.session_state[notes_key], normal_style))
+    
+    if 'global_notes' in st.session_state and st.session_state.global_notes:
+        elements.append(Spacer(1, 0.5*inch))
+        elements.append(Paragraph("Global Dashboard Notes", heading_style))
+        elements.append(Paragraph(st.session_state.global_notes, normal_style))
+    
+    doc.build(elements)
+    
+    pdf_data = buffer.getvalue()
+    buffer.close()
+    
+    return base64.b64encode(pdf_data).decode()
+
+def add_section_content(section_name, elements, heading_style, normal_style, accent_color, colors):
+    """Add content for a specific section to the PDF elements"""
+    
     if section_name == "Executive Summary":
         elements.append(Paragraph("Key Metrics", heading_style))
         
@@ -340,25 +383,232 @@ def generate_pdf(section_name, dark_mode=False):
         ]))
         elements.append(t2)
     
-    # Add notes if they exist
-    if section_name in ["Executive Summary", "Recruitment", "Engagement", "Development", "Marketing", "Operations", "Member Care", "Advocacy", "Impact"]:
-        notes_key = f"notes_{section_name}"
-        if notes_key in st.session_state and st.session_state[notes_key]:
-            elements.append(Spacer(1, 0.5*inch))
-            elements.append(Paragraph("Notes", heading_style))
-            elements.append(Paragraph(st.session_state[notes_key], normal_style))
+    elif section_name == "Recruitment":
+        elements.append(Paragraph("Recruitment Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["Total New Members", "15,438", "100,000", "At Risk"],
+            ["New Members Age 18-25", "316", "100,000", "At Risk"],
+            ["Total Recruitment Partnerships", "18", "10", "Achieved"]
+        ]
+        
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+        elements.append(Spacer(1, 0.25*inch))
+        elements.append(Paragraph("Program Status", heading_style))
+        elements.append(Paragraph("College Crews: 11/100 leads recruited (11%)", normal_style))
+        elements.append(Paragraph("Mommy and Me: 45/50 coaches recruited (90%), 8 walks completed", normal_style))
     
-    if 'global_notes' in st.session_state and st.session_state.global_notes:
-        elements.append(Spacer(1, 0.5*inch))
-        elements.append(Paragraph("Global Dashboard Notes", heading_style))
-        elements.append(Paragraph(st.session_state.global_notes, normal_style))
+    elif section_name == "Engagement":
+        elements.append(Paragraph("Engagement Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal/Context"],
+            ["Total New Crews (2025)", "727", ""],
+            ["Members Walking Daily", "5,439", "Goal: 50,000"],
+            ["Active Volunteers", "3,348", "Has hosted an event this year"],
+            ["Documented Crew Leaders", "3,856", ""],
+            ["Active Crew Leaders", "1,846", "On Track"],
+            ["Total Trained Volunteers", "11,535", ""],
+            ["Care Village Population Reached", "3,055", "Goal: 40,000 (7.64%)"]
+        ]
+        
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+        elements.append(Spacer(1, 0.25*inch))
+        elements.append(Paragraph("Blue Brigade Status", heading_style))
+        elements.append(Paragraph("Fully Certified: 7/100 (7%)", normal_style))
+        elements.append(Paragraph("In Progress: 50/100 (50%)", normal_style))
     
-    doc.build(elements)
+    elif section_name == "Development":
+        elements.append(Paragraph("Development Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal", "Status"],
+            ["Total Contributions", "$3,109,294.25", "$10,000,000", "On Track"],
+            ["Total Grants", "$3,101,133.09", "17 of 48 Grants", "On Track"],
+            ["Corporate Sponsorships", "$130,000", "$1,500,000", "At Risk"],
+            ["Earned Revenue (Store)", "$99,836", "$400,000", "At Risk"],
+            ["Bricklayer's Fundraising", "$2,500", "$500,000", "At Risk"]
+        ]
+        
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1.5*inch, 1*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+        elements.append(Spacer(1, 0.25*inch))
+        elements.append(Paragraph("Grant Applications Summary", heading_style))
+        elements.append(Paragraph("Total Applications: 22", normal_style))
+        elements.append(Paragraph("Success Rate: 18.2% (3 funded out of 11 decided)", normal_style))
+        elements.append(Paragraph("Pending Decisions: 7", normal_style))
     
-    pdf_data = buffer.getvalue()
-    buffer.close()
+    elif section_name == "Marketing":
+        elements.append(Paragraph("Marketing Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal/Industry Avg"],
+            ["Total Subscribers", "931,141", "Goal: 1,300,000"],
+            ["Active Subscribers", "320,463", "34.4% of Total"],
+            ["Average Open Rate", "18.54%", "Industry: 28.59%"],
+            ["Click-Through Rate", "1.06%", "Industry: 3.29%"]
+        ]
+        
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+        elements.append(Spacer(1, 0.25*inch))
+        elements.append(Paragraph("META Advertising Summary", heading_style))
+        elements.append(Paragraph("Total Ad Spend: $11,180.19", normal_style))
+        elements.append(Paragraph("Total Impressions: 858,890", normal_style))
+        elements.append(Paragraph("Total Clicks: 5,060", normal_style))
     
-    return base64.b64encode(pdf_data).decode()
+    elif section_name == "Campaigns":
+        elements.append(Paragraph("Self-Care School 2025 Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Context"],
+            ["Members Recruited", "5,377", "Through Self-Care School"],
+            ["Walking at Life-Saving Level", "12,037", "30+ min/day, 5 days/week"],
+            ["Total Supporting Goal", "5,634", "Goal: 65,000"],
+            ["Mental Well-Being Improvement", "998", "99.90% of respondents"],
+            ["Social Connection", "673", "68.53% of respondents"],
+            ["Empowered to Act", "907", "90.52% of respondents"]
+        ]
+        
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+    
+    elif section_name == "Operations":
+        elements.append(Paragraph("Operations Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal/Budget"],
+            ["YTD Revenue", "$3,243,526", "Budget: $1,237,419"],
+            ["YTD Expenses", "$2,343,862", "Budget: $1,608,765"],
+            ["Asana Adoption", "38%", "Goal: 85%"],
+            ["Audit Compliance", "100%", "Goal: 100%"],
+            ["Cybersecurity Compliance", "70%", "Goal: 90%"],
+            ["Staff Retention", "94%", "Industry Avg: 86%"],
+            ["Employee Satisfaction", "88%", "Target: 85%"]
+        ]
+        
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+    
+    elif section_name == "Member Care":
+        elements.append(Paragraph("Member Care Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal"],
+            ["Member Satisfaction Rating", "93%", "Goal: 95%"],
+            ["Resolution/Responsiveness Rate", "2 hours", "Goal: 48 hours"]
+        ]
+        
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+        elements.append(Spacer(1, 0.25*inch))
+        elements.append(Paragraph("Top Member Issues", heading_style))
+        elements.append(Paragraph("• SCS Registration Error Message", normal_style))
+        elements.append(Paragraph("• Connecting to the Movement", normal_style))
+    
+    elif section_name == "Advocacy":
+        elements.append(Paragraph("Advocacy Metrics", heading_style))
+        data = [
+            ["Metric", "Current Value", "Goal"],
+            ["Advocacy Briefs Published", "7/10", "On Track"],
+            ["Advocacy Partnerships", "0/3", "On Track"],
+            ["Member Listening Sessions", "0/5", "In 5 key geographies"],
+            ["Case Studies", "0/4", "Showcasing local impact"]
+        ]
+        
+        t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
+        
+        elements.append(Spacer(1, 0.25*inch))
+        elements.append(Paragraph("Note: Timeline adjusted to Q1 2026 based on external conditions", normal_style))
+    
+    elif section_name == "Impact":
+        elements.append(Paragraph("Impact Metrics", heading_style))
+        data = [
+            ["Metric", "Participants", "Percentage"],
+            ["Mental Well-Being Improvement", "998", "99.90%"],
+            ["Social Connection", "673", "68.53%"],
+            ["Empowered to Take Action", "907", "90.52%"],
+            ["Stronger Walking Habit", "709", "68.70%"],
+            ["Implemented New Habits", "293", "34.92%"],
+            ["Shared with Others", "819", "83.66%"]
+        ]
+        
+        t = Table(data, colWidths=[3*inch, 1.5*inch, 1.5*inch])
+        t.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), accent_color),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        elements.append(t)
 
 # Helper Functions
 def generate_unique_id():
