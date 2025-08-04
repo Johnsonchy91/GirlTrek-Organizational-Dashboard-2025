@@ -100,7 +100,7 @@ def add_board_update(tab_name):
 
     elif tab_name == "Development":
         update_content = """
-        <p>We have submitted a record number of grant applications this cycle. However, we are also receiving a notable volume of declinations—largely due to the broader funding climate and challenges we've discussed in previous meetings. Cold submissions are proving particularly difficult in the current landscape.</p>
+        <p> The development team has submitted a record number of grant applications this cycle. However, we are also receiving a notable volume of declinations—largely due to the broader funding climate and challenges we've discussed in previous meetings. Cold submissions are proving particularly difficult in the current landscape.</p>
         <p>In response, we are reevaluating our grant strategy. We are placing greater emphasis on deepening engagement with existing funders, encouraging them to increase their support through renewed and expanded investments.</p>
         
         <p><strong>Major Fundraising Event</strong></p>
