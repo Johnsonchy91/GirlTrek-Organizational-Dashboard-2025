@@ -1001,8 +1001,8 @@ def main():
 
     # App Title
     st.title("GirlTREK Organizational Dashboard")
-    st.markdown("### Q2 2025 Metrics Overview")
-    st.markdown("*Data dashboard was updated on July 25, 2025*")
+    st.markdown("### Q3 2025 Metrics Overview")
+    st.markdown("*Data dashboard was updated on Aug 1, 2025*")
 
     # Load dataframes with real data from CSV
 
@@ -2260,10 +2260,34 @@ def main():
     # Development Tab
     # ---------------------------------
     with tab4:
-        add_board_update("Development")
+    add_board_update("Development")
+    
+    # Development Update Section
+    st.markdown(
+        """
+        <div style="background-color: #E3F2FD; border-radius: 10px; padding: 20px; margin: 20px 0; border-left: 5px solid #2196F3;">
+            <h4 style="color: #1565C0; margin-top: 0;">Development Update</h4>
+            <p style="color: #424242;">We have submitted a record number of grant applications this cycle. However, we are also receiving a notable volume of declinations—largely due to the broader funding climate and challenges we've discussed in previous meetings. Cold submissions are proving particularly difficult in the current landscape.</p>
+            <p style="color: #424242;">In response, we are reevaluating our grant strategy. We are placing greater emphasis on deepening engagement with existing funders, encouraging them to increase their support through renewed and expanded investments.</p>
+            
+            <h5 style="color: #1976D2; margin-top: 20px;">Major Fundraising Event</h5>
+            <p style="color: #424242;">Our primary fundraising event of the year is scheduled for <strong>October 10</strong>. This invite-only event will serve as an exclusive investment opportunity for our <strong>Care Village model</strong>. We have secured key co-hosts as well as our strategic partner, <strong>NationSwell</strong>. This convening is designed to attract mission-aligned investors and champions.</p>
+            
+            <h5 style="color: #1976D2; margin-top: 20px;">Corporate Partnerships</h5>
+            <p style="color: #424242;">We are collaborating closely with <strong>Brittany</strong> to identify and close critical gaps in our corporate sponsorship strategy. This work is aimed at creating more sustainable and diversified funding channels.</p>
+            
+            <h5 style="color: #1976D2; margin-top: 20px;">Recent Wins</h5>
+            <ul style="color: #424242;">
+                <li><strong>Robert Wood Johnson Foundation</strong> has committed an <strong>additional $100,000</strong> to further support our work.</li>
+                <li>We have submitted a <strong>$600,000 grant proposal to The Tow Foundation</strong> and are awaiting their response.</li>
+            </ul>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+            st.markdown('<h3 class="section-title">Development Metrics</h3>', unsafe_allow_html=True)
         
-        st.markdown('<h3 class="section-title">Development Metrics</h3>', unsafe_allow_html=True)
-
         dev_col1, dev_col2, dev_col3 = st.columns(3)
 
         with dev_col1:
