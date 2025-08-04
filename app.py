@@ -97,6 +97,28 @@ def add_board_update(tab_name):
             <li><strong>Store Operations Lag:</strong> With only 25% of our sales goal reached, we are taking a hard look at—product mix, pricing, marketing, and fulfillment and make necessary pivots.</li>
         </ul>
         """
+
+    elif tab_name == "Development":
+        update_content = """
+        <p><strong>Development Update</strong></p>
+        <p>We have submitted a record number of grant applications this cycle. However, we are also receiving a notable volume of declinations—largely due to the broader funding climate and challenges we've discussed in previous meetings. Cold submissions are proving particularly difficult in the current landscape.</p>
+        <p>In response, we are reevaluating our grant strategy. We are placing greater emphasis on deepening engagement with existing funders, encouraging them to increase their support through renewed and expanded investments.</p>
+        
+        <p><strong>Major Fundraising Event</strong></p>
+        <p>Our primary fundraising event of the year is scheduled for <strong>October 10</strong>. This invite-only event will serve as an exclusive investment opportunity for our <strong>Care Village model</strong>. We have secured key co-hosts as well as our strategic partner, <strong>NationSwell</strong>. This convening is designed to attract mission-aligned investors and champions.</p>
+        
+        <p><strong>Corporate Partnerships</strong></p>
+        <p>We are collaborating closely with <strong>Brittany</strong> to identify and close critical gaps in our corporate sponsorship strategy. This work is aimed at creating more sustainable and diversified funding channels.</p>
+        
+        <p><strong>Recent Wins</strong></p>
+        <ul>
+            <li><strong>Robert Wood Johnson Foundation</strong> has committed an <strong>additional $100,000</strong> to further support our work.</li>
+            <li>We have submitted a <strong>$600,000 grant proposal to The Tow Foundation</strong> and are awaiting their response.</li>
+        </ul>
+        """
+    elif notes_key in st.session_state and st.session_state[notes_key].strip():
+        update_content = st.session_state[notes_key]
+
     elif tab_name == "Engagement":
         update_content = """
         <p>The Engagement Team has hosted eight content-specific training workshops for members, focused on food justice, mental health, justice impacted communities, and caregivers. Eight additional workshops are scheduled for the remainder of the year. Members have engaged with field experts and gained valuable resources to support walking crews centered on these content areas. We are currently planning both in-person and online Mental Health First Aid training sessions for members in September. The GirlTREK Garden Club has completed two seed mailings with the first focused on growing heirloom collard greens, and the second on seed saving and community seed distribution. Additionally, the Faith Team has hosted numerous gatherings to support the growth of the faith initiative and has successfully recruited new faith communities. They are well on their way to engaging 500 faith communities this year.</p>
@@ -2261,30 +2283,6 @@ def main():
     # ---------------------------------
     with tab4:
         add_board_update("Development")
-        
-        # Development Update Section
-        st.markdown(
-            f"""
-            <div style="background-color: #E3F2FD; border-radius: 10px; padding: 20px; margin: 20px 0; border-left: 5px solid #2196F3;">
-                <h4 style="color: #1565C0; margin-top: 0;">Development Update</h4>
-                <p style="color: #424242;">We have submitted a record number of grant applications this cycle. However, we are also receiving a notable volume of declinations—largely due to the broader funding climate and challenges we've discussed in previous meetings. Cold submissions are proving particularly difficult in the current landscape.</p>
-                <p style="color: #424242;">In response, we are reevaluating our grant strategy. We are placing greater emphasis on deepening engagement with existing funders, encouraging them to increase their support through renewed and expanded investments.</p>
-                
-                <h5 style="color: #1976D2; margin-top: 20px;">Major Fundraising Event</h5>
-                <p style="color: #424242;">Our primary fundraising event of the year is scheduled for <strong>October 10</strong>. This invite-only event will serve as an exclusive investment opportunity for our <strong>Care Village model</strong>. We have secured key co-hosts as well as our strategic partner, <strong>NationSwell</strong>. This convening is designed to attract mission-aligned investors and champions.</p>
-                
-                <h5 style="color: #1976D2; margin-top: 20px;">Corporate Partnerships</h5>
-                <p style="color: #424242;">We are collaborating closely with <strong>Brittany</strong> to identify and close critical gaps in our corporate sponsorship strategy. This work is aimed at creating more sustainable and diversified funding channels.</p>
-                
-                <h5 style="color: #1976D2; margin-top: 20px;">Recent Wins</h5>
-                <ul style="color: #424242;">
-                    <li><strong>Robert Wood Johnson Foundation</strong> has committed an <strong>additional $100,000</strong> to further support our work.</li>
-                    <li>We have submitted a <strong>$600,000 grant proposal to The Tow Foundation</strong> and are awaiting their response.</li>
-                </ul>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
         
         st.markdown('<h3 class="section-title">Development Metrics</h3>', unsafe_allow_html=True)
         
