@@ -939,6 +939,38 @@ if 'total_membership' not in st.session_state:
 
 # Main App
 def main():
+    # Add this right at the start of main(), before any other code
+    # This CSS makes the dashboard print-friendly
+    st.markdown("""
+    <style>
+    @media print {
+        /* Hide Streamlit UI elements when printing */
+        header[data-testid="stHeader"] { display: none !important; }
+        section[data-testid="stSidebar"] { display: none !important; }
+        div[data-testid="stToolbar"] { display: none !important; }
+        footer { display: none !important; }
+        #MainMenu { display: none !important; }
+        
+        /* Make content use full page width */
+        .main .block-container {
+            max-width: 100% !important;
+            padding: 1rem !important;
+        }
+        
+        /* Ensure colors print */
+        * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+        
+        /* Prevent breaking elements across pages */
+        .element-container, .metric-container {
+            break-inside: avoid !important;
+        }
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     # Sidebar
     st.sidebar.markdown("### Download Dashboard")
     download_options = [
@@ -948,14 +980,37 @@ def main():
     ]
     selected_download = st.sidebar.selectbox("Select dashboard section to download:", download_options)
 
-    if st.sidebar.button("Generate PDF for Download"):
-        with st.sidebar:
-            with st.spinner("Generating PDF..."):
-                pdf_base64 = generate_pdf(selected_download, dark_mode=st.session_state.dark_mode)
-                filename = f"{selected_download.replace(' ', '_')}_report.pdf"
-                download_link = f'<a href="data:application/pdf;base64,{pdf_base64}" download="{filename}">Download {selected_download} PDF</a>'
-                st.success(f"PDF for {selected_download} has been generated!")
-                st.markdown(download_link, unsafe_allow_html=True)
+    # New browser-based PDF generation
+    if st.sidebar.button("🖨️ Save as PDF"):
+        # Inject JavaScript to open print dialog
+        print_js = """
+        <script>
+        setTimeout(function() {
+            window.print();
+        }, 500);
+        </script>
+        """
+        st.components.v1.html(print_js, height=0)
+        
+        st.sidebar.success("✅ Print dialog opened!")
+        st.sidebar.info("""
+        **To save as PDF:**
+        1. Choose "Save as PDF" as printer
+        2. Click "Save"
+        """)
+    
+    # Optional: Add instructions
+    with st.sidebar.expander("ℹ️ PDF Tips"):
+        st.markdown("""
+        **For best results:**
+        - Close the sidebar first (click X)
+        - View the tab you want to save
+        - Use landscape orientation for wide tables
+        
+        **To save multiple tabs:**
+        1. Save each tab separately
+        2. Use a PDF merger to combine
+        """)
 
     st.sidebar.markdown("---")
     st.sidebar.markdown("### Dashboard Settings")
