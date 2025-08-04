@@ -2264,7 +2264,7 @@ def main():
         
         # Development Update Section
         st.markdown(
-            """
+            f"""
             <div style="background-color: #E3F2FD; border-radius: 10px; padding: 20px; margin: 20px 0; border-left: 5px solid #2196F3;">
                 <h4 style="color: #1565C0; margin-top: 0;">Development Update</h4>
                 <p style="color: #424242;">We have submitted a record number of grant applications this cycle. However, we are also receiving a notable volume of declinations—largely due to the broader funding climate and challenges we've discussed in previous meetings. Cold submissions are proving particularly difficult in the current landscape.</p>
