@@ -28,11 +28,8 @@ except ImportError:
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
 from reportlab.lib.units import inch
-from reportlab.graphics.shapes import Drawing
-from reportlab.graphics.charts.piecharts import Pie
-from reportlab.graphics.charts.barcharts import VerticalBarChart
 
 # Color Scheme
 primary_blue = "#0088FF"
@@ -55,746 +52,6 @@ dark_card_bg = "#1E1E1E"
 dark_text = "#FFFFFF"
 dark_secondary_text = "#BBBBBB"
 
-def add_board_update(tab_name):
-    """Add a leadership update section to the top of a tab"""
-    dark_mode = st.session_state.dark_mode if 'dark_mode' in st.session_state else False
-    
-    # Check if there are notes for this tab
-    notes_key = f"notes_{tab_name}"
-    update_content = ""
-    
-    # Special content for Advocacy tab
-    if tab_name == "Advocacy":
-        update_content = """
-        <p>In Phase 1, Year 1, our strategic focus is on designing the plan for phases 1 and 2, socializing the advocacy agenda amongst our members, establishing the research basis for the 10 points, and beginning to build advocacy engagement models with our members in our most active geographies. Our key activities have included / will include:</p>
-        
-        <p><strong>Robust Articulation of 10-Point Plan:</strong> During the first half of 2025, worked in close partnership with GT co-founders to expand and make more robust our 10-Point Plan for Joy & Justice. Co-Founders then anchored to the plan during the 10 week curriculum of Self-Care School, and will continue socializing the Plan to our members during Summer of Solidarity.</p>
-        
-        <p><strong>Design of Phases 1 and 2:</strong> As detailed above, we are responding to the current political environment by designing a phased approach to member organizing and coalition building, all in service of achieving our organizational 10x10 mission.</p>
-        
-        <p><strong>Establish Research Foundation for Advocacy Agenda:</strong> Research Director is leading the development of "Advocacy Briefs" for each of the 10 points on the Advocacy Agenda, clearly articulating the research basis for each of the demands (seeking to answer the question: why is this issue killing Black women at a disproportionate rate?).</p>
-        
-        <p><strong>Utilize Launch of Mobile App to Engage Membership around Advocacy Agenda:</strong> Through Summer of Solidarity programming, members will be encouraged to download the mobile app and begin logging walks; encouragement will come in the form of "weekly dispatches," with content dedicated to uplifting and advancing the advocacy agenda (e.g. calls to action from strategic partners, member reflections on key questions).</p>
-        
-        <p><strong>Relationship Building with Key Constituencies:</strong> Director of Civic Partnerships is building and deepening relationships with youth-serving organizations to align with stated commitment to "next generation leadership;" will use the launch of the mobile app to encourage partner organizations to engage their youth members.</p>
-        
-        <p><strong>Test Advocacy-Led Member Engagement in Key Geographies:</strong> Advocacy team will identify 10 most active GT geographies, and correlate these to most populated domestic Black geographies as well as Care Village location(s). Will liaise with GT crew leaders and member care team, especially through formation of "Women of Wisdom" advisory council, to engage in advocacy listening sessions. Will consider "on the ground" training or "test sites" depending on outcome(s) of listening sessions.</p>
-        
-        <p><strong>Lay the Foundation for Phase 2 by Forming Organizational Relationships:</strong> Proactively identify and cultivate relationships with potential Coalition partners whose missions and work align with our agenda.</p>
-        """
-    elif tab_name == "Operations":
-        update_content = """
-        <p><strong>What's Going Well</strong></p>
-        <ul>
-            <li><strong>People First Wins:</strong> We're operating with 94% staff retention—well above the industry average (86%)—and our latest 2024 survey shows 88% employee satisfaction. That's a reflection of the culture we're building together. Let's keep investing in each other.</li>
-            <li><strong>Financial Strength:</strong> We've exceeded expectations with $3.24M YTD revenue compared to a $1.24M budget. We must be mindful of the current climate we are in and continue to be in a posture of how we fund our boldest ideas.</li>
-            <li><strong>Cybersecurity on the Rise:</strong> We're now at 70% compliance—steadily advancing toward our 90% goal. Thank you to everyone working behind the scenes to keep our systems and data secure.</li>
-        </ul>
-        
-        <p><strong>Where We Need to Focus</strong></p>
-        <ul>
-            <li><strong>Tech Adoption & Efficiency:</strong> Asana adoption is currently at 38% vs. our 85% goal. This signals a need for more support, training, and change management. The operations team will continue to provide not just training but real world examples of how Asana can help the organization be more productive and support our Goals process.</li>
-            <li><strong>Store Operations Lag:</strong> With only 25% of our sales goal reached, we are taking a hard look at—product mix, pricing, marketing, and fulfillment and make necessary pivots.</li>
-        </ul>
-        """
-
-    elif tab_name == "Development":
-        update_content = """
-        <p> The development team has submitted a record number of grant applications this cycle. However, we are also receiving a notable volume of declinations—largely due to the broader funding climate and challenges we've discussed in previous meetings. Cold submissions are proving particularly difficult in the current landscape.</p>
-        <p>In response, we are reevaluating our grant strategy. We are placing greater emphasis on deepening engagement with existing funders, encouraging them to increase their support through renewed and expanded investments.</p>
-        
-        <p><strong>Major Fundraising Event</strong></p>
-        <p>Our primary fundraising event of the year is scheduled for <strong>October 10</strong>. This invite-only event will serve as an exclusive investment opportunity for our <strong>Care Village model</strong>. We have secured key co-hosts as well as our strategic partner, <strong>NationSwell</strong>. This convening is designed to attract mission-aligned investors and champions.</p>
-        
-        <p><strong>Corporate Partnerships</strong></p>
-        <p>We are collaborating closely with <strong>Brittany</strong> to identify and close critical gaps in our corporate sponsorship strategy. This work is aimed at creating more sustainable and diversified funding channels.</p>
-        
-        <p><strong>Recent Wins</strong></p>
-        <ul>
-            <li><strong>Robert Wood Johnson Foundation</strong> has committed an <strong>additional $100,000</strong> to further support our work.</li>
-            <li>We have submitted a <strong>$600,000 grant proposal to The Tow Foundation</strong> and are awaiting their response.</li>
-        </ul>
-        """
-    elif notes_key in st.session_state and st.session_state[notes_key].strip():
-        update_content = st.session_state[notes_key]
-
-    elif tab_name == "Engagement":
-        update_content = """
-        <p>The Engagement Team has hosted eight content-specific training workshops for members, focused on food justice, mental health, justice impacted communities, and caregivers. Eight additional workshops are scheduled for the remainder of the year. Members have engaged with field experts and gained valuable resources to support walking crews centered on these content areas. We are currently planning both in-person and online Mental Health First Aid training sessions for members in September. The GirlTREK Garden Club has completed two seed mailings with the first focused on growing heirloom collard greens, and the second on seed saving and community seed distribution. Additionally, the Faith Team has hosted numerous gatherings to support the growth of the faith initiative and has successfully recruited new faith communities. They are well on their way to engaging 500 faith communities this year.</p>
-        
-        <p>Work in Montgomery is steadily progressing. The architecture consultant has developed renderings for the space, including a beautiful Mother Garden in the backyard that will serve as a gathering space, a place of respite, and a food access point for the community. Our Director of Place-Based Innovation has also cultivated strong relationships across the community, and GirlTREK now enjoys increased brand awareness through outreach, publicity, and hosted walks.</p>
-        """
-    elif notes_key in st.session_state and st.session_state[notes_key].strip():
-        update_content = st.session_state[notes_key]
-        
-        # Add specific content for Executive Summary
-    else:
-        if tab_name == "Executive Summary":
-            update_content = "<p><strong>Strong Overall Progress:</strong> 4 out of 7 major goals are on track, with fundraising at 31% of target.</p>"
-        else:
-            update_content = "<p style='font-style: italic; color: #999;'>No leadership updates at this time.</p>"
-    
-    if dark_mode:
-        board_update_html = f'''
-        <div style="background-color: #1E2130; border-left: 5px solid #0088FF; 
-             padding: 20px; border-radius: 5px; margin: 15px 0 25px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
-            <h4 style="color: #4DA6FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;"> {tab_name}</h4>
-            <div style="color: #E0E0E0; line-height: 1.5;">
-                {update_content}
-        </div>
-        '''
-    else:
-        board_update_html = f'''
-        <div style="background-color: #F3F9FF; border-left: 5px solid #0088FF; 
-             padding: 20px; border-radius: 5px; margin: 15px 0 25px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            <h4 style="color: #0088FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;"> {tab_name}</h4>
-            <div style="color: #333333; line-height: 1.5;">
-                {update_content}
-        </div>
-        '''
-    
-    st.markdown(board_update_html, unsafe_allow_html=True)
-
-def create_notes_section(tab_name):
-    """Create a notes section for any tab with persistence across sessions"""
-    notes_key = f"notes_{tab_name}"
-    
-    # Initialize notes in session state if they don't exist
-    if notes_key not in st.session_state:
-        # Try to load from disk if available
-        try:
-            with open(f"{notes_key}.txt", "r") as f:
-                st.session_state[notes_key] = f.read()
-        except FileNotFoundError:
-            st.session_state[notes_key] = ""
-    
-    if 'recent_notes' not in st.session_state:
-        st.session_state.recent_notes = []
-    
-    with st.expander(f"📝 Notes for {tab_name}", expanded=False):
-        col1, col2 = st.columns([3, 1])
-        
-        with col1:
-            # Create text area for notes with the current value from session state
-            notes = st.text_area(
-                "Add your notes here:",
-                value=st.session_state[notes_key],
-                height=150,
-                key=f"textarea_{notes_key}_{tab_name}"  # Made key more unique
-            )
-            
-            # Automatically save notes when they change
-            if notes != st.session_state[notes_key]:
-                previous_notes = st.session_state[notes_key]
-                st.session_state[notes_key] = notes
-                
-                # Save to disk for persistence across sessions
-                try:
-                    with open(f"{notes_key}.txt", "w") as f:
-                        f.write(notes)
-                except Exception as e:
-                    st.error(f"Error saving notes: {str(e)}")
-                
-                if 'last_edit_time' not in st.session_state:
-                    st.session_state.last_edit_time = {}
-                    
-                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                st.session_state.last_edit_time[notes_key] = timestamp
-                
-                # Track recent note submissions
-                if notes.strip() and (not previous_notes.strip() or notes.strip() != previous_notes.strip()):
-                    note_summary = notes.strip() if len(notes.strip()) < 50 else notes.strip()[:47] + "..."
-                    st.session_state.recent_notes.insert(0, {
-                        "tab": tab_name,
-                        "summary": note_summary,
-                        "timestamp": timestamp
-                    })
-                    if len(st.session_state.recent_notes) > 5:
-                        st.session_state.recent_notes = st.session_state.recent_notes[:5]
-                
-                st.success("✅ Notes saved automatically!")
-
-        with col2:
-            # Display timestamp of last edit if available
-            if 'last_edit_time' in st.session_state and notes_key in st.session_state.last_edit_time:
-                st.info(f"Last edited: {st.session_state.last_edit_time[notes_key]}")
-            
-            # Add export functionality
-            if st.button("Export Notes", key=f"export_{tab_name}"):
-                notes_data = f"Tab,Notes\n{tab_name},{st.session_state[notes_key].replace(',', ';').replace('\n', ' ')}"
-                b64 = base64.b64encode(notes_data.encode()).decode()
-                href = f'<a href="data:file/csv;base64,{b64}" download="{tab_name}_notes.csv">Download {tab_name} Notes</a>'
-                st.markdown(href, unsafe_allow_html=True)
-            
-            # Add ability to clear notes
-            if st.button("Clear Notes", key=f"clear_{tab_name}"):
-                st.session_state[notes_key] = ""
-                if 'last_edit_time' in st.session_state and notes_key in st.session_state.last_edit_time:
-                    del st.session_state.last_edit_time[notes_key]
-                
-                # Remove the file to reflect cleared notes
-                try:
-                    import os
-                    os.remove(f"{notes_key}.txt")
-                except FileNotFoundError:
-                    pass
-                
-                st.rerun()  # Updated from experimental_rerun
-
-def save_global_notes(global_notes):
-    """Save global notes with persistence across sessions"""
-    previous_notes = st.session_state.global_notes
-    st.session_state.global_notes = global_notes
-    
-    # Save to disk for persistence across sessions
-    try:
-        with open("global_notes.txt", "w") as f:
-            f.write(global_notes)
-    except Exception as e:
-        st.sidebar.error(f"Error saving global notes: {str(e)}")
-        return
-    
-    # Track recent note submissions
-    if global_notes.strip() and (not previous_notes.strip() or global_notes.strip() != previous_notes.strip()):
-        note_summary = global_notes.strip() if len(global_notes.strip()) < 50 else global_notes.strip()[:47] + "..."
-        if 'recent_notes' not in st.session_state:
-            st.session_state.recent_notes = []
-        
-        st.session_state.recent_notes.insert(0, {
-            "tab": "Global",
-            "summary": note_summary,
-            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        })
-        if len(st.session_state.recent_notes) > 5:
-            st.session_state.recent_notes = st.session_state.recent_notes[:5]
-            
-    st.sidebar.success("✅ Global notes saved successfully!")
-
-# PDF Generation Function
-def generate_pdf(section_name, dark_mode=False):
-    """Generate a PDF report for the selected dashboard section"""
-    buffer = io.BytesIO()
-    
-    # Import PageBreak at the beginning
-    from reportlab.platypus import PageBreak
-    
-    if dark_mode:
-        background_color = colors.HexColor('#121212')
-        text_color = colors.white
-        accent_color = colors.HexColor('#0088FF')
-    else:
-        background_color = colors.white
-        text_color = colors.black
-        accent_color = colors.HexColor('#0088FF')
-    
-    doc = SimpleDocTemplate(
-        buffer,
-        pagesize=letter,
-        rightMargin=72,
-        leftMargin=72,
-        topMargin=72,
-        bottomMargin=72
-    )
-    
-    styles = getSampleStyleSheet()
-    title_style = ParagraphStyle(
-        'Title',
-        parent=styles['Title'],
-        textColor=accent_color,
-        spaceAfter=12
-    )
-    heading_style = ParagraphStyle(
-        'Heading',
-        parent=styles['Heading1'],
-        textColor=accent_color,
-        spaceAfter=10
-    )
-    subheading_style = ParagraphStyle(
-        'Subheading',
-        parent=styles['Heading2'],
-        textColor=accent_color,
-        spaceAfter=8,
-        fontSize=14
-    )
-    normal_style = ParagraphStyle(
-        'Normal',
-        parent=styles['Normal'],
-        textColor=text_color,
-        spaceAfter=6
-    )
-    
-    elements = []
-    
-    elements.append(Paragraph(f"GirlTREK Organizational Dashboard", title_style))
-    elements.append(Paragraph(f"Q3 2025 Metrics Overview - {section_name}", heading_style))
-    elements.append(Paragraph(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", normal_style))
-    elements.append(Spacer(1, 0.25*inch))
-    
-    # Handle Complete Dashboard
-    if section_name == "Complete Dashboard":
-        sections = ["Executive Summary", "Recruitment", "Engagement", "Development", "Marketing", 
-                   "Campaigns", "Operations", "Member Care", "Advocacy", "Impact"]
-        
-        for idx, section in enumerate(sections):
-            if idx > 0:
-                elements.append(PageBreak())
-            
-            elements.append(Paragraph(f"{section}", heading_style))
-            
-            # Executive Summary
-            if section == "Executive Summary":
-                # Key Metrics
-                elements.append(Paragraph("Key Metrics", subheading_style))
-                data = [
-                    ["Metric", "Current Value", "Goal", "Status"],
-                    ["Total Membership", f"{format_number(st.session_state.total_membership)}", "1,700,000", "On Track"],
-                    ["Total New Members", f"{format_number(st.session_state.new_members)}", "100,000", "At Risk"],
-                    ["Total Contributions", f"{format_currency(st.session_state.total_contributions)}", "$10,000,000", "On Track"]
-                ]
-                
-                t = Table(data, colWidths=[2*inch, 1.5*inch, 1.5*inch, 1*inch])
-                t.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ]))
-                elements.append(t)
-                elements.append(Spacer(1, 0.25*inch))
-                
-                # Report Card Progress
-                elements.append(Paragraph("Report Card Progress", subheading_style))
-                report_data = [
-                    ["Goal", "Current Total", "Percent Progress", "Status"],
-                    ["Recruit 100,000 new members", "15,438", "15.44%", "On Track"],
-                    ["Engage 250,000 members", "13,119", "5.25%", "On Track"],
-                    ["Support 65,000 walking daily", "5,634", "8.67%", "At Risk"],
-                    ["Unite 3 advocacy partners", "0", "0%", "On Track"],
-                    ["Raise $10M", "$3,109,294.25", "31.09%", "On Track"],
-                    ["Establish Care Village (40k)", "7,660", "19.15%", "On Track"],
-                    ["Achieve 85% organizational health", "100%", "100%", "On Track"]
-                ]
-                
-                t2 = Table(report_data, colWidths=[2.5*inch, 1.5*inch, 1*inch, 1*inch])
-                t2.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ]))
-                elements.append(t2)
-                elements.append(Spacer(1, 0.25*inch))
-                
-                # Member Profile Summary
-                elements.append(Paragraph("GirlTREK General Member Profile", subheading_style))
-                elements.append(Paragraph("The Everyday Health Activist - Age: 52 years old", normal_style))
-                elements.append(Paragraph("Education: College-educated with bachelor's degree", normal_style))
-                elements.append(Paragraph("Income: $100K+ annually (69% of engaged members)", normal_style))
-                elements.append(Paragraph("Location: Southern states (GA, TX, FL) or urban metros", normal_style))
-                elements.append(Paragraph("Walking Habit: 30 minutes/day, 5 days/week", normal_style))
-            
-            # Recruitment
-            elif section == "Recruitment":
-                # Metrics
-                elements.append(Paragraph("Recruitment Metrics", subheading_style))
-                data = [
-                    ["Metric", "Current Value", "Goal", "Status"],
-                    ["Total New Members", "15,438", "100,000", "At Risk"],
-                    ["New Members Age 18-25", "316", "100,000", "At Risk"],
-                    ["Total Recruitment Partnerships", "18", "10", "Achieved"]
-                ]
-                
-                t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1*inch, 1*inch])
-                t.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ]))
-                elements.append(t)
-                elements.append(Spacer(1, 0.25*inch))
-                
-                # Programs
-                elements.append(Paragraph("Recruitment Programs", subheading_style))
-                elements.append(Paragraph("College Crews: 11/100 leads recruited (11%)", normal_style))
-                elements.append(Paragraph("Mommy and Me: 45/50 coaches recruited (90%), 8 walks completed", normal_style))
-                elements.append(Spacer(1, 0.15*inch))
-                
-                # New Members by Month
-                elements.append(Paragraph("New Members by Month (Oct 2024 - Jun 2025)", subheading_style))
-                monthly_data = [
-                    ["Month", "New Members"],
-                    ["Oct 2024", "1,365"],
-                    ["Nov 2024", "1,419"],
-                    ["Dec 2024", "182"],
-                    ["Jan 2025", "591"],
-                    ["Feb 2025", "1,588"],
-                    ["Mar 2025", "4,382"],
-                    ["Apr 2025", "6,073"],
-                    ["May 2025", "2,610"],
-                    ["Jun 2025", "123"]
-                ]
-                
-                t_monthly = Table(monthly_data, colWidths=[2*inch, 2*inch])
-                t_monthly.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ]))
-                elements.append(t_monthly)
-            
-            # Engagement
-            elif section == "Engagement":
-                # Metrics
-                elements.append(Paragraph("Engagement Metrics", subheading_style))
-                data = [
-                    ["Metric", "Current Value", "Goal/Context"],
-                    ["Total New Crews (2025)", "727", ""],
-                    ["Members Walking Daily", "5,439", "Goal: 50,000"],
-                    ["Active Volunteers", "3,348", "Has hosted an event this year"],
-                    ["Documented Crew Leaders", "3,856", ""],
-                    ["Active Crew Leaders", "1,846", "On Track"],
-                    ["Total Trained Volunteers", "11,535", ""],
-                    ["Care Village Population Reached", "3,055", "Goal: 40,000 (7.64%)"]
-                ]
-                
-                t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
-                t.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                    ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ]))
-                elements.append(t)
-                elements.append(Spacer(1, 0.25*inch))
-                
-                # Programs
-                elements.append(Paragraph("Special Programs", subheading_style))
-                elements.append(Paragraph("Blue Brigade Mental Health Initiative", normal_style))
-                elements.append(Paragraph("- Fully Certified: 7/100 (7%)", normal_style))
-                elements.append(Paragraph("- In Progress: 50/100 (50%)", normal_style))
-                elements.append(Paragraph("- Community Care Walks: 1 scheduled", normal_style))
-                elements.append(Paragraph("- Wellness Walks Hosted: 4", normal_style))
-                elements.append(Spacer(1, 0.15*inch))
-                
-                elements.append(Paragraph("Caregiver Tribe Program", normal_style))
-                elements.append(Paragraph("- Workshops Completed: 2/4 (50%)", normal_style))
-                elements.append(Paragraph("- Caregivers Engaged: 649", normal_style))
-                elements.append(Paragraph("- Self-Care Assessments: 15", normal_style))
-            
-            # Development
-            elif section == "Development":
-                # Metrics
-                elements.append(Paragraph("Development Metrics", subheading_style))
-                data = [
-                    ["Metric", "Current Value", "Goal", "Status"],
-                    ["Total Contributions", "$3,109,294.25", "$10,000,000", "On Track"],
-                    ["Total Grants", "$3,101,133.09", "17 of 48 Grants", "On Track"],
-                    ["Corporate Sponsorships", "$130,000", "$1,500,000", "At Risk"],
-                    ["Earned Revenue (Store)", "$99,836", "$400,000", "At Risk"],
-                    ["Bricklayer's Fundraising", "$2,500", "$500,000", "At Risk"]
-                ]
-                
-                t = Table(data, colWidths=[2.5*inch, 1.5*inch, 1.5*inch, 1*inch])
-                t.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ]))
-                elements.append(t)
-                elements.append(Spacer(1, 0.25*inch))
-                
-                # Grant Summary
-                elements.append(Paragraph("Grant Applications Summary", subheading_style))
-                elements.append(Paragraph("Total Applications: 22", normal_style))
-                elements.append(Paragraph("Total Requested: $8,519,750", normal_style))
-                elements.append(Paragraph("Total Funded: $14,500", normal_style))
-                elements.append(Paragraph("Success Rate: 18.2% (3 funded out of 11 decided)", normal_style))
-                elements.append(Paragraph("Pending Decisions: 7", normal_style))
-            
-            # Marketing
-            elif section == "Marketing":
-                # Metrics
-                elements.append(Paragraph("Marketing Metrics", subheading_style))
-                data = [
-                    ["Metric", "Current Value", "Goal/Industry Avg"],
-                    ["Total Subscribers", "931,141", "Goal: 1,300,000"],
-                    ["Active Subscribers", "320,463", "34.4% of Total"],
-                    ["Average Open Rate", "18.54%", "Industry: 28.59%"],
-                    ["Click-Through Rate", "1.06%", "Industry: 3.29%"]
-                ]
-                
-                t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
-                t.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                    ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ]))
-                elements.append(t)
-                elements.append(Spacer(1, 0.25*inch))
-                
-                # META Advertising
-                elements.append(Paragraph("META Advertising Summary", subheading_style))
-                elements.append(Paragraph("Total Ad Spend: $11,180.19", normal_style))
-                elements.append(Paragraph("Total Impressions: 858,890", normal_style))
-                elements.append(Paragraph("Total Clicks: 5,060", normal_style))
-                elements.append(Spacer(1, 0.15*inch))
-                
-                elements.append(Paragraph("Campaign Performance:", normal_style))
-                elements.append(Paragraph("- WNBA: $3,901.12 spend, 1.23% CTR, $0.94 CPC", normal_style))
-                elements.append(Paragraph("- Underground App: $7,279.07 spend, 1.30% CTR, $2.37 CPC, 281 leads", normal_style))
-            
-            # Campaigns
-            elif section == "Campaigns":
-                # Self-Care School Metrics
-                elements.append(Paragraph("Self-Care School 2025 Metrics", subheading_style))
-                data = [
-                    ["Metric", "Current Value", "Context"],
-                    ["Members Recruited", "5,377", "Through Self-Care School"],
-                    ["Walking at Life-Saving Level", "12,037", "30+ min/day, 5 days/week"],
-                    ["Total Supporting Goal", "5,634", "Goal: 65,000"],
-                    ["Mental Well-Being Improvement", "998", "99.90% of respondents"],
-                    ["Social Connection", "673", "68.53% of respondents"],
-                    ["Empowered to Act", "907", "90.52% of respondents"],
-                    ["Stronger Walking Habit", "709", "68.70% of respondents"],
-                    ["Shared Lessons with Others", "819", "83.66% of respondents"]
-                ]
-                
-                t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
-                t.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                    ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ]))
-                elements.append(t)
-                elements.append(Spacer(1, 0.25*inch))
-                
-                # Knowledge Impact
-                elements.append(Paragraph("Knowledge Impact by Topic", subheading_style))
-                knowledge_items = [
-                    ("Land rights, housing & environmental justice", "710", "71.60%"),
-                    ("Radical care, family legacy & intergenerational healing", "695", "67.34%"),
-                    ("Decarceration, gun safety & restorative justice", "658", "63.76%"),
-                    ("Safety, self-defense & public resource access", "645", "64.40%"),
-                    ("Mental health & emotional boundaries", "622", "60.27%"),
-                    ("Self-esteem, celebration & personal empowerment", "602", "58.33%"),
-                    ("Civic engagement & political participation", "569", "57.00%"),
-                    ("Parenting, mentorship & end-of-life planning", "536", "51.94%")
-                ]
-                
-                for topic, count, pct in knowledge_items:
-                    elements.append(Paragraph(f"- {topic}: {count} ({pct})", normal_style))
-            
-            # Operations
-            elif section == "Operations":
-                # Metrics
-                elements.append(Paragraph("Operations Metrics", subheading_style))
-                data = [
-                    ["Metric", "Current Value", "Goal/Budget"],
-                    ["YTD Revenue", "$3,243,526", "Budget: $1,237,419"],
-                    ["YTD Expenses", "$2,343,862", "Budget: $1,608,765"],
-                    ["Asana Adoption", "38%", "Goal: 85%"],
-                    ["Audit Compliance", "100%", "Goal: 100%"],
-                    ["Cybersecurity Compliance", "70%", "Goal: 90%"],
-                    ["Staff Retention", "94%", "Industry Avg: 86%"],
-                    ["Employee Satisfaction", "88%", "Target: 85%"],
-                    ["Store Sales", "$99,836", "Goal: $400,000"]
-                ]
-                
-                t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
-                t.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                    ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ]))
-                elements.append(t)
-            
-            # Member Care
-            elif section == "Member Care":
-                # Metrics
-                elements.append(Paragraph("Member Care Metrics", subheading_style))
-                data = [
-                    ["Metric", "Current Value", "Goal"],
-                    ["Member Satisfaction Rating", "93%", "Goal: 95%"],
-                    ["Resolution/Responsiveness Rate", "2 hours", "Goal: 48 hours"]
-                ]
-                
-                t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
-                t.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                    ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ]))
-                elements.append(t)
-                elements.append(Spacer(1, 0.25*inch))
-                
-                # Issues
-                elements.append(Paragraph("Top Member Issues", subheading_style))
-                elements.append(Paragraph("• SCS Registration Error Message", normal_style))
-                elements.append(Paragraph("• Connecting to the Movement", normal_style))
-                elements.append(Spacer(1, 0.25*inch))
-                
-                # Testimonials Summary
-                elements.append(Paragraph("Member Impact", subheading_style))
-                elements.append(Paragraph("- Karen Laing: Found joy and healing during job loss and housing challenges", normal_style))
-                elements.append(Paragraph("- Angelia Taylor: Lost 106 pounds through plant-based eating", normal_style))
-                elements.append(Paragraph("- Alicia Cross: Continuing journey despite knee replacement surgery", normal_style))
-            
-            # Advocacy
-            elif section == "Advocacy":
-                # Metrics
-                elements.append(Paragraph("Advocacy Metrics", subheading_style))
-                data = [
-                    ["Metric", "Current Value", "Goal"],
-                    ["Advocacy Briefs Published", "7/10", "On Track"],
-                    ["Advocacy Partnerships", "0/3", "On Track"],
-                    ["Member Listening Sessions", "0/5", "In 5 key geographies"],
-                    ["Case Studies", "0/4", "Showcasing local impact"]
-                ]
-                
-                t = Table(data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
-                t.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                    ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ]))
-                elements.append(t)
-                elements.append(Spacer(1, 0.25*inch))
-                
-                elements.append(Paragraph("Note: Timeline adjusted to Q1 2026 based on external conditions", normal_style))
-                elements.append(Paragraph("Active partnerships in development with 1K Women Strong and Health in Partnership (HiP)", normal_style))
-            
-            # Impact
-            elif section == "Impact":
-                # Metrics
-                elements.append(Paragraph("Impact Metrics - Self-Care School 2025", subheading_style))
-                data = [
-                    ["Metric", "Participants", "Percentage"],
-                    ["Mental Well-Being Improvement", "998", "99.90%"],
-                    ["Social Connection", "673", "68.53%"],
-                    ["Empowered to Take Action", "907", "90.52%"],
-                    ["Stronger Walking Habit", "709", "68.70%"],
-                    ["Implemented New Habits", "293", "34.92%"],
-                    ["Shared with Others", "819", "83.66%"]
-                ]
-                
-                t = Table(data, colWidths=[3*inch, 1.5*inch, 1.5*inch])
-                t.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ]))
-                elements.append(t)
-                elements.append(Spacer(1, 0.25*inch))
-                
-                elements.append(Paragraph("Summary", subheading_style))
-                elements.append(Paragraph("Total Knowledge Topics: 8", normal_style))
-                elements.append(Paragraph("Average Impact per Topic: 630 participants (61.08%)", normal_style))
-                elements.append(Paragraph("Total Knowledge Impacts: 5,037 across all topics", normal_style))
-    
-    else:
-        # Handle individual sections
-        if section_name == "Executive Summary":
-            # Key Metrics
-            elements.append(Paragraph("Key Metrics", subheading_style))
-            data = [
-                ["Metric", "Current Value", "Goal", "Status"],
-                ["Total Membership", f"{format_number(st.session_state.total_membership)}", "1,700,000", "On Track"],
-                ["Total New Members", f"{format_number(st.session_state.new_members)}", "100,000", "At Risk"],
-                ["Total Contributions", f"{format_currency(st.session_state.total_contributions)}", "$10,000,000", "On Track"]
-            ]
-            
-            t = Table(data, colWidths=[2*inch, 1.5*inch, 1.5*inch, 1*inch])
-            t.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                ('GRID', (0, 0), (-1, -1), 1, colors.black),
-            ]))
-            elements.append(t)
-            elements.append(Spacer(1, 0.25*inch))
-            
-            # Report Card Progress
-            elements.append(Paragraph("Report Card Progress", subheading_style))
-            report_data = [
-                ["Goal", "Current Total", "Percent Progress", "Status"],
-                ["Recruit 100,000 new members", "15,438", "15.44%", "On Track"],
-                ["Engage 250,000 members", "13,119", "5.25%", "On Track"],
-                ["Support 65,000 walking daily", "5,634", "8.67%", "At Risk"],
-                ["Unite 3 advocacy partners", "0", "0%", "On Track"],
-                ["Raise $10M", "$3,109,294.25", "31.09%", "On Track"],
-                ["Establish Care Village (40k)", "3,055", "7.64%", "On Track"],
-                ["Achieve 85% organizational health", "100%", "100%", "On Track"]
-            ]
-            
-            t2 = Table(report_data, colWidths=[2.5*inch, 1.5*inch, 1*inch, 1*inch])
-            t2.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), accent_color),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                ('GRID', (0, 0), (-1, -1), 1, colors.black),
-            ]))
-            elements.append(t2)
-    
-    # Add notes if they exist
-    if section_name in ["Executive Summary", "Recruitment", "Engagement", "Development", "Marketing", "Operations", "Member Care", "Advocacy", "Impact", "Campaigns"]:
-        notes_key = f"notes_{section_name}"
-        if notes_key in st.session_state and st.session_state[notes_key]:
-            elements.append(Spacer(1, 0.5*inch))
-            elements.append(Paragraph("Notes", heading_style))
-            elements.append(Paragraph(st.session_state[notes_key], normal_style))
-    
-    if 'global_notes' in st.session_state and st.session_state.global_notes:
-        elements.append(Spacer(1, 0.5*inch))
-        elements.append(Paragraph("Global Dashboard Notes", heading_style))
-        elements.append(Paragraph(st.session_state.global_notes, normal_style))
-    
-    doc.build(elements)
-    
-    pdf_data = buffer.getvalue()
-    buffer.close()
-    
-    return base64.b64encode(pdf_data).decode()
-    
-# Helper Functions
-def generate_unique_id():
-    return str(uuid.uuid4())
-
 def status_badge(status):
     if status == "On Track":
         return f'<span style="background-color: #4CAF50; color: white; padding: 3px 8px; border-radius: 4px;">On Track</span>'
@@ -804,17 +61,6 @@ def status_badge(status):
         return f'<span style="background-color: {achieved_green}; color: white; padding: 3px 8px; border-radius: 4px;">Achieved</span>'
     else:
         return f'<span style="background-color: #F44336; color: white; padding: 3px 8px; border-radius: 4px;">Off Track</span>'
-
-def download_data(df, filename):
-    try:
-        if not isinstance(df, pd.DataFrame):
-            return f'<p style="color: red;">Error: Invalid data format for {filename}</p>'
-        csv = df.to_csv(index=False)
-        b64 = base64.b64encode(csv.encode()).decode()
-        href = f'<a href="data:file/csv;base64,{b64}" download="{filename}.csv">Download {filename} data</a>'
-        return href
-    except Exception as e:
-        return f'<p style="color: red;">Error generating download: {str(e)}</p>'
 
 def format_currency(value):
     if isinstance(value, str):
@@ -879,6 +125,12 @@ def apply_dark_mode(dark_mode_enabled):
                 padding-bottom: 10px;
                 border-bottom: 2px solid #FF7043;
             }}
+            .model-header {{
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 20px;
+                border-radius: 10px;
+                margin-bottom: 20px;
+            }}
             </style>
             """,
             unsafe_allow_html=True
@@ -913,57 +165,52 @@ def apply_dark_mode(dark_mode_enabled):
                 margin-bottom: 10px;
                 color: #0088FF;
             }
+            .model-header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 20px;
+                border-radius: 10px;
+                margin-bottom: 20px;
+            }
             </style>
             """,
             unsafe_allow_html=True
         )
 
-# Initialize global notes from disk if available
-if 'global_notes' not in st.session_state:
-    try:
-        with open("global_notes.txt", "r") as f:
-            st.session_state.global_notes = f.read()
-    except FileNotFoundError:
-        st.session_state.global_notes = ""
-
-# Session State - Updated with real data from CSV
+# Session State - Initialize with real data
 if 'data_loaded' not in st.session_state:
     st.session_state.data_loaded = False
-
-if 'total_membership' not in st.session_state:
-    st.session_state.total_membership = 1244476  # Real data from CSV
-    st.session_state.new_members = 15438  # Real data from CSV
-    st.session_state.total_contributions = 3109294.25  # Real data from CSV
-    st.session_state.total_grants = 3101133.09  # Real data from CSV
+    st.session_state.total_membership = 1244476
+    st.session_state.new_members = 15438
+    st.session_state.total_contributions = 3109294.25
+    st.session_state.total_grants = 3101133.09
     st.session_state.data_loaded = True
+
+# Initialize dark mode
+if 'dark_mode' not in st.session_state:
+    st.session_state.dark_mode = False
 
 # Main App
 def main():
-    # Add this right at the start of main(), before any other code
-    # This CSS makes the dashboard print-friendly
+    # Add print-friendly CSS
     st.markdown("""
     <style>
     @media print {
-        /* Hide Streamlit UI elements when printing */
         header[data-testid="stHeader"] { display: none !important; }
         section[data-testid="stSidebar"] { display: none !important; }
         div[data-testid="stToolbar"] { display: none !important; }
         footer { display: none !important; }
         #MainMenu { display: none !important; }
         
-        /* Make content use full page width */
         .main .block-container {
             max-width: 100% !important;
             padding: 1rem !important;
         }
         
-        /* Ensure colors print */
         * {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
         }
         
-        /* Prevent breaking elements across pages */
         .element-container, .metric-container {
             break-inside: avoid !important;
         }
@@ -972,17 +219,30 @@ def main():
     """, unsafe_allow_html=True)
     
     # Sidebar
-    st.sidebar.markdown("### Download Dashboard")
-    download_options = [
-        "Executive Summary", "Recruitment", "Engagement",
-        "Development", "Marketing", "Operations",
-        "Member Care", "Advocacy", "Impact", "Complete Dashboard"
-    ]
-    selected_download = st.sidebar.selectbox("Select dashboard section to download:", download_options)
-
-    # New browser-based PDF generation
+    st.sidebar.image("https://www.girltrek.org/assets/images/logo.png", width=200)
+    st.sidebar.markdown("### 🚶🏾‍♀️ GirlTREK Dashboard")
+    st.sidebar.markdown("**Q3 2025 Metrics Overview**")
+    st.sidebar.markdown("*Data updated: Aug 1, 2025*")
+    st.sidebar.markdown("---")
+    
+    # Dashboard Settings
+    st.sidebar.markdown("### ⚙️ Dashboard Settings")
+    dark_mode = st.sidebar.checkbox("🌙 Dark Mode", value=st.session_state.dark_mode)
+    st.session_state.dark_mode = dark_mode
+    apply_dark_mode(dark_mode)
+    
+    # Quick Stats in Sidebar
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 📊 Quick Stats")
+    st.sidebar.metric("Total Membership", format_number(st.session_state.total_membership))
+    st.sidebar.metric("New Members (2025)", format_number(st.session_state.new_members))
+    st.sidebar.metric("Total Contributions", format_currency(st.session_state.total_contributions))
+    st.sidebar.metric("Members Walking Daily", "5,634")
+    
+    # Export Options
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 📥 Export Options")
     if st.sidebar.button("🖨️ Save as PDF"):
-        # Inject JavaScript to open print dialog
         print_js = """
         <script>
         setTimeout(function() {
@@ -991,111 +251,30 @@ def main():
         </script>
         """
         st.components.v1.html(print_js, height=0)
-        
         st.sidebar.success("✅ Print dialog opened!")
-        st.sidebar.info("""
-        **To save as PDF:**
-        1. Choose "Save as PDF" as printer
-        2. Click "Save"
-        """)
-    
-    # Optional: Add instructions
-    with st.sidebar.expander("ℹ️ PDF Tips"):
-        st.markdown("""
-        **For best results:**
-        - Close the sidebar first (click X)
-        - View the tab you want to save
-        - Use landscape orientation for wide tables
-        
-        **To save multiple tabs:**
-        1. Save each tab separately
-        2. Use a PDF merger to combine
-        """)
 
-    st.sidebar.markdown("---")
-    st.sidebar.markdown("### Dashboard Settings")
-    if 'show_target_lines' not in st.session_state:
-        st.session_state.show_target_lines = True
-        
-    if 'dark_mode' not in st.session_state:
-        st.session_state.dark_mode = False
-        
-    show_target_lines = st.sidebar.checkbox("Show Target Lines", value=st.session_state.show_target_lines, key="show_target_lines_checkbox")
-    dark_mode = st.sidebar.checkbox("Dark Mode", value=st.session_state.dark_mode, key="dark_mode_checkbox")
-
-    st.session_state.show_target_lines = show_target_lines
-    st.session_state.dark_mode = dark_mode
-
-    apply_dark_mode(dark_mode)
-
-    st.sidebar.markdown("---")
-    st.sidebar.markdown("### Dashboard Notes")
-
-    global_notes = st.sidebar.text_area(
-        "Add global notes for the entire dashboard:",
-        value=st.session_state.global_notes,
-        height=100,
-        key="textarea_global_notes"
+    # App Title with Model of Change Header
+    st.markdown(
+        """
+        <div class="model-header">
+            <h1 style="color: white; margin: 0;">🚶🏾‍♀️ GirlTREK Organizational Dashboard</h1>
+            <p style="color: white; font-size: 18px; margin-top: 10px;">Model of Change: Walk • Talk • Solve Problems</p>
+            <p style="color: white; font-size: 14px; margin-top: 5px;">Reducing Inactivity • Eliminating Isolation • Combating Injustice</p>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
-
-    if st.sidebar.button("Save Global Notes"):
-        save_global_notes(global_notes)
-
-    st.sidebar.markdown("### Recent Notes")
-    if 'recent_notes' in st.session_state and st.session_state.recent_notes:
-        for note in st.session_state.recent_notes:
-            st.sidebar.markdown(
-                f"""
-                <div style="background-color: #f1f3f4; padding: 10px; border-radius: 5px; margin-bottom: 10px; border-left: 3px solid #0088FF;">
-                    <div style="font-size: 12px; color: #666; margin-bottom: 2px;">{note['tab']} - {note['timestamp']}</div>
-                    <div style="font-size: 14px;">{note['summary']}</div>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-    else:
-        st.sidebar.markdown("*No recent notes to display*")
-
-    if st.sidebar.button("Export All Notes"):
-        all_notes = {"Global": st.session_state.global_notes}
-        
-        for tab in ["Executive Summary", "Recruitment", "Engagement", "Development", 
-                    "Marketing", "Operations", "Member Care", "Advocacy", "Impact"]:
-            tab_key = f"notes_{tab}"
-            if tab_key in st.session_state:
-                all_notes[tab] = st.session_state[tab_key]
-        
-        csv_data = "Tab,Notes\n"
-        for tab, notes in all_notes.items():
-            clean_notes = notes.replace(',', ';').replace('\n', ' ')
-            csv_data += f"{tab},{clean_notes}\n"
-        
-        b64 = base64.b64encode(csv_data.encode()).decode()
-        date_str = datetime.now().strftime("%Y%m%d")
-        href = f'<a href="data:file/csv;base64,{b64}" download="GirlTREK_Dashboard_Notes_{date_str}.csv">Download All Notes</a>'
-        st.sidebar.markdown(href, unsafe_allow_html=True)
-
-    # App Title
-    st.title("GirlTREK Organizational Dashboard")
-    st.markdown("### Q3 2025 Metrics Overview")
-    st.markdown("*Data dashboard was updated on Aug 1, 2025*")
-
-    # Load dataframes with real data from CSV
-
+    
+    # Load all original data
+    
     # New Members by Month - Real data
     df_extended = pd.DataFrame({
         'Month': ['Oct 2024', 'Nov 2024', 'Dec 2024', 'Jan 2025', 'Feb 2025', 'Mar 2025', 'Apr 2025', 'May 2025', 'Jun 2025'],
         'New Members': [1365, 1419, 182, 591, 1588, 4382, 6073, 2610, 123],
         'Date': [
-            datetime(2024, 10, 1),
-            datetime(2024, 11, 1),
-            datetime(2024, 12, 1),
-            datetime(2025, 1, 1),
-            datetime(2025, 2, 1),
-            datetime(2025, 3, 1),
-            datetime(2025, 4, 1),
-            datetime(2025, 5, 1),
-            datetime(2025, 6, 1)
+            datetime(2024, 10, 1), datetime(2024, 11, 1), datetime(2024, 12, 1),
+            datetime(2025, 1, 1), datetime(2025, 2, 1), datetime(2025, 3, 1),
+            datetime(2025, 4, 1), datetime(2025, 5, 1), datetime(2025, 6, 1)
         ]
     })
 
@@ -1122,7 +301,7 @@ def main():
         'Members': [20166, 16775, 16662, 15197, 12797]
     })
 
-    # Historic Movement Growth Numbers - Real data where available
+    # Historic Movement Growth Numbers - Real data
     df_historic_growth = pd.DataFrame({
         'Year': [2020, 2021, 2022, 2023, 2024, 2025],
         'Trekkers': [1000000, 1218000, 1214566, 1207517, 1229038, 1244476],
@@ -1138,8 +317,8 @@ def main():
     # Financial Trend Data - Real data (May 2025 YTD)
     finance_trend_data = pd.DataFrame({
         'Month': ['January', 'February', 'March', 'April', 'May'],
-        'Revenue': [648705, 648705, 648705, 648705, 648706],  # Total: 3,243,526
-        'Expenses': [468772, 468772, 468772, 468773, 468773]  # Total: 2,343,862
+        'Revenue': [648705, 648705, 648705, 648705, 648706],
+        'Expenses': [468772, 468772, 468772, 468773, 468773]
     })
 
     # Email and Subscriber Activity Data - Real data
@@ -1167,15 +346,16 @@ def main():
     knowledge_data = pd.DataFrame({
         'Topic': [
             'Land rights, housing & environmental justice',
-            'Civic engagement & political participation',
-            'Safety, self-defense & public resource access',
-            'Decarceration, gun safety & restorative justice',
-            'Mental health & emotional boundaries',
             'Radical care, family legacy & intergenerational healing',
-            'Parenting, mentorship & end-of-life planning',
-            'Self-esteem, celebration & personal empowerment'
+            'Decarceration, gun safety & restorative justice',
+            'Safety, self-defense & public resource access',
+            'Mental health & emotional boundaries',
+            'Self-esteem, celebration & personal empowerment',
+            'Civic engagement & political participation',
+            'Parenting, mentorship & end-of-life planning'
         ],
-        'Members': [710, 569, 645, 658, 622, 695, 536, 602]
+        'Members': [710, 695, 658, 645, 622, 602, 569, 536],
+        'Percentage': [71.60, 67.34, 63.76, 64.40, 60.27, 58.33, 57.00, 51.94]
     })
     
     # Age Distribution Data for Campaigns
@@ -1190,403 +370,352 @@ def main():
                 'Week 6', 'Week 7', 'Week 8', 'Week 9', 'Week 10', 'Final Impact'],
         'Badges Claimed': [3442, 2400, 2862, 1928, 1521, 1477, 2234, 1531, 1460, 1847, 1334, 867]
     })
-
-    # Create Tabs - Adding Campaigns tab
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
-        "Executive Summary",
-        "Recruitment",
-        "Engagement",
-        "Development",
-        "Marketing",
-        "Campaigns",
-        "Operations",
-        "Member Care",
-        "Advocacy",
-        "Impact"
+    
+    # Grant Applications Data
+    grants_data = {
+        'Account': [
+            'Pivotal Ventures', 'National Trust for Historic Preservation', 'Echoing Green', 'Emerson Collective',
+            'National Trust for Historic Preservation', 'Gabell Foundation', 'National Trust for Historic Preservation',
+            'National Trust for Historic Preservation', 'Borealis Philanthropy', 'National Trust for Historic Preservation',
+            'Robert Wood Johnson Foundation', 'Emergent Fund', 'Southern Black Girls', 'Lumena Foundation',
+            'Sun Life', 'Black Feminist Fund', 'Elevate Prize Foundation', 'Saks Fifth Avenue Foundation',
+            'Borealis Philanthropy', 'Central Alabama Community Foundation', 'JusPax Fund', 'Tow Foundation'
+        ],
+        'Grant Name': [
+            '2025 Action for Women\'s Health', '2025 National Trust Preservation', '2025 Follow-On Funding',
+            '2025 EC Special Grant', '2025 AACHAF', '2025 CF Special Grant', '2025 Johanna Favrot',
+            '2025 Cynthia Woods Mitchell', '2025 Black Led Movement', '2025 Black Modernism',
+            '2025 Data Equity', '2025 Emergent Fund', '2025 SBG Defense Fund', '2025 Lumena Foundation Moon',
+            '2025 Sun Life Health Access', '2025 Sustain Fund', '2025 Elevate Prize', '2025 Local Funding',
+            '2025 Borealis Philanthropy REACH Fund', '2025 Montgomery City Council', '2025 JusPax Fund: Gender Justice',
+            'Tow Foundation'
+        ],
+        'Amount Requested': [
+            '$5,000,000', '$5,000', '$100,000', '$224,250', '$75,000', '$10,000', '$15,000', '$15,000',
+            '$183,500', '$150,000', '$50,000', '$25,000', '$2,000', '$50,000', '$100,000', '$1,600,000',
+            '$100,000', '$30,000', '$150,000', '$10,000', '$25,000', '$600,000'
+        ],
+        'Amount Funded': [
+            '', '$2,500', '', '', '', '$10,000', '', '', '', '', '', '', '$2,000', '', '', '', '', '', '', '', '', ''
+        ],
+        'Due Date': [
+            'Jan', 'Feb', 'Feb', 'Feb', 'Feb', 'Feb', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Apr', 'Apr',
+            'Apr', 'May', 'Jun', 'Jul', 'Jul', 'Jul', 'Jul', 'Jul'
+        ],
+        'Status': [
+            'Pending', 'Closed - Funded', 'Closed - Declined', 'Closed - Declined', 'Pending', 'Closed - Funded',
+            'Pending', 'Pending', 'Pending', 'Pending', 'Closed - Declined', 'Pending', 'Closed - Funded',
+            'Closed - Declined', 'Closed - Declined', 'Pending', 'Pending', 'Pending', 'Prepare', 'Prepare',
+            'Prepare', 'Prepare'
+        ]
+    }
+    
+    grants_df = pd.DataFrame(grants_data)
+    
+    # Create Tabs based on Model of Change
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "📈 Executive Summary",
+        "🚶🏾‍♀️ WALK (Reduce Inactivity)", 
+        "💬 TALK (Eliminate Isolation)",
+        "✊🏾 SOLVE PROBLEMS (Combat Injustice)",
+        "📊 Operational Excellence"
     ])
-
+    
     # ---------------------------------
     # Executive Summary Tab
     # ---------------------------------
     with tab1:
-        add_board_update("Executive Summary")
+        st.markdown('<h2 class="section-title">Executive Summary - Q3 2025</h2>', unsafe_allow_html=True)
         
-        st.markdown('<h3 class="section-title">Executive Summary</h3>', unsafe_allow_html=True)
+        # Mission Statement
+        st.info(
+            """
+            **Our Mission**: To increase the life expectancy of Black women by mobilizing 1 million women to walk, talk, and solve problems.
+            
+            **Our Model**: Walk (Reduce Inactivity) • Talk (Eliminate Isolation) • Solve Problems (Combat Injustice)
+            """
+        )
         
-        st.markdown("<h3>Key Metrics</h3>", unsafe_allow_html=True)
-        col1, col2, col3 = st.columns(3)
-
+        # Key Performance Indicators
+        st.markdown("### 🎯 Key Performance Indicators")
+        
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL MEMBERSHIP</p>'
-                f'<p class="metric-value">{format_number(st.session_state.total_membership)}</p>'
-                f'<p>Goal: 1,700,000</p>'
-                f'<p>{status_badge("On Track")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
+            st.metric("Total Membership", format_number(st.session_state.total_membership), "+15,438 YTD")
         with col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
-                f'<p class="metric-value">{format_number(st.session_state.new_members)}</p>'
-                f'<p>Goal: 100,000</p>'
-                f'<p>{status_badge("At Risk")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
+            st.metric("Walking Daily", "5,634", "Goal: 65,000")
         with col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
-                f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
-                f'<p>Goal: $10,000,000</p>'
-                f'<p>{status_badge("On Track")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        st.markdown('<h3>Report Card Progress</h3>', unsafe_allow_html=True)
-
+            st.metric("Total Raised", format_currency(st.session_state.total_contributions), "31% of $10M goal")
+        with col4:
+            st.metric("Program Impact", "99.9%", "Mental well-being improvement")
+        
+        # Report Card Progress
+        st.markdown("### 📋 2025 Report Card Progress")
+        
         report_data = {
             "Goal": [
-                "Recruit 100,000 new members",
-                "Engage 250,000 members",
-                "Support 65,000 walking daily",
-                "Unite 3 advocacy partners",
-                "Raise $10M",
-                "Establish Care Village (40k)",
-                "Achieve 85% organizational health"
+                "🚶🏾‍♀️ WALK: Support 65,000 walking daily",
+                "🚶🏾‍♀️ WALK: Recruit 100,000 new members",
+                "💬 TALK: Engage 250,000 members",
+                "💬 TALK: Train 100 Blue Brigade leaders",
+                "✊🏾 SOLVE: Unite 3 advocacy partners",
+                "✊🏾 SOLVE: Establish Care Village (40k)",
+                "💰 SUSTAIN: Raise $10M",
+                "📊 EXCEL: Achieve 85% organizational health"
             ],
-            "Current Total": [
-                "15,438", "13,119", "5,634", "0",
-                "$3,109,294.25", "7,660", "End of Year Metric"
-            ],
-            "Percent Progress": [
-                "15.44%", "5.25%", "8.67%", "0%", "31.09%", "19.15%", "TBD"
-            ],
-            "Status": [
-                "On Track", "On Track", "At Risk", "On Track",
-                "On Track", "On Track", "On Track"
-            ],
-            "Progress": [
-                15.44, 5.25, 8.67, 0, 31.09, 19.15, 0
-            ]
+            "Current": ["5,634", "15,438", "13,119", "50", "0", "7,660", "$3.1M", "TBD"],
+            "Progress": [8.67, 15.44, 5.25, 50.0, 0, 19.15, 31.09, 0],
+            "Status": ["At Risk", "At Risk", "On Track", "On Track", "On Track", "On Track", "On Track", "On Track"]
         }
-
+        
         for i in range(len(report_data["Goal"])):
             goal = report_data["Goal"][i]
-            current = report_data["Current Total"][i]
-            percent = report_data["Percent Progress"][i]
-            status = report_data["Status"][i]
+            current = report_data["Current"][i]
             progress = report_data["Progress"][i]
-
-            # Add context for Care Village
-            if "Care Village" in goal:
-                goal += '<br><span style="font-size: 12px; font-style: italic; color: #666;">Total number of women who have joined movement in AL</span>'
-
+            status = report_data["Status"][i]
+            
             if status == "On Track":
                 bar_color = "#4CAF50"
-            elif status == "Achieved":
-                bar_color = achieved_green
             elif status == "At Risk":
                 bar_color = "#FF9800"
             else:
-                bar_color = secondary_gray
-
-            progress_html = f"""
-            <div style="margin-bottom: 20px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <div><strong>{goal}</strong></div>
-                    <div style="text-align: right;">
-                        <span style="margin-right: 15px;"><strong>{current}</strong></span>
-                        <span style="margin-right: 15px;"><strong>{percent}</strong></span>
-                        <span><strong>{status}</strong></span>
+                bar_color = "#F44336"
+            
+            st.markdown(
+                f"""
+                <div style="margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <div><strong>{goal}</strong></div>
+                        <div style="text-align: right;">
+                            <span style="margin-right: 15px;">{current}</span>
+                            <span style="margin-right: 15px;">{progress:.1f}%</span>
+                            {status_badge(status)}
+                        </div>
+                    </div>
+                    <div style="width: 100%; background-color: #f0f2f5; height: 12px; border-radius: 6px;">
+                        <div style="width: {min(progress, 100)}%; height: 100%; background-color: {bar_color}; border-radius: 6px;"></div>
                     </div>
                 </div>
-                <div style="width: 100%; background-color: #f0f2f5; height: 12px; border-radius: 6px;">
-                    <div style="width: {min(progress, 100)}%; height: 100%; background-color: {bar_color}; border-radius: 6px;"></div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        # Model of Change Performance
+        st.markdown("### 🔄 Model of Change Performance")
+        
+        model_col1, model_col2, model_col3 = st.columns(3)
+        
+        with model_col1:
+            st.markdown(
+                """
+                <div style="background-color: #E8F5E8; border-radius: 10px; padding: 20px; text-align: center;">
+                    <h3 style="color: #2E7D32;">🚶🏾‍♀️ WALK</h3>
+                    <p style="font-size: 14px; color: #424242;">Reducing Inactivity</p>
+                    <hr>
+                    <p><strong>5,634</strong> walking daily</p>
+                    <p><strong>727</strong> new crews formed</p>
+                    <p><strong>12,037</strong> at life-saving level</p>
                 </div>
-            </div>
-            """
-            st.markdown(progress_html, unsafe_allow_html=True)
-
-        st.markdown("<h3>Historic Movement Growth Numbers</h3>", unsafe_allow_html=True)
-
-        # Add context for organizational health
-        if "organizational health" in goal:
-            goal += '<br><span style="font-size: 12px; font-style: italic; color: #666;">Data will be collected in staff survey in Nov 2025</span>'
-    
-        # Add historic comparison note
-        st.markdown(
-            f"""
-            <div style="background-color: #E3F2FD; border-radius: 10px; padding: 15px; margin-bottom: 20px; border-left: 5px solid #2196F3;">
-                <h5 style="color: #1565C0; margin-top: 0;">Historic Comparison - 2017</h5>
-                <p style="color: #424242;">In 2017: <strong>116,938 Trekkers</strong> | <strong>44,149 New Women</strong> | <strong>60.65% Growth</strong></p>
-                <p style="color: #424242;">For comparison: In 2020, we reached <strong>1,000,000 Trekkers</strong> with <strong>626,660 New Women</strong> joining (<strong>167.85% Growth</strong>)</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with model_col2:
+            st.markdown(
+                """
+                <div style="background-color: #E3F2FD; border-radius: 10px; padding: 20px; text-align: center;">
+                    <h3 style="color: #1565C0;">💬 TALK</h3>
+                    <p style="font-size: 14px; color: #424242;">Eliminating Isolation</p>
+                    <hr>
+                    <p><strong>11,535</strong> trained volunteers</p>
+                    <p><strong>673</strong> report social connection</p>
+                    <p><strong>8</strong> knowledge topics delivered</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with model_col3:
+            st.markdown(
+                """
+                <div style="background-color: #FFF3E0; border-radius: 10px; padding: 20px; text-align: center;">
+                    <h3 style="color: #E65100;">✊🏾 SOLVE</h3>
+                    <p style="font-size: 14px; color: #424242;">Combating Injustice</p>
+                    <hr>
+                    <p><strong>7</strong> advocacy briefs published</p>
+                    <p><strong>7,660</strong> in Care Village</p>
+                    <p><strong>907</strong> empowered to act</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        # Historic Growth
+        st.markdown("### 📈 Historic Movement Growth")
+        
         historic_fig = go.Figure()
         historic_fig.add_trace(go.Scatter(
             x=df_historic_growth['Year'],
             y=df_historic_growth['Trekkers'],
             mode='lines+markers',
-            name='Trekkers',
+            name='Total Trekkers',
             line=dict(color=primary_blue, width=3),
             marker=dict(size=8)
         ))
-
+        
         historic_fig.update_layout(
-            title='Historic Growth of Trekkers (2020–2025)',
+            title='Historic Growth of Trekkers (2020-2025)',
             xaxis_title='Year',
             yaxis_title='Total Trekkers',
             title_font=dict(color=primary_blue),
             height=400
         )
-
-        st.plotly_chart(historic_fig, use_container_width=True, key="historic_growth_fig")
-
-        st.markdown('<h3>Membership Distribution</h3>', unsafe_allow_html=True)
-
-        exec_fig_total_age = px.bar(
-            df_total_age,
-            x='Age Group',
-            y='Members',
-            title='Total Membership by Age Group',
-            color='Members',
-            color_continuous_scale=[secondary_purple, primary_blue, secondary_pink]
-        )
-        exec_fig_total_age.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(exec_fig_total_age, use_container_width=True, key="exec_fig_total_age")
         
-        # Add note about Unknown age group
+        st.plotly_chart(historic_fig, use_container_width=True)
+        
+        # Demographics Overview
+        st.markdown("### 👥 Membership Demographics")
+        
+        demo_col1, demo_col2 = st.columns(2)
+        
+        with demo_col1:
+            # Top States
+            states_fig = px.bar(
+                df_top_states,
+                x='State',
+                y='Members',
+                title='Top 5 States by Membership',
+                color='Members',
+                color_continuous_scale=[primary_blue, secondary_purple]
+            )
+            states_fig.update_layout(title_font=dict(color=primary_blue), height=350)
+            st.plotly_chart(states_fig, use_container_width=True)
+        
+        with demo_col2:
+            # Top Cities
+            cities_fig = px.bar(
+                df_top_cities,
+                x='City',
+                y='Members',
+                title='Top 5 Cities by Membership',
+                color='Members',
+                color_continuous_scale=[primary_blue, secondary_orange]
+            )
+            cities_fig.update_layout(title_font=dict(color=primary_blue), height=350)
+            st.plotly_chart(cities_fig, use_container_width=True)
+        
+        # Member Profile
+        st.markdown('### 👩🏾 GirlTREK Member Profile: "The Everyday Health Activist"')
+        
+        profile_col1, profile_col2, profile_col3 = st.columns(3)
+        
+        with profile_col1:
+            st.info(
+                """
+                **Demographics**
+                - Age: 52 years old
+                - Education: College degree
+                - Income: $100K+ (69%)
+                - Location: Southern states
+                - Homeowner: 83.3%
+                """
+            )
+        
+        with profile_col2:
+            st.info(
+                """
+                **Health Habits**
+                - Walks 30 min/day, 5 days/week
+                - Gardens (80.2%)
+                - Reads (92.2%)
+                - Travels (89.9%)
+                - Fitness-focused (90.5%)
+                """
+            )
+        
+        with profile_col3:
+            st.info(
+                """
+                **Engagement**
+                - Email subscriber
+                - SMS member
+                - Podcast listener
+                - Event participant
+                - Social media sharer
+                """
+            )
+    
+    # ---------------------------------
+    # WALK Tab (Reduce Inactivity)
+    # ---------------------------------
+    with tab2:
+        st.markdown('<h2 class="section-title">🚶🏾‍♀️ WALK - Reducing Inactivity</h2>', unsafe_allow_html=True)
+        
         st.markdown(
             """
-            <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-top: -10px; font-style: italic; font-size: 13px;">
-                *Unknown: Members who have not submitted date of birth or age in data collection. Date of birth is optional.
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-        st.markdown('<h3>Top States</h3>', unsafe_allow_html=True)
-
-        states_fig = px.bar(
-            df_top_states,
-            x='State',
-            y='Members',
-            title='Top 5 States by Membership',
-            color='Members',
-            color_continuous_scale=[primary_blue, secondary_purple]
-        )
-        states_fig.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(states_fig, use_container_width=True, key="states_fig")
-
-        st.markdown('<h3>Top Cities</h3>', unsafe_allow_html=True)
-
-        cities_fig = px.bar(
-            df_top_cities,
-            x='City',
-            y='Members',
-            title='Top 5 Cities by Membership',
-            color='Members',
-            color_continuous_scale=[primary_blue, secondary_orange]
-        )
-        cities_fig.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(cities_fig, use_container_width=True, key="cities_fig")
-        
-        # Member Profile Section
-        st.markdown('<h3>👩🏾 GirlTREK General Member Profile: "The Everyday Health Activist"</h3>', unsafe_allow_html=True)
-        st.markdown(
-            """
-            <div style="background-color: #F8F9FA; border-radius: 10px; padding: 20px; margin: 20px 0; border-left: 5px solid #0088FF;">
-                <p style="color: #424242; font-style: italic; font-size: 16px; margin-bottom: 20px;">
-                <strong>She is the backbone of the movement. A consistent, committed, and conscientious Black woman who is reclaiming her health and leading others by example—not necessarily with a megaphone, but with steady action.</strong>
+            <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                <p style="color: #2E7D32; font-size: 16px; margin: 0;">
+                <strong>Primary Outcome:</strong> Reduce inactivity by motivating members to adopt a daily habit of walking 30 minutes a day, 5 days a week.
                 </p>
             </div>
             """,
             unsafe_allow_html=True
         )
         
-        # Demographic Snapshot
-        st.markdown('<h4>📊 Demographic Snapshot</h4>', unsafe_allow_html=True)
+        # Walking Metrics
+        st.markdown("### 📊 Core Walking Metrics")
         
-        demo_col1, demo_col2, demo_col3 = st.columns(3)
+        walk_col1, walk_col2, walk_col3, walk_col4 = st.columns(4)
         
-        with demo_col1:
-            st.markdown("""
-            **👤 Personal Info**
-            - **Age**: 52 years old (core "sweet spot" 48-61)
-            - **Race/Ethnicity**: Black or African American
-            - **Marital Status**: Married (54.9%)
-            - **Children**: Has grown children or is a caregiver (36.8%)
-            """)
+        with walk_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MEMBERS WALKING DAILY</p>'
+                f'<p class="metric-value">5,634</p>'
+                f'<p style="font-style: italic; font-size: 12px;">30 min/day, 5 days/week</p>'
+                f'<p>Goal: 65,000</p>'
+                f'<p>{status_badge("At Risk")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
         
-        with demo_col2:
-            st.markdown("""
-            **🎓 Education & Career**
-            - **Education**: College-educated with bachelor's degree (26% have graduate degree)
-            - **Occupation**: Professional/technical/managerial
-            - **Common Sectors**: Tech (17%), Healthcare (6.2%), Education
-            """)
+        with walk_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">AT LIFE-SAVING LEVEL</p>'
+                f'<p class="metric-value">12,037</p>'
+                f'<p style="font-style: italic; font-size: 12px;">From Self-Care School</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
         
-        with demo_col3:
-            st.markdown("""
-            **💰 Financial Profile**
-            - **Income**: $100K+ annually (69% of engaged members)
-            - **Net Worth**: $250K-$499K
-            - **Homeowner**: 83.3% (10+ years in home)
-            - **Region**: Southern states (GA, TX, FL) or urban metros (NY, LA)
-            """)
+        with walk_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">NEW WALKING CREWS</p>'
+                f'<p class="metric-value">727</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Formed in 2025</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
         
-        # Mindset & Lifestyle
-        st.markdown('<h4>💭 Mindset & Lifestyle</h4>', unsafe_allow_html=True)
+        with walk_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">ACTIVE CREW LEADERS</p>'
+                f'<p class="metric-value">1,846</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Leading walks</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
         
-        mindset_col1, mindset_col2 = st.columns(2)
+        # Recruitment Section
+        st.markdown("### 👥 Member Recruitment")
         
-        with mindset_col1:
-            st.info("""
-            **🚶🏾‍♀️ Why She Walks**
-            - Health, stress relief, joy, and reclaiming time for herself
-            - Both physical health and emotional healing
-            - Fighting isolation, inactivity, and injustice
-            
-            **👥 Social Role**
-            - May not lead a crew but admired by friends/family
-            - First to text "You walking this Saturday?"
-            - Medium to high engagement level
-            """)
+        recruit_col1, recruit_col2, recruit_col3 = st.columns(3)
         
-        with mindset_col2:
-            st.info("""
-            **🎯 Mission Alignment**
-            - Driven by adding 10 years to Black women's life expectancy
-            - Aligned with 3 "Deadly I's" framework
-            - Subscribed to SMS list, checks Field Guide
-            - Listens to Black History Bootcamp podcast
-            """)
-        
-        # Health & Activity Level
-        st.markdown('<h4>🏃🏾‍♀️ Health & Activity Level</h4>', unsafe_allow_html=True)
-        
-        health_col1, health_col2 = st.columns(2)
-        
-        with health_col1:
-            st.success("""
-            **Exercise Routine**
-            - Walks 30 minutes/day, 5 days/week
-            - Achieved during Self-Care School or Summer of Solidarity
-            - Meets threshold to extend life by 7 years
-            """)
-        
-        with health_col2:
-            st.success("""
-            **Preferred Activities**
-            - Walking in parks or urban sidewalks
-            - Gardening (80.2%)
-            - Home cooking with healthy food
-            - Reading (92.2%)
-            - Travel (89.9%)
-            - Fitness-focused (90.5%) on her own terms
-            """)
-        
-        # Programs & Tools
-        st.markdown('<h4>🛠️ Programs & Tools She Uses</h4>', unsafe_allow_html=True)
-        
-        tools_col1, tools_col2, tools_col3 = st.columns(3)
-        
-        with tools_col1:
-            st.markdown("""
-            **📱 Digital Tools**
-            - **Field Guide**: Self-Care School calendar, Sister's Keeper pledge
-            - **Podcast**: Black History Bootcamp during walks
-            - **App/Website**: Tracks self-care streaks
-            """)
-        
-        with tools_col2:
-            st.markdown("""
-            **🎪 Events & Programs**
-            - **Mobilize**: Registers for local walks/events
-            - **Juneteenth** and **BF5K** participation
-            - **Care Programs**: Food justice, caregiving, mental health
-            """)
-        
-        with tools_col3:
-            st.markdown("""
-            **🛍️ Engagement**
-            - **Shop**: Campaign launches, golden shoelaces
-            - **SMS/Email**: Subscribed for updates
-            - **Social**: Shares with #GirlTREK #BlackGirlJoy
-            """)
-        
-        # Member Behavior Patterns
-        st.markdown('<h4>📅 Member Behavior Patterns</h4>', unsafe_allow_html=True)
-        
-        behavior_col1, behavior_col2 = st.columns(2)
-        
-        with behavior_col1:
-            st.warning("""
-            **🌸 Seasonal Engagement**
-            - **Spring**: Self-Care School (10-week training)
-            - **Summer**: Summer of Solidarity walks and local events
-            - **Fall**: Gratitude Season – Black Family 5K, 9-Day Prayer Trek, Gratitude Trek
-            """)
-        
-        with behavior_col2:
-            st.warning("""
-            **🌟 Social Influence**
-            - Invites others to walk (Sister's Keeper bracelet goal)
-            - Participates in Harriet House Parties, Juneteenth walks
-            - Shares GirlTREK's message in church, workplace, community
-            """)
-        
-        # Data Analysis & Recommendations
-        st.markdown('### 📊 Data Analysis & Recommendations')
-        
-        # Key Insights
-        st.markdown('#### 🔍 Key Insights')
-        st.info("""
-        **Strong Overall Progress:** 4 out of 7 major goals are on track, with organizational health at 100% and fundraising at 31% of target
-        
-        **Geographic Concentration:** Top 5 states represent 25% of total membership, indicating strong regional presence
-        
-        **Age Distribution Opportunity:** 61% of members have not provided age data, suggesting data collection improvements needed
-        """)
-        
-        # Strategic Recommendations
-        st.markdown('#### 💡 Strategic Recommendations')
-        st.success("""
-        **Address At-Risk Goals:** Focus resources on walking daily support (8.67% progress) and advocacy partnerships (0% progress)
-        
-        **Accelerate Recruitment:** New member acquisition at 15.44% needs strategic boost to reach 100K goal
-        
-        **Enhance Data Collection:** Implement incentives for members to complete profile information, especially age demographics
-        
-        **Geographic Expansion:** Leverage success in top states to develop strategies for underrepresented regions
-        
-        **Capitalize on Strengths:** Use strong fundraising momentum and organizational health to support struggling areas
-        """)
-        
-        st.markdown('<hr>', unsafe_allow_html=True)
-        create_notes_section("Executive Summary")
-        
-    # ---------------------------------
-    # Recruitment Tab
-    # ---------------------------------
-    with tab2:
-        add_board_update("Recruitment")
-        
-        st.markdown('<h3 class="section-title">Recruitment Metrics</h3>', unsafe_allow_html=True)
-
-        recruitment_col1, recruitment_col2, recruitment_col3 = st.columns(3)
-
-        with recruitment_col1:
+        with recruit_col1:
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL NEW MEMBERS</p>'
@@ -1596,8 +725,8 @@ def main():
                 f'</div>',
                 unsafe_allow_html=True
             )
-
-        with recruitment_col2:
+        
+        with recruit_col2:
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">NEW MEMBERS AGE 18-25</p>'
@@ -1607,288 +736,210 @@ def main():
                 f'</div>',
                 unsafe_allow_html=True
             )
-
-        with recruitment_col3:
+        
+        with recruit_col3:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL RECRUITMENT PARTNERSHIPS</p>'
+                f'<p class="metric-title">RECRUITMENT PARTNERSHIPS</p>'
                 f'<p class="metric-value">18</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Contact has been made with 20 community organizations</p>'
                 f'<p>Goal: 10</p>'
                 f'<p>{status_badge("Achieved")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
-
+        
+        # Monthly Recruitment Chart
+        st.markdown("### 📈 Monthly Recruitment Trends")
+        
         recruit_monthly_fig = px.bar(
             df_extended,
             x='Month',
             y='New Members',
-            title='New Member Recruitment by Month (2024-2025)',
+            title='New Member Recruitment by Month (Oct 2024 - Jun 2025)',
             color='New Members',
             color_continuous_scale=[secondary_blue, primary_blue, primary_orange]
         )
-        recruit_monthly_fig.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(recruit_monthly_fig, use_container_width=True, key="recruit_monthly_fig")
+        recruit_monthly_fig.update_layout(title_font=dict(color=primary_blue), height=400)
+        st.plotly_chart(recruit_monthly_fig, use_container_width=True)
         
-        st.markdown('<h3>New Members by Age Group</h3>', unsafe_allow_html=True)
+        # Age Distribution
+        st.markdown("### 👤 Member Age Distribution")
         
-        new_age_fig = px.pie(
-            df_new_age,
-            values='New Members',
-            names='Age Group',
-            title='New Members by Age Group Distribution',
-            color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, secondary_pink, secondary_purple, secondary_green]
-        )
-        new_age_fig.update_traces(textposition='inside', textinfo='percent+label')
-        new_age_fig.update_layout(title_font=dict(color=primary_blue))
+        age_col1, age_col2 = st.columns(2)
         
-        st.plotly_chart(new_age_fig, use_container_width=True, key="new_age_fig")
-
-        # Recruitment Programs Section
-        st.markdown('<h3>Recruitment Programs</h3>', unsafe_allow_html=True)
-        
-        # College Aged Women Program
-        with st.expander("📚 College Aged Women - Nyra Govan", expanded=False):
-            # Program Overview
-            st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
-            st.markdown(
-                """
-                The GirlTREK College Crews initiative was created because GirlTREK has been waiting for students to be the revolutionaries that the world has been waiting for. Throughout history we have seen the youth at the forefront of many revolutions with their eyes locked on long-term reforms. Given the current economic climate and conditions, there is concern for students' well-being as they progress through college. 
-                
-                GirlTREK aims to provide a safe space for the next generation. GirlTREK looks forward to bringing its culture to college campuses to help the next generation prioritize their health and create a safe space on college campuses. Through daily walking, students will be able to connect with like minded individuals as they walk to better health, being leaders on campus and in the community. 
-                
-                The practice of radical self-care is not in the academic curriculum, so we want to ensure that students are starting this behavior change early in their life instead of falling to the system of burnout throughout their collegiate experience. The northern star of this goal is to get 100 college students across 100 college campuses to start crews on colleges across the country, with a focus on HBCUs. These college students will be our college leads that are leading their peers by walking, talking, and solving problems at their universities. 
-                
-                **Things change when Black women walk** – GirlTREK is excited to empower young women to start their self-care journey now.
-                """
+        with age_col1:
+            # New Members by Age
+            new_age_fig = px.pie(
+                df_new_age,
+                values='New Members',
+                names='Age Group',
+                title='New Members by Age Group',
+                color_discrete_sequence=[primary_blue, primary_orange, primary_yellow, secondary_pink, secondary_purple, secondary_green]
             )
-            
-            # Program Goals
-            st.markdown('<h5>Program Goals</h5>', unsafe_allow_html=True)
-            st.markdown(
-                """
-                * **Recruitment**: Identify and train 100 students in MHFA to serve as College Crew Leads on 100 campuses
-                * **Engagement**: Encourage students to host walks once a month on campus, creating safe spaces for college women
-                * **Impact**: Promote physical activity and empower the next generation of Legacy Builders for the movement
-                """
+            new_age_fig.update_traces(textposition='inside', textinfo='percent+label')
+            new_age_fig.update_layout(title_font=dict(color=primary_blue), height=350)
+            st.plotly_chart(new_age_fig, use_container_width=True)
+        
+        with age_col2:
+            # Total Membership by Age
+            total_age_fig = px.bar(
+                df_total_age,
+                x='Age Group',
+                y='Members',
+                title='Total Membership by Age Group',
+                color='Members',
+                color_continuous_scale=[secondary_purple, primary_blue, secondary_pink]
             )
-            
-            # Current Status Metrics
-            st.markdown('<h5>Current Status</h5>', unsafe_allow_html=True)
-            
-            college_col1, college_col2 = st.columns(2)
-            
-            with college_col1:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">COLLEGE LEADS RECRUITED</p>'
-                    f'<p class="metric-value">11 / 100</p>'
-                    f'<p style="font-size: 14px; color: #666;">11% of target achieved</p>'
-                    f'<p>{status_badge("At Risk")}</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
-            with college_col2:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">WALKS COMPLETED</p>'
-                    f'<p class="metric-value">0</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Due to semester not beginning yet</p>'
-                    f'<p>Goal: Monthly walks on campus</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
-            # Walk Schedule
-            st.markdown('<h5>Scheduled Solidarity Walks</h5>', unsafe_allow_html=True)
-            st.markdown('<p style="font-style: italic;">Rounds of walks scheduled for college students to walk in solidarity together:</p>', unsafe_allow_html=True)
-            
-            college_schedule_html = f"""
-            <div style="background-color: #F3F9FF; border-radius: 10px; padding: 15px; margin: 10px 0;">
-                <p><strong>Round 1</strong>: September 18th, 2025</p>
-                <p><strong>Round 2</strong>: January 22nd, 2026</p>
-                <p><strong>Round 3</strong>: April 9th, 2026</p>
-            </div>
-            """
-            st.markdown(college_schedule_html, unsafe_allow_html=True)
-            
-            # Mission Statement
+            total_age_fig.update_layout(title_font=dict(color=primary_blue), height=350)
+            st.plotly_chart(total_age_fig, use_container_width=True)
+        
+        # Walking Campaigns
+        st.markdown("### 🎯 Walking Campaigns & Programs")
+        
+        # Self-Care School Campaign Metrics
+        st.markdown("#### Self-Care School 2025")
+        
+        scs_col1, scs_col2, scs_col3 = st.columns(3)
+        
+        with scs_col1:
             st.markdown(
-                f"""
-                <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
-                     padding: 15px; border-radius: 5px; margin: 15px 0;">
-                    <p style="color: #2E7D32; font-style: italic; margin: 0;">
-                    This programming represents the heart of GirlTrek's mission—empowering Black women to reclaim their health and legacy through the simple yet radical act of walking. Together, we are ensuring that self-care and wellness become a lifestyle in the lives of young women to have the wit to carry the choice of our foremothers.
-                    </p>
-                </div>
-                """,
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MEMBERS RECRUITED</p>'
+                f'<p class="metric-value">5,377</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Through Self-Care School</p>'
+                f'</div>',
                 unsafe_allow_html=True
             )
         
-        # Mommy and Me Program
-        with st.expander("👩‍👧‍👦 Mommy and Me - Keturah Queen", expanded=False):
-            # Program Overview
-            st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
+        with scs_col2:
             st.markdown(
-                """
-                The "Mommy and Me" Walks initiative recruits GirlTrek moms to serve as Mom Coaches, leading family-centered wellness experiences in their communities. The program creates safe, supportive spaces for mothers and children to gather, move, and connect while promoting health and sisterhood within the GirlTrek movement.
-                """
+                f'<div class="metric-box">'
+                f'<p class="metric-title">WALKING AT LIFE-SAVING</p>'
+                f'<p class="metric-value">12,037</p>'
+                f'<p style="font-style: italic; font-size: 12px;">30+ min/day, 5 days/week</p>'
+                f'</div>',
+                unsafe_allow_html=True
             )
-            
-            # Key Objectives
-            st.markdown('<h5>Key Objectives</h5>', unsafe_allow_html=True)
+        
+        with scs_col3:
             st.markdown(
-                """
-                * **Recruitment**: Train 50 GirlTrek moms as Mom Coaches
-                * **Engagement**: Host fun, family-friendly community walks
-                * **Impact**: Promote physical activity, strengthen community ties, and inspire the next generation
-                * **Summer Goal**: Complete 100 "Mommy and Me" Walks nationwide
-                """
+                f'<div class="metric-box">'
+                f'<p class="metric-title">BADGES EARNED</p>'
+                f'<p class="metric-value">22,903</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Total badges claimed</p>'
+                f'</div>',
+                unsafe_allow_html=True
             )
-            
-            # Current Progress Metrics
-            st.markdown('<h5>Current Progress (July 2025)</h5>', unsafe_allow_html=True)
-            
-            mommy_col1, mommy_col2 = st.columns(2)
+        
+        # Badge Week Performance
+        st.markdown("#### Badge Achievement by Week")
+        
+        badge_fig = px.bar(
+            badge_week_data,
+            x='Week',
+            y='Badges Claimed',
+            title='Self-Care School Badge Achievement Progress',
+            color='Badges Claimed',
+            color_continuous_scale=['#E8F5E8', '#4CAF50']
+        )
+        badge_fig.update_layout(title_font=dict(color=primary_blue), height=350)
+        st.plotly_chart(badge_fig, use_container_width=True)
+        
+        # Special Walking Programs
+        st.markdown("### 🌟 Special Walking Programs")
+        
+        with st.expander("👩‍👧 Mommy and Me Walking Program", expanded=True):
+            mommy_col1, mommy_col2, mommy_col3 = st.columns(3)
             
             with mommy_col1:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">MOM COACHES RECRUITED</p>'
-                    f'<p class="metric-value">45 / 50</p>'
-                    f'<p style="font-size: 14px; color: #666;">90% Complete</p>'
-                    f'<p>{status_badge("On Track")}</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
+                st.metric("Mom Coaches Recruited", "45/50", "90% Complete")
             with mommy_col2:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">WALKS COMPLETED</p>'
-                    f'<p class="metric-value">8</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Successful "Mommy and Me" Walks</p>'
-                    f'<p>Goal: 100</p>'
-                    f'<p>{status_badge("On Track")}</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
-            mommy_col3, mommy_col4 = st.columns(2)
-            
+                st.metric("Walks Completed", "8", "Goal: 100")
             with mommy_col3:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">COMMUNITY ENGAGEMENT</p>'
-                    f'<p class="metric-value">83</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Free tickets sold in Round 1</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
+                st.metric("Community Engagement", "83", "Free tickets distributed")
             
-            with mommy_col4:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">REMAINING NEED</p>'
-                    f'<p class="metric-value">5</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Additional Mom Coaches to reach target</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
+            st.markdown(
+                """
+                **Program Impact:** Creating safe spaces for mothers and children to walk together
+                
+                **Schedule:**
+                - Round 1: Completed July 5th ✅
+                - Round 2: July 19, Aug 2 & 23, Sep 6
+                """
+            )
+        
+        with st.expander("🎓 College Crews Initiative", expanded=True):
+            college_col1, college_col2, college_col3 = st.columns(3)
             
-            # Walk Schedule
-            st.markdown('<h5>Walk Schedule</h5>', unsafe_allow_html=True)
+            with college_col1:
+                st.metric("College Leads", "11/100", "11% of target")
+            with college_col2:
+                st.metric("Members 18-25", "316", "Goal: 100,000")
+            with college_col3:
+                st.metric("Campus Coverage", "11", "HBCUs prioritized")
             
-            schedule_html = f"""
-            <div style="background-color: #F3F9FF; border-radius: 10px; padding: 15px; margin: 10px 0;">
-                <p><strong>Round 1</strong>: Completed July 5th ✅</p>
-                <p><strong>Round 2</strong>: Currently in progress</p>
-                <ul style="margin-left: 20px;">
-                    <li>July 19</li>
-                    <li>August 2 & 23</li>
-                    <li>September 6</li>
-                </ul>
-            </div>
-            """
-            st.markdown(schedule_html, unsafe_allow_html=True)
-
-        # Data Analysis & Recommendations
-        st.markdown('### 📊 Data Analysis & Recommendations')
+            st.markdown(
+                """
+                **Mission:** Empowering the next generation to start self-care early
+                
+                **Solidarity Walks:**
+                - Round 1: September 18, 2025
+                - Round 2: January 22, 2026
+                - Round 3: April 9, 2026
+                """
+            )
         
-        # Key Insights
-        st.markdown('#### 🔍 Key Insights')
-        st.warning("""
-        **Recruitment Challenge:** At 15.44% of annual goal (15,438 vs 100,000), significant acceleration needed
+        # Walking Habit Development
+        st.markdown("### 📈 Walking Habit Impact")
         
-        **Seasonal Patterns:** Strong recruitment in March-May (12,065 members) suggests effective spring campaigns
+        habit_data = pd.DataFrame({
+            'Metric': ['Built Stronger Walking Habit', 'Implemented New Habits', 'Shared Lessons with Others'],
+            'Members': [709, 293, 819],
+            'Percentage': [68.70, 34.92, 83.66]
+        })
         
-        **Age Gap:** Only 316 new members aged 18-25, highlighting need for youth engagement strategies
-        
-        **Partnership Success:** 18 recruitment partnerships exceeded goal of 10, showing strong community connections
-        
-        **Program Potential:** Mommy and Me at 90% completion vs College Crews at 11% shows varying program effectiveness
-        """)
-        
-        # Strategic Recommendations
-        st.markdown('#### 💡 Strategic Recommendations')
-        st.success("""
-        **Replicate Spring Success:** Analyze March-May campaigns and apply learnings to remaining quarters
-        
-        **Youth Strategy Overhaul:** Accelerate College Crews program and develop campus-specific recruitment tactics
-        
-        **Partnership Leverage:** Utilize existing 18 partnerships for member referrals and joint recruitment events
-        
-        **Scale Successful Programs:** Expand Mommy and Me model and recruit additional Mom Coaches beyond 50 target
-        
-        **Digital Focus:** Invest in social media and digital recruitment to reach younger demographics
-        
-        **Retention Integration:** Ensure recruitment efforts include onboarding strategies to improve member retention
-        """)
-
-        st.markdown('<hr>', unsafe_allow_html=True)
-        create_notes_section("Recruitment")
-
+        habit_fig = px.bar(
+            habit_data,
+            x='Metric',
+            y='Members',
+            title='Self-Care School Behavior Change Outcomes',
+            text='Percentage',
+            color='Members',
+            color_continuous_scale=['#E8F5E8', '#66BB6A', '#4CAF50']
+        )
+        habit_fig.update_traces(texttemplate='%{text:.1f}%', textposition='outside')
+        habit_fig.update_layout(title_font=dict(color=primary_blue), height=400)
+        st.plotly_chart(habit_fig, use_container_width=True)
+    
     # ---------------------------------
-    # Engagement Tab
+    # TALK Tab (Eliminate Isolation)
     # ---------------------------------
     with tab3:
-        add_board_update("Engagement")
+        st.markdown('<h2 class="section-title">💬 TALK - Eliminating Isolation</h2>', unsafe_allow_html=True)
         
-        st.markdown('<h3 class="section-title">Engagement Metrics</h3>', unsafe_allow_html=True)
-
-        engagement_col1, engagement_col2 = st.columns(2)
-
-        with engagement_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL NEW CREWS (2025)</p>'
-                f'<p class="metric-value">727</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        with engagement_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">MEMBERS WALKING DAILY</p>'
-                f'<p class="metric-value">5,439</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Walking at least 30 min/day, 5 days/week (from Self-Care School exit data)</p>'
-                f'<p>Goal: 50,000</p>'
-                f'<p>{status_badge("At Risk")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
+        st.markdown(
+            """
+            <div style="background-color: #E3F2FD; border-left: 5px solid #2196F3; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                <p style="color: #1565C0; font-size: 16px; margin: 0;">
+                <strong>Primary Outcome:</strong> Foster social cohesion and eliminate isolation through training, dialogue, storytelling, and peer support.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
         
-        eng_col1, eng_col2, eng_col3 = st.columns(3)
+        # Engagement Metrics
+        st.markdown("### 🤝 Engagement & Connection Metrics")
+        
+        eng_col1, eng_col2, eng_col3, eng_col4 = st.columns(4)
         
         with eng_col1:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">ACTIVE VOLUNTEERS</p>'
-                f'<p class="metric-value">3,348</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Has hosted an event this year</p>'
+                f'<p class="metric-title">TOTAL ENGAGED</p>'
+                f'<p class="metric-value">13,119</p>'
+                f'<p>Goal: 250,000</p>'
+                f'<p>{status_badge("On Track")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1896,9 +947,9 @@ def main():
         with eng_col2:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">DOCUMENTED CREW LEADERS</p>'
-                f'<p class="metric-value">3,856</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Submitted crew via website, attended training, or previously noted as leader</p>'
+                f'<p class="metric-title">ACTIVE VOLUNTEERS</p>'
+                f'<p class="metric-value">3,348</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Hosted event this year</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1906,16 +957,25 @@ def main():
         with eng_col3:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">ACTIVE CREW LEADERS</p>'
-                f'<p class="metric-value">1,846</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Hosted an event this year or signed up this year</p>'
-                f'<p>{status_badge("On Track")}</p>'
+                f'<p class="metric-title">DOCUMENTED CREW LEADERS</p>'
+                f'<p class="metric-value">3,856</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Total crew leaders</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        # Additional engagement metrics with definitions
-        st.markdown('<h4>Training & Development</h4>', unsafe_allow_html=True)
+        with eng_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CREW LEADERS TRAINED</p>'
+                f'<p class="metric-value">124</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Trained in 2025</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Training & Development
+        st.markdown("### 🎓 Training & Leadership Development")
         
         train_col1, train_col2, train_col3 = st.columns(3)
         
@@ -1924,7 +984,7 @@ def main():
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL TRAINED VOLUNTEERS</p>'
                 f'<p class="metric-value">11,535</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Includes: Self-care for Freedom Fighters, Ketruah training, Mental Health First Aid, training walks, teach-in events</p>'
+                f'<p style="font-style: italic; font-size: 12px;">All training programs</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1932,9 +992,10 @@ def main():
         with train_col2:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">CREW LEADERS TRAINED (2025)</p>'
-                f'<p class="metric-value">124</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total number of crew leaders trained in 2025</p>'
+                f'<p class="metric-title">SPECIAL IMPACT PROGRAMS</p>'
+                f'<p class="metric-value">100</p>'
+                f'<p>Goal: 65,000</p>'
+                f'<p>{status_badge("At Risk")}</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -1942,834 +1003,223 @@ def main():
         with train_col3:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">SPECIAL IMPACT PROGRAMS</p>'
-                f'<p class="metric-value">100</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Members in MHFA, crew leader training, faith initiatives, caregiver events, justice programs</p>'
-                f'<p>Goal: 65,000</p>'
-                f'<p>{status_badge("At Risk")}</p>'
+                f'<p class="metric-title">TRAINING WORKSHOPS</p>'
+                f'<p class="metric-value">8</p>'
+                f'<p style="font-style: italic; font-size: 12px;">8 more scheduled</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
-
-        # Training and volunteer metrics already exist above
         
-        # Care Village Section
-        st.markdown('<h4>Care Village Initiative</h4>', unsafe_allow_html=True)
+        # Impact Metrics
+        st.markdown("### 💝 Social & Emotional Impact")
         
-        care_col1, care_col2 = st.columns(2)
+        impact_col1, impact_col2, impact_col3, impact_col4 = st.columns(4)
         
-        with care_col1:
+        with impact_col1:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">CARE VILLAGE POPULATION REACHED</p>'
-                f'<p class="metric-value">7,660</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total number of women who have joined movement in AL</p>'
-                f'<p>Goal: 40,000 (19.15%)</p>'
-                f'<p>{status_badge("On Track")}</p>'
+                f'<p class="metric-title">MENTAL WELL-BEING</p>'
+                f'<p class="metric-value">998</p>'
+                f'<p style="font-style: italic; font-size: 12px;">99.90% improvement</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
-
-        # Blue Brigade Mental Health Initiative
-        st.markdown('<h4>Blue Brigade Mental Health Initiative</h4>', unsafe_allow_html=True)
         
-        with st.expander("🧠 GirlTREK Blue Brigade (Mental Health Skills)", expanded=False):
-            # Program Overview
-            st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
+        with impact_col2:
             st.markdown(
-                """
-                The GirlTREK Blue Brigade initiative aims to address the need for mental health access, resources and support for GirlTREK members and their communities. Utilizing the skills of Mental Health First Aid (MHFA), a nationally certified, research-based, peer support mental health intervention program, GirlTREK CARES trained a cohort of volunteers to provide empathetic and compassionate phone calls to members to alleviate isolation and loneliness during the COVID-19 pandemic of 2020. 
-                
-                The Blue Brigade is an evolution of this initiative; volunteers are trained as MHFA Responders and GirlTREK Crew Leaders, and put these skills into practice by leading Wellness Walks in their communities.
-                
-                Blue Brigade volunteers receive ongoing support and learning opportunities via monthly Office Hours where learning and engagement ranges from guest presentations from local/national mental health organizations, to topical discussions, Q&A sessions and a check-in for personal mental wellness of volunteers. Volunteers join quarterly workshop sessions (**April, June, August and October**) to become Crew Leaders and learn to host a walk that is responsive to the needs of sisters who may be experiencing a mental health challenge. 
-                
-                These walks are intended to be a mindfulness exercise, connecting mind and body to create a space of safety where sharing becomes natural and support feels welcomed. Volunteers are not acting in the capacity of a mental health professional and as such they do not diagnose, treat or "fix" problems, but rather serve as a connection to community care.
-                """
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SOCIAL CONNECTION</p>'
+                f'<p class="metric-value">673</p>'
+                f'<p style="font-style: italic; font-size: 12px;">68.53% feel connected</p>'
+                f'</div>',
+                unsafe_allow_html=True
             )
-            
-            # Program Goals
-            st.markdown('<h5>Program Goals</h5>', unsafe_allow_html=True)
+        
+        with impact_col3:
             st.markdown(
-                """
-                * **Recruitment & Training**: Identify and train 100 Trekkers in MHFA and GirlTREK Culture Crew Leader to serve as Blue Brigade members in 2025 and an additional 1,000 members in 2026.
-                * **Engagement**: Support volunteers as they host one (1) Wellness Walk per month or assist in coordinating Community Care Walks with local mental health focused organizations. Coordinate a national day of Wellness Walks for World Mental Health Day on October 10th and 11th 2025 and weekly Wellness Walks in May 2026 in observance of Mental Health Awareness Month.
-                * **Impact**: Decrease stigma around mental health, increase access to peer and professional support and encourage mindfulness practices such as walking to support healthy mental health.
-                """
+                f'<div class="metric-box">'
+                f'<p class="metric-title">EMPOWERED TO ACT</p>'
+                f'<p class="metric-value">907</p>'
+                f'<p style="font-style: italic; font-size: 12px;">90.52% empowered</p>'
+                f'</div>',
+                unsafe_allow_html=True
             )
-            
-            # Current Status Metrics
-            st.markdown('<h5>Current Status</h5>', unsafe_allow_html=True)
-            
-            blue_col1, blue_col2 = st.columns(2)
+        
+        with impact_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SHARED WITH OTHERS</p>'
+                f'<p class="metric-value">819</p>'
+                f'<p style="font-style: italic; font-size: 12px;">83.66% sharing</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Knowledge Impact
+        st.markdown("### 📚 Knowledge & Education Impact")
+        
+        # Knowledge impact chart with percentages
+        fig_knowledge = px.bar(
+            knowledge_data,
+            x='Members',
+            y='Topic',
+            orientation='h',
+            title='Self-Care School Knowledge Impact by Topic',
+            color='Percentage',
+            color_continuous_scale=['#E3F2FD', '#2196F3', '#1565C0'],
+            text='Percentage'
+        )
+        fig_knowledge.update_traces(texttemplate='%{text:.1f}%', textposition='outside')
+        fig_knowledge.update_layout(height=400, title_font=dict(color=primary_blue))
+        st.plotly_chart(fig_knowledge, use_container_width=True)
+        
+        # Special Impact Groups
+        st.markdown("### 👥 Special Impact Groups")
+        
+        # Blue Brigade
+        with st.expander("🧠 Blue Brigade - Mental Health Initiative", expanded=True):
+            blue_col1, blue_col2, blue_col3, blue_col4 = st.columns(4)
             
             with blue_col1:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">FULLY CERTIFIED BLUE BRIGADE MEMBERS</p>'
-                    f'<p class="metric-value">7 / 100</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Attended workshop, MHFA certified, Crew Leader trained & hosted walk(s)</p>'
-                    f'<p style="font-size: 14px; color: #666;">7% of target achieved</p>'
-                    f'<p>{status_badge("At Risk")}</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
+                st.metric("Fully Certified", "7/100", "7% complete")
             with blue_col2:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">BLUE BRIGADE MEMBERS IN PROGRESS</p>'
-                    f'<p class="metric-value">50 / 100</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Attended workshop, office hours, Crew Leader training & will be MHFA certified before October</p>'
-                    f'<p style="font-size: 14px; color: #666;">50% of target</p>'
-                    f'<p>{status_badge("On Track")}</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
-            blue_col3, blue_col4 = st.columns(2)
-            
+                st.metric("In Training", "50/100", "50% in pipeline")
             with blue_col3:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">COMMUNITY CARE WALKS</p>'
-                    f'<p class="metric-value">1</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Scheduled for Aug 23, 2025 in Chicago, IL with Sista Afya Community Care</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
+                st.metric("Wellness Walks", "4", "Monthly walks")
             with blue_col4:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">WELLNESS WALKS HOSTED</p>'
-                    f'<p class="metric-value">4</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Once per month April-July</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
+                st.metric("Community Care Walks", "1", "Aug 23, Chicago")
             
-            # MHFA Training Schedule
-            st.markdown('<h5>MHFA Training Schedule</h5>', unsafe_allow_html=True)
-            st.markdown('<p style="font-style: italic;">Up to 30 members may be trained per session:</p>', unsafe_allow_html=True)
-            
-            training_schedule_html = f"""
-            <div style="background-color: #F3F9FF; border-radius: 10px; padding: 15px; margin: 10px 0;">
-                <p><strong>Virtual Training Sessions:</strong></p>
-                <ul style="margin-left: 20px;">
-                    <li>August 9th</li>
-                    <li>August 17th</li>
-                    <li>September 6th</li>
-                    <li>September 26th</li>
-                </ul>
-                <p><strong>In-Person Training:</strong></p>
-                <p style="margin-left: 20px;">Montgomery, AL Blue Brigade Mental Wellness Experience<br>
-                Saturday, September 13, 2025<br>
-                <em style="font-size: 12px;">(Note: This is not the full MHFA certification training but a Wellness Walk Leader session)</em></p>
-            </div>
-            """
-            st.markdown(training_schedule_html, unsafe_allow_html=True)
-            
-            # Long-term Goals
-            st.markdown('<h5>Long-term Goals</h5>', unsafe_allow_html=True)
-            
-            longterm_col1, longterm_col2 = st.columns(2)
-            
-            with longterm_col1:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">2025 GOAL</p>'
-                    f'<p class="metric-value">100</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Blue Brigade members trained and active</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
-            with longterm_col2:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">2026 GOAL</p>'
-                    f'<p class="metric-value">1,000</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">MHFA Responders certified</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
-            # Mission Statement
             st.markdown(
-                f"""
-                <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
-                     padding: 15px; border-radius: 5px; margin: 15px 0;">
-                    <p style="color: #2E7D32; font-style: italic; margin: 0;">
-                    This programming supports GirlTREK's Joy & Justice demand, item number two (2) <strong>"We want healthy minds"</strong> and serves to connect the GirlTREK community with culturally relevant resources and supports.
-                    </p>
-                </div>
-                """,
-                unsafe_allow_html=True
+                """
+                **Training Schedule:**
+                - Virtual: Aug 9, 17 | Sep 6, 26
+                - In-person: Sep 13 (Montgomery, AL)
+                
+                **2026 Goal:** 1,000 MHFA Responders certified
+                """
             )
-
-        # Justice-Impacted Women's Initiative
-        st.markdown('<h4>Justice-Impacted Programs</h4>', unsafe_allow_html=True)
         
-        with st.expander("⚖️ Justice-Impacted Women's Wellness & Reentry Initiative", expanded=False):
-            # Program Overview
-            st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
+        # Caregiver Tribe
+        with st.expander("💜 Caregiver Tribe Program", expanded=True):
+            care_col1, care_col2, care_col3, care_col4 = st.columns(4)
+            
+            with care_col1:
+                st.metric("Caregivers Engaged", "649", "Total reached")
+            with care_col2:
+                st.metric("Workshops Complete", "2/4", "50% done")
+            with care_col3:
+                st.metric("Self-Care Assessments", "15", "Completed")
+            with care_col4:
+                st.metric("Resources Developed", "4+", "Materials created")
+            
             st.markdown(
                 """
-                The Justice-Impacted Women's Initiative was created to support women who have been affected by the criminal legal system—whether currently incarcerated, formerly incarcerated, or navigating reentry. These women often face compounded barriers to health, housing, and healing. GirlTREK believes that wellness is justice, and that justice-impacted women deserve radical self-care, sisterhood, and leadership opportunities as they reclaim their time, health, and dignity.
+                **Completed Workshops:**
+                ✅ Medicaid for Caregivers (Apr 16)
+                ✅ Mental Health First Aid (Jun 18)
                 
-                Grounded in GirlTREK's legacy of walking as a healing practice, this initiative provides a culturally relevant framework to support wellness inside and outside of prison walls. Through self-care workshops, walking crews, and reentry curriculum rooted in our R.A.D.I.C.A.L. values, we aim to extend the life expectancy of Black women who have been justice-impacted. We believe that healing is possible—and that the women most impacted by incarceration should be at the forefront of systems change.
-                
-                This initiative activates walking as a life-saving intervention, fosters connection through sisterhood, and centers joy as resistance. From transitional housing in Georgia to reentry programs in Alabama, GirlTREK is walking with women as they rebuild their lives and legacies.
+                **Upcoming:**
+                📅 Self-Care Practices (Aug 20)
+                📅 Time Management & Nutrition (Oct 15)
                 """
             )
-            
-            # Program Goals
-            st.markdown('<h5>Program Goals</h5>', unsafe_allow_html=True)
-            st.markdown(
-                """
-                * To increase the membership with Justice Impacted Women
-                * To start walking programs in transitional facilities
-                * To establish a Self Care Curriculum in 1 facility as a Pilot for upcoming years
-                """
-            )
-            
-            # Key Objectives
-            st.markdown('<h5>Key Objectives</h5>', unsafe_allow_html=True)
-            st.markdown(
-                """
-                **Recruitment & Training:**
-                - Identify and train formerly incarcerated women as Crew Leaders and wellness facilitators in transitional housing, reentry programs, and prisons
-                
-                **Engagement:**
-                - Launch walking crews and wellness workshops in Atlanta, GA and virtually
-                
-                **Impact:**
-                - Improve mental and physical health outcomes for justice-impacted women through walking and community connection and support
-                - Build a national model for radical self-care in reentry that can be integrated into prison education programs and partner organizations
-                """
-            )
-            
-            # Current Progress Metrics
-            st.markdown('<h5>Current Progress</h5>', unsafe_allow_html=True)
-            
-            justice_col1, justice_col2 = st.columns(2)
+        
+        # Justice-Impacted
+        with st.expander("⚖️ Justice-Impacted Women's Initiative", expanded=True):
+            justice_col1, justice_col2, justice_col3 = st.columns(3)
             
             with justice_col1:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">WALKS COMPLETED</p>'
-                    f'<p class="metric-value">21 / 40</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">For Breakthru House participants</p>'
-                    f'<p style="font-size: 14px; color: #666;">52.5% Complete</p>'
-                    f'<p>{status_badge("On Track")}</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
+                st.metric("Walks Completed", "21/40", "52.5% complete")
             with justice_col2:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">LOCATIONS ACTIVE</p>'
-                    f'<p class="metric-value">2</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Atlanta, GA + Virtual Programs</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
+                st.metric("Active Locations", "2", "Atlanta + Virtual")
+            with justice_col3:
+                st.metric("Partner Facility", "Breakthru House", "Active")
             
-            # Upcoming Events
-            st.markdown('<h5>Upcoming Events (August 2025)</h5>', unsafe_allow_html=True)
-            
-            events_html = f"""
-            <div style="background-color: #F3F9FF; border-radius: 10px; padding: 15px; margin: 10px 0;">
-                <p><strong>🤝 Connections & Conversations</strong> - August 2025</p>
-                <p><strong>🔓 Beyond the Bars Workshop</strong> - August 2025</p>
-                <p><strong>🚶🏾‍♀️ "I am walking for..." Walk</strong> - August 2025</p>
-            </div>
-            """
-            st.markdown(events_html, unsafe_allow_html=True)
-            
-            # Impact Statement
-            st.markdown(
-                f"""
-                <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
-                     padding: 15px; border-radius: 5px; margin: 15px 0;">
-                    <p style="color: #2E7D32; font-style: italic; margin: 0;">
-                    This programming reflects the soul of GirlTREK's mission—to walk as a radical act of healing and transformation. By reaching women who have experienced incarceration, we are modeling what it means to serve with compassion, build community through care, and ensure that no woman is left behind.
-                    </p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-
-        # Caregiver Tribe Program
-        st.markdown('<h4>Caregiver Support Programs</h4>', unsafe_allow_html=True)
-        
-        with st.expander("💜 GirlTREK Caregiver Tribe Program", expanded=False):
-            # Program Overview
-            st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
             st.markdown(
                 """
-                The GirlTREK Caregiver Tribe Program is a comprehensive initiative designed to support and empower caregivers through education, resources, and community building. Building on insights from our 2024 Listening and Learning series, this program offers a structured pathway for caregivers to prioritize their health while caring for others.
-                
-                The program recognizes caregivers broadly—from family members caring for loved ones to teachers, CNAs, EMTs, therapists, and home health providers who dedicate themselves to others' wellbeing.
+                **August 2025 Events:**
+                - Connections & Conversations
+                - Beyond the Bars Workshop
+                - "I am walking for..." Walk
                 """
             )
-            
-            # Program Goals
-            st.markdown('<h5>Program Goals</h5>', unsafe_allow_html=True)
+        
+        # Garden Club
+        with st.expander("🌱 Garden Club", expanded=True):
             st.markdown(
                 """
-                * **Certification Path**: Train caregivers to become certified Caregiver Crew Leaders
-                * **Education**: Deliver 4 comprehensive workshops covering essential caregiver topics
-                * **Community Building**: Foster support networks through monthly caregiver walks
-                * **Resource Distribution**: Provide all participants with the GirlTREK Caregiver Handbook
+                **Activities Completed:**
+                - 2 seed mailings completed
+                - Heirloom collard greens distribution
+                - Seed saving education
+                - Community seed distribution program
+                
+                **Impact:** Building food sovereignty knowledge and addressing food insecurity
                 """
             )
-            
-            # Current Status Metrics
-            st.markdown('<h5>Current Status (as of July 2025)</h5>', unsafe_allow_html=True)
-            
-            caregiver_col1, caregiver_col2 = st.columns(2)
-            
-            with caregiver_col1:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">WORKSHOPS COMPLETED</p>'
-                    f'<p class="metric-value">2 / 4</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">50% of program delivered</p>'
-                    f'<p>{status_badge("On Track")}</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
-            with caregiver_col2:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">CAREGIVERS ENGAGED</p>'
-                    f'<p class="metric-value">649</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Received workshop materials and resources</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
-            caregiver_col3, caregiver_col4 = st.columns(2)
-            
-            with caregiver_col3:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">SELF-CARE ASSESSMENTS</p>'
-                    f'<p class="metric-value">15</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Completed during June workshop</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
-            with caregiver_col4:
-                st.markdown(
-                    f'<div class="metric-box">'
-                    f'<p class="metric-title">RESOURCES DEVELOPED</p>'
-                    f'<p class="metric-value">4+</p>'
-                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Presentations, assessments, recordings, handbooks</p>'
-                    f'</div>',
-                    unsafe_allow_html=True
-                )
-            
-            # Workshop Schedule
-            st.markdown('<h5>Workshop Schedule</h5>', unsafe_allow_html=True)
-            
-            # Completed Workshops
-            st.markdown('#### ✅ Completed Workshops:')
-            
-            with st.container():
-                st.success("""
-                **April 16 – Medicaid for Caregivers**
-                - Guest Speakers: Rae Scott (Human Services) & Maureen Welch (Navigating Disabilities Colorado)
-                - Topics: Medicaid application process, caregiver payments, respite care benefits
+        
+        # Faith Initiative
+        with st.expander("⛪ Faith Initiative", expanded=True):
+            st.markdown(
+                """
+                **Progress:**
+                - Multiple faith gatherings hosted
+                - New faith communities recruited
+                - On track for 500 faith communities engaged in 2025
                 
-                **June 18 – Mental Health First Aid Awareness**
-                - Guest Speaker: ReNate' Elliott, GirlTREK Program Director
-                - Topics: Recognizing warning signs, ALGEE Action Plan, stress management techniques
-                """)
-            
-            # Upcoming Workshops
-            st.markdown('#### 📅 Upcoming Workshops:')
-            
-            with st.container():
-                st.info("""
-                **August 20 – Self-Care Practices**
-                - Guest Speakers: Carla Harris & Marcie Thomas (GirlTREK Cares)
-                - Focus: Prioritizing self-care, meditation, affirmations
-                
-                **October 15 – Time Management and Nutrition Tips**
-                - Guest Speakers: Jerri McElroy (Time Management) & Chef Lisa Barnett (Nutrition)
-                - Focus: Task prioritization, weekly planning, healthy eating
-                """)
-            
-            # Certification Requirements
-            st.markdown('<h5>Certification Requirements</h5>', unsafe_allow_html=True)
-            st.markdown('To earn the GT Certificate of Completion as a Caregiver Crew Leader, participants must:')
-            
-            with st.container():
-                st.warning("""
-                1. Attend all 4 workshops
-                2. Complete one Crew Leader Training
-                3. Host one caregiver group walk per month (April through November)
-                4. Complete 4 Self-Care Assessments documenting growth and needs
-                """)
-            
-            # Key Accomplishments
-            st.markdown('<h5>Key Accomplishments</h5>', unsafe_allow_html=True)
-            st.success("""
-            ✓ Successfully transitioned from listening phase to active programming
-            ✓ Developed comprehensive resource distribution system beyond workshop presentations
-            ✓ Created multiple formats for resource access (recordings, presentations, assessments)
-            ✓ Built strong participant engagement with meaningful feedback loops
-            ✓ Established clear documentation and tracking systems for participant progress
-            """)
-            
-            # Next Steps
-            st.markdown('<h5>Next Steps</h5>', unsafe_allow_html=True)
-            st.info("""
-            → Prepare Caregiver Handbook content with August workshop presenters
-            → Develop August Self-Care Assessment incorporating Mental Health workshop recap
-            → Continue resource compilation for remaining workshops
-            → Maintain engagement with all 649 participants through regular communications
-            → Support participants in organizing monthly caregiver walks
-            """)
-            
-            # Mission Statement
-            st.markdown(
-                f"""
-                <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
-                     padding: 15px; border-radius: 5px; margin: 15px 0;">
-                    <p style="color: #2E7D32; font-style: italic; margin: 0;">
-                    This initiative represents GirlTREK's commitment to supporting those who care for others, ensuring they have the tools, resources, and community needed to maintain their own health and wellbeing while serving their families and communities.
-                    </p>
-                </div>
-                """,
-                unsafe_allow_html=True
+                **Impact:** Building spiritual connections and community support through faith-based walking groups
+                """
             )
-            
-            # Key Accomplishments
-            st.markdown('<h5>Key Accomplishments</h5>', unsafe_allow_html=True)
-            st.success("""
-            ✓ Successfully transitioned from listening phase to active programming
-            ✓ Developed comprehensive resource distribution system beyond workshop presentations
-            ✓ Created multiple formats for resource access (recordings, presentations, assessments)
-            ✓ Built strong participant engagement with meaningful feedback loops
-            ✓ Established clear documentation and tracking systems for participant progress
-            """)
-            
-            # Next Steps
-            st.markdown('<h5>Next Steps</h5>', unsafe_allow_html=True)
-            st.info("""
-            → Prepare Caregiver Handbook content with August workshop presenters
-            → Develop August Self-Care Assessment incorporating Mental Health workshop recap
-            → Continue resource compilation for remaining workshops
-            → Maintain engagement with all 649 participants through regular communications
-            → Support participants in organizing monthly caregiver walks
-            """)
-            
-            # Mission Statement
-            st.markdown(
-                f"""
-                <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
-                     padding: 15px; border-radius: 5px; margin: 15px 0;">
-                    <p style="color: #2E7D32; font-style: italic; margin: 0;">
-                    This initiative represents GirlTREK's commitment to supporting those who care for others, ensuring they have the tools, resources, and community needed to maintain their own health and wellbeing while serving their families and communities.
-                    </p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-
-        # Data Analysis & Recommendations
-        st.markdown('### 📊 Data Analysis & Recommendations')
         
-        # Key Insights
-        st.markdown('#### 🔍 Key Insights')
-        st.info("""
-        **Leadership Pipeline:** Strong volunteer base with 3,856 documented crew leaders and 1,846 active leaders
+        # Communication & Marketing
+        st.markdown("### 📱 Communication & Storytelling")
         
-        **Training Scale:** 11,535 trained volunteers demonstrates robust capacity building efforts
+        comm_col1, comm_col2, comm_col3, comm_col4 = st.columns(4)
         
-        **Daily Walking Gap:** Only 5,439 walking daily vs 50,000 goal (10.9%) indicates engagement challenge
-        
-        **New Crew Growth:** 727 new crews in 2025 indicates healthy local expansion
-        
-        **Mental Health Initiative:** Blue Brigade at 50% progress with 50 members in training pipeline shows promising mental health support development
-        
-        **Caregiver Support:** 649 caregivers engaged with 50% of workshops completed, demonstrating strong program adoption
-        """)
-        
-        # Strategic Recommendations
-        st.markdown('#### 💡 Strategic Recommendations')
-        st.success("""
-        **Walking Habit Activation:** Develop targeted interventions to convert trained volunteers into daily walkers
-        
-        **Crew Leader Activation:** Focus on converting documented leaders (3,856) to active status (1,846)
-        
-        **Special Programs Scale:** Expand successful programs beyond current 100 participants to reach 65,000 goal
-        
-        **Care Village Acceleration:** Leverage successful model to reach remaining 32,945 women for 40,000 target
-        
-        **Mental Health Support Expansion:** Fast-track MHFA certification for 50 pending Blue Brigade members by October deadline
-        
-        **Caregiver Program Completion:** Ensure strong attendance for remaining 2 workshops to achieve certification goals
-        
-        **Technology Integration:** Use mobile app and digital tools to support daily walking accountability
-        
-        **Peer Support Systems:** Create walking buddy programs and crew-based accountability structures
-        """)
-
-        st.markdown('<hr>', unsafe_allow_html=True)
-        create_notes_section("Engagement")
-
-    # ---------------------------------
-    # Development Tab
-    # ---------------------------------
-    with tab4:
-        add_board_update("Development")
-        
-        st.markdown('<h3 class="section-title">Development Metrics</h3>', unsafe_allow_html=True)
-        
-        dev_col1, dev_col2, dev_col3 = st.columns(3)
-
-        with dev_col1:
+        with comm_col1:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL CONTRIBUTIONS</p>'
-                f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
-                f'<p>Goal: $10M</p>'
-                f'<p>{status_badge("On Track")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        with dev_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL GRANTS</p>'
-                f'<p class="metric-value">{format_currency(st.session_state.total_grants)}</p>'
-                f'<p>17 of 48 Grants</p>'
-                f'<p>{status_badge("On Track")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        with dev_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">CORPORATE SPONSORSHIPS</p>'
-                f'<p class="metric-value">$130,000</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Additional $60k verbally agreed to but not yet in bank</p>'
-                f'<p>Goal: $1.5M</p>'
-                f'<p>{status_badge("At Risk")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        dev_finance_fig = px.pie(
-            df_finance,
-            values='Amount',
-            names='Category',
-            title='Total Contributions Breakdown',
-            color_discrete_sequence=[primary_blue, primary_orange]
-        )
-        dev_finance_fig.update_traces(textposition='inside', textinfo='percent+label')
-        dev_finance_fig.update_layout(title_font=dict(color=primary_blue))
-        st.plotly_chart(dev_finance_fig, use_container_width=True, key="dev_finance_fig")
-        
-        # Funding Definitions Section (moved below chart and always visible)
-        st.markdown('<h4>Funding Categories Definitions</h4>', unsafe_allow_html=True)
-        
-        # Create expandable sections for each funding category
-        with st.expander("💰 View Funding Category Definitions", expanded=True):
-            st.markdown("**Grants:**")
-            st.info("Funding awarded by foundations, government agencies, or corporations for specific projects or general operations. These are typically awarded through a competitive application process and may have specific requirements or restrictions on how funds are used.")
-            
-            st.markdown("**Donations:**")
-            st.info("Individual contributions from supporters, members, and donors. These include one-time gifts, recurring donations, monthly giving programs, and major gifts from individual philanthropists. Donations are often unrestricted and provide flexible funding for organizational priorities.")
-            
-            st.markdown("**Corporate Sponsorships:**")
-            st.info("Financial support from businesses and corporations, often in exchange for marketing benefits, brand visibility, or partnership opportunities. These may include event sponsorships, program partnerships, or cause marketing initiatives.")
-            
-            st.markdown("**Earned Revenue:**")
-            st.info("Income generated through GirlTREK's own activities and services, including online store sales (merchandise, apparel, wellness products), training and workshop fees, licensing or consulting revenue, and investment income.")
-            
-            st.markdown("**Bricklayer's Fundraising:**")
-            st.info("Contributions from GirlTREK's major donor network, typically involving significant individual gifts from high-capacity donors who are deeply committed to the organization's mission.")
-        
-        # Grant Tracking Table
-        st.markdown('<h4>2025 Grant Applications Tracking</h4>', unsafe_allow_html=True)
-        
-        # Create grants data
-        grants_data = {
-            'Account': [
-                'Pivotal Ventures', 'National Trust for Historic Preservation', 'Echoing Green', 'Emerson Collective',
-                'National Trust for Historic Preservation', 'Gabell Foundation', 'National Trust for Historic Preservation',
-                'National Trust for Historic Preservation', 'Borealis Philanthropy', 'National Trust for Historic Preservation',
-                'Robert Wood Johnson Foundation', 'Emergent Fund', 'Southern Black Girls', 'Lumena Foundation',
-                'Sun Life', 'Black Feminist Fund', 'Elevate Prize Foundation', 'Saks Fifth Avenue Foundation',
-                'Borealis Philanthropy', 'Central Alabama Community Foundation', 'JusPax Fund', 'Tow Foundation'
-            ],
-            'Grant Name': [
-                '2025 Action for Women\'s Health', '2025 National Trust Preservation', '2025 Follow-On Funding',
-                '2025 EC Special Grant', '2025 AACHAF', '2025 CF Special Grant', '2025 Johanna Favrot',
-                '2025 Cynthia Woods Mitchell', '2025 Black Led Movement', '2025 Black Modernism',
-                '2025 Data Equity', '2025 Emergent Fund', '2025 SBG Defense Fund', '2025 Lumena Foundation Moon',
-                '2025 Sun Life Health Access', '2025 Sustain Fund', '2025 Elevate Prize', '2025 Local Funding',
-                '2025 Borealis Philanthropy REACH Fund', '2025 Montgomery City Council', '2025 JusPax Fund: Gender Justice',
-                'Tow Foundation'
-            ],
-            'Amount Requested': [
-                '$5,000,000', '$5,000', '$100,000', '$224,250', '$75,000', '$10,000', '$15,000', '$15,000',
-                '$183,500', '$150,000', '$50,000', '$25,000', '$2,000', '$50,000', '$100,000', '$1,600,000',
-                '$100,000', '$30,000', '$150,000', '$10,000', '$25,000', '$600,000'
-            ],
-            'Amount Funded': [
-                '', '$2,500', '', '', '', '$10,000', '', '', '', '', '', '', '$2,000', '', '', '', '', '', '', '', '', ''
-            ],
-            'Due Date': [
-                'Jan', 'Feb', 'Feb', 'Feb', 'Feb', 'Feb', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar', 'Apr', 'Apr',
-                'Apr', 'May', 'Jun', 'Jul', 'Jul', 'Jul', 'Jul', 'Jul'
-            ],
-            'Status': [
-                'Pending', 'Closed - Funded', 'Closed - Declined', 'Closed - Declined', 'Pending', 'Closed - Funded',
-                'Pending', 'Pending', 'Pending', 'Pending', 'Closed - Declined', 'Pending', 'Closed - Funded',
-                'Closed - Declined', 'Closed - Declined', 'Pending', 'Pending', 'Pending', 'Prepare', 'Prepare',
-                'Prepare', 'Prepare'
-            ]
-        }
-        
-        # Create DataFrame
-        grants_df = pd.DataFrame(grants_data)
-        
-        # Display the table with status color coding
-        st.markdown(
-            """
-            <style>
-            .grants-table {
-                width: 100%;
-                border-collapse: collapse;
-                margin: 20px 0;
-                font-size: 12px;
-            }
-            .grants-table th, .grants-table td {
-                padding: 8px;
-                text-align: left;
-                border: 1px solid #ddd;
-            }
-            .grants-table th {
-                background-color: #4A90E2;
-                color: white;
-                font-weight: bold;
-            }
-            .status-pending { background-color: #E3F2FD; }
-            .status-funded { background-color: #E8F5E8; }
-            .status-declined { background-color: #FFEBEE; }
-            .status-prepare { background-color: #FFF3E0; }
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
-        
-        # Create HTML table with color coding
-        table_html = '<table class="grants-table"><thead><tr>'
-        table_html += '<th>Account</th><th>Grant Name</th><th>Amount Requested</th><th>Amount Funded</th><th>Due Date</th><th>Status</th>'
-        table_html += '</tr></thead><tbody>'
-        
-        for _, row in grants_df.iterrows():
-            status_class = ""
-            if "Pending" in row['Status']:
-                status_class = "status-pending"
-            elif "Funded" in row['Status']:
-                status_class = "status-funded"
-            elif "Declined" in row['Status']:
-                status_class = "status-declined"
-            elif "Prepare" in row['Status']:
-                status_class = "status-prepare"
-                
-            table_html += f'<tr class="{status_class}">'
-            table_html += f'<td>{row["Account"]}</td>'
-            table_html += f'<td>{row["Grant Name"]}</td>'
-            table_html += f'<td>{row["Amount Requested"]}</td>'
-            table_html += f'<td>{row["Amount Funded"]}</td>'
-            table_html += f'<td>{row["Due Date"]}</td>'
-            table_html += f'<td><strong>{row["Status"]}</strong></td>'
-            table_html += '</tr>'
-        
-        # Add total row
-        table_html += '<tr style="background-color: #FFF9C4; font-weight: bold;">'
-        table_html += '<td colspan="2"><strong>TOTAL</strong></td>'
-        table_html += '<td><strong>$8,519,750.00</strong></td>'
-        table_html += '<td><strong>$14,500.00</strong></td>'
-        table_html += '<td colspan="2"></td>'
-        table_html += '</tr>'
-        
-        table_html += '</tbody></table>'
-        
-        st.markdown(table_html, unsafe_allow_html=True)
-        
-        # Summary statistics
-        st.markdown('<h5>Grant Application Summary</h5>', unsafe_allow_html=True)
-        
-        grant_summary_col1, grant_summary_col2, grant_summary_col3 = st.columns(3)
-        
-        with grant_summary_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL APPLICATIONS</p>'
-                f'<p class="metric-value">22</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Grant applications submitted in 2025</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with grant_summary_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">SUCCESS RATE</p>'
-                f'<p class="metric-value">18.2%</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">3 funded out of 11 decided applications</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with grant_summary_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">PENDING DECISIONS</p>'
-                f'<p class="metric-value">7</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Applications awaiting funding decisions</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Additional Development Metrics
-        st.markdown('<h4>Additional Fundraising Metrics</h4>', unsafe_allow_html=True)
-        
-        fund_col1, fund_col2 = st.columns(2)
-        
-        with fund_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">EARNED REVENUE (STORE)</p>'
-                f'<p class="metric-value">$99,836</p>'
-                f'<p>Goal: $400,000</p>'
-                f'<p>{status_badge("At Risk")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with fund_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">BRICKLAYER\'S FUNDRAISING</p>'
-                f'<p class="metric-value">$2,500</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Another significant donation is anticipated by fall of 2025</p>'
-                f'<p>Goal: $500,000</p>'
-                f'<p>{status_badge("At Risk")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Data Analysis & Recommendations
-        st.markdown('### 📊 Data Analysis & Recommendations')
-        
-        # Key Insights
-        st.markdown('#### 🔍 Key Insights')
-        st.info("""
-        **Strong Grant Performance:** $3.1M in grants represents 99.7% of total contributions, showing successful institutional fundraising
-        
-        **Grant Pipeline Value:** $8.5M in applications with $14.5K secured (0.17% success rate) indicates need for strategy refinement
-        
-        **Corporate Sponsorship Gap:** $130K vs $1.5M goal (8.7%) represents significant untapped revenue potential
-        
-        **Earned Revenue Underperformance:** Store sales at $99.8K vs $400K goal (25%) suggests operational challenges
-        
-        **Diverse Application Portfolio:** 22 grant applications across varied funders shows good diversification strategy
-        """)
-        
-        # Strategic Recommendations
-        st.markdown('#### 💡 Strategic Recommendations')
-        st.success("""
-        **Grant Strategy Optimization:** Analyze successful vs declined applications to improve 18.2% success rate
-                
-        **Store Operations Review:** Conduct a comprehensive analysis of product mix, pricing, and marketing for earned revenue
-        
-        **Major Donor Cultivation:** Accelerate Bricklayers program beyond current $2.5K to approach $500K goal
-                
-        **Diversification Focus:** Balance grant dependence with growth in other revenue streams for sustainability
-        """)
-        
-        st.markdown('<hr>', unsafe_allow_html=True)
-        create_notes_section("Development")
-
-    # ---------------------------------
-    # Marketing Tab
-    # ---------------------------------
-    with tab5:
-        add_board_update("Marketing")
-        
-        st.markdown('<h3 class="section-title">Marketing Metrics</h3>', unsafe_allow_html=True)
-
-        sub_col1, sub_col2 = st.columns(2)
-
-        with sub_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL SUBSCRIBERS</p>'
+                f'<p class="metric-title">EMAIL SUBSCRIBERS</p>'
                 f'<p class="metric-value">931,141</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Total number of people subscribed to our email list</p>'
-                f'<p>Goal: 1,300,000 (71.63%)</p>'
+                f'<p>Goal: 1,300,000</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
-
-        with sub_col2:
+        
+        with comm_col2:
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">ACTIVE SUBSCRIBERS</p>'
                 f'<p class="metric-value">320,463</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">People who have opened an email, clicked on an email, or joined the email list in the last 120 days</p>'
-                f'<p>34.4% of Total</p>'
+                f'<p style="font-style: italic; font-size: 12px;">34.4% of total</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
-
-        st.markdown("<h3>Email Performance Metrics</h3>", unsafe_allow_html=True)
         
-        email_col1, email_col2 = st.columns(2)
-        
-        with email_col1:
+        with comm_col3:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">AVERAGE OPEN RATE</p>'
+                f'<p class="metric-title">OPEN RATE</p>'
                 f'<p class="metric-value">18.54%</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Percentage of recipients who open your email out of the total number successfully delivered</p>'
-                f'<p><strong>Industry Standard:</strong> Nonprofits average 28.59%</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Industry: 28.59%</p>'
+                f'{status_badge("At Risk")}'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        with email_col2:
+        with comm_col4:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">CLICK-THROUGH RATE</p>'
+                f'<p class="metric-title">CLICK RATE</p>'
                 f'<p class="metric-value">1.06%</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666; margin-bottom: 5px;">Measures how effectively your email drives recipients to take action by clicking on a link, button, or image</p>'
-                f'<p><strong>Industry Standard:</strong> Nonprofits average 3.29%</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Industry: 3.29%</p>'
+                f'{status_badge("At Risk")}'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        # Email Engagement Comparison Chart
-        st.markdown("<h4>Email Performance vs Industry Standards</h4>", unsafe_allow_html=True)
-        
+        # Email Performance Comparison
         comparison_fig = go.Figure()
-        
         comparison_fig.add_trace(go.Bar(
             name='GirlTREK',
             x=comparison_data['Metric'],
@@ -2778,7 +1228,6 @@ def main():
             text=comparison_data['GirlTREK'].apply(lambda x: f'{x}%'),
             textposition='auto'
         ))
-        
         comparison_fig.add_trace(go.Bar(
             name='Nonprofit Industry Average',
             x=comparison_data['Metric'],
@@ -2787,781 +1236,332 @@ def main():
             text=comparison_data['Nonprofit Industry Average'].apply(lambda x: f'{x}%'),
             textposition='auto'
         ))
-        
         comparison_fig.update_layout(
-            title='Email Performance Comparison',
+            title='Email Performance vs Industry Standards',
             yaxis_title='Percentage (%)',
             barmode='group',
             title_font=dict(color=primary_blue),
-            height=400
+            height=350
         )
+        st.plotly_chart(comparison_fig, use_container_width=True)
         
-        st.plotly_chart(comparison_fig, use_container_width=True, key="email_comparison_fig")
+        # META Advertising
+        st.markdown("### 📱 META Advertising Performance")
         
-        # META Advertising Performance
-        st.markdown("<h3>META Advertising Performance (Year to Date)</h3>", unsafe_allow_html=True)
+        meta_col1, meta_col2, meta_col3 = st.columns(3)
         
-        # WNBA Campaign
-        st.markdown('<h4>WNBA Campaign</h4>', unsafe_allow_html=True)
-        
-        wnba_col1, wnba_col2, wnba_col3 = st.columns(3)
-        
-        with wnba_col1:
+        with meta_col1:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL SPEND</p>'
-                f'<p class="metric-value">$3,901.12</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">WNBA campaign investment</p>'
+                f'<p class="metric-title">TOTAL AD SPEND</p>'
+                f'<p class="metric-value">$11,180.19</p>'
+                f'<p style="font-style: italic; font-size: 12px;">WNBA + Underground App</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        with wnba_col2:
+        with meta_col2:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">IMPRESSIONS</p>'
-                f'<p class="metric-value">336,543</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total ad impressions</p>'
+                f'<p class="metric-title">TOTAL IMPRESSIONS</p>'
+                f'<p class="metric-value">858,890</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Combined reach</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        with wnba_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">CLICK-THROUGH RATE</p>'
-                f'<p class="metric-value">1.23%</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">CTR performance</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        wnba_col4, wnba_col5 = st.columns(2)
-        
-        with wnba_col4:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">COST PER CLICK</p>'
-                f'<p class="metric-value">$0.94</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Average CPC</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with wnba_col5:
+        with meta_col3:
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">TOTAL CLICKS</p>'
-                f'<p class="metric-value">1,986</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total ad clicks</p>'
+                f'<p class="metric-value">5,060</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Combined clicks</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        # WNBA Top Audience
+        # Campaign Details
+        with st.expander("View Campaign Details"):
+            st.markdown("**WNBA Campaign:**")
+            st.info(f"Spend: $3,901.12 | CTR: 1.23% | CPC: $0.94 | Clicks: 1,986")
+            
+            st.markdown("**Underground App Campaign:**")
+            st.info(f"Spend: $7,279.07 | CTR: 1.30% | CPC: $2.37 | Clicks: 3,074 | Leads: 281 | CPL: $25.90")
+        
+        # Member Testimonials
+        st.markdown("### 💭 Member Voices")
+        
+        with st.expander("📖 Read Member Testimonials", expanded=True):
+            st.markdown(
+                """
+                **Karen Laing - Finding Joy Through Community**
+                > "I have found more joy and healing spaces during these weeks. GirlTrek's self-care school has been mission critical when I was fired and faced housing challenges."
+                
+                **Angelia Taylor - 106 Pound Transformation**
+                > "Eating what the earth provides helped me lose 106 pounds! I taught plant-based meals to kids, complete with 'chocolate pudding' made from eggplant. You should have seen them lick the bowls. PRICELESS!!"
+                
+                **Alicia Cross - Perseverance Through Recovery**
+                > "I've walked with GirlTrek since 2019, had knee replacement in 2024, but I'm taking one day at a time. Seven weeks of GirlTrek has been a lifesaver."
+                """
+            )
+        
+        # Member Care
+        st.markdown("### 🤝 Member Care & Support")
+        
+        care_col1, care_col2 = st.columns(2)
+        
+        with care_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MEMBER SATISFACTION</p>'
+                f'<p class="metric-value">93%</p>'
+                f'<p>Goal: 95%</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with care_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">RESPONSE TIME</p>'
+                f'<p class="metric-value">2 hours</p>'
+                f'<p>Goal: 48 hours</p>'
+                f'{status_badge("Achieved")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        st.info(
+            """
+            **Top Member Issues:**
+            - SCS Registration Error Message
+            - Connecting to the Movement
+            """
+        )
+    
+    # ---------------------------------
+    # SOLVE PROBLEMS Tab (Combat Injustice)
+    # ---------------------------------
+    with tab4:
+        st.markdown('<h2 class="section-title">✊🏾 SOLVE PROBLEMS - Combating Injustice</h2>', unsafe_allow_html=True)
+        
         st.markdown(
-            f"""
-            <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
-                 padding: 15px; border-radius: 5px; margin: 15px 0;">
-                <p style="color: #2E7D32; margin: 0;"><strong>🎯 Top Performing Audience:</strong> Email List + LAL (Lookalike Audiences)</p>
+            """
+            <div style="background-color: #FFF3E0; border-left: 5px solid #FF9800; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                <p style="color: #E65100; font-size: 16px; margin: 0;">
+                <strong>Primary Outcome:</strong> Combat injustice through collective impact, community projects, advocacy, and systems transformation.
+                </p>
             </div>
             """,
             unsafe_allow_html=True
         )
         
-        # Underground App Campaign
-        st.markdown('<h4>Underground App Campaign</h4>', unsafe_allow_html=True)
+        # Advocacy Metrics
+        st.markdown("### 📢 Advocacy & Policy Impact")
         
-        app_col1, app_col2, app_col3 = st.columns(3)
+        adv_col1, adv_col2, adv_col3, adv_col4 = st.columns(4)
         
-        with app_col1:
+        with adv_col1:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL SPEND</p>'
-                f'<p class="metric-value">$7,279.07</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Underground App campaign investment</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with app_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">IMPRESSIONS</p>'
-                f'<p class="metric-value">522,347</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total ad impressions</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with app_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">CLICK-THROUGH RATE</p>'
-                f'<p class="metric-value">1.30%</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">CTR performance</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        app_col4, app_col5, app_col6 = st.columns(3)
-        
-        with app_col4:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">COST PER CLICK</p>'
-                f'<p class="metric-value">$2.37</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Average CPC</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with app_col5:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL CLICKS</p>'
-                f'<p class="metric-value">3,074</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total ad clicks</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with app_col6:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">COST PER LEAD</p>'
-                f'<p class="metric-value">$25.90</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Average CPL</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        app_col7, app_col8 = st.columns(2)
-        
-        with app_col7:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL LEADS</p>'
-                f'<p class="metric-value">281</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Total leads generated</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with app_col8:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">LEAD CONVERSION RATE</p>'
-                f'<p class="metric-value">9.14%</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Leads per total clicks</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Underground App Audience Performance
-        st.markdown('<h5>Underground App - Top Performing Audiences</h5>', unsafe_allow_html=True)
-        
-        audience_data = pd.DataFrame({
-            'Audience Type': ['Lookalikes', 'Cultural Interests'],
-            'Leads Generated': [128, 116]
-        })
-        
-        audience_fig = px.bar(
-            audience_data,
-            x='Audience Type',
-            y='Leads Generated',
-            title='Underground App Campaign - Leads by Audience Type',
-            color='Leads Generated',
-            color_continuous_scale=[primary_blue, primary_orange]
-        )
-        audience_fig.update_layout(
-            title_font=dict(color=primary_blue),
-            height=350
-        )
-        
-        st.plotly_chart(audience_fig, use_container_width=True, key="audience_performance_fig")
-        
-        # Campaign Comparison
-        st.markdown('<h4>Campaign Performance Comparison</h4>', unsafe_allow_html=True)
-        
-        campaign_comparison = pd.DataFrame({
-            'Campaign': ['WNBA', 'Underground App'],
-            'Spend': [3901.12, 7279.07],
-            'CTR': [1.23, 1.30],
-            'CPC': [0.94, 2.37],
-            'Clicks': [1986, 3074]
-        })
-        
-        # Create comparison chart for spend vs clicks
-        comparison_spend_fig = go.Figure()
-        
-        comparison_spend_fig.add_trace(go.Scatter(
-            x=campaign_comparison['Spend'],
-            y=campaign_comparison['Clicks'],
-            mode='markers+text',
-            text=campaign_comparison['Campaign'],
-            textposition="top center",
-            marker=dict(
-                size=[20, 30],  # Scaled by relative spend
-                color=[primary_blue, primary_orange],
-                opacity=0.8
-            ),
-            name='Campaigns'
-        ))
-        
-        comparison_spend_fig.update_layout(
-            title='Campaign Spend vs Clicks Performance',
-            xaxis_title='Total Spend ($)',
-            yaxis_title='Total Clicks',
-            title_font=dict(color=primary_blue),
-            height=400
-        )
-        
-        st.plotly_chart(comparison_spend_fig, use_container_width=True, key="campaign_comparison_fig")
-        
-        # META Advertising Summary
-        st.markdown('<h4>META Advertising Summary</h4>', unsafe_allow_html=True)
-        
-        summary_col1, summary_col2, summary_col3 = st.columns(3)
-        
-        with summary_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL AD SPEND</p>'
-                f'<p class="metric-value">$11,180.19</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Combined WNBA + Underground App</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with summary_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL IMPRESSIONS</p>'
-                f'<p class="metric-value">858,890</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Combined campaign reach</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with summary_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL CLICKS</p>'
-                f'<p class="metric-value">5,060</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Combined campaign clicks</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Data Analysis & Recommendations
-        st.markdown('### 📊 Data Analysis & Recommendations')
-        
-        # Key Insights
-        st.markdown('#### 🔍 Key Insights')
-        st.warning("""
-        **Email Performance Gap:** 18.54% open rate vs 28.59% industry average indicates significant improvement opportunity
-        
-        **Engagement Challenge:** 1.06% CTR vs 3.29% industry standard suggests content relevance issues
-        
-        **Subscriber Growth Need:** 931K vs 1.3M goal (71.6%) requires 369K additional subscribers
-        
-        **Active Audience Strength:** 34.4% active subscriber rate (320K) provides solid engagement foundation
-        
-        **Ad Campaign Performance:** Underground App (1.30% CTR) outperforming WNBA (1.23% CTR) with better lead generation
-        
-        **Cost Efficiency Variance:** WNBA $0.94 CPC vs Underground App $2.37 shows significant cost differences
-        """)
-        
-        # Strategic Recommendations
-        st.markdown('#### 💡 Strategic Recommendations')
-        st.success("""
-        **Email Optimization:** A/B test subject lines, send times, and content formats to improve open rates by 10%
-        
-        **Content Strategy Overhaul:** Implement personalization and segmentation to triple CTR toward industry standards
-        
-        **Subscriber Acquisition:** Scale Underground App campaign model (9.14% conversion) across more platforms
-        
-        **Audience Optimization:** Focus ad spend on Lookalike audiences (128 leads) and Email List + LAL combinations
-        
-        **Cost Management:** Analyze WNBA campaign efficiency to reduce overall ad costs while maintaining reach
-        
-        **List Health:** Implement re-engagement campaigns to convert inactive subscribers to active status
-        """)
-        
-        st.markdown('<hr>', unsafe_allow_html=True)
-        create_notes_section("Marketing")
-
-    # ---------------------------------
-    # Campaigns Tab (NEW)
-    # ---------------------------------
-    with tab6:
-        add_board_update("Campaigns")
-        
-        st.markdown('<h3 class="section-title">Self-Care School 2025</h3>', unsafe_allow_html=True)
-        
-        # Campaign Overview
-        st.markdown('<h4>Campaign Overview</h4>', unsafe_allow_html=True)
-        
-        campaign_col1, campaign_col2, campaign_col3 = st.columns(3)
-        
-        with campaign_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">MEMBERS RECRUITED</p>'
-                f'<p class="metric-value">5,377</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Through Self-Care School campaign</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with campaign_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">WALKING AT LIFE-SAVING LEVEL</p>'
-                f'<p class="metric-value">12,037</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Walking 30+ min/day, 5 days/week (from exit tickets)</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with campaign_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL SUPPORTING GOAL</p>'
-                f'<p class="metric-value">5,634</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Badge earners + Claimed the Victory</p>'
-                f'<p>Goal: 65,000</p>'
-                f'<p>{status_badge("At Risk")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Knowledge Increase Metrics
-        st.markdown('<h4>Self-Care School Knowledge Impact</h4>', unsafe_allow_html=True)
-        st.markdown('<p style="font-style: italic;">Members reporting significant increase in knowledge by topic:</p>', unsafe_allow_html=True)
-        
-        knowledge_fig = px.bar(
-            knowledge_data,
-            x='Topic',
-            y='Members',
-            title='Members Reporting Significant Knowledge Increase by Topic',
-            color='Members',
-            color_continuous_scale=[primary_blue, primary_orange, primary_yellow]
-        )
-        knowledge_fig.update_layout(
-            title_font=dict(color=primary_blue),
-            xaxis_tickangle=-45,
-            height=500
-        )
-        
-        st.plotly_chart(knowledge_fig, use_container_width=True, key="knowledge_fig")
-        
-        # Summary stats
-        st.markdown('<h4>Campaign Impact Summary</h4>', unsafe_allow_html=True)
-        
-        summary_col1, summary_col2 = st.columns(2)
-        
-        with summary_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL KNOWLEDGE IMPACT</p>'
-                f'<p class="metric-value">999</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting change in health knowledge</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with summary_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">AVERAGE KNOWLEDGE GAIN</p>'
-                f'<p class="metric-value">630</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Average members per topic area</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Additional Impact Metrics from Impact Tab
-        st.markdown('<h4>Self-Care School Health & Behavior Outcomes</h4>', unsafe_allow_html=True)
-        
-        outcome_col1, outcome_col2, outcome_col3 = st.columns(3)
-        
-        with outcome_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">MENTAL WELL-BEING</p>'
-                f'<p class="metric-value">998</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Changes in self-reported mental well-being</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with outcome_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">SOCIAL CONNECTION</p>'
-                f'<p class="metric-value">673</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Feel more connected and less isolated</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with outcome_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">EMPOWERED TO ACT</p>'
-                f'<p class="metric-value">907</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Feel empowered to take action</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        behavior_col1, behavior_col2, behavior_col3 = st.columns(3)
-        
-        with behavior_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">NEW HABITS</p>'
-                f'<p class="metric-value">293</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Implemented new habits/mindsets</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with behavior_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">SHARED LESSONS</p>'
-                f'<p class="metric-value">819</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Shared lessons with others</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with behavior_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">WALKING HABIT</p>'
-                f'<p class="metric-value">709</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Built stronger walking habit</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        st.markdown('<hr>', unsafe_allow_html=True)
-        
-        # Copy Impact Metrics from Impact Tab
-        st.markdown('<h3 class="section-title">Detailed Impact Metrics - Self-Care School 2025</h3>', unsafe_allow_html=True)
-
-        # Health and Well-being Impact
-        st.markdown('<h4>Health & Well-being Outcomes</h4>', unsafe_allow_html=True)
-        
-        health_col1, health_col2, health_col3 = st.columns(3)
-        
-        with health_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">HEALTH KNOWLEDGE CHANGE</p>'
-                f'<p class="metric-value">999</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting a change in health knowledge</p>'
-                f'<p style="font-size: 14px; color: #666;">0.00% (baseline measure)</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with health_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">MENTAL WELL-BEING IMPROVEMENT</p>'
-                f'<p class="metric-value">998</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting changes in self-reported mental well-being</p>'
-                f'<p style="font-size: 14px; color: #666;">99.90% of respondents</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with health_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">SOCIAL CONNECTION</p>'
-                f'<p class="metric-value">673</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women feeling more connected and less isolated through GirlTREK</p>'
-                f'<p style="font-size: 14px; color: #666;">68.53% of respondents</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Behavior Change Impact
-        st.markdown('<h4>Behavior Change & Empowerment</h4>', unsafe_allow_html=True)
-        
-        behavior_col1, behavior_col2 = st.columns(2)
-        
-        with behavior_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">EMPOWERED TO TAKE ACTION</p>'
-                f'<p class="metric-value">907</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants feeling empowered to make positive changes</p>'
-                f'<p style="font-size: 14px; color: #666;">90.52% of respondents</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with behavior_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">STRONGER WALKING HABIT</p>'
-                f'<p class="metric-value">709</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who built a stronger walking habit</p>'
-                f'<p style="font-size: 14px; color: #666;">68.70% of respondents</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        behavior_col3, behavior_col4 = st.columns(2)
-        
-        with behavior_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">IMPLEMENTED NEW HABITS</p>'
-                f'<p class="metric-value">293</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who implemented new habits, actions, or mindsets</p>'
-                f'<p style="font-size: 14px; color: #666;">34.92% of respondents</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with behavior_col4:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">SHARED WITH OTHERS</p>'
-                f'<p class="metric-value">819</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who shared lessons learned with others</p>'
-                f'<p style="font-size: 14px; color: #666;">83.66% of respondents</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Knowledge Increase by Topic
-        st.markdown('<h4>Knowledge Increase by Self-Care School Topics</h4>', unsafe_allow_html=True)
-        st.markdown('<p style="font-style: italic; color: #666;">Number of participants reporting significant increase in knowledge:</p>', unsafe_allow_html=True)
-        
-        # Display as metric boxes with correct percentages
-        knowledge_col1, knowledge_col2 = st.columns(2)
-        
-        knowledge_items = [
-            ("Land rights, housing & environmental justice", 710, 71.60),
-            ("Civic engagement & political participation", 569, 57.00),
-            ("Safety, self-defense & public resource access", 645, 64.40),
-            ("Decarceration, gun safety & restorative justice", 658, 63.76),
-            ("Mental health & emotional boundaries", 622, 60.27),
-            ("Radical care, family legacy & intergenerational healing", 695, 67.34),
-            ("Parenting, mentorship & end-of-life planning", 536, 51.94),
-            ("Self-esteem, celebration & personal empowerment", 602, 58.33)
-        ]
-        
-        for i in range(0, 4):
-            with knowledge_col1:
-                topic, count, pct = knowledge_items[i]
-                st.markdown(
-                    f"""
-                    <div class="metric-box" style="margin-bottom: 15px;">
-                        <p class="metric-title" style="font-size: 14px;">{topic.upper()}</p>
-                        <p class="metric-value" style="font-size: 24px;">{count}</p>
-                        <p style="font-size: 14px; color: #666;">{pct}% of respondents</p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-        
-        for i in range(4, 8):
-            with knowledge_col2:
-                topic, count, pct = knowledge_items[i]
-                st.markdown(
-                    f"""
-                    <div class="metric-box" style="margin-bottom: 15px;">
-                        <p class="metric-title" style="font-size: 14px;">{topic.upper()}</p>
-                        <p class="metric-value" style="font-size: 24px;">{count}</p>
-                        <p style="font-size: 14px; color: #666;">{pct}% of respondents</p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-        
-        # Create visualization of knowledge topics
-        knowledge_impact_fig_campaigns = px.bar(
-            knowledge_data,
-            x='Members',
-            y='Topic',
-            orientation='h',
-            title='Self-Care School Knowledge Impact by Topic',
-            color='Members',
-            color_continuous_scale=[primary_blue, primary_orange, primary_yellow]
-        )
-        knowledge_impact_fig_campaigns.update_layout(
-            title_font=dict(color=primary_blue),
-            height=400,
-            xaxis_title='Number of Participants',
-            yaxis_title=''
-        )
-        
-        st.plotly_chart(knowledge_impact_fig_campaigns, use_container_width=True, key="knowledge_impact_fig_campaigns")
-        
-        # Summary metrics
-        st.markdown('<h4>Impact Summary</h4>', unsafe_allow_html=True)
-        
-        summary_col1, summary_col2, summary_col3 = st.columns(3)
-        
-        with summary_col1:
-            st.markdown(
-                f"""
-                <div class="metric-box">
-                    <p class="metric-title">TOTAL KNOWLEDGE TOPICS</p>
-                    <p class="metric-value">8</p>
-                    <p style="font-style: italic; font-size: 12px; color: #666;">Areas of significant knowledge increase</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        
-        with summary_col2:
-            st.markdown(
-                f"""
-                <div class="metric-box">
-                    <p class="metric-title">AVERAGE IMPACT PER TOPIC</p>
-                    <p class="metric-value">630</p>
-                    <p style="font-style: italic; font-size: 12px; color: #666;">Average participants reporting knowledge gain per topic</p>
-                    <p style="font-size: 14px; color: #666;">61.08% average response rate</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        
-        with summary_col3:
-            st.markdown(
-                f"""
-                <div class="metric-box">
-                    <p class="metric-title">TOTAL KNOWLEDGE IMPACTS</p>
-                    <p class="metric-value">5,037</p>
-                    <p style="font-style: italic; font-size: 12px; color: #666;">Sum of all topic-specific knowledge gains</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        
-        # Data Analysis & Recommendations
-        st.markdown('### 📊 Data Analysis & Recommendations')
-        
-        # Key Insights
-        st.markdown('#### 🔍 Key Insights')
-        st.info("""
-        **Exceptional Mental Health Impact:** 99.90% reported mental well-being improvements demonstrates program effectiveness
-        
-        **Strong Knowledge Transfer:** Average 61.08% knowledge increase across 8 topics shows comprehensive education success
-        
-        **Community Building Success:** 83.66% shared lessons with others indicates viral knowledge spread
-        
-        **Walking Habit Development:** 68.70% built stronger walking habits, directly supporting organizational mission
-        
-        **Goal Gap:** 5,634 supporting vs 65,000 goal (8.67%) reveals significant scaling opportunity
-        
-        **High Engagement Quality:** 90.52% feel empowered to take action shows transformative impact
-        """)
-        
-        # Strategic Recommendations
-        st.markdown('#### 💡 Strategic Recommendations')
-        st.success("""
-        **Scale Successful Model:** Expand Self-Care School format to reach remaining 59,366 members for goal achievement
-        
-        **Leverage Social Sharing:** Create formal referral programs based on 83.66% organic sharing behavior
-        
-        **Focus on Top Topics:** Prioritize Radical care (67.34%) and Land rights (71.60%) themes in future content
-        
-        **Walking Integration:** Develop specific programs for the 31.30% who have not built walking habits yet
-        
-        **Knowledge Retention:** Implement follow-up programs to reinforce learning and maintain engagement
-        
-        **Community Activation:** Channel empowerment (90.52%) into advocacy and leadership development programs
-        """)
-        
-        st.markdown('<hr>', unsafe_allow_html=True)
-        create_notes_section("Campaigns")
-    
-    # ---------------------------------
-    # Operations Tab (moved to tab7)
-    # ---------------------------------
-    with tab7:
-        add_board_update("Operations")
-        
-        st.markdown('<h3 class="section-title">Operations Metrics</h3>', unsafe_allow_html=True)
-
-        st.markdown('<h4>Financial Overview (YTD May 2025)</h4>', unsafe_allow_html=True)
-
-        ytd_revenue = finance_trend_data['Revenue'].sum()
-        ytd_expenses = finance_trend_data['Expenses'].sum()
-        
-        finance_col1, finance_col2 = st.columns(2)
-        
-        with finance_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">YTD REVENUE</p>'
-                f'<p class="metric-value">{format_currency(ytd_revenue)}</p>'
-                f'<p>Budget: $1,237,419</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with finance_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">YTD EXPENSES</p>'
-                f'<p class="metric-value">{format_currency(ytd_expenses)}</p>'
-                f'<p>Budget: $1,608,765</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        st.markdown('<h4>Systems Performance</h4>', unsafe_allow_html=True)
-
-        sys_col1, sys_col2, sys_col3 = st.columns(3)
-
-        with sys_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">ASANA ADOPTION</p>'
-                f'<p class="metric-value">38%</p>'
-                f'<p>Goal: 85%</p>'
-                f'{status_badge("At Risk")}'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        with sys_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">AUDIT COMPLIANCE</p>'
-                f'<p class="metric-value">100%</p>'
-                f'<p>Goal: 100%</p>'
-                f'{status_badge("Achieved")}'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        with sys_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">CYBERSECURITY COMPLIANCE</p>'
-                f'<p class="metric-value">70%</p>'
-                f'<p>Goal: 90%</p>'
+                f'<p class="metric-title">ADVOCACY BRIEFS</p>'
+                f'<p class="metric-value">7/10</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Joy & Justice agenda</p>'
                 f'{status_badge("On Track")}'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        # Additional Operations Metrics
-        st.markdown('<h4>Store Performance</h4>', unsafe_allow_html=True)
+        with adv_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">ADVOCACY PARTNERS</p>'
+                f'<p class="metric-value">0/3</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Partner activations</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with adv_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">LISTENING SESSIONS</p>'
+                f'<p class="metric-value">0/5</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Key geographies</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with adv_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CASE STUDIES</p>'
+                f'<p class="metric-value">0/4</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Local impact stories</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Strategic Timeline Note
+        st.warning(
+            """
+            **Timeline Adjustment:** Given c-suite conversations, external conditions, and internal priorities, we have been reevaluating the pacing of advocacy goals. 
+            Timeline shifted to Q1 2026. Currently building relationships with 1K Women Strong and Health in Partnership (HiP).
+            """
+        )
+        
+        # Care Village Initiative
+        st.markdown("### 🏘️ Care Village Initiative - Montgomery, AL")
+        
+        care_col1, care_col2 = st.columns(2)
+        
+        with care_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CARE VILLAGE POPULATION</p>'
+                f'<p class="metric-value">7,660</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Women reached in AL</p>'
+                f'<p>Goal: 40,000 (19.15%)</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with care_col2:
+            st.info(
+                """
+                **Care Village Components:**
+                - Bricklayers Hall restoration
+                - Mother Garden for food access
+                - Community gathering spaces
+                - Health and wellness programs
+                - Place-based interventions
+                """
+            )
+        
+        # Development & Fundraising
+        st.markdown("### 💰 Resource Development")
+        
+        dev_col1, dev_col2, dev_col3, dev_col4 = st.columns(4)
+        
+        with dev_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL RAISED</p>'
+                f'<p class="metric-value">{format_currency(st.session_state.total_contributions)}</p>'
+                f'<p>Goal: $10M</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with dev_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">GRANT FUNDING</p>'
+                f'<p class="metric-value">{format_currency(st.session_state.total_grants)}</p>'
+                f'<p>17 of 48 grants</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with dev_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CORPORATE SPONSORS</p>'
+                f'<p class="metric-value">$130,000</p>'
+                f'<p>Goal: $1.5M</p>'
+                f'{status_badge("At Risk")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with dev_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">BRICKLAYERS</p>'
+                f'<p class="metric-value">$2,500</p>'
+                f'<p>Goal: $500K</p>'
+                f'{status_badge("At Risk")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Grant Pipeline Table
+        st.markdown("### 📋 2025 Grant Applications Pipeline")
+        
+        # Summary boxes
+        grant_col1, grant_col2, grant_col3, grant_col4 = st.columns(4)
+        
+        with grant_col1:
+            st.info("**Total Applications:** 22")
+        with grant_col2:
+            st.info("**Total Requested:** $8,519,750")
+        with grant_col3:
+            st.info("**Total Funded:** $14,500")
+        with grant_col4:
+            st.info("**Success Rate:** 18.2%")
+        
+        # Detailed grant table
+        with st.expander("View Detailed Grant Pipeline"):
+            # Create styled table
+            grant_html = """
+            <style>
+            .grant-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+            .grant-table th { background-color: #4A90E2; color: white; padding: 8px; text-align: left; }
+            .grant-table td { padding: 8px; border: 1px solid #ddd; }
+            .status-pending { background-color: #E3F2FD; }
+            .status-funded { background-color: #E8F5E8; }
+            .status-declined { background-color: #FFEBEE; }
+            .status-prepare { background-color: #FFF3E0; }
+            </style>
+            <table class="grant-table">
+            <thead><tr>
+            <th>Account</th><th>Grant Name</th><th>Amount Requested</th><th>Status</th>
+            </tr></thead><tbody>
+            """
+            
+            for _, row in grants_df.iterrows():
+                status_class = ""
+                if "Pending" in row['Status']:
+                    status_class = "status-pending"
+                elif "Funded" in row['Status']:
+                    status_class = "status-funded"
+                elif "Declined" in row['Status']:
+                    status_class = "status-declined"
+                elif "Prepare" in row['Status']:
+                    status_class = "status-prepare"
+                
+                grant_html += f'<tr class="{status_class}">'
+                grant_html += f'<td>{row["Account"]}</td>'
+                grant_html += f'<td>{row["Grant Name"]}</td>'
+                grant_html += f'<td>{row["Amount Requested"]}</td>'
+                grant_html += f'<td><strong>{row["Status"]}</strong></td>'
+                grant_html += '</tr>'
+            
+            grant_html += '</tbody></table>'
+            st.markdown(grant_html, unsafe_allow_html=True)
+        
+        # Revenue Breakdown
+        st.markdown("### 📊 Revenue Sources")
+        
+        revenue_fig = px.pie(
+            df_finance,
+            values='Amount',
+            names='Category',
+            title='Total Contributions Breakdown',
+            color_discrete_sequence=[primary_blue, primary_orange]
+        )
+        revenue_fig.update_traces(textposition='inside', textinfo='percent+label')
+        revenue_fig.update_layout(title_font=dict(color=primary_blue), height=350)
+        st.plotly_chart(revenue_fig, use_container_width=True)
+        
+        # Earned Revenue
+        st.markdown("### 🛍️ Earned Revenue & Store Performance")
         
         store_col1, store_col2, store_col3 = st.columns(3)
         
@@ -3598,544 +1598,347 @@ def main():
                 unsafe_allow_html=True
             )
         
-        # HR/People Operations Section
-        st.markdown('<h4>People Operations</h4>', unsafe_allow_html=True)
+        # Joy & Justice Agenda
+        st.markdown("### ⚖️ Joy & Justice 10-Point Plan")
         
-        hr_col1, hr_col2, hr_col3 = st.columns(3)
-        
-        with hr_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">STAFF RETENTION</p>'
-                f'<p class="metric-value">94%</p>'
-                f'<p>Industry Avg: 86%</p>'
-                f'{status_badge("On Track")}'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with hr_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">EMPLOYEE SATISFACTION</p>'
-                f'<p class="metric-value">88%</p>'
-                f'<p>Target: 85%</p>'
-                f'{status_badge("On Track")}'
-                f'</div>',
-                unsafe_allow_html=True
-            )
+        with st.expander("View 10-Point Plan Details", expanded=True):
+            # Create data for the 10-point plan
+            joy_justice_data = pd.DataFrame({
+                'Point': [
+                    '1. Land rights & environmental justice',
+                    '2. Healthy minds (Mental health)',
+                    '3. Radical care & healing',
+                    '4. Decarceration & restorative justice',
+                    '5. Safety & public resources',
+                    '6. Mental health & boundaries',
+                    '7. Self-esteem & empowerment',
+                    '8. Civic engagement',
+                    '9. Parenting & mentorship',
+                    '10. Community care models'
+                ],
+                'Members Engaged': [710, 998, 695, 658, 645, 622, 602, 569, 536, 7660],
+                'Progress': ['71.60%', '99.90%', '67.34%', '63.76%', '64.40%', '60.27%', '58.33%', '57.00%', '51.94%', '19.15%']
+            })
             
-        # Data Analysis & Recommendations
-        st.markdown('### 📊 Data Analysis & Recommendations')
+            for _, row in joy_justice_data.iterrows():
+                st.markdown(f"**{row['Point']}**")
+                col1, col2 = st.columns([3, 1])
+                with col1:
+                    progress_val = float(row['Progress'].strip('%'))
+                    st.progress(progress_val / 100)
+                with col2:
+                    st.metric("", f"{row['Members Engaged']} ({row['Progress']})")
         
-        # Key Insights
-        st.markdown('#### 🔍 Key Insights')
-        st.info("""
-        **Strong People Operations:** 94% staff retention vs 86% industry average shows excellent workplace culture
+        # Collective Impact Flow
+        st.markdown("### 🔄 From Individual Change to Collective Impact")
         
-        **Financial Health:** YTD revenue of $3.24M vs $1.24M budget indicates strong financial performance
+        impact_data = pd.DataFrame({
+            'Stage': ['Health Knowledge', 'Behavior Change', 'Community Action', 'Policy Influence'],
+            'Members Impacted': [999, 907, 819, 569],
+            'Percentage': [99.9, 90.5, 83.7, 57.0]
+        })
         
-        **Technology Adoption Gap:** 38% Asana adoption vs 85% goal suggests change management challenges
+        fig_impact = px.funnel(
+            impact_data,
+            x='Members Impacted',
+            y='Stage',
+            title='Impact Progression: Individual → Systems Change',
+            color='Percentage',
+            color_continuous_scale=['#FFF3E0', '#FF9800', '#E65100']
+        )
+        fig_impact.update_layout(height=350, title_font=dict(color=primary_blue))
+        st.plotly_chart(fig_impact, use_container_width=True)
         
-        **Store Performance Issues:** $99.8K vs $400K goal (25%) indicates significant operational gaps
+        # Strategic Partnerships
+        st.markdown("### 🤝 Strategic Partnerships & Coalitions")
         
-        **Security Compliance Progress:** 70% cybersecurity compliance shows steady improvement toward 90% goal
-        
-        **Employee Satisfaction:** 88% vs 85% target demonstrates positive workplace environment
-        """)
-        
-        # Strategic Recommendations
-        st.markdown('#### 💡 Strategic Recommendations')
-        st.success("""
-        **Technology Training Initiative:** Implement comprehensive Asana training program to reach 85% adoption target
-        
-        **Store Operations Overhaul:** Conduct full audit of product mix, pricing, marketing, and fulfillment processes
-        
-        **Cybersecurity Priority:** Accelerate security protocols implementation to achieve 90% compliance
-        
-        **Retain HR Excellence:** Document and replicate successful retention strategies across all departments
-        
-        **Financial Optimization:** Analyze budget variance to optimize resource allocation for maximum impact
-        
-        **Process Documentation:** Leverage high employee satisfaction to capture institutional knowledge
-        """)
-            
-        st.markdown('<hr>', unsafe_allow_html=True)
-        create_notes_section("Operations")
-
-    # ---------------------------------
-    # Member Care Tab (moved to tab8)
-    # ---------------------------------
-    with tab8:
-        add_board_update("Member Care")
-        
-        st.markdown('<h3 class="section-title">Member Care Metrics</h3>', unsafe_allow_html=True)
-
-        mc_col1, mc_col2 = st.columns(2)
-
-        with mc_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">MEMBER SATISFACTION RATING</p>'
-                f'<p class="metric-value">93%</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">How happy members are with GirlTREK services (via Zendesk tickets)</p>'
-                f'<p>Goal: 95%</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        with mc_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">RESOLUTION/RESPONSIVENESS RATE</p>'
-                f'<p class="metric-value">2 hours</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Percentage of support tickets resolved within specified timeframe</p>'
-                f'<p>Goal: 48 hours</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        st.markdown('<h3>Top Member Issues/Concerns</h3>', unsafe_allow_html=True)
-        st.markdown(
+        st.info(
             """
-            - SCS Registration Error Message
-            - Connecting to the Movement
-            """,
-            unsafe_allow_html=True
+            **Active Partnership Development:**
+            - **1K Women Strong** - Coalition building for collective impact
+            - **Health in Partnership (HiP)** - Health equity collaboration
+            - **Youth-serving organizations** - Next generation leadership (20 contacts made)
+            - **Faith-based institutions** - North Star initiative (500 faith communities target)
+            - **Civic organizations** - Including Zeta Phi Beta Sorority
+            
+            **Partnership Metrics:**
+            - Total Recruitment Partnerships: 18 (Goal: 10) ✅
+            - Advocacy Partnerships: 0 (Goal: 3) - In Development
+            - Faith Communities: On track for 500 engaged
+            - Care Village Coalition Partners: Building in Montgomery
+            """
         )
         
-        # Add Member Testimonials
-        st.markdown('<h3>Member Testimonials</h3>', unsafe_allow_html=True)
+        # Major Fundraising Event
+        st.markdown("### 🎯 Major Fundraising Initiative")
         
-        with st.expander("Karen Laing - Finding Joy and Healing"):
-            st.markdown(
-                """
-                *"I have found more joy and healing spaces during these weeks and participating in GirlTrek's self-care school has been mission critical in this time when I was fired after six months on the job and it jeopardized the affordable housing my daughter and I found last fall. But God continues to keep us and y'all continue to educate, empower and inspire us as we encourage ourselves in the Lord. Thank you. and amen.*
-                
-                **— Karen Laing**
-                """
-            )
-        
-        with st.expander("Angelia Taylor - Plant Forward Success"):
-            st.markdown(
-                """
-                *"I love the Week 4 'Plant Forward' message! Thank you so much for inspiring us to feed our souls and bodies better. While working on my Master in Public Health, I designed a project that researched Black women's health. One of the three areas that I focused on included buying and eating more fruits and vegetables. Eating what the earth provides helped me lose 106 pounds! It was actually a lot of fun! I also taught plant-based meals to kids, complete with 'chocolate pudding' made from eggplant. LOL! You should have seen them lick the bowls. PRICELESS!! Again, thank you soooooo much for providing such a warm space for us to heal our communities. You are so appreciated.*
-                
-                **— Angelia Taylor, Champaign, Illinois**
-                """
-            )
-        
-        with st.expander("Alicia Cross - Perseverance Through Recovery"):
-            st.markdown(
-                """
-                *"I have walked with GirlTrek since 2019, but had a full knee replacement in 2024, so I'm still rehabbing and my surgeon approved me to ride my Trek bike to continue to break up the scar tissue which is working. Walking is causing quite a bit of swelling, but I'm taking one day at a time. Seven weeks of GirlTrek has been a lifesaver. I appreciate you ALL SO MUCH!!*
-                
-                **— Alicia Cross, Lanham, MD**
-                """
-            )
-        
-        # Data Analysis & Recommendations
-        st.markdown('### 📊 Data Analysis & Recommendations')
-        
-        # Key Insights
-        st.markdown('#### 🔍 Key Insights')
-        st.info("""
-        **Excellent Response Time:** 2-hour resolution vs 48-hour goal demonstrates exceptional member service
-        
-        **Near-Target Satisfaction:** 93% vs 95% goal shows strong member satisfaction with minimal gap
-        
-        **Technical Issues Focus:** SCS registration errors indicate system improvement opportunities
-        
-        **Connection Challenges:** Connecting to the Movement suggests onboarding/engagement gaps
-        
-        **Powerful Member Stories:** Testimonials show life-changing impact during difficult circumstances
-        
-        **Health Transformation:** 106-pound weight loss and recovery stories demonstrate program effectiveness
-        """)
-        
-        # Strategic Recommendations
-        st.markdown('#### 💡 Strategic Recommendations')
-        st.success("""
-        **Technical System Improvements:** Priority fix for SCS registration system to reduce support ticket volume
-        
-        **Enhanced Onboarding:** Develop comprehensive Connecting to Movement resources and guided experiences
-        
-        **Proactive Support:** Use 2-hour response capability to implement proactive member outreach
-        
-        **Satisfaction Bridge:** Identify specific areas to close 2% gap to reach 95% satisfaction goal
-        
-        **Story Amplification:** Systematically collect and share member success stories for recruitment/retention
-        
-        **Support Specialization:** Train team members in specific technical and engagement issue resolution
-        """)
-        
-        st.markdown('<hr>', unsafe_allow_html=True)
-        create_notes_section("Member Care")
-
+        st.warning(
+            """
+            **October 10, 2025 - Exclusive Investment Opportunity**
+            
+            Invite-only event for Care Village model investment featuring:
+            - Key co-hosts secured
+            - Strategic partner: NationSwell
+            - Focus: Mission-aligned investors and champions
+            - Goal: Major gifts for Care Village expansion
+            """
+        )
+    
     # ---------------------------------
-    # Advocacy Tab (moved to tab9)
+    # Operational Excellence Tab
     # ---------------------------------
-    with tab9:
-        add_board_update("Advocacy")
+    with tab5:
+        st.markdown('<h2 class="section-title">📊 Operational Excellence</h2>', unsafe_allow_html=True)
         
-        st.markdown('<h3 class="section-title">Advocacy Metrics</h3>', unsafe_allow_html=True)
-
-        adv_col1, adv_col2 = st.columns(2)
-
-        with adv_col1:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">ADVOCACY BRIEFS PUBLISHED</p>'
-                f'<p class="metric-value">7 / 10</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Research basis for how J&J agenda items increase Black women\'s life expectancy</p>'
-                f'<p>{status_badge("On Track")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        with adv_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">ADVOCACY PARTNERSHIPS</p>'
-                f'<p class="metric-value">0 / 3</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Partner-led advocacy activations</p>'
-                f'<p>{status_badge("On Track")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        # Additional Advocacy Metrics
-        st.markdown('<h4>Additional Advocacy Initiatives</h4>', unsafe_allow_html=True)
-        
-        adv_col3, adv_col4 = st.columns(2)
-        
-        with adv_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">MEMBER LISTENING SESSIONS</p>'
-                f'<p class="metric-value">0 / 5</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">In 5 key geographies</p>'
-                f'<p>{status_badge("On Track")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with adv_col4:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">CASE STUDIES</p>'
-                f'<p class="metric-value">0 / 4</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Showcasing GirlTREK\'s local advocacy impact</p>'
-                f'<p>{status_badge("On Track")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-
-        st.markdown('<h3>Current Focus Areas</h3>', unsafe_allow_html=True)
         st.markdown(
             """
-            - Produce advocacy briefs establishing research basis for why each J&J agenda item leads to an increase in Black women's life expectancy
-            - Uplift best-in-class organizations
-            - Secure advocacy partners that align with GirlTREK's Joy & Justice Agenda through signed MOUs
-            - Catalyze local advocacy by convening member listening sessions in key geographies
-            - Produce compelling case studies showcasing GirlTREK's impact through local advocacy engagement
-            """,
-            unsafe_allow_html=True
-        )
-        
-        # Strategic Context
-        st.markdown('<h3>Strategic Context - Timeline Adjustment</h3>', unsafe_allow_html=True)
-        st.markdown(
-            f"""
-            <div style="background-color: #FFF3E0; border-left: 5px solid #FF9800; 
-                 padding: 15px; border-radius: 5px; margin: 10px 0;">
-                <p style="color: #E65100; margin: 0;">
-                <strong>Note:</strong> Given c-suite conversations, external conditions, and internal priorities we have been reevaluating the pacing of advocacy goals. We are currently considering shifting timeline to Q1 2026, and reevaluating the approach to these objectives. Current focus includes relationship building with national and place-based organizations to test potential activations and applications, participation in national convenings and briefings, and active conversations with 1K Women Strong and Health in Partnership (HiP).
+            <div style="background-color: #F3F9FF; border-left: 5px solid #0088FF; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                <p style="color: #0088FF; font-size: 16px; margin: 0;">
+                <strong>Supporting Our Mission:</strong> Ensuring organizational health, financial sustainability, and operational efficiency to power our model of change.
                 </p>
             </div>
             """,
             unsafe_allow_html=True
         )
         
-        # Data Analysis & Recommendations
-        st.markdown('### 📊 Data Analysis & Recommendations')
+        # Financial Performance
+        st.markdown("### 💰 Financial Performance (YTD May 2025)")
         
-        # Key Insights
-        st.markdown('#### 🔍 Key Insights')
-        st.warning("""
-        **Strong Research Foundation:** 7/10 advocacy briefs completed (70%) provides solid evidence base
+        ytd_revenue = finance_trend_data['Revenue'].sum()
+        ytd_expenses = finance_trend_data['Expenses'].sum()
         
-        **Partnership Development Needed:** 0/3 partner activations indicates relationship building challenges
+        fin_col1, fin_col2, fin_col3, fin_col4 = st.columns(4)
         
-        **Strategic Timing Adjustment:** Q1 2026 timeline shift reflects thoughtful response to external conditions
-        
-        **Comprehensive Planning:** Phase 1 strategic focus shows systematic approach to advocacy development
-        
-        **Coalition Building Progress:** Active conversations with 1K Women Strong and HiP show promising partnerships
-        
-        **Member Engagement Gap:** 0/5 listening sessions suggest need for community outreach acceleration
-        """)
-        
-        # Strategic Recommendations
-        st.markdown('#### 💡 Strategic Recommendations')
-        st.success("""
-        **Complete Research Phase:** Finalize remaining 3 advocacy briefs to establish full evidence foundation
-        
-        **Pilot Partnership Programs:** Convert HiP and 1K Women Strong conversations into formal pilot activations
-        
-        **Member Listening Strategy:** Launch listening sessions in 2-3 pilot geographies before full 5-location rollout
-        
-        **Mobile App Integration:** Accelerate advocacy content in Summer of Solidarity weekly dispatches
-        
-        **Youth Partnership Priority:** Leverage civic partnerships director relationships for next-generation leadership
-        
-        **Timeline Communication:** Clearly communicate adjusted timeline to maintain member and partner confidence
-        """)
-        
-        st.markdown('<hr>', unsafe_allow_html=True)
-        create_notes_section("Advocacy")
-
-    # ---------------------------------
-    # Impact Tab (moved to tab10)
-    # ---------------------------------
-    with tab10:
-        add_board_update("Impact")
-        
-        st.markdown('<h3 class="section-title">Impact Metrics - Self-Care School 2025</h3>', unsafe_allow_html=True)
-
-        # Health and Well-being Impact
-        st.markdown('<h4>Health & Well-being Outcomes</h4>', unsafe_allow_html=True)
-        
-        health_col1, health_col2, health_col3 = st.columns(3)
-        
-        with health_col1:
+        with fin_col1:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">HEALTH KNOWLEDGE CHANGE</p>'
-                f'<p class="metric-value">999</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting a change in health knowledge</p>'
-                f'<p style="font-size: 14px; color: #666;">0.00% (baseline measure)</p>'
+                f'<p class="metric-title">YTD REVENUE</p>'
+                f'<p class="metric-value">{format_currency(ytd_revenue)}</p>'
+                f'<p>Budget: $1,237,419</p>'
+                f'{status_badge("Achieved")}'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        with health_col2:
+        with fin_col2:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">MENTAL WELL-BEING IMPROVEMENT</p>'
-                f'<p class="metric-value">998</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women reporting changes in self-reported mental well-being</p>'
-                f'<p style="font-size: 14px; color: #666;">99.90% of respondents</p>'
+                f'<p class="metric-title">YTD EXPENSES</p>'
+                f'<p class="metric-value">{format_currency(ytd_expenses)}</p>'
+                f'<p>Budget: $1,608,765</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        with health_col3:
+        with fin_col3:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">SOCIAL CONNECTION</p>'
-                f'<p class="metric-value">673</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Women feeling more connected and less isolated through GirlTREK</p>'
-                f'<p style="font-size: 14px; color: #666;">68.53% of respondents</p>'
+                f'<p class="metric-title">NET SURPLUS</p>'
+                f'<p class="metric-value">{format_currency(ytd_revenue - ytd_expenses)}</p>'
+                f'<p style="font-style: italic; font-size: 12px;">YTD Net Income</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        # Behavior Change Impact
-        st.markdown('<h4>Behavior Change & Empowerment</h4>', unsafe_allow_html=True)
-        
-        behavior_col1, behavior_col2 = st.columns(2)
-        
-        with behavior_col1:
+        with fin_col4:
             st.markdown(
                 f'<div class="metric-box">'
-                f'<p class="metric-title">EMPOWERED TO TAKE ACTION</p>'
-                f'<p class="metric-value">907</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants feeling empowered to make positive changes</p>'
-                f'<p style="font-size: 14px; color: #666;">90.52% of respondents</p>'
+                f'<p class="metric-title">BUDGET VARIANCE</p>'
+                f'<p class="metric-value">262%</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Revenue vs Budget</p>'
+                f'{status_badge("Achieved")}'
                 f'</div>',
                 unsafe_allow_html=True
             )
         
-        with behavior_col2:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">STRONGER WALKING HABIT</p>'
-                f'<p class="metric-value">709</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who built a stronger walking habit</p>'
-                f'<p style="font-size: 14px; color: #666;">68.70% of respondents</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
+        # Financial Trend Chart
+        st.markdown("### 📈 Financial Trends")
         
-        behavior_col3, behavior_col4 = st.columns(2)
-        
-        with behavior_col3:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">IMPLEMENTED NEW HABITS</p>'
-                f'<p class="metric-value">293</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who implemented new habits, actions, or mindsets</p>'
-                f'<p style="font-size: 14px; color: #666;">34.92% of respondents</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        with behavior_col4:
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">SHARED WITH OTHERS</p>'
-                f'<p class="metric-value">819</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Participants who shared lessons learned with others</p>'
-                f'<p style="font-size: 14px; color: #666;">83.66% of respondents</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-        
-        # Knowledge Increase by Topic
-        st.markdown('<h4>Knowledge Increase by Self-Care School Topics</h4>', unsafe_allow_html=True)
-        st.markdown('<p style="font-style: italic; color: #666;">Number of participants reporting significant increase in knowledge:</p>', unsafe_allow_html=True)
-        
-        # Display as metric boxes with correct percentages
-        knowledge_col1, knowledge_col2 = st.columns(2)
-        
-        knowledge_items = [
-            ("Land rights, housing & environmental justice", 710, 71.60),
-            ("Civic engagement & political participation", 569, 57.00),
-            ("Safety, self-defense & public resource access", 645, 64.40),
-            ("Decarceration, gun safety & restorative justice", 658, 63.76),
-            ("Mental health & emotional boundaries", 622, 60.27),
-            ("Radical care, family legacy & intergenerational healing", 695, 67.34),
-            ("Parenting, mentorship & end-of-life planning", 536, 51.94),
-            ("Self-esteem, celebration & personal empowerment", 602, 58.33)
-        ]
-        
-        for i in range(0, 4):
-            with knowledge_col1:
-                topic, count, pct = knowledge_items[i]
-                st.markdown(
-                    f"""
-                    <div class="metric-box" style="margin-bottom: 15px;">
-                        <p class="metric-title" style="font-size: 14px;">{topic.upper()}</p>
-                        <p class="metric-value" style="font-size: 24px;">{count}</p>
-                        <p style="font-size: 14px; color: #666;">{pct}% of respondents</p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-        
-        for i in range(4, 8):
-            with knowledge_col2:
-                topic, count, pct = knowledge_items[i]
-                st.markdown(
-                    f"""
-                    <div class="metric-box" style="margin-bottom: 15px;">
-                        <p class="metric-title" style="font-size: 14px;">{topic.upper()}</p>
-                        <p class="metric-value" style="font-size: 24px;">{count}</p>
-                        <p style="font-size: 14px; color: #666;">{pct}% of respondents</p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-        
-        # Create visualization of knowledge topics
-        knowledge_impact_fig = px.bar(
-            knowledge_data,
-            x='Members',
-            y='Topic',
-            orientation='h',
-            title='Self-Care School Knowledge Impact by Topic',
-            color='Members',
-            color_continuous_scale=[primary_blue, primary_orange, primary_yellow]
-        )
-        knowledge_impact_fig.update_layout(
+        finance_fig = go.Figure()
+        finance_fig.add_trace(go.Bar(
+            name='Revenue',
+            x=finance_trend_data['Month'],
+            y=finance_trend_data['Revenue'],
+            marker_color=primary_blue
+        ))
+        finance_fig.add_trace(go.Bar(
+            name='Expenses',
+            x=finance_trend_data['Month'],
+            y=finance_trend_data['Expenses'],
+            marker_color=secondary_orange
+        ))
+        finance_fig.update_layout(
+            title='Monthly Revenue vs Expenses (YTD May 2025)',
+            barmode='group',
             title_font=dict(color=primary_blue),
-            height=400,
-            xaxis_title='Number of Participants',
-            yaxis_title=''
+            height=350
         )
+        st.plotly_chart(finance_fig, use_container_width=True)
         
-        st.plotly_chart(knowledge_impact_fig, use_container_width=True, key="knowledge_impact_fig")
+        # People & Culture
+        st.markdown("### 👥 People & Culture")
         
-        # Summary metrics
-        st.markdown('<h4>Impact Summary</h4>', unsafe_allow_html=True)
+        people_col1, people_col2, people_col3, people_col4 = st.columns(4)
+        
+        with people_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">STAFF RETENTION</p>'
+                f'<p class="metric-value">94%</p>'
+                f'<p>Industry: 86%</p>'
+                f'{status_badge("Achieved")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with people_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SATISFACTION</p>'
+                f'<p class="metric-value">88%</p>'
+                f'<p>Target: 85%</p>'
+                f'{status_badge("Achieved")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with people_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">BOARD DIVERSITY</p>'
+                f'<p class="metric-value">73%/82%</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Black/Women</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with people_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">STAFF DIVERSITY</p>'
+                f'<p class="metric-value">96%/100%</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Black/Women</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Systems & Technology
+        st.markdown("### 💻 Systems & Technology")
+        
+        sys_col1, sys_col2, sys_col3, sys_col4 = st.columns(4)
+        
+        with sys_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">ASANA ADOPTION</p>'
+                f'<p class="metric-value">38%</p>'
+                f'<p>Goal: 85%</p>'
+                f'{status_badge("At Risk")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with sys_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">CYBERSECURITY</p>'
+                f'<p class="metric-value">70%</p>'
+                f'<p>Goal: 90%</p>'
+                f'{status_badge("On Track")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with sys_col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">AUDIT COMPLIANCE</p>'
+                f'<p class="metric-value">100%</p>'
+                f'<p>Goal: 100%</p>'
+                f'{status_badge("Achieved")}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        with sys_col4:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">ORG HEALTH</p>'
+                f'<p class="metric-value">TBD</p>'
+                f'<p style="font-style: italic; font-size: 12px;">Survey Nov 2025</p>'
+                f'<p>Goal: 85%</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Operational Priorities
+        st.markdown("### 🎯 Operational Priorities")
+        
+        ops_col1, ops_col2 = st.columns(2)
+        
+        with ops_col1:
+            st.success(
+                """
+                **✅ What's Working Well:**
+                - **People First Wins:** 94% retention vs 86% industry avg
+                - **Financial Strength:** $3.24M revenue vs $1.24M budget
+                - **Member Care Excellence:** 2-hour response vs 48-hour goal
+                - **Audit Perfection:** 100% compliance achieved
+                - **Cybersecurity Progress:** 70% on path to 90% goal
+                - **Employee Happiness:** 88% satisfaction vs 85% target
+                """
+            )
+        
+        with ops_col2:
+            st.warning(
+                """
+                **⚠️ Areas Needing Focus:**
+                - **Tech Adoption:** Asana at 38% vs 85% goal
+                - **Store Operations:** $99.8K vs $400K goal (25%)
+                - **Corporate Sponsorships:** $130K vs $1.5M goal (8.7%)
+                - **Grant Success Rate:** 18.2% needs improvement
+                - **Email Engagement:** Below industry standards
+                - **Bricklayers Program:** $2.5K vs $500K goal
+                """
+            )
+        
+        # Summary Stats
+        st.markdown("### 📊 Quick Summary Statistics")
         
         summary_col1, summary_col2, summary_col3 = st.columns(3)
         
         with summary_col1:
-            st.markdown(
-                f"""
-                <div class="metric-box">
-                    <p class="metric-title">TOTAL KNOWLEDGE TOPICS</p>
-                    <p class="metric-value">8</p>
-                    <p style="font-style: italic; font-size: 12px; color: #666;">Areas of significant knowledge increase</p>
-                </div>
-                """,
-                unsafe_allow_html=True
+            st.info(
+                """
+                **Membership Stats:**
+                - Total: 1,244,476
+                - New (2025): 15,438
+                - Walking Daily: 5,634
+                - Life-Saving Level: 12,037
+                """
             )
         
         with summary_col2:
-            st.markdown(
-                f"""
-                <div class="metric-box">
-                    <p class="metric-title">AVERAGE IMPACT PER TOPIC</p>
-                    <p class="metric-value">630</p>
-                    <p style="font-style: italic; font-size: 12px; color: #666;">Average participants reporting knowledge gain per topic</p>
-                    <p style="font-size: 14px; color: #666;">61.08% average response rate</p>
-                </div>
-                """,
-                unsafe_allow_html=True
+            st.info(
+                """
+                **Financial Stats:**
+                - Total Raised: $3.1M
+                - Grants: $3.1M
+                - Store: $99.8K
+                - Corporate: $130K
+                """
             )
         
         with summary_col3:
-            st.markdown(
-                f"""
-                <div class="metric-box">
-                    <p class="metric-title">TOTAL KNOWLEDGE IMPACTS</p>
-                    <p class="metric-value">5,037</p>
-                    <p style="font-style: italic; font-size: 12px; color: #666;">Sum of all topic-specific knowledge gains</p>
-                </div>
-                """,
-                unsafe_allow_html=True
+            st.info(
+                """
+                **Impact Stats:**
+                - Mental Well-being: 99.9%
+                - Social Connection: 68.5%
+                - Empowered: 90.5%
+                - Knowledge Gain: 61.1%
+                """
             )
-        
-        # Data Analysis & Recommendations
-        st.markdown('### 📊 Data Analysis & Recommendations')
-        
-        # Key Insights
-        st.markdown('#### 🔍 Key Insights')
-        st.info("""
-        **Universal Mental Health Impact:** 99.90% reporting mental well-being improvements shows exceptional program efficacy
-        
-        **Knowledge Transfer Success:** 5,037 total knowledge impacts across 8 topics demonstrates comprehensive education
-        
-        **Behavior Change Achievement:** 90.52% empowered to take action indicates transformative program design
-        
-        **Community Multiplication:** 83.66% shared lessons creates organic program expansion
-        
-        **Sustainable Habit Formation:** 68.70% built stronger walking habits supports long-term health goals
-        
-        **Topic Resonance Variation:** Land rights (71.60%) vs parenting (51.94%) shows content preference differences
-        """)
-        
-        # Strategic Recommendations
-        st.markdown('#### 💡 Strategic Recommendations')
-        st.success("""
-        **Scale Proven Model:** Replicate Self-Care School structure for year-round programming to maximize impact
-        
-        **Content Optimization:** Expand high-resonance topics (land rights, radical care) and enhance lower-performing areas
-        
-        **Peer Network Development:** Formalize the 83.66% sharing behavior into structured peer mentorship programs
-        
-        **Walking Habit Support:** Create specific interventions for the 31.30% who have not developed consistent walking habits
-        
-        **Impact Documentation:** Implement longitudinal tracking to measure sustained behavior change over time
-        
-        **Program Graduation Pathways:** Channel empowered participants into leadership, advocacy, and crew leader roles
-        """)
-        
-        st.markdown('<hr>', unsafe_allow_html=True)
-        create_notes_section("Impact")
 
 if __name__ == "__main__":
     main()
