@@ -97,7 +97,6 @@ def add_board_update(tab_name):
             <li><strong>Store Operations Lag:</strong> With only 25% of our sales goal reached, we are taking a hard look at—product mix, pricing, marketing, and fulfillment and make necessary pivots.</li>
         </ul>
         """
-
     elif tab_name == "Development":
         update_content = """
         <p> The development team has submitted a record number of grant applications this cycle. However, we are also receiving a notable volume of declinations—largely due to the broader funding climate and challenges we've discussed in previous meetings. Cold submissions are proving particularly difficult in the current landscape.</p>
@@ -115,41 +114,67 @@ def add_board_update(tab_name):
             <li>We have submitted a <strong>$600,000 grant proposal to The Tow Foundation</strong> and are awaiting their response.</li>
         </ul>
         """
-    elif notes_key in st.session_state and st.session_state[notes_key].strip():
-        update_content = st.session_state[notes_key]
-
     elif tab_name == "Engagement":
         update_content = """
         <p>The Engagement Team has hosted eight content-specific training workshops for members, focused on food justice, mental health, justice impacted communities, and caregivers. Eight additional workshops are scheduled for the remainder of the year. Members have engaged with field experts and gained valuable resources to support walking crews centered on these content areas. We are currently planning both in-person and online Mental Health First Aid training sessions for members in September. The GirlTREK Garden Club has completed two seed mailings with the first focused on growing heirloom collard greens, and the second on seed saving and community seed distribution. Additionally, the Faith Team has hosted numerous gatherings to support the growth of the faith initiative and has successfully recruited new faith communities. They are well on their way to engaging 500 faith communities this year.</p>
         
         <p>Work in Montgomery is steadily progressing. The architecture consultant has developed renderings for the space, including a beautiful Mother Garden in the backyard that will serve as a gathering space, a place of respite, and a food access point for the community. Our Director of Place-Based Innovation has also cultivated strong relationships across the community, and GirlTREK now enjoys increased brand awareness through outreach, publicity, and hosted walks.</p>
         """
+    elif tab_name == "Executive Summary":
+        update_content = """
+        <p><strong>Early Highlights:</strong></p>
+        <ul style="margin-top: 10px; margin-bottom: 20px;">
+            <li><strong>100%</strong> of Self-Care School students report mental health improvement</li>
+            <li><strong>91%</strong> of participants were inspired to take action in their homes and communities</li>
+            <li><strong>2-hours</strong> response time for all member support tickets instead of the 48 hours promised</li>
+            <li><strong>47%</strong> of 3,800+ registered crew leaders have led a walk this year</li>
+            <li><strong>90%</strong> coaches recruited and trained in new Mommy & Me Program</li>
+            <li><strong>50</strong> mental health first responders in training to deliver on-the-ground care to walkers</li>
+            <li><strong>600+</strong> caregivers received training and support - improving access to Medicaid, etc. - through Caregiver Tribe Program</li>
+            <li><strong>1.7M</strong> impressions on marketing campaigns: NBA, meta, mobile app</li>
+            <li><strong>100%</strong> compliance; Completion of audit with no significant findings - clean audit</li>
+            <li><strong>100%</strong> of staff retained, 88% staff satisfaction</li>
+        </ul>
+        
+        <p><strong>Biggest Growth Opportunities:</strong></p>
+        <ul style="margin-top: 10px; margin-bottom: 20px;">
+            <li><strong>15%</strong> of members engagement goal of 65,000 walking in 2025 (~3% of total members)</li>
+            <li><strong>19%</strong> of women walking in Montgomery (7,700 of 40,000 target)</li>
+            <li><strong>19%</strong> open rate of emails (Industry Standard: Nonprofits average 28.59%)</li>
+            <li><strong>$3.1M</strong> of $10M development campaign raised to date</li>
+        </ul>
+        
+        <p><strong>Considerations:</strong></p>
+        <ul style="margin-top: 10px; margin-bottom: 20px;">
+            <li>Advocacy goals paused</li>
+            <li>General (15%) and youth recruitment goals (3%) impacted by political censorship</li>
+            <li>Mobile app will make user-reported data on daily walking more accurate</li>
+            <li>Grant approvals (18%) and Corporate sponsorship (9%) impacted by DEI politics</li>
+        </ul>
+        """
     elif notes_key in st.session_state and st.session_state[notes_key].strip():
         update_content = st.session_state[notes_key]
-        
-        # Add specific content for Executive Summary
     else:
-        if tab_name == "Executive Summary":
-            update_content = "<p><strong>Strong Overall Progress:</strong> 4 out of 7 major goals are on track, with fundraising at 31% of target.</p>"
-        else:
-            update_content = "<p style='font-style: italic; color: #999;'>No leadership updates at this time.</p>"
+        update_content = "<p style='font-style: italic; color: #999;'>No leadership updates at this time.</p>"
     
     if dark_mode:
         board_update_html = f'''
         <div style="background-color: #1E2130; border-left: 5px solid #0088FF; 
              padding: 20px; border-radius: 5px; margin: 15px 0 25px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
-            <h4 style="color: #4DA6FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;"> {tab_name}</h4>
-            <div style="color: #E0E0E0; line-height: 1.5;">
+            <h4 style="color: #4DA6FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;">Leadership Update: {tab_name}</h4>
+            <div style="color: #E0E0E0; line-height: 1.6;">
                 {update_content}
+            </div>
         </div>
         '''
     else:
         board_update_html = f'''
         <div style="background-color: #F3F9FF; border-left: 5px solid #0088FF; 
              padding: 20px; border-radius: 5px; margin: 15px 0 25px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            <h4 style="color: #0088FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;"> {tab_name}</h4>
-            <div style="color: #333333; line-height: 1.5;">
+            <h4 style="color: #0088FF; margin-top: 0; margin-bottom: 15px; font-size: 18px;">Leadership Update: {tab_name}</h4>
+            <div style="color: #333333; line-height: 1.6;">
                 {update_content}
+            </div>
         </div>
         '''
     
