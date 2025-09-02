@@ -2409,6 +2409,168 @@ def main():
                 unsafe_allow_html=True
             )
 
+        # Faith Crews Initiative
+        st.markdown('<h4>Faith Programs</h4>', unsafe_allow_html=True)
+        
+        with st.expander("✝️ GirlTREK Faith Crews Initiative", expanded=False):
+            # Program Overview
+            st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
+            st.markdown(
+                """
+                At GirlTREK, we believe that faith is a powerful force in the lives of Black women and the communities we serve. The Faith Crews Initiative was born from this truth—an invitation to return to the sacred, to walk in wellness, and to heal in sisterhood.
+                
+                Rooted in spiritual wellness, radical self-care, and collective healing, Faith Crews create sacred spaces where Black women can walk, pray, testify, and solve problems together. Through monthly walks hosted by local churches and faith leaders, we partner with congregations to establish a rhythm of rest, restoration, and resistance—one step at a time.
+                
+                Our churches are more than places of worship—they are centers of healing, organizing, and transformation. By walking alongside faith institutions, GirlTREK is building a national movement that empowers Black women to reclaim their health, joy, and legacy through the spiritual and cultural practice of walking.
+                
+                Together, we are inspiring over one million Black women to walk in the footsteps of our foremothers—in protest, in prayer, and in power. This is more than a health initiative. It is a call to action. A return to faith. A movement of women walking boldly toward liberation.
+                """
+            )
+            
+            # Program Goals
+            st.markdown('<h5>Program Goals</h5>', unsafe_allow_html=True)
+            st.markdown(
+                """
+                **Recruitment:**
+                - Identify, train, and support at least 500 active Faith Crew Leaders to organize and sustain monthly walks in churches and neighborhoods across the country, with a focused reach of 300 Southern churches by December 2025
+                
+                **Engagement:**
+                - Build a national network of volunteer faith leaders supported through monthly calls, newsletters, and prayer gatherings
+                - Encourage every Faith Crew to host monthly walks on First Saturdays, establishing a consistent rhythm of spiritual wellness
+                - Launch a monthly Faith Crew newsletter to uplift testimonies, highlight community service, and celebrate spiritual milestones
+                
+                **Impact:**
+                - Promote walking as a sacred spiritual practice, while equipping faith leaders to use GirlTREK as a ministry tool for health, healing, and fellowship
+                - Develop a network of "Walking Witnesses" who testify to transformation and embody legacy leadership rooted in scripture, service, and self-care
+                - Engage 1,000 Black women in faith-based communities in regular walking
+                - Recruit 10,000 new walkers across the South, beginning with 1,500 in 2025
+                - Ensure 80% of Church Crews participate in national campaigns (PrayerTrek, High Five Week, 21-Day JumpStart/GratitudeTrek, Black Family 5K)
+                - Promote use of the GirlTREK App (upon launch), aiming for 80% adoption among Church Crews by November 2025
+                """
+            )
+            
+            # Current Status Metrics
+            st.markdown('<h5>Current Status (as of July 2025)</h5>', unsafe_allow_html=True)
+            
+            faith_col1, faith_col2 = st.columns(2)
+            
+            with faith_col1:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">FAITH CREW LEADERS ACTIVATED</p>'
+                    f'<p class="metric-value">54 / 500</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">10.8% of target achieved</p>'
+                    f'<p>{status_badge("At Risk")}</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            with faith_col2:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">CHURCHES ENGAGED NATIONWIDE</p>'
+                    f'<p class="metric-value">86 / 500</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">17.2% of target</p>'
+                    f'<p>{status_badge("At Risk")}</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            faith_col3, faith_col4 = st.columns(2)
+            
+            with faith_col3:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">SOUTHERN REGION CHURCHES</p>'
+                    f'<p class="metric-value">28 / 300</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">9.3% of Southern target</p>'
+                    f'<p>{status_badge("At Risk")}</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            with faith_col4:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">CAMPAIGN READINESS</p>'
+                    f'<p class="metric-value">Preparing</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Prayer Trek & Gratitude Trek launch Oct 1, 2025</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            # Upcoming Strategic Milestones
+            st.markdown('<h5>Upcoming Strategic Milestones</h5>', unsafe_allow_html=True)
+            
+            milestones_html = f"""
+            <div style="background-color: #F3F9FF; border-radius: 10px; padding: 15px; margin: 10px 0;">
+                <p><strong>August–October 2025</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Summer of Solidarity Campaign Launch - 10 weeks of national walking activation</li>
+                    <li>Local crew engagement + national team walk events</li>
+                    <li>App launch with tracking + reward system</li>
+                    <li>Friday Faith Walks with National Staff (Starting August 8)</li>
+                </ul>
+                
+                <p><strong>September 7, 2025</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>First Saturday/Sunday of Self-Care</li>
+                    <li>Prayer Walks hosted across the country by Church Crews</li>
+                </ul>
+                
+                <p><strong>October–November 2025</strong></p>
+                <p style="margin-left: 20px;"><em>Fall Season of Transformation: Prayer, Giving, Gratitude, and Family</em></p>
+                <ul style="margin-left: 20px;">
+                    <li>9-Day PrayerTrek</li>
+                    <li>21-Day FaithTrek / GratitudeTrek</li>
+                    <li>Virtual Victory Jubilee Celebration (Golden Lace Ceremonies)</li>
+                    <li>Black Family 5K</li>
+                </ul>
+            </div>
+            """
+            st.markdown(milestones_html, unsafe_allow_html=True)
+            
+            # Activation Tools & Engagement Materials
+            st.markdown('<h5>Activation Tools & Engagement Materials</h5>', unsafe_allow_html=True)
+            
+            tools_html = f"""
+            <div style="background-color: #E8F5E8; border-radius: 10px; padding: 15px; margin: 10px 0;">
+                <p><strong>Faith Crew Completion Badges</strong> (accessible via GirlTREK App):</p>
+                <ul style="margin-left: 20px;">
+                    <li>Crew Leader Training</li>
+                    <li>9-Day PrayerTrek</li>
+                    <li>21-Day FaithTrek or GratitudeTrek</li>
+                </ul>
+                
+                <p><strong>Custom Church Fan Design</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Dual-purpose: Promotional flyer + keepsake</li>
+                    <li>Bundle of 10 sent to Crew Leaders that register their church for PrayerTrek</li>
+                </ul>
+            </div>
+            """
+            st.markdown(tools_html, unsafe_allow_html=True)
+            
+            # Mission Statement
+            st.markdown(
+                f"""
+                <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
+                     padding: 15px; border-radius: 5px; margin: 15px 0;">
+                    <p style="color: #2E7D32; font-style: italic; margin: 0;">
+                    This programming embodies GirlTREK's vision of faith as a foundation for healing—where walking becomes worship, sisterhood becomes sanctuary, and every step is a prayer for liberation. Through Faith Crews, we are building sacred spaces where Black women can reclaim their health, honor their ancestors, and walk boldly toward joy and justice.
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+        # Data Analysis & Recommendations
+        st.markdown('### 📊 Data Analysis & Recommendations')
+
+
+
+
+        
         # Data Analysis & Recommendations
         st.markdown('### 📊 Data Analysis & Recommendations')
         
