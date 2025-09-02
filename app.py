@@ -2563,13 +2563,6 @@ def main():
                 """,
                 unsafe_allow_html=True
             )
-
-        # Data Analysis & Recommendations
-        st.markdown('### 📊 Data Analysis & Recommendations')
-
-
-
-
         
         # Data Analysis & Recommendations
         st.markdown('### 📊 Data Analysis & Recommendations')
