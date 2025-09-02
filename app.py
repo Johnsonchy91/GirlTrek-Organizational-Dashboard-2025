@@ -2502,54 +2502,42 @@ def main():
             # Upcoming Strategic Milestones
             st.markdown('<h5>Upcoming Strategic Milestones</h5>', unsafe_allow_html=True)
             
-            milestones_html = f"""
-            <div style="background-color: #F3F9FF; border-radius: 10px; padding: 15px; margin: 10px 0;">
-                <p><strong>August–October 2025</strong></p>
-                <ul style="margin-left: 20px;">
-                    <li>Summer of Solidarity Campaign Launch - 10 weeks of national walking activation</li>
-                    <li>Local crew engagement + national team walk events</li>
-                    <li>App launch with tracking + reward system</li>
-                    <li>Friday Faith Walks with National Staff (Starting August 8)</li>
-                </ul>
-                
-                <p><strong>September 7, 2025</strong></p>
-                <ul style="margin-left: 20px;">
-                    <li>First Saturday/Sunday of Self-Care</li>
-                    <li>Prayer Walks hosted across the country by Church Crews</li>
-                </ul>
-                
-                <p><strong>October–November 2025</strong></p>
-                <p style="margin-left: 20px;"><em>Fall Season of Transformation: Prayer, Giving, Gratitude, and Family</em></p>
-                <ul style="margin-left: 20px;">
-                    <li>9-Day PrayerTrek</li>
-                    <li>21-Day FaithTrek / GratitudeTrek</li>
-                    <li>Virtual Victory Jubilee Celebration (Golden Lace Ceremonies)</li>
-                    <li>Black Family 5K</li>
-                </ul>
-            </div>
-            """
-            st.markdown(milestones_html, unsafe_allow_html=True)
+            st.markdown('**August–October 2025**')
+            st.markdown("""
+            - Summer of Solidarity Campaign Launch - 10 weeks of national walking activation
+            - Local crew engagement + national team walk events
+            - App launch with tracking + reward system
+            - Friday Faith Walks with National Staff (Starting August 8)
+            """)
+            
+            st.markdown('**September 7, 2025**')
+            st.markdown("""
+            - First Saturday/Sunday of Self-Care
+            - Prayer Walks hosted across the country by Church Crews
+            """)
+            
+            st.markdown('**October–November 2025**')
+            st.markdown('*Fall Season of Transformation: Prayer, Giving, Gratitude, and Family*')
+            st.markdown("""
+            - 9-Day PrayerTrek
+            - 21-Day FaithTrek / GratitudeTrek
+            - Virtual Victory Jubilee Celebration (Golden Lace Ceremonies)
+            - Black Family 5K
+            """)
             
             # Activation Tools & Engagement Materials
             st.markdown('<h5>Activation Tools & Engagement Materials</h5>', unsafe_allow_html=True)
             
-            tools_html = f"""
-            <div style="background-color: #E8F5E8; border-radius: 10px; padding: 15px; margin: 10px 0;">
-                <p><strong>Faith Crew Completion Badges</strong> (accessible via GirlTREK App):</p>
-                <ul style="margin-left: 20px;">
-                    <li>Crew Leader Training</li>
-                    <li>9-Day PrayerTrek</li>
-                    <li>21-Day FaithTrek or GratitudeTrek</li>
-                </ul>
-                
-                <p><strong>Custom Church Fan Design</strong></p>
-                <ul style="margin-left: 20px;">
-                    <li>Dual-purpose: Promotional flyer + keepsake</li>
-                    <li>Bundle of 10 sent to Crew Leaders that register their church for PrayerTrek</li>
-                </ul>
-            </div>
-            """
-            st.markdown(tools_html, unsafe_allow_html=True)
+            st.info("""
+            **Faith Crew Completion Badges** (accessible via GirlTREK App):
+            - Crew Leader Training
+            - 9-Day PrayerTrek
+            - 21-Day FaithTrek or GratitudeTrek
+            
+            **Custom Church Fan Design**
+            - Dual-purpose: Promotional flyer + keepsake
+            - Bundle of 10 sent to Crew Leaders that register their church for PrayerTrek
+            """)
             
             # Mission Statement
             st.markdown(
@@ -2563,7 +2551,7 @@ def main():
                 """,
                 unsafe_allow_html=True
             )
-        
+
         # Data Analysis & Recommendations
         st.markdown('### 📊 Data Analysis & Recommendations')
         
