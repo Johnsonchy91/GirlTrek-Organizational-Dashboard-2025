@@ -139,7 +139,6 @@ def add_board_update(tab_name):
         <p><strong>Biggest Growth Opportunities:</strong></p>
         <ul style="margin-top: 10px; margin-bottom: 20px;">
             <li><strong>15%</strong> of members engagement goal of 65,000 walking in 2025 (~3% of total members)</li>
-            <li><strong>19%</strong> of women walking in Montgomery (7,700 of 40,000 target)</li>
             <li><strong>19%</strong> open rate of emails (Industry Standard: Nonprofits average 28.59%)</li>
             <li><strong>$3.1M</strong> of $10M development campaign raised to date</li>
         </ul>
