@@ -2407,7 +2407,128 @@ def main():
                 """,
                 unsafe_allow_html=True
             )
-
+        
+        # Garden Club Initiative
+        st.markdown('<h4>Environmental & Food Programs</h4>', unsafe_allow_html=True)
+        
+        with st.expander("🌱 GirlTREK Garden Club", expanded=False):
+            # Program Overview
+            st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
+            st.markdown(
+                """
+                The GirlTREK Garden Club is an intergenerational space for connecting with nature, our food, and each other. We support community-led, organic, regenerative food systems and the laborers who power them. We are committed to food sovereignty.
+                
+                Through gardening, members connect with nature, build regenerative food systems, and practice radical care for the environment, their communities, and themselves. Gardening is not just about growing food, it's about growing health, joy, and community power. GirlTREK encourages members to cultivate wherever they have space, in ways that feel authentic and regenerative.
+                
+                The goal of this work is to engage at least 1,000 GirlTREK members in the Garden Club, creating a vibrant network of gardeners who support each other and amplify sustainable, joyful practices. Members are encouraged to share knowledge, resources, and encouragement through virtual gatherings and in-person projects. Together, we are ensuring that food sovereignty, environmental stewardship, and intergenerational knowledge become everyday practices, rooted in gratitude, reciprocity, and care.
+                """
+            )
+            
+            # Program Goals
+            st.markdown('<h5>Program Goals</h5>', unsafe_allow_html=True)
+            st.markdown(
+                """
+                * **Recruitment & Engagement:** Connect at least 1,000 members to the Garden Club through social media, newsletter communications, and word of mouth.
+                * **Learning & Skill Building:** Host four learning experiences annually via webinars and content shared digitally for ongoing accessibility.
+                * **Impact:** Promote regenerative gardening practices, amplify joy, and foster community-led food systems that support Black farmers and communities.
+                """
+            )
+            
+            # Current Status Metrics
+            st.markdown('<h5>Current Status</h5>', unsafe_allow_html=True)
+            
+            garden_col1, garden_col2 = st.columns(2)
+            
+            with garden_col1:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">SEED PACKETS MAILED</p>'
+                    f'<p class="metric-value">197</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Supporting heirloom crops & seed saving</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            with garden_col2:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">FACEBOOK GROUP MEMBERS</p>'
+                    f'<p class="metric-value">599</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Active community engagement</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            garden_col3, garden_col4 = st.columns(2)
+            
+            with garden_col3:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">EMAIL LIST MEMBERS</p>'
+                    f'<p class="metric-value">251</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Receiving Garden Club communications</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            with garden_col4:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">WEBINAR ATTENDEES</p>'
+                    f'<p class="metric-value">~100</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Per learning experience</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            # Total Engagement
+            total_engagement = 197 + 599 + 251 + 100  # Approximate total unique members engaged
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">TOTAL GARDEN CLUB ENGAGEMENT</p>'
+                f'<p class="metric-value">~1,147</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Estimated unique members engaged across all touchpoints</p>'
+                f'<p>Goal: 1,000 members</p>'
+                f'<p>{status_badge("Achieved")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+            
+            # Learning Experiences
+            st.markdown('<h5>Learning Experiences Delivered</h5>', unsafe_allow_html=True)
+            
+            st.success("""
+            **Completed Activities:**
+            - 2 Webinars on food sovereignty and community gardening
+            - 2 Seed mailings supporting heirloom crop cultivation and seed saving
+            - First mailing: Heirloom collard greens
+            - Second mailing: Seed saving education and community seed distribution
+            """)
+            
+            # Upcoming Events
+            st.markdown('<h5>Upcoming Events</h5>', unsafe_allow_html=True)
+            
+            st.info("""
+            **October 2025**
+            - Quarterly Webinar focused on Seed Saving techniques and best practices
+            - Fall harvest celebration and knowledge sharing
+            """)
+            
+            # Impact Statement
+            st.markdown(
+                f"""
+                <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
+                     padding: 15px; border-radius: 5px; margin: 15px 0;">
+                    <p style="color: #2E7D32; font-style: italic; margin: 0;">
+                    <strong>Together, we are cultivating more than gardens. We are cultivating a legacy.</strong>
+                    </p>
+                    <p style="color: #2E7D32; margin-top: 10px; margin-bottom: 0;">
+                    This initiative connects GirlTREK members to ancestral agricultural practices, promotes food sovereignty in Black communities, and creates intergenerational spaces for healing and knowledge transfer through the sacred act of growing food.
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
         # Faith Crews Initiative
         st.markdown('<h4>Faith Programs</h4>', unsafe_allow_html=True)
         
