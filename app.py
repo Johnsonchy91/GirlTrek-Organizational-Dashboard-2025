@@ -2481,19 +2481,6 @@ def main():
                     unsafe_allow_html=True
                 )
             
-            # Total Engagement
-            total_engagement = 197 + 599 + 251 + 100  # Approximate total unique members engaged
-            st.markdown(
-                f'<div class="metric-box">'
-                f'<p class="metric-title">TOTAL GARDEN CLUB ENGAGEMENT</p>'
-                f'<p class="metric-value">~1,147</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Estimated unique members engaged across all touchpoints</p>'
-                f'<p>Goal: 1,000 members</p>'
-                f'<p>{status_badge("Achieved")}</p>'
-                f'</div>',
-                unsafe_allow_html=True
-            )
-            
             # Learning Experiences
             st.markdown('<h5>Learning Experiences Delivered</h5>', unsafe_allow_html=True)
             
