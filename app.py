@@ -4263,7 +4263,7 @@ def main():
         )
 
        # Advocacy Listening Sessions
-        st.markdown('<h3>Advocacy Listening Sessions</h3>', unsafe_allow_html=True)
+        st.markdown('<h3>📍 Advocacy Listening Sessions</h3>', unsafe_allow_html=True)
         
         with st.expander("📍 Atlanta, Georgia - August 21, 2025", expanded=False):
             # Session Overview
@@ -4274,79 +4274,123 @@ def main():
                 - **Location:** The MURPH
                 - **Participants:** 12 GirlTREK members
                 - **Duration:** 60 minutes
-                - **Demographics:** 35+ age group
+                - **Demographics:** Primarily 35+ age group
+                - **Note:** Second stop in advocacy listening tour
                 """)
             
             with col2:
                 st.success("""
                 **Key Insight:**
-                Atlanta members embody "we are the leaders we are looking for" - ready for immediate action.
+                Atlanta members are actively engaged in their communities and embody "we are the leaders we are looking for." Ready to put something in their hands today and move it forward.
                 """)
             
-            # Vision & Priority Issues
+            # Vision of a Healthy Community
             st.markdown("#### Vision of a Healthy Community")
-            st.markdown("> *\"A healthy community includes diversity across economic classes, shapes, sizes, and complexions. It involves social and spiritual support, knowing your neighbors, and creating a sisterhood.\"*")
+            st.markdown("""
+            Atlanta members envision a healthy community that includes:
+            - **Diversity** across economic classes, shapes, sizes, and complexions
+            - **Social and spiritual support** with neighbors knowing each other
+            - **Access to services:** healthcare, dental, mental health
+            - **Economic opportunity:** living wages and job security
+            - **Safe infrastructure:** proper streetlights and sidewalks
+            - **Gathering spaces** like Grant Park where everyone feels welcome
+            - **Food access:** fresh fruits and vegetables, addressing food deserts
+            - **Sisterhood** that extends beyond walking together
+            """)
             
-            st.markdown("#### Priority Issues")
+            st.markdown("> *\"A healthy community is a place where you feel safe to be yourself, where people know each other, and where you have a sisterhood. It's like a village where you can rely on others and feel heard when you have problems.\"*")
+            
+            # Priority Issues
+            st.markdown("#### Priority Issues & Concerns")
             
             col1, col2, col3 = st.columns(3)
             with col1:
                 st.markdown("""
                 **🏠 Housing Affordability**
                 - Atlanta now <50% Black due to gentrification
+                - Property taxes pushing residents out
                 - Section 8 limited to 2 years
-                - Need accessible housing across income levels
+                - Many living in extended stay hotels without kitchens
+                - Need housing for all income levels, not just low-income
                 """)
             
             with col2:
                 st.markdown("""
                 **🧠 Mental Health**
-                - Top priority - address stigmatization
-                - Focus on self-help and coping skills
-                - Safe spaces for Black women
+                - Top priority but still stigmatized
+                - Need for coping skills development
+                - Support for medical diagnoses
+                - Safe spaces for Black women to release burdens
+                - Self-help perspective needed
+                - Black women carry family burdens silently
                 """)
             
             with col3:
                 st.markdown("""
-                **🥗 Food Access**
-                - Address food deserts/apartheid
-                - Increase awareness of healthy options
-                - Community gardens needed
+                **🏥 Healthcare & Food**
+                - Georgia refuses to expand Medicaid
+                - Many counties lack providers
+                - Food deserts/apartheid prevalent
+                - Need awareness of healthy options
+                - Interconnected with housing crisis
                 """)
             
-            st.warning("**Note:** Participants were 35+ demographic. Need younger voices for complete perspective.")
+            st.warning("""
+            **Critical Gaps Identified:**
+            - Resources exist but awareness is lacking - opportunity for GirlTREK to bridge this gap
+            - Need younger voices (under 35) to understand next generation priorities
+            - Disconnect between community-level and systems-level change understanding
+            """)
             
             # GirlTREK Alignment
-            st.markdown("#### GirlTREK Advocacy Alignment")
+            st.markdown("#### GirlTREK Joy & Justice Alignment")
             st.markdown("""
+            ✊🏾 **We want economic freedom** - *"Foundation for everything else"*  
             ✊🏾 We want healthy minds  
-            ✊🏾 **We want economic freedom** (foundation for everything)  
             ✊🏾 We want land and housing  
             ✊🏾 We want power  
             ✊🏾 We want safety and decarceration  
             ✊🏾 We want the next generation to lead
+            
+            **Special Note:** Economic freedom especially resonated as the foundation for healthy bodies, healthy food, and housing stability.
             """)
             
-            # Partners and Opportunities
+            # Partners and Skills Development
             col1, col2 = st.columns(2)
             with col1:
                 st.markdown("""
                 **Potential Partners:**
-                - Jimmy Carter Presidential Library (Mental Health Parity)
-                - Black Voters Matter (Voter education)
-                - Georgia Poor People's Campaign
-                - ACLU of Georgia
-                - Housing Justice League
+                - **Jimmy Carter Presidential Library** - Mental Health Parity Bill (HB 1013)
+                - **Black Voters Matter** - Voter education in majority-Black cities
+                - **Georgia Poor People's Campaign** - Active in 42 states addressing systemic issues
+                - **ACLU of Georgia** - Civil rights frontline
+                - **Housing Justice League** - Preventing displacement through grassroots organizing
+                - **NAMI** - National Alliance on Mental Illness
+                - **The People's Agenda** - Voter rights advocacy
                 """)
             
             with col2:
                 st.markdown("""
-                **Opportunities for GirlTREK:**
-                - Create member connection map
-                - Develop on-demand training platform
-                - Build localized resource lists
-                - Train "resource officers" as trusted messengers
+                **Skills Members Want to Develop:**
+                - Grant writing and fundraising (Economic Freedom)
+                - Mental Health First Aid certification (Healthy Minds)
+                - Safe gun ownership for women (Safety)
+                - Home buying and retention strategies (Land & Housing)
+                - Legal observation for protests/elections
+                - Meditation and mindfulness facilitation
                 """)
+            
+            # Opportunities
+            st.info("""
+            **How GirlTREK Can Support Atlanta:**
+            - Create member connection map for local and travel networking
+            - Develop on-demand training platform (YouTube-style repository)
+            - Build robust localized resource lists
+            - Train "resource officers" as trusted messengers
+            - Help members understand difference between community and systems-level change
+            - Address Underground app siloing concerns
+            - Provide creative alternatives for reaching Black women beyond traditional channels
+            """)
         
         with st.expander("📍 Montgomery, Alabama - August 6, 2025", expanded=False):
             # Session Overview
@@ -4357,90 +4401,135 @@ def main():
                 - **Location:** The Sanctuary
                 - **Participants:** 6 GirlTREK members
                 - **Duration:** 60 minutes
-                - **Note:** GirlTREK HQ's new home city
+                - **Note:** First stop in listening tour; GirlTREK HQ's new home
+                - **Engagement:** Only 2 of 6 actively walk with GirlTREK
                 """)
             
             with col2:
                 st.success("""
                 **Key Insight:**
-                Members desire return to close-knit community care. Only 2 of 6 actively walk with GirlTREK.
+                Members desire return to 1950s-style close-knit community care. Most have deep roots (decades) but weren't born in Montgomery.
                 """)
             
-            # Vision & Priority Issues
+            # Vision & Context
             st.markdown("#### Community Vision")
+            st.markdown("""
+            Montgomery members define a "healthy community" as having:
+            - **Physical, mental, and financial health** as interconnected elements
+            - **Access to comprehensive services:** healthcare, mental health resources, financial literacy
+            - **Strong community bonds** like the close-knit neighborhoods of the past
+            - **Mutual aid networks** where neighbors are like family
+            """)
+            
             st.markdown("> *\"Progress would look like it did in the 1950s; a community that cares for one another collectively.\"*")
             
-            st.markdown("#### Priority Issues")
+            # Priority Issues with More Detail
+            st.markdown("#### Priority Issues & Systemic Challenges")
             
             col1, col2, col3 = st.columns(3)
             with col1:
                 st.markdown("""
-                **🧠 Mental Health Resources**
+                **🧠 Mental Health**
                 - Top priority for wellbeing
-                - Accessible services needed
-                - Address stigma
+                - Limited accessible services
+                - Stigma still prevalent
+                - Need crisis intervention
+                - Counseling and psychiatric support
                 """)
             
             with col2:
                 st.markdown("""
                 **🏘️ Community Infrastructure**
-                - Safe gathering spaces
-                - Better public schools
-                - Workforce development
-                - Childcare options
+                - Public schools "not the greatest"
+                - Lack of safe gathering spaces
+                - Need workforce development
+                - Young women underpaid/underemployed
+                - Limited childcare options
+                - Self-worth issues leading to unhealthy habits
                 """)
             
             with col3:
                 st.markdown("""
-                **💰 Economic Concerns**
-                - Financial literacy
-                - Affordable housing
-                - Support for middle-income
-                - Address underemployment
+                **💰 Economic Resources**
+                - Financial literacy training needed
+                - Affordable housing crisis
+                - Food deserts prevalent
+                - Nutrition education lacking
+                - Elder care resources needed
+                - Support for caregivers missing
                 """)
             
-            st.warning("**Gap:** Middle-income single women often don't qualify for resources but still need support.")
+            st.warning("""
+            **Critical Service Gap:** 
+            Single, middle-income women (especially without children) fall through the cracks - don't qualify for low-income resources but still need support. This represents a significant portion of GirlTREK's demographic.
+            """)
             
             # GirlTREK Alignment
             st.markdown("#### GirlTREK Advocacy Alignment")
-            st.markdown("**Most Resonant:** Healthy Families - \"foundation for everything else\"")
             st.markdown("""
-            ✊🏾 Healthy Minds  
-            ✊🏾 Healthy Food  
-            ✊🏾 Healthy Bodies  
-            ✊🏾 Land and Housing  
-            ✊🏾 Economic Freedom  
-            ✊🏾 Care for Caregivers
+            **Most Resonant Demand:** ✊🏾 **Healthy Families** - *"Foundation; if we focus here, everything else takes care of itself"*
+            
+            ✊🏾 Healthy Minds - Mental health resources  
+            ✊🏾 Healthy Food - Address food deserts  
+            ✊🏾 Healthy Bodies - Healthcare access  
+            ✊🏾 Land and Housing - Affordable housing  
+            ✊🏾 Economic Freedom - Financial literacy & entrepreneurship  
+            ✊🏾 Safety and Decarceration - Safe gathering spaces  
+            ✊🏾 Care for Caregivers - Elder care support
             """)
             
-            # Partners and How to Help
+            # Partners and Resources
             col1, col2 = st.columns(2)
             with col1:
                 st.markdown("""
-                **Potential Partners:**
-                - Black Women Rest (Healing spaces)
-                - One Place Family Justice Center
-                - Carastar Crisis Center
-                - Fresh Greens Urban Farm
-                - Tuskegee University Urban Agriculture
+                **Active Partners & Resources:**
+                - **Black Women Rest** - Healing spaces (AL, GA, FL)
+                - **One Place Family Justice Center** - DV/SA survivor support with 20+ agency partners
+                - **Carastar Crisis Center** - 24/7 mental health crisis support
+                - **Fresh Greens Urban Farm** - Black sister-led organic food access
+                - **Tuskegee University Urban Agriculture** - Food security in Peacock Tract
+                - **True Divine Baptist Church** - Food pantry and clothing closet
                 """)
             
             with col2:
                 st.markdown("""
-                **How GirlTREK Can Help:**
-                - Connect to Care Village resources
-                - Navigate red tape for access
-                - Share strategies from other communities
-                - Build local member relationships
-                - Shine national spotlight on progress
+                **Skills Members Want to Develop:**
+                - Public speaking
+                - Empathetic listening
+                - Sector-specific advocacy (education, senior care)
+                - Coalition building and collaboration
+                - Grant writing and funding acquisition
+                - Community organizing basics
                 """)
+            
+            # Barriers and Opportunities
+            st.markdown("#### Barriers to Systems Change")
+            st.error("""
+            - Low civic engagement among members
+            - Lack of awareness about available resources
+            - Need to identify community-approved communication channels
+            - Members don't see themselves as "advocates"
+            - Limited understanding of policy landscape
+            """)
+            
+            st.info("""
+            **How GirlTREK Can Help Montgomery:**
+            - Connect community to Care Village resources
+            - Help navigate red tape and eligibility barriers
+            - Share successful strategies from other communities
+            - Build deeper relationships with local members
+            - Bring funding opportunities and grant support
+            - Shine national spotlight on Montgomery's progress
+            - Bridge awareness gap about existing resources
+            - Train members in mental health and financial literacy
+            """)
         
-        # Listening Sessions Summary
-        st.markdown('<h4>Listening Sessions Summary</h4>', unsafe_allow_html=True)
+        # Listening Sessions Summary and Analysis
+        st.markdown('<h4>Listening Sessions Analysis</h4>', unsafe_allow_html=True)
         
-        summary_col1, summary_col2 = st.columns(2)
+        col1, col2, col3 = st.columns(3)
         
-        with summary_col1:
+        with col1:
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">SESSIONS COMPLETED</p>'
@@ -4452,15 +4541,42 @@ def main():
                 unsafe_allow_html=True
             )
         
-        with summary_col2:
+        with col2:
             st.markdown(
                 f'<div class="metric-box">'
                 f'<p class="metric-title">MEMBERS ENGAGED</p>'
                 f'<p class="metric-value">18</p>'
-                f'<p style="font-style: italic; font-size: 12px; color: #666;">Across 2 sessions</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Across both sessions</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
+        
+        with col3:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">KEY THEMES IDENTIFIED</p>'
+                f'<p class="metric-value">7</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Common priority areas</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        
+        # Key Findings Comparison
+        st.markdown("#### Key Findings Across Cities")
+        st.success("""
+        **Common Themes:**
+        - Mental health as top priority in both cities
+        - Housing affordability crisis affecting Black communities
+        - Resources exist but awareness and access are barriers
+        - Desire for stronger community connections and mutual aid
+        - Need for economic empowerment and financial literacy
+        
+        **Key Differences:**
+        - **Atlanta:** Economic freedom seen as foundation; members ready for immediate action
+        - **Montgomery:** Healthy families seen as foundation; members seeking community reconnection
+        - **Atlanta:** More civically engaged but need systems-change education
+        - **Montgomery:** Less civic engagement but strong desire for collective care
+        """)
         
         # Data Analysis & Recommendations
         st.markdown('### 📊 Data Analysis & Recommendations')
