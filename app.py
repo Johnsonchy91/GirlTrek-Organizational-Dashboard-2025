@@ -1672,9 +1672,7 @@ def main():
         # Recruitment Programs Section
         st.markdown('<h3>Recruitment Programs</h3>', unsafe_allow_html=True)
 
-        # Volunteer Recruitment
-        st.markdown('<h4>Community Building Programs</h4>', unsafe_allow_html=True)
-        
+        # Volunteer Recruitment        
         with st.expander("📚 Volunteer Recruitment", expanded=False):
             # Program Overview
             st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
