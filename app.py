@@ -4262,194 +4262,205 @@ def main():
             unsafe_allow_html=True
         )
 
-        <!-- Add this inside your advocacy tab content area -->
-        <div class="advocacy-content">
-            <div class="advocacy-header">
-                <h2 class="advocacy-title"> Advocacy Listening Sessions</h2>
-                <button class="btn-expand-all" onclick="toggleAllSessions()">Expand/Collapse All</button>
-            </div>
+       # Advocacy Listening Sessions
+        st.markdown('<h3>Advocacy Listening Sessions</h3>', unsafe_allow_html=True)
         
-            <div class="listening-sessions-accordion">
-                <!-- Atlanta Listening Session -->
-                <div class="session-item">
-                    <div class="session-header" onclick="toggleSession(this)">
-                        <span>Atlanta, Georgia - August 21, 2025</span>
-                        <span class="arrow">▼</span>
-                    </div>
-                    <div class="session-content">
-                        <div class="session-inner">
-                            <div class="info-box">
-                                <h3>Session Overview</h3>
-                                <p><strong>Location:</strong> The MURPH</p>
-                                <p><strong>Date:</strong> August 21, 2025</p>
-                                <p><strong>Participants:</strong> 12 GirlTREK members</p>
-                                <p><strong>Duration:</strong> 60 minutes</p>
-                            </div>
+        with st.expander("📍 Atlanta, Georgia - August 21, 2025", expanded=False):
+            # Session Overview
+            col1, col2 = st.columns(2)
+            with col1:
+                st.info("""
+                **Session Details:**
+                - **Location:** The MURPH
+                - **Participants:** 12 GirlTREK members
+                - **Duration:** 60 minutes
+                - **Demographics:** 35+ age group
+                """)
+            
+            with col2:
+                st.success("""
+                **Key Insight:**
+                Atlanta members embody "we are the leaders we are looking for" - ready for immediate action.
+                """)
+            
+            # Vision & Priority Issues
+            st.markdown("#### Vision of a Healthy Community")
+            st.markdown("> *\"A healthy community includes diversity across economic classes, shapes, sizes, and complexions. It involves social and spiritual support, knowing your neighbors, and creating a sisterhood.\"*")
+            
+            st.markdown("#### Priority Issues")
+            
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.markdown("""
+                **🏠 Housing Affordability**
+                - Atlanta now <50% Black due to gentrification
+                - Section 8 limited to 2 years
+                - Need accessible housing across income levels
+                """)
+            
+            with col2:
+                st.markdown("""
+                **🧠 Mental Health**
+                - Top priority - address stigmatization
+                - Focus on self-help and coping skills
+                - Safe spaces for Black women
+                """)
+            
+            with col3:
+                st.markdown("""
+                **🥗 Food Access**
+                - Address food deserts/apartheid
+                - Increase awareness of healthy options
+                - Community gardens needed
+                """)
+            
+            st.warning("**Note:** Participants were 35+ demographic. Need younger voices for complete perspective.")
+            
+            # GirlTREK Alignment
+            st.markdown("#### GirlTREK Advocacy Alignment")
+            st.markdown("""
+            ✊🏾 We want healthy minds  
+            ✊🏾 **We want economic freedom** (foundation for everything)  
+            ✊🏾 We want land and housing  
+            ✊🏾 We want power  
+            ✊🏾 We want safety and decarceration  
+            ✊🏾 We want the next generation to lead
+            """)
+            
+            # Partners and Opportunities
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("""
+                **Potential Partners:**
+                - Jimmy Carter Presidential Library (Mental Health Parity)
+                - Black Voters Matter (Voter education)
+                - Georgia Poor People's Campaign
+                - ACLU of Georgia
+                - Housing Justice League
+                """)
+            
+            with col2:
+                st.markdown("""
+                **Opportunities for GirlTREK:**
+                - Create member connection map
+                - Develop on-demand training platform
+                - Build localized resource lists
+                - Train "resource officers" as trusted messengers
+                """)
         
-                            <h3>Key Insights</h3>
-                            <p>Atlanta members embody "we are the leaders we are looking for" - ready for immediate action.</p>
+        with st.expander("📍 Montgomery, Alabama - August 6, 2025", expanded=False):
+            # Session Overview
+            col1, col2 = st.columns(2)
+            with col1:
+                st.info("""
+                **Session Details:**
+                - **Location:** The Sanctuary
+                - **Participants:** 6 GirlTREK members
+                - **Duration:** 60 minutes
+                - **Note:** GirlTREK HQ's new home city
+                """)
+            
+            with col2:
+                st.success("""
+                **Key Insight:**
+                Members desire return to close-knit community care. Only 2 of 6 actively walk with GirlTREK.
+                """)
+            
+            # Vision & Priority Issues
+            st.markdown("#### Community Vision")
+            st.markdown("> *\"Progress would look like it did in the 1950s; a community that cares for one another collectively.\"*")
+            
+            st.markdown("#### Priority Issues")
+            
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.markdown("""
+                **🧠 Mental Health Resources**
+                - Top priority for wellbeing
+                - Accessible services needed
+                - Address stigma
+                """)
+            
+            with col2:
+                st.markdown("""
+                **🏘️ Community Infrastructure**
+                - Safe gathering spaces
+                - Better public schools
+                - Workforce development
+                - Childcare options
+                """)
+            
+            with col3:
+                st.markdown("""
+                **💰 Economic Concerns**
+                - Financial literacy
+                - Affordable housing
+                - Support for middle-income
+                - Address underemployment
+                """)
+            
+            st.warning("**Gap:** Middle-income single women often don't qualify for resources but still need support.")
+            
+            # GirlTREK Alignment
+            st.markdown("#### GirlTREK Advocacy Alignment")
+            st.markdown("**Most Resonant:** Healthy Families - \"foundation for everything else\"")
+            st.markdown("""
+            ✊🏾 Healthy Minds  
+            ✊🏾 Healthy Food  
+            ✊🏾 Healthy Bodies  
+            ✊🏾 Land and Housing  
+            ✊🏾 Economic Freedom  
+            ✊🏾 Care for Caregivers
+            """)
+            
+            # Partners and How to Help
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("""
+                **Potential Partners:**
+                - Black Women Rest (Healing spaces)
+                - One Place Family Justice Center
+                - Carastar Crisis Center
+                - Fresh Greens Urban Farm
+                - Tuskegee University Urban Agriculture
+                """)
+            
+            with col2:
+                st.markdown("""
+                **How GirlTREK Can Help:**
+                - Connect to Care Village resources
+                - Navigate red tape for access
+                - Share strategies from other communities
+                - Build local member relationships
+                - Shine national spotlight on progress
+                """)
         
-                            <h3>Vision of a Healthy Community</h3>
-                            <blockquote class="participant-quote">
-                                "A healthy community includes diversity across economic classes, shapes, sizes, and complexions. It involves social and spiritual support, knowing your neighbors, and creating a sisterhood."
-                            </blockquote>
+        # Listening Sessions Summary
+        st.markdown('<h4>Listening Sessions Summary</h4>', unsafe_allow_html=True)
         
-                            <h3>Priority Issues</h3>
-                            <div class="priority-card">
-                                <h4>🏠 Housing Affordability</h4>
-                                <ul>
-                                    <li>Atlanta now less than 50% Black due to gentrification</li>
-                                    <li>Section 8 housing limited to 2 years</li>
-                                    <li>Need accessible housing across all income levels</li>
-                                </ul>
-                            </div>
+        summary_col1, summary_col2 = st.columns(2)
         
-                            <div class="priority-card">
-                                <h4>🧠 Mental Health</h4>
-                                <ul>
-                                    <li>Top priority - need to address stigmatization</li>
-                                    <li>Focus on self-help and coping skills</li>
-                                    <li>Safe spaces for Black women to release burdens</li>
-                                </ul>
-                            </div>
+        with summary_col1:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">SESSIONS COMPLETED</p>'
+                f'<p class="metric-value">2 / 5</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Atlanta & Montgomery</p>'
+                f'<p style="font-size: 14px; color: #666;">40% of target</p>'
+                f'<p>{status_badge("On Track")}</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
         
-                            <div class="priority-card">
-                                <h4>🥗 Food Access</h4>
-                                <ul>
-                                    <li>Address food deserts/apartheid</li>
-                                    <li>Increase awareness of healthy options</li>
-                                </ul>
-                            </div>
-        
-                            <div class="alert-box warning">
-                                <strong>Note:</strong> Participants were 35+ demographic. Need younger voices for complete perspective.
-                            </div>
-        
-                            <h3>GirlTREK Advocacy Alignment</h3>
-                            <ul class="demands-list">
-                                <li> We want healthy minds</li>
-                                <li> <strong>We want economic freedom</strong> (foundation for everything)</li>
-                                <li> We want land and housing</li>
-                                <li> We want power</li>
-                                <li> We want safety and decarceration</li>
-                                <li> We want the next generation to lead</li>
-                            </ul>
-        
-                            <div class="partners-box">
-                                <h4>Potential Partners</h4>
-                                <ul>
-                                    <li><strong>Jimmy Carter Presidential Library</strong> - Mental Health Parity Bill</li>
-                                    <li><strong>Black Voters Matter</strong> - Voter education</li>
-                                    <li><strong>Georgia Poor People's Campaign</strong> - Systemic change</li>
-                                    <li><strong>ACLU of Georgia</strong> - Civil rights</li>
-                                    <li><strong>Housing Justice League</strong> - Housing preservation</li>
-                                </ul>
-                            </div>
-        
-                            <div class="alert-box opportunity">
-                                <h4>Opportunities for GirlTREK</h4>
-                                <ul>
-                                    <li>Create member connection map for networking</li>
-                                    <li>Develop on-demand training platform</li>
-                                    <li>Build localized resource lists</li>
-                                    <li>Train "resource officers" as trusted messengers</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-                <!-- Montgomery Listening Session -->
-                <div class="session-item">
-                    <div class="session-header" onclick="toggleSession(this)">
-                        <span>Montgomery, Alabama - August 6, 2025</span>
-                        <span class="arrow">▼</span>
-                    </div>
-                    <div class="session-content">
-                        <div class="session-inner">
-                            <div class="info-box">
-                                <h3>Session Overview</h3>
-                                <p><strong>Location:</strong> The Sanctuary</p>
-                                <p><strong>Date:</strong> August 6, 2025</p>
-                                <p><strong>Participants:</strong> 6 GirlTREK members</p>
-                                <p><strong>Duration:</strong> 60 minutes</p>
-                                <p><strong>Note:</strong> GirlTREK HQ's new home city</p>
-                            </div>
-        
-                            <h3>Key Insights</h3>
-                            <p>Members desire return to close-knit community care. Only 2 of 6 actively walk with GirlTREK.</p>
-        
-                            <blockquote class="participant-quote">
-                                "Progress would look like it did in the 1950s; a community that cares for one another collectively."
-                            </blockquote>
-        
-                            <h3>Priority Issues</h3>
-                            <div class="priority-card">
-                                <h4>🧠 Mental Health Resources</h4>
-                                <p>Top priority for community wellbeing</p>
-                            </div>
-        
-                            <div class="priority-card">
-                                <h4>🏘️ Community Infrastructure</h4>
-                                <ul>
-                                    <li>Safe gathering spaces</li>
-                                    <li>Better public schools</li>
-                                    <li>Workforce development</li>
-                                    <li>Childcare options</li>
-                                </ul>
-                            </div>
-        
-                            <div class="priority-card">
-                                <h4> Economic Concerns</h4>
-                                <ul>
-                                    <li>Financial literacy</li>
-                                    <li>Affordable housing</li>
-                                    <li>Support for middle-income women</li>
-                                    <li>Address underemployment</li>
-                                </ul>
-                            </div>
-        
-                            <div class="alert-box warning">
-                                <strong>Gap:</strong> Middle-income single women often don't qualify for resources but still need support.
-                            </div>
-        
-                            <h3>GirlTREK Advocacy Alignment</h3>
-                            <p><strong>Most Resonant:</strong> Healthy Families - "foundation for everything else"</p>
-                            <ul class="demands-list">
-                                <li> Healthy Minds</li>
-                                <li> Healthy Food</li>
-                                <li> Healthy Bodies</li>
-                                <li> Land and Housing</li>
-                                <li> Economic Freedom</li>
-                                <li> Care for Caregivers</li>
-                            </ul>
-        
-                            <div class="partners-box">
-                                <h4>Potential Partners</h4>
-                                <ul>
-                                    <li><strong>Black Women Rest</strong> - Healing spaces</li>
-                                    <li><strong>One Place Family Justice Center</strong> - Survivor support</li>
-                                    <li><strong>Carastar Crisis Center</strong> - Mental health services</li>
-                                    <li><strong>Fresh Greens Urban Farm</strong> - Food access</li>
-                                    <li><strong>Tuskegee University Urban Agriculture</strong> - Food security</li>
-                                </ul>
-                            </div>
-        
-                            <div class="alert-box opportunity">
-                                <h4>How GirlTREK Can Help</h4>
-                                <ul>
-                                    <li>Connect to Care Village resources</li>
-                                    <li>Navigate red tape for resource access</li>
-                                    <li>Share strategies from other communities</li>
-                                    <li>Build relationships with local members</li>
-                                    <li>Shine national spotlight on progress</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        with summary_col2:
+            st.markdown(
+                f'<div class="metric-box">'
+                f'<p class="metric-title">MEMBERS ENGAGED</p>'
+                f'<p class="metric-value">18</p>'
+                f'<p style="font-style: italic; font-size: 12px; color: #666;">Across 2 sessions</p>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
         
         # Data Analysis & Recommendations
         st.markdown('### 📊 Data Analysis & Recommendations')
