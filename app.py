@@ -4265,7 +4265,7 @@ def main():
         <!-- Add this inside your advocacy tab content area -->
         <div class="advocacy-content">
             <div class="advocacy-header">
-                <h2 class="advocacy-title">📍 Advocacy Listening Sessions</h2>
+                <h2 class="advocacy-title"> Advocacy Listening Sessions</h2>
                 <button class="btn-expand-all" onclick="toggleAllSessions()">Expand/Collapse All</button>
             </div>
         
