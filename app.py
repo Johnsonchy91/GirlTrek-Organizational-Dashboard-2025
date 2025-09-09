@@ -1751,6 +1751,138 @@ def main():
                 unsafe_allow_html=True
             )
         
+        
+        # Volunteer Recruitment
+        st.markdown('<h4>Community Building Programs</h4>', unsafe_allow_html=True)
+        
+        with st.expander("📚 Volunteer Recruitment", expanded=False):
+            # Program Overview
+            st.markdown('<h5>Program Overview</h5>', unsafe_allow_html=True)
+            st.markdown(
+                """
+                The Volunteer Recruitment initiative is essential to supporting GirlTREK events and other community activities. I assist volunteers by preparing them to host walks or manage tables at events, while also identifying and supervising them at GirlTREK-led initiatives.
+                
+                While GirlTREK has strong national partnerships, it is equally important to engage local community organizations to establish crews and strengthen connections within their neighborhoods.
+                
+                Additionally, many of our sisters are engaging in books individually, whether reading at home or listening to audiobooks. Our goal is to bring them together by building community around books—through gatherings at Black-owned bookstores, walking with authors, and creating shared spaces for conversation and connection.
+                """
+            )
+            
+            # Program Goals
+            st.markdown('<h5>Program Goals</h5>', unsafe_allow_html=True)
+            st.markdown(
+                """
+                * **Recruitment:** Organize volunteers in 25 cities to host recruitment events and build local leadership.
+                * **Engagement:** Recruit 100+ partners, with at least 75% actively supporting health initiatives.
+                * **Impact:** Launch the Walking Book Club to connect 5,000+ members with Black authors, bookstores, and libraries.
+                """
+            )
+            
+            # Current Status Metrics
+            st.markdown('<h5>Current Status</h5>', unsafe_allow_html=True)
+            
+            volunteer_col1, volunteer_col2 = st.columns(2)
+            
+            with volunteer_col1:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">VOLUNTEER RECRUITMENT CITIES</p>'
+                    f'<p class="metric-value">16 / 25</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Cities with organized volunteers</p>'
+                    f'<p style="font-size: 14px; color: #666;">64% of target achieved</p>'
+                    f'<p>{status_badge("On Track")}</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            with volunteer_col2:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">COMMUNITY PARTNERSHIPS</p>'
+                    f'<p class="metric-value">23 / 100+</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Partners secured</p>'
+                    f'<p style="font-size: 14px; color: #666;">23% of target achieved</p>'
+                    f'<p>{status_badge("At Risk")}</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            volunteer_col3, volunteer_col4 = st.columns(2)
+            
+            with volunteer_col3:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">ACTIVE PARTNER RATE</p>'
+                    f'<p class="metric-value">TBD</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">Goal: 75% actively supporting initiatives</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            with volunteer_col4:
+                st.markdown(
+                    f'<div class="metric-box">'
+                    f'<p class="metric-title">WALKING BOOK CLUB</p>'
+                    f'<p class="metric-value">Launching</p>'
+                    f'<p style="font-style: italic; font-size: 12px; color: #666;">"Step Into Stories" National Book Lovers Call TBA</p>'
+                    f'<p style="font-size: 14px; color: #666;">Goal: 5,000+ members</p>'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+            
+            # Impact Stories
+            st.markdown('<h5>Impact & Success Stories</h5>', unsafe_allow_html=True)
+            
+            st.success("""
+            **Key Achievements:**
+            - Approximately 3 organizations have started crews and maintained consistency
+            - Multiple women have taken the initiative personally, starting crews at work, in neighborhoods, or with friends
+            - First-time volunteers and solo trekkers have been inspired to start their own crews after volunteering
+            
+            **Transformational Impact:**
+            The most impactful experiences come from first-time volunteers—solo trekkers who discover their leadership potential and go on to start their own crews after volunteering with us. This ripple effect demonstrates how volunteer engagement creates sustainable, community-led growth.
+            """)
+            
+            # Walking Book Club Details
+            st.markdown('<h5>Walking Book Club: "Step Into Stories"</h5>', unsafe_allow_html=True)
+            
+            st.info("""
+            **Initiative Components:**
+            - Connect members with Black authors for walking discussions
+            - Partner with Black-owned bookstores for community gatherings
+            - Collaborate with libraries for accessible programming
+            - Create shared spaces for literary conversation and connection
+            - Host National Book Lovers Call (Date TBA)
+            
+            **Vision:** Transform individual reading experiences into collective community building through movement and literature.
+            """)
+            
+            # Next Steps
+            st.markdown('<h5>Next Steps & Opportunities</h5>', unsafe_allow_html=True)
+            
+            st.warning("""
+            **Priority Actions:**
+            - Expand volunteer recruitment to remaining 9 cities
+            - Accelerate partnership development to reach 100+ organizations
+            - Launch Walking Book Club with initial author partnerships
+            - Develop volunteer training materials for consistent crew leadership
+            - Create partnership activation toolkit for 75% engagement rate
+            """)
+            
+            # Impact Statement
+            st.markdown(
+                f"""
+                <div style="background-color: #E8F5E8; border-left: 5px solid #4CAF50; 
+                     padding: 15px; border-radius: 5px; margin: 15px 0;">
+                    <p style="color: #2E7D32; font-style: italic; margin: 0;">
+                    This initiative transforms individual walkers into community leaders, creating a sustainable network of local champions who extend GirlTREK's reach and impact. Through volunteer engagement and literary connection, we're building stronger, more connected communities where every walker can become a leader and every reader can find their tribe.
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+            
+
         # Mommy and Me Program
         with st.expander("👩‍👧‍👦 Mommy and Me - Keturah Queen", expanded=False):
             # Program Overview
